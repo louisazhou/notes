@@ -1,4 +1,3 @@
-$ cat notes/SUMMARY.md 
 # SUMMARY
 
 * [Chapter1](chapter1/README.md)
