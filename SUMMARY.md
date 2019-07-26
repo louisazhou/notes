@@ -1,6 +1,12 @@
-# SUMMARY
+# Table of contents
 
-* [Chapter1](chapter1/README.md)
-  * [Section1.1](chapter1/section1.1.md)
-  * [Section1.2](chapter1/section1.2.md)
-* [Chapter2](chapter2/README.md)
+* [Introduction](README.md)
+* [Chapter1 Python](chapter1/README.md)
+  * [Section1.1 Reference, Deep Copy and Shallow Copy](chapter1/section1.1.md)
+  * [Section1.2 Looping and output format](chapter1/section1.2.md)
+  * [Section1.3 Numpy](chapter1/section1.3-numpy.md)
+  * [Section1.4 Pandas](chapter1/section1.4-pandas.md)
+  * [Section1.5 Matplotlib](chapter1/section1.5-matplotlib.md)
+* [Chapter2](chapter2.md)
+* [Untitled](untitled.md)
+
