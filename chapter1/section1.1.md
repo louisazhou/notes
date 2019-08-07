@@ -100,3 +100,17 @@ print(a)
 * 递归对象拷贝: Recursive objects \(compound objects that, directly or indirectly, contain a reference to themselves\) may cause a recursive loop.
 * 大对象拷贝: Because deep copy copies everything it may copy too much, e.g., administrative data structures that should be shared even between copies.
 
+## 函数传值
+
+```python
+def changeme(mylist):
+    mylist.append([1,2,3,4])
+    return
+    
+mylist=[10,20,30]
+changeme(mylist)
+print(mylist)
+```
+
+
+
