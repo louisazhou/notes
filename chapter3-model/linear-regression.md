@@ -91,9 +91,35 @@ $$
 Y_{i} \sim N\left(\hat{\beta}_{0}+\hat{\beta}_{1} X_{i}, \sigma^{2}\right)
 $$
 
+$$P(Y_{i}|X) （Y_{i}的概率密度）$$ 
 
+$$
+P\left(Y_{i}\right)=\frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{1}{2 \sigma^{2}}\left(Y_{i}-\hat{\beta}_{0}-\hat{\beta_{1}} X_{i}\right)^{2}}
+$$
 
+因为 $$Y_{i}$$ 是i.i.d.的，所以Y的所有样本的似然函数是
 
+$$
+\text {Likelihood }=L\left(\hat{\beta}_{0}, \hat{\beta}_{1}, \sigma^{2}\right)=P(Y | X)=P\left(Y_{1} | X_{1}\right) * P\left(Y_{2} | X_{2}\right) * \ldots * P\left(Y_{n} | X_{n}\right)
+$$
+
+$$
+\text {Likelihood }=L\left(\hat{\beta}_{0}, \hat{\beta}_{1}, \sigma^{2}\right)=\frac{1}{\sigma^{n}(2 \pi)^{n / 2}} e^{-\frac{1}{2 \sigma^{2}} \sum\left(Y_{i}-\hat{\beta}_{0}-\hat{\beta}_{1} X_{i}\right)^{2}}
+$$
+
+对数似然函数
+
+$$
+\ln L=-n \ln (\sqrt{2 \pi} \sigma)-\frac{1}{2 \sigma^{2}} \sum_{i=1}^{n}\left(Y_{i}-\hat{\beta}_{0}-\hat{\beta_{1}} X_{i}\right)^{2}
+$$
+
+为了让它最大，等价于
+
+$$
+\begin{array}{c}{\operatorname{argmax}_{\beta}\left[-\sum_{i=1}^{n}\left(Y_{i}-\hat{\beta}_{0}-\hat{\beta}_{1} X_{i}\right)^{2}\right]} \\ {\quad \operatorname{argmin}_{\beta} \sum_{i=1}^{n}\left(Y_{i}-\hat{\beta}_{0}-\hat{\beta}_{1} X_{i}\right)^{2}}\end{array}
+$$
+
+## 那么，Logistic Regression呢？
 
 如果y是离散值，categorical labels，该怎么做？
 
