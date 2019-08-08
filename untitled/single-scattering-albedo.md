@@ -7,7 +7,7 @@ description: >-
 
 # Single scattering albedo
 
-The single scattering albedo is $$a=1$$ , and define the total optical depth $$\tau=0.01$$ . The setting satisfies single-scattering approximation, $$a \times \tau^{\star}=0.01\ll1$$. The incident solar flux is a unpolarized light, $$F=[0.5, 0.5, 0, 0]$$. In the following case example, the angles are set as follows, $$\theta^{\prime}=0^{o}, \mu^{\prime}=1, \phi^{\prime}=0^{o} ; \theta=\left[0^{o}, 180^{\circ}\right], \mu=[-1,1], \phi=60^{o} $$, where  $$\theta^{\prime}, \phi^{\prime}$$ are the polar angle and azimuth angle of the incident light $$\Omega^{\prime}$$ , and the $$\theta , \phi$$ are for the corresponding observe angles $$\Omega$$ . 
+The single scattering albedo is $$a=1$$ , and the total optical depth $$\tau^{\star}=0.01$$ . The setting satisfies single-scattering approximation, $$a \times \tau^{\star}=0.01\ll1$$. The incident solar flux is a unpolarized light, $$F=[0.5, 0.5, 0, 0]$$. In the following case example, the angles are set as follows, $$\theta^{\prime}=0^{o}, \mu^{\prime}=1, \phi^{\prime}=0^{o} ; \theta=\left[0^{o}, 180^{\circ}\right], \mu=[-1,1], \phi=60^{o} $$, where  $$\theta^{\prime}, \phi^{\prime}$$ are the polar angle and azimuth angle of the incident light $$\Omega^{\prime}$$ , and the $$\theta , \phi$$ are for the corresponding observe angles $$\Omega$$ . 
 
 ```python
 a = 1;
@@ -21,7 +21,7 @@ phip = 0;
 phi = 60;
 ```
 
-Compute the Legendre-Gauss nodes \( $$ctheta$$ \) and weights \( $$Weight$$ \) on an interval \[-1,1\] with truncation order nthetas \( $$ntheta=400$$ \) using a outside function `lgwt`, and retrieve the corresponding $$thetas$$ .
+Compute the Legendre-Gauss nodes \( $$ctheta$$ \) and weights \( $$Weight$$ \) on an interval \[-1,1\] with truncation order nthetas \( $$ntheta=400$$ \) using an outside function `lgwt`, and retrieve the corresponding $$thetas$$. Function `lgwt` takes integral using Legendre-Gauss Quadrature.
 
 ```python
 nthetas = 400;
@@ -30,7 +30,7 @@ nthetas = 400;
 theta = acos(ctheta)*180/pi;
 ```
 
-The angle $$\Theta$$ between the directions of incidence  and observation Ωˆ is given by
+The angle $$\Theta$$ between the directions of incidence $$\Omega$$ and observation $$\Omega^{\prime}$$ is given by
 
 $$
 \cos \Theta=\cos \theta^{\prime} \cos \theta+\sin \theta^{\prime} \sin \theta \cos \left(\phi^{\prime}-\phi\right)
@@ -38,13 +38,13 @@ $$
 
 ![Illustration of the relationship between Cartesian and spherical coordinates.](../.gitbook/assets/cartesian.png)
 
-There are two representations for the phase matrix, $$\mathbf{P}_{S}$$ and $$\mathbf{P}$$, where $$\mathbf{P}_{S}$$ is used for the Stocks vector representation $$\mathbf{I}_{S}=[I, Q, U, V]^{T}$$, and  $$\mathbf{P}$$ is for $$\mathbf{I}=\left[I_{ \|}, I_{\perp}, U, V\right]^{T}$$ representation. The connection between these two representations is simply $$\mathbf{I}_{S} = \mathbf{DI}$$ , where the matrix $$\mathbf{D}$$ is given by:
+There are two representations for the phase matrix, $$\mathbf{P}_{S}$$ and $$\mathbf{P}_{C}$$, where $$\mathbf{P}_{S}$$ is used for the Stocks vector representation $$\mathbf{I}_{S}=[I, Q, U, V]^{T}$$, and  $$\mathbf{P}_{C}$$ is for $$\mathbf{I}=\left[I_{ \|}, I_{\perp}, U, V\right]^{T}$$ representation \(or Chandrasekhar's representation\). The connection between these two representations is simply $$\mathbf{I}_{S} = \mathbf{DI}_{C}$$ , where the matrix $$\mathbf{D}$$ is given by:
 
 $$
 \mathbf{D} \equiv\left(\begin{array}{cccc}{1} & {1} & {0} & {0} \\ {1} & {-1} & {0} & {0} \\ {0} & {0} & {1} & {0} \\ {0} & {0} & {0} & {1}\end{array}\right)
 $$
 
-The phase matrix $$\mathbf{P}$$ in $$\mathbf{I}=\left[I_{ \|}, I_{\perp}, U, V\right]^{T}$$ representation is related to the phase matrix $$\mathbf{P}_{S}$$ in $$\mathbf{I}_{S}=[I, Q, U, V]^{T}$$ as $$\mathbf{P}=\mathbf{D}^{-1} \mathbf{P}_{S} \mathbf{D}$$, and $$\mathbf{D}^{-1}$$is given by:
+The phase matrix $$\mathbf{P}_{C}$$ in $$\mathbf{I}_{C}=\left[I_{ \|}, I_{\perp}, U, V\right]^{T}$$ representation is related to the phase matrix $$\mathbf{P}_{S}$$ in $$\mathbf{I}_{S}=[I, Q, U, V]^{T}$$ as $$\mathbf{P}_{C}=\mathbf{D}^{-1} \mathbf{P}_{S} \mathbf{D}$$, and $$\mathbf{D}^{-1}$$is given by:
 
 $$
 \mathbf{D}^{-1}=\left(\begin{array}{cccc}{\frac{1}{2}} & {\frac{1}{2}} & {0} & {0} \\ {\frac{1}{2}} & {-\frac{1}{2}} & {0} & {0} \\ {0} & {0} & {1} & {0} \\ {0} & {0} & {0} & {1}\end{array}\right)
@@ -62,7 +62,7 @@ D = [1 1 0 0;...
     0 0 0 1];
 ```
 
-In this test case, we only include one wavelength at 500 nm, number of moment 300+1, and load the six columns of greek constants from Mie\_tool output file, without delta fit.
+In this test case, we only include one wavelength at 500 nm, number of moment 300+1, and load the six columns of greek constants from `Mie_tool output` file, without delta fit.
 
 ```python
 number of wavelength
@@ -99,7 +99,7 @@ $$
 \boldsymbol{\Lambda}_{\ell}(\tau)=\left(\begin{array}{cccc}{\alpha_{1}^{\ell}} & {\beta_{1}^{\ell}} & {0} & {0} \\ {\beta_{1}^{\ell}} & {\alpha_{2}^{\ell}} & {0} & {0} \\ {0} & {0} & {\alpha_{3}^{\ell}} & {\beta_{2}^{\ell}} \\ {0} & {0} & {-\beta_{2}^{\ell}} & {\alpha_{4}^{\ell}}\end{array}\right)
 $$
 
-The matrices $$P_{m}^{\ell}( \pm \mu)$$ are defined through 
+The matrices $$P_{\ell}^{m}( \pm \mu)$$ are defined through 
 
 $$
 \mathbf{P}_{\ell}^{m}(u)=\left(\begin{array}{cccc}{P_{\ell}^{m, 0}(u)} & {0} & {0} & {0} \\ {0} & {P_{\ell}^{m,+}(u)} & {P_{\ell}^{m,-}(u)} & {0} \\ {0} & {P_{\ell}^{m,-}(u) P_{\ell}^{m,+}(u)} & {0} \\ {0} & {0} & {0} & {P_{\ell}^{m, 0}(u)}\end{array}\right)
@@ -142,7 +142,7 @@ p2n2 = plmn2(2,nterms-1,ctheta); %P subscript m=2, n=-2
 p02 = plm2(0,nterms-1,ctheta); %P subscript m=0, n=2
 ```
 
-Read in the phase moments from the `'mie_output_small2.dat'` file to alphas and betas \(`line 2~8`\). Suppressing the $$a = b$$ dependence, the following equations are for cases of nonspherical particles.
+Read in the phase moments from the `'mie_output_small2.dat'` file to alphas and betas \(`line 2~8`\). Suppressing the $$a = b$$ dependence, the following equations are for cases of non-spherical particles.
 
 ![](../.gitbook/assets/spherical.png)
 
