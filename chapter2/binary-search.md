@@ -2,7 +2,7 @@
 
 ## 二分查找思想
 
-每次缩小一半的查找范围，和中间值比较。大于中间值往左，小于中间值往右。通过L=mid+1 or Right=mid-1改变LR边界值。
+每次缩小一半的查找范围，和中间值比较。大于中间值往左，小于中间值往右。通过L=mid+1 or R=mid-1改变LR边界值。
 
 ```python
 def binary_search(nums, target):

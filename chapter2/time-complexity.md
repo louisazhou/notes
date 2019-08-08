@@ -1,4 +1,6 @@
-# Time Complexity
+# Fundamental Knowledge
+
+## Time Complexity 
 
 比较算法时 idea 1: Wall Time 
 

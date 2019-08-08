@@ -18,7 +18,7 @@ Decision Tree是supervised prediction model，可以做regression，也可以做
 
 ### 以ID3为例
 
-熵：度量随机变量的不确定性。这里的负号是因为想取到正值，因为
+熵：度量随机变量的不确定性。这里的负号是因为想取到正值，因为 $$log_{2}p_{i}$$ 是负的。
 
 $$
 I_{e}=-\log _{2} p_{i}
@@ -30,13 +30,13 @@ $$
 H(X)=-\sum_{i=1}^{n}p_{i}log_{2}p_{i}
 $$
 
-​对于样本集合，假设样本有k个类别，每个类别的概率为 $$\frac{|C{k}|}{|D|}$$ _其中_ $${|C{k}|}{|D|}$$ 为类别为k的样本个数， $$|D|​$$ 为样本总数。样本集合D的熵为：
+​对于样本集合，假设样本有k个类别，每个类别的概率为 $$\frac{|C{k}|}{|D|}$$ _其中_ $${|C{k}|}$$为类别为k的样本个数， $$|D|​$$ 为样本总数。样本集合D的熵为：
 
 $$
 H(D)=-\sum_{k=1}^{k}\frac{|C_{k}|}{|D|}log_{2}\frac{|C_{k}|}{|D|}
 $$
 
- ​熵可以表示样本集合的不确定性，熵越大，样本的不确定性就越大。因此可以使用划分前后集合熵的差值来衡量使用当前特征对于样本集合D划分效果的好坏。 ​ 假设划分前样本集合D的熵为H\(D\)。使用某个特征A划分数据集D，计算划分后的数据子集的熵为H\(D\|A\)。
+熵可以表示样本集合的不确定性，熵越大，样本的不确定性就越大。因此可以使用划分前后集合熵的差值来衡量使用当前特征对于样本集合D划分效果的好坏。 ​ 假设划分前样本集合D的熵为H\(D\)。使用某个特征A划分数据集D，计算划分后的数据子集的熵为H\(D\|A\)。
 
 信息增益： $$g(D,A)=H(D)-H(D|A)$$ 
 
@@ -50,7 +50,7 @@ $$
 >
 > 因为取值不仅与x有关，还与x所处的为止有关；位置又是所有的x一起决定的。
 >
-> $$ f(X)=v_{root}+\sum_{k=1}^{K} \operatorname{contribution}\left(x_{k}\right) $$
+> 假如我们把Decision Tree Model写成这样的函数关系$$ f(X)=v_{root}+\sum_{k=1}^{K} \operatorname{contribution}\left(x_{k}\right) $$， $$v_{root}$$ 是根节点上的值，contribution是输入数据第k个feature对输出结果产生的作用（eg Entropy的减小、Gini Impurity的减小等），那和linear regression的 $$f(X)=a+\sum_{k=1}^{K} b_{k} x_{k}$$ 相比，LR里的每一项x对f\(X\)的contribution取决于x的值和系数b，而DT中的f\(X\)和path的先后顺序有关、和x的位置有关。这是一种非线性关系。
 
 ID3: Entropy
 
@@ -88,7 +88,7 @@ CART \(Classification and Regression Tree\): Gini Impurity
 
 
 
-但更常用的是Ensemble Learning的方法
+但更常用的是Ensemble Learning的方法，所以剪枝的方法不常用。
 
 ## Ensemble Learning
 
