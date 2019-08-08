@@ -235,6 +235,18 @@ $$
 \vec{I}_{d}^{+}(0, \mu, \phi)=\frac{a(\tau) \mu_{0} F^{s}}{4 \pi\left(\mu+\mu_{0}\right)} \vec{P}\left(\mu^{\prime}, \phi^{\prime} ; \mu, \phi\right)\left[1-e^{-\left(\tau^{*} / \mu+\tau^{*} / \mu_{0}\right)}\right]
 $$
 
+Isolate the Azimuthal dependence, we get the Chandraskhar's representation of $$\vec{I}_{d}^{+}(\tau, \mu, \phi)$$ 
+
+$$
+\begin{aligned} \mathbf{I}(\tau, u, \phi)=& \sum_{m=0}^{2 N-1}\left\{\mathbf{I}_{c}^{m}(\tau, u) \cos m\left(\phi_{0}-\phi\right)+\mathbf{I}_{s}^{m}(\tau, u) \sin m\left(\phi_{0}-\phi\right)\right\} \\ \mathbf{Q}_{\delta}(\tau, u, \phi)=& \sum_{m=0}^{2 N-1}\left\{\mathbf{Q}_{c \delta}^{m}(\tau, u) \cos m\left(\phi_{0}-\phi\right)+\mathbf{Q}_{s \delta}^{m}(\tau, u) \sin m\left(\phi_{0}-\phi\right)\right\} \end{aligned}
+$$
+
+As for the Stocks representation, we just need to read out the  $$\vec{I}_{d}^{+}(0, \mu, \phi)$$ calculated using the equation from the above.
+
+$$
+\mathbf{I}_{C}=\left[I_{\ell}, I_{r}, U, V\right]^{T}=\mathbf{I}_{S}=\left[I_{ \|}, I_{\perp}, U, V\right]^{T}
+$$
+
 ```python
 for j = 1:length(phi)
     for i = 1:length(theta)

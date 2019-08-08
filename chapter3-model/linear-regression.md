@@ -28,9 +28,36 @@
 
 $$y=\beta_{0}+\beta_{1}X+\epsilon$$
 
+这是一个超定系统（overdetermined system\)，所以我们只能求得近似解。
+
 因为我们想要拟合的y要尽可能接近 $$\hat{Y}$$ ，所以可以定义一个loss function来判断拟合的好坏。
 
-> 注意这个loss不一定是平方项（least square），也可以是绝对值（此时它叫least absolute deviation）甚至三次方。之所以我们使用平方，是因为我们对噪声又一个假设：它服从高斯分布。如果我们的噪声服从其它分布，自然也可以使用其它的loss function。
+如果真实值是 $$Y$$ 我们的估计值是 $$\hat{Y}$$ ，直观理解，我们的误差（error）就是 $$Y-\hat{Y}$$ 
+
+Linear Regression中，使用 $$Loss=error^{2}$$ 
+
+对于单元：
+
+$$
+\begin{array}{l}{\sum_{i=1}^{n} \varepsilon_{i}^{2}=\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\beta_{1} x_{j}\right)^{2}} \\ 
+\
+{\operatorname{argmin}_{\beta} \sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\beta_{1} x_{i}\right)^{2}}\end{array}
+$$
+
+多元
+
+$$
+\begin{array}{c}{\sum_{i=1}^{n} \varepsilon_{i}^{2}=\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\beta_{1} x_{1 i}-\beta_{2} x_{2 i}-\ldots-\beta_{m} x_{m i}\right)^{2}} \\ 
+\
+{\sum_{i=1}^{n} 
+\varepsilon_{i}^{2}=\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\sum_{j=1}^{m} \beta_{j} x_{j i}\right)^{2}}\end{array}
+$$
+
+> 注意
+>
+>  \(1\) 这个loss不一定是平方项（least square），也可以是绝对值（此时它叫least absolute deviation）甚至三次方。之所以我们使用平方，是因为我们对噪声又一个假设：它服从高斯分布。如果我们的噪声服从其它分布，自然也可以使用其它的loss function。
+>
+> \(2\) error的定义也不一定是直接做减法（a line vertically done\), 也可以是点线的距离（垂线）的形式。
 
 为什么平方？
 
@@ -40,9 +67,33 @@ $$y=\beta_{0}+\beta_{1}X+\epsilon$$
 
 Maximum Likelihood Estimation is a method of estimating the parameter of a statistical model given observation, by finding the parameter values that maximize the likelihood of making the observations given the parameters. 最合理的参数估计量应该使得 （猜一个参数，使得我们猜测的分布和实际的分布尽可能一样）
 
-什么样的分布是最好的分布？要让概率密度最大。有某个observation是既定事实了，所以我们需要找到一个parameter让我们猜出的估计和observation的分布相同，这就需要让估计出的最大可能是observation，所以概率密度那项最大，最后对应的就是指数部分不要负号的项最小值。
+这是一种概率角度的参数估计，就意味着需要对整体的分布有一个假设。在Linear Regression中，给的assumption是
 
-一般不会让推导LR的loss function，因为太简单，但是Logistic Regression的会在面试问。
+![](https://cdn.mathpix.com/snip/images/jDR8vTD7Qf9MwcKo_u7kpbh_NxIBQ6uTHhenaJcPXW4.original.fullsize.png)
+
+即， $$p(y | x)$$ 是 $$\text { mean }=\mu=\beta_{0}+\beta_{1}x$$ , $$\text { variance }=\sigma$$ \(与x无关的值）的高斯分布，数学表达式：
+
+$$
+p(y)=\frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{1}{2 \sigma^{2}}(y-\mu)^{2}}, \quad-\infty<y<\infty
+$$
+
+其中 $$p(y|x)$$ 是概率密度。
+
+那么什么样的分布是最好的分布？我们需要让概率密度最大。因为有某个observation是既定事实了，所以我们需要找到一个parameter让我们猜出的估计和observation的分布相同，这就需要让我们估计出的最大可能就是observation，即概率密度那项最大，最后对应的就是指数部分不要负号的项最小值。
+
+### Loss Function的推导过程
+
+PS一般不会让推导LR的loss function，因为太简单，但是Logistic Regression的会在面试问。
+
+首先，Given x, Y服从高斯分布
+
+$$
+Y_{i} \sim N\left(\hat{\beta}_{0}+\hat{\beta}_{1} X_{i}, \sigma^{2}\right)
+$$
+
+
+
+
 
 如果y是离散值，categorical labels，该怎么做？
 
