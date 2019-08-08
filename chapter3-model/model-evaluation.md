@@ -1,5 +1,41 @@
 # Model Evaluation
 
+机器学习的本质不是“Given x, y=\*\*“而是“Given x, a probability distribution “，得到的是（1）概率分布，也就是model的那些assumption，解出来的是那些beta系数。这就有了所谓的confidence interval的说法。（2）根据y的distribution，得到y的取值。
+
+![](https://cdn.mathpix.com/snip/images/jDR8vTD7Qf9MwcKo_u7kpbh_NxIBQ6uTHhenaJcPXW4.original.fullsize.png)
+
+
+
+## Model Error
+
+$$
+\text {Error}=\text {bias}^{2}+\text {variance}+\text {Irreducible error}
+$$
+
+**Irreducible error:** 无论换什么model，这个error都存在；它与model无关，cannot be reduced
+
+**模型的准确性bias：**这个model在 训练集稍有变化下 的平均输出结果与真实值相比的平均准确性
+
+**模型的稳定性variance：**某一次model的数据结果与这个model的平均水平的差距 的平方的期望
+
+打个比方，bias考验的是平均水平，variance考验的是本次的发挥水平（运气）
+
+
+
+注意对于bias的计算，变的是model，是每一次稍微改一点训练数据，然后还是在给定的x下去训练y，这一系列的y理论上来说是近似的，这些y的平均水平是bias。如果有1000个数据，换了1个，结果导致模型完全不一样了，那此时就是high variance。
+
+
+
+
+
+
+
+
+
+
+
+
+
 spam email detection: 
 
 disease/ anomaly detection:  

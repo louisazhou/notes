@@ -83,13 +83,17 @@ $$
 {\operatorname{argmin}_{\beta} \sum_{i=1}^{n}\left[-y_{i} \log \left(h_{\beta}\left(x_{i}\right)\right)-\left(1-y_{i}\right) \log \left(1-h_{\beta}\left(x_{i}\right)\right)\right]}\end{array}
 $$
 
-## Logistic Regression 也可以有不止一个x
+## Logistic Regression 也可以有不止一个x, 也可以是多次方
 
 $$
 F(x)=g\left(\beta_{0}+\beta_{1} x_{1}+\beta_{2} x_{2}+\beta_{3} x_{1}^{2}+\beta_{4} x_{2}^{2}\right)
 $$
 
-每次对不同的beta求偏导数
+每次对不同的beta求偏导数就行
+
+![](https://cdn.mathpix.com/snip/images/XH-SqQeadMPeNMhShIDBUm1hhY7hwpOzclBWBSUsPPE.original.fullsize.png)
+
+
 
 ## 两个以上的Label的Logistic Regression
 
@@ -97,6 +101,12 @@ $$
 2. Softmax 
 
 （其实这两个差不多）
+
+## 区分Ordinary Linear和Logistic的Assumption
+
+Linear Regression： $$p(y | x)$$ 是 $$\text { mean }=\mu=\beta_{0}+\beta_{1}x$$ , $$\text { variance }=\sigma$$ \(与x无关的值）的高斯分布
+
+Logistic Regression: y 服从 $$P(Y=y|X=x)=\frac{1}{1+e^{-(a x+b)}}$$ 的伯努利分布
 
 
 
