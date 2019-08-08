@@ -13,5 +13,5 @@ Relation between CPU cycle and input size: number of CPU cycles = constant \* si
 
 
 
-Big O notation: 
+Big O notation: worst case scenario, computation time.
 
