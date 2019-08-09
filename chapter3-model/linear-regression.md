@@ -83,7 +83,7 @@ $$
 
 ### Loss Function的推导过程
 
-PS一般不会让推导LR的loss function，因为太简单，但是Logistic Regression的会在面试问。
+> P. S. 一般不会让推导LR的loss function，因为太简单，但是Logistic Regression的会在面试问。
 
 首先，Given x, Y服从高斯分布
 
