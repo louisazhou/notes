@@ -20,7 +20,7 @@ for idx, skill in enumerate(skills):
 {% endtab %}
 
 {% tab title="对应，不命名" %}
-```text
+```python
 s1 = 'single quote' # use single quotes
 
 s2= "double quote" # use double quotes 

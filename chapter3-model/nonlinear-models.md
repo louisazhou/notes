@@ -88,7 +88,7 @@ CART \(Classification and Regression Tree\): Gini Impurity
 
 
 
-但更常用的是Ensemble Learning的方法，所以剪枝的方法不常用。
+但其实在工业界中更常用的是Ensemble Learning的方法。
 
 ## Ensemble Learning
 
