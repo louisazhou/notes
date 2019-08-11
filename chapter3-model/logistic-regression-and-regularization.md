@@ -1,3 +1,7 @@
+---
+description: 直观引入、数学引入、与Linear Regression的区别
+---
+
 # Logistic Regression & Regularization
 
 ## Logistic Regression 直观引入：图形的角度理解

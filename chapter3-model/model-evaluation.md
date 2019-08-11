@@ -1,3 +1,7 @@
+---
+description: Model Error，Bias-Variance tradeoff，ROC Curve，AUC value的意义
+---
+
 # Model Evaluation
 
 机器学习的本质不是“Given x, y=\*\*“而是“Given x, a probability distribution “，得到的是（1）概率分布，也就是model的那些assumption，解出来的是那些beta系数。这就有了所谓的confidence interval的说法。（2）根据y的distribution，得到y的取值。

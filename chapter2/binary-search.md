@@ -1,3 +1,7 @@
+---
+description: 普通版、2D版、万金油版、有重复元素版
+---
+
 # Binary Search
 
 ## 二分查找思想

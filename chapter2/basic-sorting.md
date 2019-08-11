@@ -1,3 +1,7 @@
+---
+description: (unfinished) 冒泡、选择、插入
+---
+
 # Basic Sorting
 
 ## Bubble Sort 冒泡排序

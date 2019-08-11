@@ -1,5 +1,5 @@
 ---
-description: 循环的iterator，结构化输出
+description: (unfinished) 循环的iterator，结构化输出
 ---
 
 # Section1.2 Looping and output format

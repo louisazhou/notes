@@ -1,5 +1,5 @@
 ---
-description: Numpy的ndarray、数学公式和矩阵使用、数据切片
+description: (unfinished) Numpy的ndarray、数学公式和矩阵使用、数据切片
 ---
 
 # Section1.3 Numpy

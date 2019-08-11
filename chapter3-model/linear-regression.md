@@ -1,3 +1,7 @@
+---
+description: 中心极限定理，最大似然估计，loss function的推导过程
+---
+
 # Linear Regression
 
 ## Central Limit Theorem

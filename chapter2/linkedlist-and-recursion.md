@@ -1,3 +1,7 @@
+---
+description: 单链表和各种操作
+---
+
 # Linkedlist and Recursion
 
 Python List，存储是连续的\(store all data sequentially in memory\). 所以如果想要在list中插入元素，需要为原有的list分配新的空间，把原来的list和想插入的元素放在足够大的新的位置，而不是假设原数组的下一个位置没有元素直接去占领。
