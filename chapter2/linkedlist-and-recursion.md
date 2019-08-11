@@ -83,7 +83,150 @@ def traverse(head):
 
 假设第一个list node的index是0，给一个单链表，找对应index的节点，输出。如果找不到，return None。
 
-所以这个问题的核心还是遍历traverse，
+所以这个问题的核心还是遍历traverse。
 
+> 一个好的code应该有对于function的specification和一个return value的expectation。所以这些部分应该作为注释先写出来，也不容易忘记这个function是为了什么。
+>
+> 我们很多时候要做的第一件事是先check输入和expectation是否符合，也就是check validity。对于我们的问题来说，可能是空链表（head is None\)或者index&lt;0。
 
+```python
+def search_by_index(head):
+    if head is None or index < 0:
+        return None
+```
+
+接下来，错误的做法是，我们不能直接定义一个jump\_times去跳index次，因为很可能就越界了。但是，如果我们跳完之后发现自己已经到了None，就可以直接返回None. 所以我们只需要在原来遍历的基础上加一个条件
+
+```python
+for jump_times in xrange(index):
+    head=head.next
+    if head is None:
+        return None
+return head
+```
+
+#### search by value
+
+每个链节点都有一个value，所以，给定一个value，看它是否在链表里，如果在，返回它的index，如果不在，返回None。
+
+```python
+def search_by_value (head,value):
+    if not head:
+        return None
+    while head is not None:
+        if head.value==value:
+            return head
+        head = head.next
+    return None
+```
+
+> 相等关系的判断：
+>
+> 1. == means equality test
+> 2. is means identity test 
+>
+> 比如 a, b = \[1\], \[1\] 
+>
+> print a==b 打印True 内容相同，都是1
+>
+> print a is b 打印False 这两个是不是指向同一个object
+>
+> a=\[1\]
+>
+> b=a 让b也指向a所指向的object
+>
+> print a is b 输出的是True
+>
+> a = None 
+>
+> print a is None 输出是True，因为None是一个有且只有一个的object 所以再定义一个b=None 问print a is b 会输出rue
+>
+> a=ListNode\(1\)
+>
+> b=ListNode\(1\)
+>
+> print a==b 输出是False！！！
+>
+> 这要非常注意，因为在Python中，如果在class中没有做比较关系的定义\(\_\_eq\_\_\)，那么在equality test（也就是==）中，这就完全等于identity test \(is\)。
+
+```python
+class listnode(object):
+    def __init__(self, value):
+        self.value=value
+        self.next=None
+    def __eq__(self, other):
+        return isinstance(other, ListNode) and self.value == other.value
+```
+
+其中，\_\_eq\_\_是python中在实现a==b. 
+
+isinstance\(\)也是必须的，因为我们需要保证两个被比较的object有相同的类型含义。
+
+比如如果我们定义了另一个listnode object，
+
+```python
+class AnotherObject(object):
+    def __init__(self, value):
+        self.value = value
+a=ListNode(1)
+b=AnotherObject(1)
+```
+
+此时就不对了。
+
+### Add 插入
+
+#### Add to index
+
+{% code-tabs %}
+{% code-tabs-item title="方法一：头节点单独处理" %}
+```python
+def add_to_index(head, index, value):
+    #head: type node, the first node of the passed singly linked list
+    #index: type int, the position where you want to insert (starting from 0)
+    #value: type *, the value that will be referred by the newly added list node object if our operation is successful
+    #return: 必须返回一个头节点（修改后的链表的头节点），不然找不见list，也不知道这个function是否成功了
+    
+    if index == 0:
+        new_head = ListNode(value)
+        new_head.next = head
+        return new_head
+    else:
+        prevNode = search_by_index(head, index-1)
+        if prevNode is None:
+            return head
+        new_node = ListNode(value)
+        new_node.next = prevNode.next
+        prevNode.next = new_node
+        return head
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+为了add a new node，其实不能直接走到index，而是要走到index-1的位置，因为单链表只能往后走，只能往前走。但是很棘手的是，头节点没有index-1. 所以定义一个new\_head，这也是如果我们改动了头节点然后返回的。
+
+注意15～17行的顺序: 先让new\_node指向真正的下一个，再让prev指向new\_node。如果把16和17调换，那就不对了，因为new\_node就变成了指向自己，后面的没了。有了环形结构，这就不是单链表了。
+
+{% code-tabs %}
+{% code-tabs-item title="方法二：加一个sentinel，避免分条件讨论" %}
+```python
+def add_to_index(head, index, val): 
+    fake_head = ListNode("whatever you want")
+    fake_head.next = head
+    insert_place = search_by_index(fake_head, index)
+    if insert_place is None:
+        return fake_head.next
+    new_node = ListNode(val)
+    new_node.next = insert_place.next
+    insert_place.next = new_node
+    return fake_head.next
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+注意的是，加了sentinel（fake\_head）之后，如果想在原来的index**之前插入**一个元素，在加入了fake head后，就等价于在以fake head为首的新链表的index**之后**做插入。
+
+在return时return的都是fake\_head.next. 因为引入fake\_head的原因是避免对head单独讨论。但是！fake\_head并不是真正的头节点，所以真的头节点永远都是fake\_head后面的1个。
+
+如果是在原来链表的头节点插入，那么fake\_head之后的就是新的头节点。
 
