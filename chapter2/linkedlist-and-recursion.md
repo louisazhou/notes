@@ -230,3 +230,33 @@ def add_to_index(head, index, val):
 
 如果是在原来链表的头节点插入，那么fake\_head之后的就是新的头节点。
 
+### Remove 删除
+
+#### Remove from index
+
+```python
+def remove_from_index (head, index):
+    # validity check is implicit, in search_by_index function
+    # find the node with a reference of index
+    # return the fake_head
+    fake_head = ListNode(None)
+    fake_head.next = head
+    prev_node = search_by_index(fake_head, index)
+    
+    if prev_node is None or prev_node.next is None:
+    # it is likely that we find the prev of the node, but not the node itself
+        return fake_head.next
+    
+    remove_node = prev_node.next
+    prev_node.next = remove_node.next
+    prev_node.next = None
+    
+    return fake_head.next
+```
+
+## 总结对比 Linked List vs. List
+
+![](https://cdn.mathpix.com/snip/images/nVjhoatUKUkljHRr-mYgMKpttW3daBY9MVm-D_NOiVQ.original.fullsize.png)
+
+
+
