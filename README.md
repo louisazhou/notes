@@ -4,11 +4,11 @@ This is a book powered by [GitBook](https://github.com/GitbookIO/gitbook), docum
 
 I try to maintain a daily update... until chapters and sections are filled out.   
   
-Last Checkpoint: 2019/8/11/1:36
+Last Checkpoint: 2019/8/13/2:10
 
 Chapt1: unfinished 
 
-Chapt2 until Linkedlist
+Chapt2 until Recursion
 
 Chapt3 until Nonlinear Models
 
