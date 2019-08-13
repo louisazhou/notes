@@ -140,6 +140,8 @@ Time O\( $$n^{2}$$ \)
 
 像轮回洗牌似的操作, in place地进行插入排序。这个程序看起来会比上面的更简单，但是tricky的是要提前想明白所定义变量的物理意义。i之前的元素是已经排序好的，k是用来在内层循环中一个个往前找到cur应该处的位置的，在找的同时把元素一个个换过去，最后cur是现在需要排序的对象。
 
+{% tabs %}
+{% tab title="First Tab" %}
 ```python
 def insert_sort (array):
     for i in range (len(array)):
@@ -148,8 +150,22 @@ def insert_sort (array):
         while k>0 and cur<array[k-1]:
                 array[k]=array[k+1]
                 k-=1
-         array[k]=cur        
+         array[k]=cur   
 ```
+{% endtab %}
+
+{% tab title="Second Tab" %}
+```python
+for i in range (len(array)):
+      smallest = i
+      for j in range (i+1,len(array)):
+        if (array[j]<array[smallest]):
+          smallest=j
+      array[i],array[smallest]=array[smallest],array[i]
+    return array
+```
+{% endtab %}
+{% endtabs %}
 
 Space O\(1\)   \(in place\)
 
@@ -159,7 +175,41 @@ Time O\( $$n^{2}$$ \)
 
 也可以直接去优化方法一，因为binary search可以简化找位置的操作，让时间复杂度缩减到 $$O(log(n))$$ , 交换的操作是 $$O(n)$$, 最后总的时间复杂度依然是$$O(log(n)+n)*n=O(n^{2})$$
 
-```text
+{% code-tabs %}
+{% code-tabs-item title="这个有点问题 但我还不知道啥问题= =" %}
+```python
+def insert_num (array, n):
+  idx=len(array)-1
+  array.append(n)
+  if idx<0:
+    return n
+  else:
+    insert_place=binary_search(array, n) 
+    for i in range(insert_place+1, idx):
+     array[i+1]=array[i]
+    array[insert_place]=n
+    return array
+    
+def binary_search (nums, target):
+  left=0
+  right=len(nums)-1
+  while left<right-1:
+      mid=(left+right)/2
+      if nums[mid]>target:
+        right=mid
+      elif nums[mid]<target:
+        left=mid
+      else:
+        return mid
+  return left 
 
+array = [5,3,2,1]
+new_array=[]
+for i in range (len(array)):
+  insert_num (new_array, array[i])
+
+print new_array
 ```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
 

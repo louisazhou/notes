@@ -1,5 +1,5 @@
 ---
-description: 递归
+description: 递归，unfinished
 ---
 
 # Recursion
@@ -38,7 +38,7 @@ def getsum(n):
 1. Induction Base Verification \(Base Case\) P\(0\) and P\(1\)
 2. Recursion Rule: Assuming k&lt;n, P\(k\) is true. Generally, k=n-1. Focus on proving the correctness of P\(n-1\)--&gt;P\(n\) 
 
-## Print a singly linked list recursively 
+### Print a singly linked list recursively 
 
 打印一个长度为n的链表，等价于以head为头和长度为n-1的链表
 
@@ -52,5 +52,39 @@ def PrintSinglyLinkedList(head):
     PrintSinglyLinkedList(head.next)
 ```
 
+### Search by Value
 
+```python
+def search_by_value (head, value):
+    if head is None:
+        return None
+    if head.value==value:
+        return head
+    return search_by_value (head.next, value)
+```
+
+### Search by Index 
+
+### Search by Value
+
+### Add to Index
+
+### Remove from Index to Recursion 
+
+### Reverse a singly linked list
+
+```python
+def reverse (head):
+    if head is None or head.next is None:
+    # linked list is empty or contains only one node
+        return head
+    
+    node = reverse(head.next)
+    # 当前head的头节点就是所反转list的尾节点 在执行完head.next这一行之后，head.next的值还是原来的
+    tail = head.next
+    tal.next = head
+    head.next = None 
+    
+    return node
+```
 
