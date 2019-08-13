@@ -6,7 +6,7 @@ description: (unfinished) 引用、浅拷贝和深拷贝
 
 ## Reference
 
-![Reference](../.gitbook/assets/image.png)
+![Reference](../.gitbook/assets/image%20%283%29.png)
 
 ```python
 >>> b = [1 , 2]
@@ -25,7 +25,7 @@ c = a 表示 c 和 a 指向相同的地址空间，并没有创建新的对象�
 
 ## Shallow Copy
 
-![Shallow Copy](../.gitbook/assets/image%20%281%29.png)
+![Shallow Copy](../.gitbook/assets/image%20%284%29.png)
 
 ```python
 >>> import copy
@@ -50,11 +50,11 @@ c = a 表示 c 和 a 指向相同的地址空间，并没有创建新的对象�
 
 d = copy.copy\(a\) 创建了一个新对象，复制了原有对象的引用。
 
-![](../.gitbook/assets/image%20%285%29.png)
+![](../.gitbook/assets/image%20%286%29.png)
 
 ## Deep Copy
 
-![Deep Copy](../.gitbook/assets/image%20%282%29.png)
+![Deep Copy](../.gitbook/assets/image%20%281%29.png)
 
 ```python
 >>> e = copy.deepcopy(a)

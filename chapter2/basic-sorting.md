@@ -1,5 +1,5 @@
 ---
-description: (unfinished) 冒泡、选择、插入
+description: 冒泡、选择、插入
 ---
 
 # Basic Sorting
@@ -44,7 +44,7 @@ Time O\( $$n^{2}$$ \)
 
 ## Selection Sort 选择排序
 
-For each pass, we will move left to right looking for the next largest value. Once that is found, it will be swapped into its final position \(these will be shown in lighter color\).
+For each pass, we will move left to right looking for the next largest value. Once that is found, it will be swapped into its final position.
 
 以下是它的visualization
 
@@ -114,7 +114,9 @@ def insert_num(array, n):
     return array
 ```
 
-方法一：调用insert\_num这个help function，实现insertion sort
+### 方法一：
+
+调用insert\_num这个help function，实现insertion sort
 
 {% code-tabs %}
 {% code-tabs-item title="方法一 O\(N\)的空间消耗" %}
@@ -134,5 +136,30 @@ Time O\( $$n^{2}$$ \)
 
 所以这不是最优解
 
-方法二：
+### 方法二：
+
+像轮回洗牌似的操作, in place地进行插入排序。这个程序看起来会比上面的更简单，但是tricky的是要提前想明白所定义变量的物理意义。i之前的元素是已经排序好的，k是用来在内层循环中一个个往前找到cur应该处的位置的，在找的同时把元素一个个换过去，最后cur是现在需要排序的对象。
+
+```python
+def insert_sort (array):
+    for i in range (len(array)):
+        cur = array[i]
+        k = i
+        while k>0 and cur<array[k-1]:
+                array[k]=array[k+1]
+                k-=1
+         array[k]=cur        
+```
+
+Space O\(1\)   \(in place\)
+
+Time O\( $$n^{2}$$ \)
+
+### 方法三：
+
+也可以直接去优化方法一，因为binary search可以简化找位置的操作，让时间复杂度缩减到 $$O(log(n))$$ , 交换的操作是 $$O(n)$$, 最后总的时间复杂度依然是$$O(log(n)+n)*n=O(n^{2})$$
+
+```text
+
+```
 

@@ -2,7 +2,7 @@
 description: 单链表和各种操作
 ---
 
-# Linkedlist and Recursion
+# Linkedlist
 
 Python List，存储是连续的\(store all data sequentially in memory\). 所以如果想要在list中插入元素，需要为原有的list分配新的空间，把原来的list和想插入的元素放在足够大的新的位置，而不是假设原数组的下一个位置没有元素直接去占领。
 
@@ -257,6 +257,98 @@ def remove_from_index (head, index):
     
     return fake_head.next
 ```
+
+### How to design a linked list class
+
+```python
+class _ListNode(object):
+    def __init__(self, val):
+        self.value = val
+        self.next = None
+        
+        
+class MyLinkedList(object):
+    def __init__(self):
+    #一般不是从状态开始想起，而是想，它能实现什么样的功能，再在class中实现这些功能 这叫实现 是实现的一部分 我们一般不希望用户看到实现的一部分，而只是希望用户看到接口是什么
+    # we should have a reference that ALWAYS points to the first node of the internally maintained singly linked list
+        self._head = None #逻辑上的实现，这里None说得过去（区分下面的）永远maitain一个指向单链表的头节点
+        self._tail = None #永远指向单链表最后一个元素    
+        self._size = 0 #永远表示 # of nodes in the list
+    
+    def _get(self,index): 
+    # return the node we found, 区分于下面的这个
+    # assume index is valid.
+        node = self._head #不然就会破坏上面的ALWAYS
+        for _ in xrange(index):
+            node = node.next
+        return node
+    
+    def get(self, index): #instance method or object method 调用这些方法一定要通过对象来调用 free function就不用self（写在class外面的不用）
+    #返回第index个index的node value
+    # How do we know the index is out of range?
+        if index < 0 or index >=self._size:
+            return -1
+        return self._get(index).value
+    
+    
+    def addAtHead(self, index, val):
+        #如果一个链表只有一个节点，它既是头节点，又是尾节点
+        if size._size ==0:
+            self._head = self._tail =_ListNode(val)
+            self._size += 1
+        else:
+            new_head = _ListNode(val)
+            new_head.next = self._head #新的头节点的后面应该是原来的头节点
+            self._head = new_head
+            self._size += 1
+        
+    
+    def addAtTail(self, val):
+        # 需要先判断现在的链表是不是空的，不然默认tail是None 就没办法.next了
+        if size._size ==0:
+            self._head = self._tail =_ListNode(val)
+            self._size += 1
+        else:
+            self._tail.next = _ListNode(val)
+            self._tail = self._tail.next
+            self._size += 1
+        
+    def addAtIndex(self, index, val):
+        
+    
+    def deleteAtIndex(self, index):
+        if index < 0 or index>= self._size:
+            return
+        if index==0:
+            self._head = self._head.next
+            self._size -= 1
+            # 如果remove掉的就是原来链表的最后一个 
+            if self._size == 0:
+                self.tail = None
+            else:
+                node = self._get(index-1)
+                node.next=node.next.next
+                # 如果remove掉的就是原来链表的tail
+                if index=self._size -1:
+                    self._tail=node
+                self._size -=1
+            
+                
+                  
+ll = MyLinkedList() # We should have an empty linked list after initialization (not None) 容积在，只是容器是空的
+```
+
+ll = MyLinkedList\(\) 这个clause结束后调用init 初始化函数，创建object
+
+ll.addAtHead\(1\) 等价于MyLinkedList.addAtHead\(ll, 3\)
+
+关于前面的\_ 在Python中，如果一个entity（variable or function）是我们自己实现的一部分，那应该自己来命名自己的entity，比如\_get。用户不应该直接去改变这个。另外，前面maintain了几个状态，我们在做interface的时候也需要去考虑每个状态
+
+
+
+## 双链表
+
+
 
 ## 总结对比 Linked List vs. List
 

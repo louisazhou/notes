@@ -1,5 +1,5 @@
 ---
-description: '(unfinished) Decision Tree, Ensemble Learning and Random Forest,'
+description: 'Decision Tree, Ensemble Learning and Random Forest, SVM and KNN'
 ---
 
 # Nonlinear Models
@@ -96,7 +96,88 @@ CART \(Classification and Regression Tree\): Gini Impurity
 
 ## Ensemble Learning
 
+### Bagging \(Bootstrap Aggregating\)
+
+本质是Sampling with replacement, 有放回的抽样，这其实是Bootstrap的工作。通过引入随机性来解决overfitting的问题。 
+
+如果原先有800行数据，那么bagging就是让不同树看到这800行数据的不同行，但是每棵树看到的数据总数是相同的，这就意味着每棵树都会看到一些重复的数据，这个重复的来源就是每次抽样时的有放回抽样。boostrap有放回抽样也保证了数据的分布相同，这和普通的做sampling相比就更好了。
+
+
+
+### Boosting
+
+——放在XG Boost的section
+
 把很多Decision Tree组合在一起，再引入一些randomness
 
 ## Random Forest
+
+**Decision Tree + Bagging + Feature Sampling =Random Forest**
+
+假设总数据有N行，M个feature
+
+1. 每次从原数据中有放回地随机选取N个观测值（有重复，也有没被包含的数据）
+2. 从Feature中每次抽不同的K个特征，K&lt;M \(k一般是floor\(sqrt\(M\)\)\)
+3. 多次重复，得到不同的decision tree，整合在一起构成forest
+
+### Random Forest的优势
+
+1. Less overfitting
+2. Parallel Implementation \(相比较boosting，boosting只能sequential\)
+
+### Feature Importance in Random Forest （应用很多）
+
+对于linear model，我们可以根据linear model的系数beta的绝对值判断feature的重要程度，但对于non-linear model，就没有系数让我们一眼判断了，所以业界常用RF的feature importance来判断某一个feature的重要程度。
+
+论原理，如果一个feature很重要，那么它在所有树的Gini impurity都很重要，所以RF的feature importance也可以看作是对gini impurity的平均值。事实上，在scikit learn的package中，它也是如此实现的。
+
+简单来说，就是去掉一个feature，然后给这一列输入各种随机变量，看没有了这个feature之后新模型的表现如何，这个performance的差值就体现了这个feature的重要性。按理来说，所有feature的importance都应该是个正数，否则就意味着'it's worse than randomness', 它的存在只是在捣乱，很明显就不合理了。
+
+$$
+\text {importance}(\text {feature } i)=\text {performance}(R F)-\text {performance}\left(R F^{(\text {random } i)}\right)
+$$
+
+## Support Vector Machine 
+
+慢！真的慢 所以现在没人用了
+
+基本思想：Maximize minimum margin 找到一条线，距离它最近的点越远越好，这样就有更大的容错率。所以在training的过程中，离线最近的点要尽可能的远。
+
+五六年前的面试曾经考推导，所以意思一下吧：
+
+$$
+M=\frac{2}{\|w\|}=\frac{2}{\sqrt{w \cdot w}}
+$$
+
+M是margin width，w是法向量 
+
+$$
+\begin{array}{l}{w \cdot x^{+}+b=1} \\ {w \cdot x^{-}+b=-1} \\ {x^{+}=x^{-}+\lambda w} \\ {\left|x^{+}-x^{-}\right|=M}\end{array}
+$$
+
+$$
+\begin{array}{l}{w \cdot\left(x^{-}+\lambda w\right)+b=1} \\ {\Rightarrow w \cdot x^{-}+b+\lambda w \cdot w=1} \\ {\Rightarrow \lambda w \cdot w=2} \\ {M=\left|x^{+}-x^{-}\right|=|\lambda w|=\lambda \sqrt{w \cdot w}=\frac{2}{\sqrt{w-w}}}\end{array}
+$$
+
+$$
+\min {1/2}\|w\|^{2}, \text { s.t. } y_{i}\left(w^{T} x_{i}+b\right) \geqslant 1, i=1, \ldots, n
+$$
+
+Support Vector Regressor 刚好相反，其实是“离分割平面最远的点离分割平面越近越好“。
+
+直观理解，SVM的表达式里有一个长得很像loss function的项，所以它不容易over-fitting。 
+
+## K Nearest Neighbor 
+
+K Nearest Neighbor的prediction stage是找距离，没有training的过程。
+
+有个有趣的面试题目，推荐系统，如果amazon有1billion个用户的历史购买信息、他们的feature，那就得有所有的data points，把新来的用户拉过来一个个算distance，这个操作的时间复杂度是O\(n\)。你会如何优化？  
+  
+答案是空间换时间，有一个算法叫Locality Sensitivity Hashing. 先把data分成一批区域，用横纵坐标划分块，然后再算。利用hash，利用feature在O（1）算出是什么颜色，然后再计算对应distance是什么。这其实牺牲了一点精准度，因为在颜色的分界区域其实不太好定义。但对于时间要求比较高的推荐系统，这个非常合理。
+
+
+
+![](../.gitbook/assets/image.png)
+
+[https://github.com/spotify/annoy](https://github.com/spotify/annoy) 
 

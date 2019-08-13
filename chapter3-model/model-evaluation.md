@@ -1,10 +1,14 @@
 ---
-description: Model Error，Bias-Variance tradeoff，ROC Curve，AUC value的意义
+description: Model Error，Bias-Variance tradeoff，Regularization
 ---
 
-# Model Evaluation
+# Regularization
 
-机器学习的本质不是“Given x, y=\*\*“而是“Given x, a probability distribution “，得到的是（1）概率分布，也就是model的那些assumption，解出来的是那些beta系数。这就有了所谓的confidence interval的说法。（2）根据y的distribution，得到y的取值。
+机器学习的本质不是“Given x, y=\*\*“，而是“Given x, a probability distribution “。得到的是
+
+（1）概率分布，也就是model的那些assumption，解出来的是那些beta系数。这就有了所谓的confidence interval的说法。
+
+（2）根据y的distribution，得到y的取值。
 
 ![](https://cdn.mathpix.com/snip/images/jDR8vTD7Qf9MwcKo_u7kpbh_NxIBQ6uTHhenaJcPXW4.original.fullsize.png)
 
@@ -16,79 +20,86 @@ $$
 \text {Error}=\text {bias}^{2}+\text {variance}+\text {Irreducible error}
 $$
 
+上面的公式不是一个“计算bias或variance“的方法，只是一个大家理解error来源的方法。我们喜欢用least square来构造loss function，是因为使用least square时irreducible error消失了。
+
+### Mean Squared Error \(MSE\)
+
+表现形式上看着是least square（这是一个function）的形式，但在这里这是用来表现error的方法。如果我们把公式中的theta看作y，那么它就是least square。引用MSE是为了衡量model的，是一个确认值，可以理解为 a static metric of random variable。
+
+$$
+\begin{aligned} \operatorname{MSE}(\hat{\theta}) \equiv \mathbb{E}\left((\hat{\theta}-\theta)^{2}\right) &=\mathbb{E}\left[(\hat{\theta}-\mathbb{E}(\hat{\theta})+\mathbb{E}(\hat{\theta})-\theta)^{2}\right] \\ &=\mathbb{E}\left[(\hat{\theta}-\mathbb{E}(\hat{\theta}))^{2}+2((\hat{\theta}-\mathbb{E}(\hat{\theta}))(\mathbb{E}(\hat{\theta})-\theta))+(\mathbb{E}(\hat{\theta})-\theta)^{2}\right] \\ &=\mathbb{E}\left[(\hat{\theta}-\mathbb{E}(\hat{\theta}))^{2}\right]+2 \mathbb{E}[(\hat{\theta}-\mathbb{E}(\hat{\theta}))(\mathbb{E}(\hat{\theta})-\theta)]+\mathbb{E}\left[(\mathbb{E}(\hat{\theta})-\theta)^{2}\right] \\ &=\mathbb{E}\left[(\hat{\theta}-\mathbb{E}(\hat{\theta}))^{2}\right]+2(\mathbb{E}(\hat{\theta})-\theta) \overline{\mathbb{E}(\hat{\theta})-\mathbb{E}(\hat{\theta})}+\mathbb{E}\left[(\mathbb{E}(\hat{\theta})-\theta)^{2}\right] \\ &=\mathbb{E}\left[(\hat{\theta}-\mathbb{E}(\hat{\theta}))^{2}\right]+\mathbb{E}\left[(\mathbb{E}(\hat{\theta})-\theta)^{2}\right] \\ &=\operatorname{Var}(\hat{\theta})+\operatorname{Bias}(\hat{\theta}, \theta)^{2} \end{aligned}
+$$
+
 **Irreducible error:** 无论换什么model，这个error都存在；它与model无关，cannot be reduced
 
-**模型的准确性bias：**这个model在 训练集稍有变化下 的平均输出结果与真实值相比的平均准确性
+**模型的准确性bias：**这个model在 _训练集稍有变化下_ 的平均输出结果**与真实值**相比的平均准确性
 
-**模型的稳定性variance：**某一次model的数据结果与这个model的平均水平的差距 的平方的期望
+**模型的稳定性variance：**某一次model的数据结果与这个model的**平均水平**的差距 的平方的期望
 
 打个比方，bias考验的是平均水平，variance考验的是本次的发挥水平（运气）
 
 
 
-注意对于bias的计算，变的是model，是每一次稍微改一点训练数据，然后还是在给定的x下去训练y，这一系列的y理论上来说是近似的，这些y的平均水平是bias。如果有1000个数据，换了1个，结果导致模型完全不一样了，那此时就是high variance。
+对于Bias的理解：注意对于bias的计算，变的是model而不是y=3x+5中的x。因为拿着这样一个equation，只要x=3, 得到的y就是固定值，这就没什么bias好算的。 我们其实是每一次稍微改一点训练数据创一个个有细微差异的model，然后再回来还是在给定的x下去训练y，这一系列的y理论上来说是近似的，这些y的平均水平是bias。
+
+对于Variance的理解：如果有1000行数据，换了1行就结果导致模型完全不一样了，那此时就是high variance，它没有很好的generality。所谓的“over fitting“其实不是error更高了，而是variance高，因为bias永远是随着model的复杂度变高而降低的，如下图。
+
+![](https://cdn.mathpix.com/snip/images/SsK7WrhvodQpFBmbOBuPPhKR-x9vGvmj_rvmGcz-iR4.original.fullsize.png)
+
+此外，注意optimum model complexity的位置并不是bias和variance交叉的点！这是很多教科书画的图有问题的地方... 因为optimal其实是total error的最低点，bias和variance可能在任何位置，就像这张图。
+
+这里的total error指的是testing error 或者说validation error。假如我们把数据分成三类，training, validation 和holdout，那么这个error就是validation；如果分成三类，training和testing，那么这个error就是testing error。
+
+![](https://cdn.mathpix.com/snip/images/9ftC6__Z5eJi1W2vu_MW9oioQDImo_qZBS79MWNHBOw.original.fullsize.png)
+
+右上角, high variance, low bias;
+
+左下角, low variance, high bias;
+
+右下角, high variance, high bias.
+
+图中的蓝点代表在x是同一个值的时候稍稍变换模型后（参数细微变化）得到的预测结果，并不是多个不同的x值！
+
+### 解决overfitting的问题
+
+1. 提高样本量
+2. 解决模型过于复杂的问题  - filter out features 减少feature的个数（eg PCA） - regularization 正则化（Ridge，Lasso\) 使模型的稳定性提高
+
+另外overfitting是一个相对的概念，如果手头只有一个model，再差也得用。
+
+面试题：如果我们把training data的数量增加了，发现validation error减小，说明overfitted。因为在这个过程中bias是不变的，模型的复杂度一模一样，我们通过加数据的方式竟然能显著减小error，那原来一定是overfitted。这只是个认为设计的面试题，工作中没人这么干🤷‍♀️，没事干为啥要留一部分数据专门看是不是overfitting...
+
+### Regularization 正则化
+
+$$
+\text {Training Error}=\sum_{i=1}^{n}\left(y_{i}-f\left(\mathrm{x}_{i}\right)\right)^{2}+\text { something }
+$$
+
+$$
+\text {Loss Function}=\sum_{i=1}^{n}\left(y_{i}-f\left(\mathrm{x}_{i}\right)\right)^{2}, \text { subject to something}
+$$
+
+上2式应该等价，拉格朗日乘子法
+
+机器学习的目的是让validation error小，但是我们在训练模型的时候的error是training error，我们一直在（不管是minimum absolute value还是minimum square）让training error小，这两个error之间很明显有一个gap。something就是模型在validation和testing中表现的差异。
+
+惩罚项，惩罚想优化least square的行为，其实是把所有x的系数拿出来惩罚。惩罚项是由lamba（一个hyperparameter）的大小来衡量。lambda是试出来的，利用含有label的training data去做cross validation，判断最好的lambda值。
+
+### Lasso: L1 regularization
+
+Linear:          $$\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} x_{i j}\right)^{2}+\lambda \sum_{j=1}^{p}\left|\beta_{j}\right|$$ 
+
+Logistic:       $$\operatorname{argmin}_{\beta} \sum_{i=1}^{n}\left[-y_{i} \log \left(h_{\beta}\left(x_{i}\right)\right)-\left(1-y_{i}\right) \log \left(1-h_{\beta}\left(x_{i}\right)\right)\right]+\lambda\|\beta\|_{1}$$ 
+
+### Ridge: L2 regularization
+
+ Linear:            $$\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} x_{i j}\right)^{2}+\lambda \sum_{j=1}^{p} \beta_{j}^{2}$$ 
+
+Logistic:       $$\operatorname{argmin}_{\beta} \sum_{i=1}^{n}\left[-y_{i} \log \left(h_{\beta}\left(x_{i}\right)\right)-\left(1-y_{i}\right) \log \left(1-h_{\beta}\left(x_{i}\right)\right)\right]+\lambda\|\beta\|_{2}^{2}$$ 
 
 
 
 
-
-
-
-
-
-
-
-
-
-spam email detection: 
-
-disease/ anomaly detection:  
-
-1. 在计算时，其实是人为引入threshold，以这个threshold计算概率，来给出Precision、Recall、F1
-2. 如果我们只想直到分类器的水平，只看precision和recall不是很好的metric。
-
-## ROC Curve
-
-思想：直接定义一个metric，直观给出分类器的概率（与threshold无关的metric，来定义classifier performance）。无关，意味着threshold可以取到任意值，都能评价到model的好坏。通过改变threshold画图得到ROC Curve. 来自EE的统计信号处理的思想，Fourier变换。
-
-y: True Positive Rate
-
-x: False Positive Rate = recall 
-
-在不变的testing data上的performance，此时模型确定，testing data确定，所以evaluation的结果也是确定的值。但是之所以会有一条线，是因为threshold变化。
-
-记四个点
-
-1. （0，0），我们定义的threshold是1，eg 只有当肿瘤大小非常大时才认为它有病，所以所有人都被判断为没病。注意这和分类器的表现没关系，只是threshold高。也正因为如此，false positive rate=0，everything is negative. True positive rate也是零
-2. （1，1），我们定义的threshold是0，eg 每个人都认为没病
-3. （0，1），最理想情况，没有false positive，所有positive都找对了
-4. Equal Error Rate means FPR=FNR
-
-既然越凸越好，可以定义AUC来描述它有多凸（AUC的面积有多大），以此定量来表示。
-
-> 潜在面试题：AUC的值域是\[0.5,1\], 可以被理解为概率。那么，AUC的值是0.6的话，它的物理意义是什么？这个概率的物理意义是什么？
->
-> The probability that a randomly-chosen positive example is ranked higher than a randomly chosen negative example. 
->
-> Example:
->
->                                A     B     C      D     E
->
-> Truth                      0     0      1       0     1
->
-> Predict                  0.2  0.3  0.6  0.1  0.7
->
-> 排队，        0   D A B C E 1 越靠左，越往前排
->
-> 来个人，切一刀，eg D A \| B C E 1 如果天赋好一点的人切对了，切在了 D A  B \| C E 1
-
-> 但要记得切错不是model的锅，因为AUC的定义是：任意一个数据把positive排在negative后面的概率 所以此时 AUC=1 所有的negative其实都在positive的前面
->
-> 此时如果我们换一个model排队，0.2 0.3 0.1 0.1 0.7 此时 0 C D A B E 1  不管怎么切都不可能对了，因为这是model自己的问题，此时的AUC&lt;1
-
-还有一个理解误区，ROC curve和数据点的个数有关，点少了画不出来。不！ROC curve 一定可以画得出来，和testing dataset有多大没关系，因为它是通过调整threshold，即使只有5个点，但我们依然可以给10000个threshold. 
-
-那么有了它，怎么选threshold？——一般0.5上下随便选，或者根据use case来调整，也有人选在Equal Error Rate，但其实没啥意义，只是单纯在展示自己知识渊博，换句话就是炫技。
 
 
 

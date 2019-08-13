@@ -2,7 +2,7 @@
 description: 直观引入、数学引入、与Linear Regression的区别
 ---
 
-# Logistic Regression & Regularization
+# Logistic Regression
 
 ## Logistic Regression 直观引入：图形的角度理解
 
@@ -97,7 +97,9 @@ $$
 
 ![](https://cdn.mathpix.com/snip/images/XH-SqQeadMPeNMhShIDBUm1hhY7hwpOzclBWBSUsPPE.original.fullsize.png)
 
+Fun Fact: 这上面的蓝线都是怎么画的？
 
+其实，它就是 $$P(Y=y | X) = 1/(1+exp(***))=1/2$$ 
 
 ## 两个以上的Label的Logistic Regression
 

@@ -109,7 +109,7 @@ print(g)
 
 **秩（rank）**：维数，一维数组的秩为1，二维数组的秩为2，以此类推。即轴的个数。
 
-![](../.gitbook/assets/image%20%283%29.png)
+![](../.gitbook/assets/image%20%282%29.png)
 
 
 

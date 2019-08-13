@@ -129,7 +129,7 @@ $$
 
 The equations above are taken from de Hann's 1987 paper, `eq. 74 to 81`, in $$\textit{The adding method for multiple scattering calculations of polarized light}$$. [http://articles.adsabs.harvard.edu//full/1987A%26A...183..371D/0000378.000.html](http://articles.adsabs.harvard.edu//full/1987A%26A...183..371D/0000378.000.html)
 
-The rotations of reference plane are implicitly accounted for in the expansion method. In the following codes, `line 3~line6` uses functions defined outside. 
+The rotations of reference plane are implicitly accounted for in the expansion method. In the following code, `line 3~line6` uses functions defined outside. 
 
 `plm0` calculates cases with m=0 and n=0, `plm2` calculates cases with m=2 and n=2, `plmn2` calculates cases with m=2, n=-2, and `plm2` calculates cases with m=0 and n=2.
 
@@ -153,7 +153,7 @@ $$
 \mathbf{F}_{S}(\Theta)=\left(\begin{array}{cccc}{a_{1}(\Theta)} & {b_{1}(\Theta)} & {0} & {0} \\ {b_{1}(\Theta)} & {a_{2}(\Theta)} & {0} & {0} \\ {0} & {0} & {a_{3}(\Theta)} & {b_{2}(\Theta)} \\ {0} & {0} & {-b_{2}(\Theta)} & {a_{4}(\Theta)}\end{array}\right)
 $$
 
-Note that there are six independent elements for nonspherical particles. 
+Note that there are six independent elements for non-spherical particles. 
 
 ```python
 for i = 1:1        %1:numwl
@@ -278,5 +278,5 @@ for j = 1:length(phi)
 end
 ```
 
-
+Now it's time to scale it to two-slab and multi-slab cases.
 
