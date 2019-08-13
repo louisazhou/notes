@@ -2,13 +2,11 @@
 description: Model Error，Bias-Variance tradeoff，Regularization
 ---
 
-# Regularization
+# Regularization and Feature Selection
 
-机器学习的本质不是“Given x, y=\*\*“，而是“Given x, a probability distribution “。得到的是
+机器学习的本质不是“Given x, y=\*\*“，而是“Given x, a probability distribution “。得到的是概率分布，也就是model的那些assumption，解出来的是那些beta系数。这就有了所谓的confidence interval的说法。
 
-（1）概率分布，也就是model的那些assumption，解出来的是那些beta系数。这就有了所谓的confidence interval的说法。
-
-（2）根据y的distribution，得到y的取值。
+最后是决策人自己根据y的distribution，得到y的取值。
 
 ![](https://cdn.mathpix.com/snip/images/jDR8vTD7Qf9MwcKo_u7kpbh_NxIBQ6uTHhenaJcPXW4.original.fullsize.png)
 
@@ -69,7 +67,7 @@ $$
 
 面试题：如果我们把training data的数量增加了，发现validation error减小，说明overfitted。因为在这个过程中bias是不变的，模型的复杂度一模一样，我们通过加数据的方式竟然能显著减小error，那原来一定是overfitted。这只是个认为设计的面试题，工作中没人这么干🤷‍♀️，没事干为啥要留一部分数据专门看是不是overfitting...
 
-### Regularization 正则化
+## Regularization 正则化
 
 $$
 \text {Training Error}=\sum_{i=1}^{n}\left(y_{i}-f\left(\mathrm{x}_{i}\right)\right)^{2}+\text { something }
@@ -99,7 +97,19 @@ Logistic:       $$\operatorname{argmin}_{\beta} \sum_{i=1}^{n}\left[-y_{i} \log 
 
 
 
+只要是基于距离定义的loss function都可以加regularization，这和是否是generalized linear model无关。
 
 
 
+> 面试考点 L1和L2有什么区别？
+>
+> 如果已经问到这里了，其实不只是在问overfitting的角度上regularization的区别，因为它们解决overfitting的能力是一样的，没有区别。这里其实在问feature selection，L2对于correlated的feature同等对待，给出的系数都一样，这样更stable；而L1可以给出feature。平方项给的penalty很大，倾向于让所有feature磨平，而绝对值其实让某些feature保留，某些系数变成了0。此外也可以用random forest的feature importance做feature selection。 但是这两种认为的feature importance其实不太一样，因为RF是non-linear model。
+
+
+
+## 工作中如何解决feature selection
+
+1. PCA 从100个feature留下3个，但是这3个feature的物理意义已经不知道了，所以一般不用。 
+2. 丢feature 先做feature importance，把不太重要的扔了，为了model performance，提高速度 
+3. regularization 
 

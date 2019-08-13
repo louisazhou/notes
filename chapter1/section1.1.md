@@ -103,7 +103,9 @@ print a
 >>> [[1, 2], 3, 4]
 ```
 
-下面这个也是个deep copy，但是不受影响？？？？
+![](https://cdn.mathpix.com/snip/images/UCb7WwJga-UCxh0_HIwESpPCa3172Q6ITQW6RrQWsM8.original.fullsize.png)
+
+上面这个例子，左图是
 
 ```python
 a = [[1]]
@@ -120,6 +122,21 @@ print (id(a[0]))
 >>> 139751593456272
 print (id(b[0]))
 >>> 139751593456272
+```
+
+而右图是
+
+```python
+a = [[1]]
+b= a[:]
+a[0].append(2)
+print(b)
+>>> [[1,2]]
+b.append(3)
+print(b)
+>>> [[1, 2], 3]
+print(a)
+>>> [[1,2]]
 ```
 
 使用深拷贝时，需要注意以下两个问题:
