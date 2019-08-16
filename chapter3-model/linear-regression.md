@@ -6,7 +6,7 @@ description: 中心极限定理，最大似然估计，loss function的推导过
 
 ## Central Limit Theorem
 
-> 如何用Random（5）生成Random（25）？ 1. 如果是6个相加，出现0的概率极小，是6个\math\(1/5\)相加，而1的概率却要比0的概率大，因此概率不均等 2. 正确解法：5\*random\(5\)+random\(5\)
+> 如何用Random（5）生成Random（25）？ 1. 如果是6个相加，出现0的概率极小，是6个1/5相加，而1的概率却要比0的概率大，因此概率不均等 2. 正确解法：5\*random\(5\)+random\(5\)
 
 思路\(1\) 认为这是一维空间到二维空间的转变
 
@@ -44,7 +44,7 @@ Linear Regression中，使用 $$Loss=error^{2}$$
 
 $$
 \begin{array}{l}{\sum_{i=1}^{n} \varepsilon_{i}^{2}=\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\beta_{1} x_{j}\right)^{2}} \\ 
-\
+
 {\operatorname{argmin}_{\beta} \sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\beta_{1} x_{i}\right)^{2}}\end{array}
 $$
 
@@ -52,7 +52,7 @@ $$
 
 $$
 \begin{array}{c}{\sum_{i=1}^{n} \varepsilon_{i}^{2}=\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\beta_{1} x_{1 i}-\beta_{2} x_{2 i}-\ldots-\beta_{m} x_{m i}\right)^{2}} \\ 
-\
+
 {\sum_{i=1}^{n} 
 \varepsilon_{i}^{2}=\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\sum_{j=1}^{m} \beta_{j} x_{j i}\right)^{2}}\end{array}
 $$
@@ -69,7 +69,7 @@ $$
 
 ## 最大似然估计（maximum likelihood estimation）
 
-Maximum Likelihood Estimation is a method of estimating the parameter of a statistical model given observation, by finding the parameter values that maximize the likelihood of making the observations given the parameters. 最合理的参数估计量应该使得 （猜一个参数，使得我们猜测的分布和实际的分布尽可能一样）
+Maximum Likelihood Estimation is a method of estimating the parameter of a statistical model given observation, by finding the parameter values that maximize the likelihood of making the observations given the parameters. 最合理的参数估计量应该使得 （猜一个参数）我们猜测的分布和实际的分布尽可能一样）
 
 这是一种概率角度的参数估计，就意味着需要对整体的分布有一个假设。在Linear Regression中，给的assumption是
 

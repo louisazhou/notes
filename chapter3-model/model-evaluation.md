@@ -69,6 +69,8 @@ $$
 
 ## Regularization 正则化
 
+Regularization is a method for adding constraints or penalty to a model, with the goal of preventing overfitting and improving generalization. 
+
 $$
 \text {Training Error}=\sum_{i=1}^{n}\left(y_{i}-f\left(\mathrm{x}_{i}\right)\right)^{2}+\text { something }
 $$
@@ -89,11 +91,17 @@ Linear:          $$\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} 
 
 Logistic:       $$\operatorname{argmin}_{\beta} \sum_{i=1}^{n}\left[-y_{i} \log \left(h_{\beta}\left(x_{i}\right)\right)-\left(1-y_{i}\right) \log \left(1-h_{\beta}\left(x_{i}\right)\right)\right]+\lambda\|\beta\|_{1}$$ 
 
+L1 penalty 就是 $$\lambda \sum_{i=1}^{n}\left|\theta_{i}\right|$$ ，会给出较为sparse的结果
+
+
+
 ### Ridge: L2 regularization
 
  Linear:            $$\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} x_{i j}\right)^{2}+\lambda \sum_{j=1}^{p} \beta_{j}^{2}$$ 
 
 Logistic:       $$\operatorname{argmin}_{\beta} \sum_{i=1}^{n}\left[-y_{i} \log \left(h_{\beta}\left(x_{i}\right)\right)-\left(1-y_{i}\right) \log \left(1-h_{\beta}\left(x_{i}\right)\right)\right]+\lambda\|\beta\|_{2}^{2}$$ 
+
+L2 penalty是 $$\lambda \sum_{i=1}^{n} \theta_{i}^{2}$$ ，spreads out more equally. 更加稳定
 
 
 
@@ -107,9 +115,12 @@ Logistic:       $$\operatorname{argmin}_{\beta} \sum_{i=1}^{n}\left[-y_{i} \log 
 
 
 
+L1, 菱形； L2, 圆； elastic net，在圆内，菱形外。
+
 ## 工作中如何解决feature selection
 
-1. PCA 从100个feature留下3个，但是这3个feature的物理意义已经不知道了，所以一般不用。 
-2. 丢feature 先做feature importance，把不太重要的扔了，为了model performance，提高速度 
-3. regularization 
+1. Pearson Correlation 
+2. PCA 从100个feature留下3个，但是这3个feature的物理意义已经不知道了，所以一般不用。 
+3. 丢feature 先做feature importance，把不太重要的扔了，为了model performance，提高速度 
+4. Regularization, L1 提供sparse solution，系数可以各不相同，比如10个theta里有8个是相关的，可能L1给出的系数就是7个0，一个相关。 \(但是在实际工作中... 不这么用 因为它是一个unstable method）
 
