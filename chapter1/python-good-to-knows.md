@@ -10,7 +10,7 @@
 
 2. 在Colab上可以用\#@title +Title做标题
 
-3. 在Python里可以 print\(1 or False\)这样的语句，它返回的是第一个不是false的值
+3. 在Python里可以 print\(1 or False\)这样的语句，它返回的是 第一个不是false的值
 
 4. 对于string的一些简便操作
 

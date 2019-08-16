@@ -1,5 +1,5 @@
 ---
-description: (unfinished) 时间复杂度、空间复杂度
+description: 时间复杂度、空间复杂度
 ---
 
 # Fundamental Knowledge
