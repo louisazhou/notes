@@ -509,49 +509,5 @@ head.next.next = ListNode(0)
 
 corner case：None、数量不同、奇偶
 
-### Sqrt（）
-
-找一个最接近于平方根的整数, floor
-
-#### 方法一：试
-
-```python
-def sqrt(n):
-    val = 1
-    while val*val<=n
-        val+=1
-    return val-1
-```
-
-Time O\( $$\sqrt(n)$$ \)
-
-Space O\(1\)
-
-#### 方法二：binary search
-
-if mid\*mid&lt;n: go right \[mid, right\]
-
-if mid\*mid&gt;n: go left \[left, mid\]
-
-if mid\*mid==n: return mid
-
-```python
-def sqaure_root(n):
-    if n<=1:
-        return n
-    left, right = 1,n
-    while left<right-1:
-        mid = (left+right)/2
-        midsq = mid*mid
-        if midsq ==n:
-            return mid
-        elif midsq>n:
-            right = mid
-        else:
-            left = mid
-    if right*right<=n:
-        return right
-    else:
-        return left
-```
+### 
 

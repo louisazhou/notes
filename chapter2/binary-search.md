@@ -183,5 +183,62 @@ Pull Request有很多个版本，如果有一个version有bug，在version7发�
 
 
 
+## 题目
 
+### Sqrt（）
+
+找一个最接近于平方根的整数, floor
+
+#### 方法一：试
+
+```python
+def sqrt(n):
+    val = 1
+    while val*val<=n
+        val+=1
+    return val-1
+```
+
+Time O\( $$\sqrt(n)$$ \)
+
+Space O\(1\)
+
+#### 方法二：binary search
+
+if mid\*mid&lt;n: go right \[mid, right\]
+
+if mid\*mid&gt;n: go left \[left, mid\]
+
+if mid\*mid==n: return mid
+
+```python
+def sqaure_root(n):
+    if n<=1:
+        return n
+    left, right = 1,n #其实可以写n/2 因为一定在1～n/2之间
+    while left < right-1:
+        mid = (left+right)/2
+        midsq = mid*mid
+        if midsq ==n:
+            return mid
+        elif midsq>n:      #其实应该是right=mid-1
+            right = mid
+        else:
+            left = mid
+    if right*right<=n:
+        return right
+    else:
+        return left
+```
+
+#### Find the bug, sorted release, UNKNOWN size
+
+1. Find the end 倍增法
+2. Binary Search
+
+```python
+
+```
+
+Time: O\(log 2\(first\_bug\_version\)\)
 
