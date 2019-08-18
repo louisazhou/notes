@@ -280,3 +280,27 @@ end
 
 Now it's time to scale it to two-slab and multi-slab cases.
 
+### Single Multi-layer Slab
+
+$$
+\begin{aligned} \mathbf{I}_{p}^{+}(\tau, \mu, \phi)=& \frac{\mu_{0}}{\left(\mu_{0}+\mu\right)} \sum_{n=p}^{L}\left\{\mathbf{X}_{n}^{+}(\mu, \phi)\right.\\ &\left. \times\left[e^{-\left[\tau_{n-1} / \mu_{0}+\left(\tau_{n-1}-\tau\right) / \mu\right]}-e^{-\left[\tau_{n} / \mu_{0}+\left(\tau_{n}-\tau\right) / \mu\right]}\right]\right\} \end{aligned}
+$$
+
+### Single, two-layer slab
+
+Set $$\tau=0$$ 
+
+$$
+\vec{I}_{1}^{+}(0, \mu, \phi)=\frac{a(\tau) \mu_{0} F^{s}}{4 \pi\left(\mu+\mu_{0}\right)} \vec{P}\left(\mu^{\prime}, \phi^{\prime} ; \mu, \phi\right)\{\left[1-e^{-\left(\tau_{1} / \mu+\tau_{1} / \mu_{0}\right)}\right]+\left[ e^{-\left[\tau_{1} / \mu+\tau_{1} / \mu_{0}\right]}-e^{-\left[\tau_{2} / \mu+\tau_{2} / \mu_{0}\right]}\right]\}
+$$
+
+$$
+=\frac{a(\tau) \mu_{0} F^{s}}{4 \pi\left(\mu+\mu_{0}\right)} \vec{P}\left(\mu^{\prime}, \phi^{\prime} ; \mu, \phi\right)\left\{\left[1-e^{-\left[\tau_{2} / \mu_{0}+\tau_{2}/ \mu\right]}\right]\right\}
+$$
+
+$$
+\vec{I}_{2}^{+}(0, \mu, \phi)=\frac{a(\tau) \mu_{0} F^{s}}{4 \pi\left(\mu+\mu_{0}\right)} \vec{P}\left(\mu^{\prime}, \phi^{\prime} ; \mu, \phi\right)\left[e^{-\left[\tau_{1} / \mu_{0}+(\tau_{1}-\tau)/ \mu\right]}-e^{-\left[\tau_{2} / \mu_{0}+(\tau_{2}-\tau)/ \mu\right]}\right]
+$$
+
+>
+

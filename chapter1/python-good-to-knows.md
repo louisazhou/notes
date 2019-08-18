@@ -74,3 +74,10 @@ for skill in score_dict.values():
   print(skill)
 ```
 
+不想看那些warnings
+
+```python
+import warnings
+warnings.filterwarnings('ignore')
+```
+

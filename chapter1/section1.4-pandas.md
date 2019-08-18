@@ -32,6 +32,44 @@ c=pd.read_csv(url)
 
 4. 把Google drive和colab给mount过来
 
+{% tabs %}
+{% tab title="简单版mount" %}
+```python
+from google.colab import drive
+drive.mount('/content/gdrive')
+```
+{% endtab %}
+
+{% tab title="复杂版mount" %}
+```python
+!pip install -U -q PyDrive
+
+from pydrive.auth import GoogleAuth
+ from pydrive.drive import GoogleDrive
+from google.colab import auth
+from oauth2client.client import GoogleCredentials
+
+auth.authenticate_user()
+gauth = GoogleAuth()
+gauth.credentials = GoogleCredentials.get_application_default()
+drive = GoogleDrive(gauth)
+```
+{% endtab %}
+{% endtabs %}
+
+5. 从local读
+
+```python
+from google.colab import files
+uploaded = files.upload()
+
+import io
+import pandas as pd
+
+df2 = pd.read_csv(io.BytesIO(uploaded['uk_rain_2014.csv']))
+df2.head()
+```
+
 在本地读就很简单，pd.read\_csv\("../data\_folder/data.csv"\)就行
 
 
@@ -70,6 +108,32 @@ df.info()
 
 ```text
 df_iris.describe()
+```
+
+看各种现成生成好的柱状图
+
+```python
+import pandas_profiling
+pandas_profiling.ProfileReport(df)
+```
+
+看distribution 用sns.distplot
+
+```python
+%matplotlib inline
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.distplot(churn_df['total_intl_charge'])
+```
+
+看correlation
+
+1. corr = df\[\[\]\].corr\(\)       sns.heatmap\(corr\)
+2. 两元素之间的pearsonr相关系数
+
+```python
+from scipy.stats import pearsonr print (pearsonr(churn_df['total_day_minutes'], churn_df['number_vmail_messages'])[0])
 ```
 
 ### Check Duplication: duplicated\(\)
@@ -119,7 +183,82 @@ sns.boxplot(dt_outlier_ws,orient='v')
 
 ### Missing Value
 
+#### 为什么需要解决missing value
 
+1. Data information loss
+2. Lead to wrong prediction/classification 
+3. sklearn implementations don't support data with missing values
+
+我们怎么知道missing in random
+
+数据的missing 和数据自身相关，比如income的丢失是因为高收入，不愿意透露，所以就有了NaN
+
+#### 怎么找missing 
+
+.isnull\(\)给的是boolean，哪些是missing 还可以再isnull\(\).sum\(\)一下
+
+.any \(\) 只要有，就true
+
+```python
+df.isnull().any(axis=1) # check if there is a NaN in a row
+df.isnull().any(axis=0) # check if there is a NaN in a column
+```
+
+
+
+#### 用什么填充
+
+**Median/ Mean/ Group Mean**
+
+可以`.fillna(0)` 赋予一个数值
+
+也可以`.fillna(method='ffill')` 把前一个人的给它
+
+`.fillna(method='bfill')` 把后一个人的给它
+
+`df["preMLScore"].fillna(df["preMLScore"].median(), inplace=True)`中位数赋予
+
+按照gender groupby一下，给gender的平均值
+
+`df["postMLScore"].fillna(df.groupby("gender")["postMLScore"].transform("mean"), inplace=True)` 
+
+
+
+**Predictive Model**
+
+
+
+**KNN imputation** 
+
+选择有NaN的作为testing
+
+```python
+idx_with_nan = X.isnull().any(axis=1)
+X_with_nan = X[idx_with_nan]
+```
+
+没有NaN的作为training
+
+```python
+X_no_nan = X[-idx_with_nan]
+```
+
+然后
+
+
+
+**不然就删了吧，比如70%missing**
+
+df.dropna\(\) 默认的是drop rows，相当于df.dropna\(axis=0, how='any'\)
+
+```python
+df.dropna(how='all', inplace=True) # drop the rows that every column is NaN
+df = df.reset_index(drop=True)
+
+df.dropna(axis=1, how='all') # drop the column that all values are NaN
+
+df.dropna(thresh=5) # drop the rows without at least five actual value columns
+```
 
 ## index指定
 
@@ -278,6 +417,14 @@ Applymap是element-wise的操作，所以针对的是每一个element的操作
 ```python
 df = pd.DataFrame(np.arange(12).reshape((4, 3)), columns=list('abc'), index=['Utah', 'Ohio', 'Texas', 'Oregon'])
 print(df.applymap(lambda x: x**2))
+```
+
+### Map
+
+对series的操作，用map 比如x.strip\(\)的功能是去空格
+
+```python
+churn_df['voice_mail_plan'] = churn_df['voice_mail_plan'].map(lambda x: x.strip())
 ```
 
 ### DateTime

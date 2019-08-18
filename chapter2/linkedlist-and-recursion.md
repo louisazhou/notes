@@ -354,5 +354,204 @@ ll.addAtHead\(1\) 等价于MyLinkedList.addAtHead\(ll, 3\)
 
 ![](https://cdn.mathpix.com/snip/images/nVjhoatUKUkljHRr-mYgMKpttW3daBY9MVm-D_NOiVQ.original.fullsize.png)
 
+## 题
 
+### Remove all vowels in a linked list
+
+{% tabs %}
+{% tab title="双指针" %}
+```python
+def remove(head):
+    fake_head = ListNode(None)
+    fake_head.next = head
+    prev = fake_head
+    curr = head
+    vowel = set(['a', 'e', 'i', 'o', 'u'])
+    
+    while curr:
+        if curr.val in vowel:
+            prev.next = curr.next
+        else:
+            prev = curr
+        curr = curr.next
+     return fake_head.next
+```
+{% endtab %}
+
+{% tab title="单指针" %}
+```python
+def remove(head):
+    fake_head = ListNode(None)
+    fake_head.next = head
+    curr = fake_head
+    vowel = set(['a', 'e', 'i', 'o', 'u'])
+    
+    while curr and curr.next: #判断是否为None
+        if curr.next.val in vowel:
+            curr.next = curr.next.next
+        else:
+            curr = curr.next
+    return fake_head.next
+```
+{% endtab %}
+{% endtabs %}
+
+### Add two linked list which represents large number 
+
+大数：传统语言int long的范围是 $$2^{32}$$ 范围之外称为大数
+
+在Python里自动支持大数，转化好了
+
+1. 如何靠右对齐，个位对齐？ Reverse
+2. 进位 carry 
+3. 两个linkedlist不等长 所以注意while循环的break，post-processing
+4. reverse最后的结果
+
+```python
+def reverse_list(node):
+    previous_node = None
+    while none:
+        next_node = node.next
+        node.next = previous_node
+        previous_node = node
+        node = next_node
+    return previoous_node
+
+def add_list(head1, head2):
+    #1 reverse
+    new_head1 = reverse_list(head1)
+    new_head2 = reverse_list(head2)
+    #2 add
+    fake_head = ListNode(None) 
+    cur_node = fake_head
+    carry = 0
+    while new_head1 and new_head2:
+        temp_sum = new_head.val + new_head2.val + carry
+        carry = temp_sum/10
+        cur_node.next = ListNode(temp_sum%10)
+        cur_node = cur_node.next
+        new_head1 = new_head1.next
+        new_head2 = new_head2.next
+    #3 post processing
+    while new_head1:
+        temp_sum = new_head1.value+carry
+        carry = temp_sum/10
+        cur_node.next = ListNode(temp_sum%10)
+        cur_node = cur_node.next
+        new_head1 = new_head1.next
+    while new_head2:
+        temp_sum = new_head2.value+carry
+        carry = temp_sum/10
+        cur_node.next = ListNode(temp_sum%10)
+        cur_node = cur_node.next
+        new_head2 = new_head2.next
+    if carry>0:
+        cur_node.next = ListNode(carry)
+    return reverse_list(fake_head.next)
+```
+
+###  If a linked list is a palindrome
+
+####  方法一：Copy Linked List and Reverse
+
+1. make a copy 
+2. reverse the copied list
+3. compare the two
+
+缺点是空间消耗是O\(n\)
+
+
+
+方法二：从中点reverse
+
+1. find the middle of the list
+2. cut in the middle and reverse the second half
+3. compare first half and reversed second half
+
+关于快慢指针找中点
+
+```python
+def find_mid(head):
+    if head is None or head.next is None:
+        return head
+    slow = head
+    fast = head
+    while fast.next is not None and fast.next.next is not None:
+        fast = fast.next.next
+        slow = slow.next
+    return slow
+```
+
+注意while的条件，这其实是提前一点停止，保证slow在中间而不是中间右一个
+
+```python
+def is_palindrome(head):
+    fake_head = ListNode('fake_head')
+    fake_head.next = head
+    mid_node = find_mid(head)
+    head2 = mid_node.next
+    #break
+    mid_node.next = None
+    head1 = head
+    head2 = reverse_list(head2)
+    while head1 and head2:
+        if head1.value != head2.value:
+            return False
+        head1 = head1.next
+        head2 = head2.next
+    return True
+
+#test
+head = ListNode(1)
+head.next = ListNode(2)
+head.next.next = ListNode(0)
+```
+
+corner case：None、数量不同、奇偶
+
+### Sqrt（）
+
+找一个最接近于平方根的整数, floor
+
+#### 方法一：试
+
+```python
+def sqrt(n):
+    val = 1
+    while val*val<=n
+        val+=1
+    return val-1
+```
+
+Time O\( $$\sqrt(n)$$ \)
+
+Space O\(1\)
+
+#### 方法二：binary search
+
+if mid\*mid&lt;n: go right \[mid, right\]
+
+if mid\*mid&gt;n: go left \[left, mid\]
+
+if mid\*mid==n: return mid
+
+```python
+def sqaure_root(n):
+    if n<=1:
+        return n
+    left, right = 1,n
+    while left<right-1:
+        mid = (left+right)/2
+        midsq = mid*mid
+        if midsq ==n:
+            return mid
+        elif midsq>n:
+            right = mid
+        else:
+            left = mid
+    if right*right<=n:
+        return right
+    else:
+        return left
+```
 
