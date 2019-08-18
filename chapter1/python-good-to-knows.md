@@ -81,3 +81,7 @@ import warnings
 warnings.filterwarnings('ignore')
 ```
 
+numpy的random seed和python的random seed不是一个东西，所以 random.seed = xxx 和np.random.seed=xxx 也是两个东西
+
+
+
