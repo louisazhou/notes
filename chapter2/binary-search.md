@@ -240,5 +240,7 @@ def sqaure_root(n):
 
 ```
 
-Time: O\(log 2\(first\_bug\_version\)\)
+Time: O\(log 2\(first\_bug\_version\)\) 
+
+
 

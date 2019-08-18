@@ -70,11 +70,11 @@ df2 = pd.read_csv(io.BytesIO(uploaded['uk_rain_2014.csv']))
 df2.head()
 ```
 
-在本地读就很简单，pd.read\_csv\("../data\_folder/data.csv"\)就行
+如果是jupyter notebook在本地读就很简单，pd.read\_csv\("../data\_folder/data.csv"\)就行
 
 
 
-最后如果想从colab下载处理好的df，index=False就是不要第一列的那个idx
+6. 最后如果想从colab下载处理好的df，index=False就是不要第一列的那个idx
 
 ```python
 df_uk_rain.to_csv('df.csv', index=False)
@@ -189,9 +189,9 @@ sns.boxplot(dt_outlier_ws,orient='v')
 2. Lead to wrong prediction/classification 
 3. sklearn implementations don't support data with missing values
 
-我们怎么知道missing in random
+这里说的处理都是对missing in random的处理
 
-数据的missing 和数据自身相关，比如income的丢失是因为高收入，不愿意透露，所以就有了NaN
+如果数据的missing 和数据自身相关，比如income的丢失是因为高收入，不愿意透露，所以就有了NaN这就属于meaningful missing了
 
 #### 怎么找missing 
 
@@ -243,9 +243,21 @@ X_with_nan = X[idx_with_nan]
 X_no_nan = X[-idx_with_nan]
 ```
 
-然后
+然后KNN train
 
+```python
+clf = KNeighborsClassifier(3, weights='distance')
+clf.fit(X_no_nan[['age', 'preMLScore', 'postMLScore']], X_no_nan['gender'])
+```
 
+做填充
+
+```python
+x_imputed = clf.predict(X_with_nan[['age', 'preMLScore', 'postMLScore']])
+X_with_imputed = X.copy()
+X_with_imputed.loc[idx_with_nan,'gender'] = x_imputed.reshape(-1, 1)
+X_with_imputed
+```
 
 **不然就删了吧，比如70%missing**
 
