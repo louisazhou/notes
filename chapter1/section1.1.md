@@ -167,3 +167,31 @@ print(mylist)
 
 但是，如果只是函数传值，传值后变量该是什么其实还是什么，传的只是变量指向的那个单元
 
+再看两个例子
+
+```python
+def funB(a_list):
+    a_list.append(1)
+
+def funcA():
+    a_list = [2,3]
+    funcB(a_list)
+```
+
+![](https://cdn.mathpix.com/snip/images/akQogfX5WmqDzxF8iE75AxPgBSKQIoLQ0xT4jwjiOHo.original.fullsize.png)
+
+发生的是上图的操作，append了之后改变了funcA（）
+
+```python
+def funB(a_list):
+    a_list=[5,6]
+
+def funcA():
+    a_list = [2,3]
+    funcB(a_list)
+```
+
+![](https://cdn.mathpix.com/snip/images/UlQpYk8qrj_5Y8XNAaNCm4MTu0F4Dc2QhWMIrblp0Fs.original.fullsize.png)
+
+发生的是上图的事情
+

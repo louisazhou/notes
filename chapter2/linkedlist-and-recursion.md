@@ -354,6 +354,14 @@ ll.addAtHead\(1\) 等价于MyLinkedList.addAtHead\(ll, 3\)
 
 ![](https://cdn.mathpix.com/snip/images/nVjhoatUKUkljHRr-mYgMKpttW3daBY9MVm-D_NOiVQ.original.fullsize.png)
 
+什么时候用list？
+
+想要O\(1\)获取value
+
+什么时候linkedlist
+
+想要O\(1\)remove，delete，add
+
 ## 题
 
 ### Remove all vowels in a linked list

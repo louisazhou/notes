@@ -62,7 +62,7 @@ scores = [90, 80, 1, 59]
 print(scores[skills.index('Coding')])
 ```
 
-用dic就是这样的效果 {key:value} key必须unique，但是value
+用dic就是这样的效果 {key:value} key必须unique，但是value可以是任意一个东西
 
 ```python
 score_dict = {'ML': 90, 'Stat': 80, 'Coding': 1, 'Business': 59} # create a dictionary
@@ -74,14 +74,46 @@ for skill in score_dict.values():
   print(skill)
 ```
 
-不想看那些warnings
+13. 不想看那些warnings
 
 ```python
 import warnings
 warnings.filterwarnings('ignore')
 ```
 
-numpy的random seed和python的random seed不是一个东西，所以 random.seed = xxx 和np.random.seed=xxx 也是两个东西
+14. numpy的random seed和python的random seed不是一个东西，所以 random.seed = xxx 和np.random.seed=xxx 也是两个东西
 
+15. \t \n \r 这些C语言的东西在Python里照样能用，\t可以自动对齐
 
+16. 在Python中使用非ASICC字符，比如 中文
+
+```python
+#!usr/bin/python
+# -*- coding: UTF-8 -*-
+print "现在可以中文了"
+```
+
+17. Python的list支持各种类型，也支持混着，所以使用的时候要留意判断
+
+18. remove list by index 用的是del; O\(n\)的操作，因为后面的要往左移，但是假如本来要删除的就是最后一个，那O\(1\)
+
+而list.remove\(\) 是remove by value，而且是删除第一个出现的，O\(n\)的操作
+
+```python
+del list[1]
+list.remove(1)
+```
+
+19. 看懂python doc  
+- \[, xxx\]代表变量可忽略
+
+\*arg 代编不确定个数的参数，进入函数之后是一个tuple
+
+\*\*args 更灵活，通过var\_name=var\_value调用，进入函数后是dict
+
+[链接](https://stackoverflow.com/questions/400739/what-does-asterisk-mean-in-python)
+
+20. 在函数括号传的值里可以放default value，在没有值传进来的时候就用default，有值传进来的时候就用传入的值
+
+21. 在python2里 range\(\)占O\(n\)的空间，xrange\(\)占O\(1\)的空间 
 
