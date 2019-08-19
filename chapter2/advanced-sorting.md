@@ -32,7 +32,7 @@ def merge(array1, array2):
 
 Time: O\(n\)
 
-Space: O\(n\)
+Space: O\(1\)
 
 ```python
 def merge_sort(array):
@@ -40,21 +40,27 @@ def merge_sort(array):
         return array
     
     mid = len(array)/2
-    left = merge_sort(array[:middle])
-    right = merge_sort(array[middle:])
+    left = merge_sort(array[:middle])   #O(n)
+    right = merge_sort(array[middle:])  #O(n)
     
     return merge(left, right)
 ```
 
 每一层merge的时间复杂度是O\(n\) 一共有h=logn层，所以总的时间复杂度是nlogn
 
-空间复杂度 call stack: logn 再加merge的空间消耗n 所以总的空间复杂度是O\(n\)
+空间复杂度 call stack: logn 再加merge的空间消耗n 所以总的空间复杂度是O\(n\) 不过假如说我们传index但是不slicing，就是O\(logn\)
 
 ## Quick Sort 快排
 
 {% embed url="https://www.hackerearth.com/zh/practice/algorithms/sorting/quick-sort/visualize/" %}
 
 store index是一个隔板，左边都是比pivot小的，右边都是比pivot大的。所以一开始store index是从0开始移动
+
+（..., store\_index）: &lt;pivot
+
+\[store\_index, i\): &gt;pivot
+
+\[i,...\) unknown
 
 ```python
 def partition (lst, start, end, pivot_index):

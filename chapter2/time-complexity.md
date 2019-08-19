@@ -22,7 +22,7 @@ idea 2：CPU cycle （number of instructions the CPU needs to operate\)
 
 
 
-
+Fibonacci 数列的时间复杂度是O\( $$2^{n}$$ \)
 
 ## Space Complexity 
 
