@@ -60,6 +60,26 @@ store index是一个隔板，左边都是比pivot小的，右边都是比pivot�
 def partition (lst, start, end, pivot_index):
     lst[pivot_index], lst[end] = lst[end], lst[pivot_index]
     store_index = start
-    pivot =  
+    pivot = lst[end]
+    for i in range (start, end):
+        if lst[i]<pivot:
+            lst[i], lst[store_index] = lst[store_index], lst[i]
+            store_index+=1
+    lst[store_index],lst[end]=lst[end], lst[store_index]
+    return store_index
+    
+from random import randrange
+
+def quick_sort(lst, start, end):
+    if start>=end:
+        return 
+    pivot_index = randrange(start, end+1)
+    new_pivot_index = partition(lst, start, end, pivot_index)
+    quick_sort(lst, start, new_pivot_index-1)
+    quick_sort(lst, new_pivot_index+1, end)
 ```
+
+Time: On average O\(nlogn\) 最坏的情况是有序的，每次的pivot都选的特别差, worst case O\( $$n^{2}$$ \)    所以我们需要randrange
+
+Space: O\(logn\) worse case  O\(n\)
 
