@@ -117,3 +117,17 @@ list.remove(1)
 
 21. 在python2里 range\(\)占O\(n\)的空间，xrange\(\)占O\(1\)的空间 
 
+22. 如果有一些column在打印的时候被...了 想看到全部，用
+
+```python
+np.set_printoptions(threshold = np.nan) 
+```
+
+23. 针对整个Jupiter notebook的打印格式，可以用
+
+```python
+pd.set_option('display.float_format', lambda x: '%.3f' % x)
+```
+
+
+

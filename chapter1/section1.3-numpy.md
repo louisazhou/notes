@@ -158,7 +158,7 @@ print(np.random.choice(['a', 'e', 'i', 'o', 'u'], size=10, p=[0.3, .1, 0.1, 0.4,
 print(np.random.choice(np.arange(100),size=[10,3],replace=True)) # get 10x3 random samples from [0-99] with replacement 
 ```
 
-也可以用np手动做train test split，比如
+也可以用np手动做train test split
 
 np.set\_printoptions\(threshold = np.nan\) 可以让numpy显示出来所有中间那些被隐藏掉的elements。
 

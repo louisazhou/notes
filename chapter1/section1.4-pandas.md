@@ -70,7 +70,7 @@ df2 = pd.read_csv(io.BytesIO(uploaded['uk_rain_2014.csv']))
 df2.head()
 ```
 
-如果是jupyter notebook在本地读就很简单，pd.read\_csv\("../data\_folder/data.csv"\)就行
+如果是jupyter notebook在本地读就很简单，pd.read\_csv\("../data\_folder/data.csv"\) 或者pd.read\_table\("xx.txt", sep=',' , header=0\)就行
 
 
 
@@ -84,40 +84,67 @@ files.download('df.csv')
 
 ## 各种数据查看和预处理
 
-一键改dataframe column的名字
+### Data Exploration 
+
+1. 一键改dataframe column的名字
 
 ```python
 df_uk_rain.columns = ['water_year','rain_octsep', 'outflow_octsep',
               'rain_decfeb', 'outflow_decfeb', 'rain_junaug', 'outflow_junaug']
 ```
 
-看头、看尾
+2. 看头、看尾
 
 ```python
 df_uk_rain.head(10)
 df_uk_rain.tail()
 ```
 
-看data type、有几行之类的基本信息
+3. 看data type、有几行之类的基本信息
 
 ```text
 df.info()
 ```
 
-如果想看平均值、std、25%、50%之类的，用的
+或者简单粗暴直接打印
+
+```python
+print ('Number of rows: ' + str(TV.shape[0]))
+print ('Number of columns: ' + str(TV.shape[1]))
+```
+
+4. 如果想看平均值、std、25%、50%之类的，用的
 
 ```text
 df_iris.describe()
 ```
 
-看各种现成生成好的柱状图
+还可以对这个describe做更多定义，比如只打印某几个column，打印10%, 25% 50% 75% 95%分位
+
+```python
+print (TV.drop(['video_id', 'release_year'],axis=1).describe(percentiles = [.1, .25, .5, .75, .95]))
+```
+
+5. 打出每个column有多少数值是0
+
+```python
+print ((TV == 0).sum())
+```
+
+如果想知道每个column的categorical feature有几种不同的，分别有多少个，可以用
+
+```python
+print (TV['import_id'].value_counts().reset_index())
+```
+
+6. 看各种现成生成好的柱状图
 
 ```python
 import pandas_profiling
 pandas_profiling.ProfileReport(df)
 ```
 
-看distribution 用sns.distplot
+7. 看distribution 用sns.distplot
 
 ```python
 %matplotlib inline
@@ -127,9 +154,22 @@ import seaborn as sns
 sns.distplot(churn_df['total_intl_charge'])
 ```
 
-看correlation
+或者也可用matplotlib的hist，可以规定bin的区间、每个bin的宽度
 
-1. corr = df\[\[\]\].corr\(\)       sns.heatmap\(corr\)
+```python
+plt.hist(TV['cvt_per_day'].values, bins = range(0,15000, 30), alpha = 0.5, color='r', label = 'cvt_per_day', normed = True)
+plt.legend(loc ='upper right')
+plt.title('Historgrams of cvt_per_day before data processing')
+plt.xlabel('cvt_per_day')
+plt.ylabel('density')
+plt.show()
+```
+
+上面的操作其实也可以画log relation，只要在第一行的括号里加一句log=True
+
+8. 看correlation
+
+1. corr = df\[\[\]\].corr\(\)       sns.heatmap\(corr, cmap = "YlGnBu"\)
 2. 两元素之间的pearsonr相关系数
 
 ```python
@@ -179,6 +219,13 @@ def iqr_outlier_rm(dt_input):
   
 dt_outlier_ws=iqr_outlier_rm(dt_outlier)
 sns.boxplot(dt_outlier_ws,orient='v')
+```
+
+也可以用sns的stripplot画散点图，
+
+```python
+sns.stripplot(x='import_id', y='cvt_per_day', data=TV, jitter=True)
+plt.show()
 ```
 
 ### Missing Value

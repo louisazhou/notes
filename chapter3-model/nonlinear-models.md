@@ -133,6 +133,8 @@ CART \(Classification and Regression Tree\): Gini Impurity
 
 简单来说，就是去掉一个feature，然后给这一列输入各种随机变量，看没有了这个feature之后新模型的表现如何，这个performance的差值就体现了这个feature的重要性。按理来说，所有feature的importance都应该是个正数，否则就意味着'it's worse than randomness', 它的存在只是在捣乱，很明显就不合理了。
 
+另一种理解方式是，这个importance是“在分叉时以某个feature作为主干分叉的概率“
+
 $$
 \text {importance}(\text {feature } i)=\text {performance}(R F)-\text {performance}\left(R F^{(\text {random } i)}\right)
 $$

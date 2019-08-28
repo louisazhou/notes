@@ -57,11 +57,9 @@ print('test data has %d observation with %d features'% X_test.shape)
 
 fit transform 的mean和std拿到test上去用，但是不让train看到test里的值
 
-standardization的目的是让数据在 \(x-xmean\)/\(xmax-xmin\)
+standardization，比如minmax scaling， \(x-xmean\)/\(xmax-xmin\)，目的是让数据在 （-1，1）
 
-normalization的目的是（0，1）
-
-standardization的目的
+normalization的目的是（x-u）/sd, 数据在（0，1）
 
 1. 加速gradient descent
 2. 把数据放在同一个scale里，让数据之间可以被比较，否则不同的feature会造成不同的影响
@@ -72,6 +70,8 @@ scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 ```
+
+在实际做OA时一定要standardize，因为L1L2的系数，penalize的就不同
 
 ## Classification Problem 
 
