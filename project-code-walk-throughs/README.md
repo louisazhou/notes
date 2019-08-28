@@ -29,13 +29,80 @@ churn_feat_space[yes_no_cols] = churn_feat_space[yes_no_cols] == 'yes'
 
 ## Encoding Method
 
+### get\_dummies\(\)函数
+
 在这里有各种[encoding methods](https://github.com/scikit-learn-contrib/categorical-encoding) 最简单的其实就是.get\_dummies\(\)这个函数
 
 ```python
-churn_feat_space = pd.get_dummies(churn_feat_space, columns=['state'])
+pandas.get_dummies(data, prefix=None, prefix_sep='_', dummy_na=False, columns=None, sparse=False, drop_first=False)
 ```
 
-在这个函数里有一个drop\_first，其实是k-1个列就能表示k种情况，比如红蓝黄三种花，只需要2个column \[1,0\], \[0,1\], \[0,0\]
+drop\_first: 其实是k-1个列就能表示k种情况，比如红蓝黄三种花，只需要2个column \[1,0\], \[0,1\], \[0,0\]
+
+prefix : 转换后，列名的前缀
+
+dummy\_na : 增加一列表示空缺值，如果False就忽略空缺值
+
+### 多个categorical feature在一列
+
+如果一个column里一下放了好多个不同的categorical feature，想把它们提出来做encoding，这样可以提出来，画个图看一下每种里的数量
+
+```python
+gen_split = TV['genres'].str.get_dummies(sep=',').sum()
+gen_split.sort_values(ascending=False).plot.bar()
+```
+
+可以用两种方式做encode，然后再merge back
+
+具体看[这个链接](http://contrib.scikit-learn.org/categorical-encoding/)
+
+{% code-tabs %}
+{% code-tabs-item title="方式一" %}
+```python
+cleaned = df.set_index('video_id').genres.str.split(','), expand = True).stack()
+cleaned = pd.get_dummies(cleaned, prefix = 'g').groupby(level=0).sum()
+
+df = pd.merge(df, cleaned, on='video_id')
+df.drop(['genres'], axis=1, inplace=True)
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+第二种方法更好读一点
+
+{% code-tabs %}
+{% code-tabs-item title="方法二" %}
+```python
+genre = df['genres'].str.get_dummies(sep=',')
+df = pd.merge(df.drop(columns=['genres'], genres, left_index=True, right_index=True, how='inner'))
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+如果有一些categorical feature实在太少，可以bin在一起，用\| 或就行，或者是concat函数
+
+```python
+d_genres['Misc_gen'] = d_genres['Anime']|d_genres['Reality']|d_genres['Lifestyle']|d_genres['Adult']|d_genres['LGBT']|d_genres['Holiday']
+d_genres.drop(['Anime', 'Reality','Lifestyle', 'Adult','LGBT','Holiday'], inplace=True, axis=1)
+```
+
+```python
+newTV = pd.concat([TV_temp, d_import_id, d_mpaa, d_awards, d_genres, d_year], axis=1)
+```
+
+### 年份的处理
+
+如果是时间序列或者有年份的column，可以以10%~90%的percentile来bin年份为一个个bucket，最后把年份区间作为categorical feature做one-hot encoding。
+
+用到的是cut这个函数，取前不取后
+
+```python
+bin_year = [1916, 1974, 1991, 2001, 2006, 2008, 2010, 2012, 2013, 2014,2017]
+year_range = ['1916-1974', '1974-1991', '1991-2001', '2001-2006','2006-2008','2008-2010','2010-2012','2012-2013',
+              '2013-2014','2014-2017']
+year_bin = pd.cut(TV['release_year'], bin_year, labels=year_range)
+d_year = pd.get_dummies(year_bin).astype(np.int64)
+```
 
 ## Train\_Test Split
 
@@ -57,9 +124,11 @@ print('test data has %d observation with %d features'% X_test.shape)
 
 fit transform 的mean和std拿到test上去用，但是不让train看到test里的值
 
-standardization，比如minmax scaling， \(x-xmean\)/\(xmax-xmin\)，目的是让数据在 （-1，1）
+standardization，目的是让数据在 （-1，1）（x-u）/sd, 对原始数据进行缩放处理，限制在一定的范围内。一般指正态化，即均值为0，方差为1。即使数据不符合正态分布，也可以采用这种方式方法，标准化后的数据有正有负。
 
-normalization的目的是（x-u）/sd, 数据在（0，1）
+normalization的目的是数据在（0，1）比如minmax scaling， \(x-xmean\)/\(xmax-xmin\)
+
+这么做的目的是
 
 1. 加速gradient descent
 2. 把数据放在同一个scale里，让数据之间可以被比较，否则不同的feature会造成不同的影响
@@ -71,7 +140,9 @@ X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 ```
 
-在实际做OA时一定要standardize，因为L1L2的系数，penalize的就不同
+在实际做OA时一定要standardize，因为L1L2的系数，penalize的就不同 除了上面的standardscaler外，还有minmaxscalar、robustscalar
+
+
 
 ## Classification Problem 
 

@@ -123,6 +123,12 @@ list.remove(1)
 np.set_printoptions(threshold = np.nan) 
 ```
 
+或者用
+
+```text
+display.max_columns
+```
+
 23. 针对整个Jupiter notebook的打印格式，可以用
 
 ```python

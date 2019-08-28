@@ -144,6 +144,8 @@ import pandas_profiling
 pandas_profiling.ProfileReport(df)
 ```
 
+或者还有一个df.hist\(\)也可以画一个histogram来看一下大致分布
+
 7. 看distribution 用sns.distplot
 
 ```python
@@ -169,7 +171,7 @@ plt.show()
 
 8. 看correlation
 
-1. corr = df\[\[\]\].corr\(\)       sns.heatmap\(corr, cmap = "YlGnBu"\)
+1. corr = df\[\[\]\].corr\(\)       sns.heatmap\(corr, cmap = "YlGnBu", annot= True\)
 2. 两元素之间的pearsonr相关系数
 
 ```python
@@ -251,7 +253,11 @@ df.isnull().any(axis=1) # check if there is a NaN in a row
 df.isnull().any(axis=0) # check if there is a NaN in a column
 ```
 
+还有些时候NA是0，那就用replace\(\)把0替换掉就行
 
+```python
+newTV[['budget','boxoffice','metacritic_score', 'star_category','imdb_votes', 'imdb_rating']] = newTV[['budget','boxoffice','metacritic_score', 'star_category','imdb_votes', 'imdb_rating']].replace(0, np.nan)
+```
 
 #### 用什么填充
 
@@ -267,9 +273,9 @@ df.isnull().any(axis=0) # check if there is a NaN in a column
 
 按照gender groupby一下，给gender的平均值
 
-`df["postMLScore"].fillna(df.groupby("gender")["postMLScore"].transform("mean"), inplace=True)` 
-
-
+```python
+df["postMLScore"].fillna(df.groupby("gender")["postMLScore"].transform("mean"), inplace=True) 
+```
 
 **Predictive Model**
 
