@@ -1,3 +1,7 @@
+---
+description: 队列，先进先出； deque，双向队列
+---
+
 # Queue
 
 队列是线性结构，First in First out policy. 
@@ -37,7 +41,37 @@ backed by singly linkedlist
 
 ```python
 class _ListNode(object):
-
+    def __init__(self, value):
+        self.next = None
+        self.value = value
+class Queue(object):
+    def __init__(self):
+        self.size = 0
+        self._head, self._tail = None, None
+    def __len__(self):
+        return self._size
+    def empty(self):
+        return self._size == 0
+    def enqueue(self, value):
+        if not self.empty():
+            self._tail.next = ListNode(value)
+            self._tail = self._tail.next
+        else:
+            self._head = self._tail = ListNode(value)
+        self._size += 1
+    def dequeue(self):
+        if self.empty():
+            return None
+        value = self._head.value
+        self._head = self._head.next
+        if not self._head:
+            self._tail = None
+        self._size -= 1
+        return value
+    def front(self):
+        if self.empty():
+            return None
+        return self._head.value
 ```
 
  
@@ -84,7 +118,7 @@ class MovingAverage(object):
         self._sum+=value
         if len(self._nums)>self._max_size:
             self._sum-=self._nums.popleft()
-        return self._sum/len(self._nums)      #O(1)
+        return self._sum*1./len(self._nums)      #O(1)
 ```
 
 在工作中，data pipeline也会使用sliding window来存值，就像是在做down sampling，就可以存一个统计意义上更小的数据集。

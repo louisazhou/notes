@@ -41,7 +41,28 @@ def isValid(seq):
 
 
 
-## 例题： 判断算术表达式
+## 例题： 算术表达式 
+
+本质是遇到‘）‘后把之前存的数字和operator拿出来做个计算，push回stack，直到stack空为止
+
+```python
+import operator
+def arithmetic_expression_evaluation(terms):
+  operands=[]
+  operators=[]
+  ops = {'+': operator.add, '-': operator.sub, '*': operator.mul, '/': operator.truediv}
+  for term in terms:
+    if term == '(':
+      continue
+    elif term == ')':
+      right, left = operands.pop(), operator.pop()
+      operands.append(ops[operators.pop])(left, right))
+    elif term in ops:
+      operators.append(term)
+    else:
+      operands.append(int(term))
+  return operands[0]
+```
 
 
 
