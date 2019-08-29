@@ -135,5 +135,37 @@ display.max_columns
 pd.set_option('display.float_format', lambda x: '%.3f' % x)
 ```
 
+24. Python有个内置函数，enumerate\(\), 可以帮助遍历，它可以获取index和value
 
+```python
+list1 = ["1", "2", "3", "4"]
+for index, item in enumerate(list1):
+    print index, item
+>>>
+0 1
+1 2
+2 3
+3 4
+```
+
+enumerate还可以接收第二个参数，用于指定索引起始值
+
+```python
+list1 = ["1", "2", "3", "4"]
+for index, item in enumerate(list1, 1):
+    print index, item
+>>>
+1 1
+2 2
+3 3
+4 4
+```
+
+还可以用enumerate统计文件的行数
+
+```python
+ount = 0
+for index, line in enumerate(open(filepath,'r'))： 
+    count += 1
+```
 

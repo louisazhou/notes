@@ -176,6 +176,184 @@ classifier_logistic.predict(X_test)
 classifier_logistic.score(X_test, y_test)
 ```
 
+## Regression Problem
+
+先用linear regression作为base model，在这里不一定非要用最简单的LR，可以直接上lasso和ridge，因为LR可以被认为是lambda=0时的lasso或者ridge。
+
+### Linear Regression
+
+这里也涉及到调参，选择最优的lambda，可以画图来找 在下面的code中，x轴是lambda分之一的值，取值区间用了log space的150个点，因为这就能让前面的点相对密集，后面的点相对稀疏，更方便找到max（经验之谈）。
+
+```python
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression, Lasso, Ridge
+from sklearn.metrics import mean_squared_error, r2_score
+from math import sqrt
+
+lr_train, lr_validate = train_test_split(model_train, test_size=0.15, random_state = 0)
+
+lr_train_x = lr_train.drop(['video_id', 'cvt_per_day'], axis = 1)
+lr_validate_x = lr_validate.drop(['video_id', 'cvt_per_day'], axis = 1)
+lr_train_y = lr_train['cvt_per_day']
+lr_validate_y = lr_validate['cvt_per_day']
+
+alphas = np.logspace (-0.3, 2.5, num=150)
+# alphas= [0.000000001]
+scores = np.empty_like(alphas)
+opt_a = float('-inf')
+max_score = float('-inf')
+for i, a in enumerate(alphas):
+    lasso = Lasso()
+    lasso.set_params(alpha = a)
+    lasso.fit(lr_train_x, lr_train_y)
+    scores[i] = lasso.score(lr_validate_x, lr_validate_y)
+    if scores[i] > max_score:
+        max_score = scores[i]
+        opt_a = a
+        lasso_save = lasso
+plt.plot(alphas, scores, color='b', linestyle='dashed', marker='o',markerfacecolor='blue', markersize=6)
+plt.xlabel('alpha')
+plt.ylabel('score')
+plt.grid(True)
+plt.title('score vs. alpha')
+plt.show()
+print ('The optimaized alpha and score of Lasso linear is: ', opt_a, max_score)
+```
+
+然后train
+
+```python
+# combine the validate data and training data, use the optimal alpha, re-train the model
+lasso_f = Lasso()
+lasso_f.set_params(alpha = opt_a)
+lasso_f.fit(model_train_x, model_train_y)
+
+# lasso_f is the Lasso model (linear feature), to be tested with final test data.
+```
+
+### 带Polynomial feature的LR
+
+```python
+from sklearn.preprocessing import PolynomialFeatures
+
+poly = PolynomialFeatures(2)
+
+lr_train, lr_validate = train_test_split(model_train, test_size=0.15, random_state = 0)
+
+lr_train_x = lr_train.drop(['video_id', 'cvt_per_day'], axis = 1)
+lr_validate_x = lr_validate.drop(['video_id', 'cvt_per_day'], axis = 1)
+
+lr_train_xp = poly.fit_transform(lr_train_x)
+lr_validate_xp = poly.fit_transform(lr_validate_x)
+lr_train_y = lr_train['cvt_per_day']
+lr_validate_y = lr_validate['cvt_per_day']
+
+# lr_train_xp = pd.DataFrame(data=lr_train_xp, index=data[:], columns=data[0,1:]) 
+
+alphas = np.logspace (-2.6, 2.5, num=80)
+# alphas= [1]
+scores = np.empty_like(alphas)
+opt_a = float('-inf')
+max_score = float('-inf')
+for i, a in enumerate(alphas):
+    lasso = Lasso()
+    lasso.set_params(alpha = a)
+    lasso.fit(lr_train_xp, lr_train_y)
+    scores[i] = lasso.score(lr_validate_xp, lr_validate_y)
+    if scores[i] > max_score:
+        max_score = scores[i]
+        opt_a = a
+        lasso_save = lasso
+        
+plt.plot(alphas, scores, color='b', linestyle='dashed', marker='o',markerfacecolor='blue', markersize=6)
+plt.xlabel('alpha')
+plt.ylabel('score')
+plt.grid(True)
+plt.title('score vs. alpha')
+plt.show()
+print ('The optimaized alpha and score of Lasso polynomial is: ', opt_a, max_score)
+
+# combine the validate data and training data, use the optimal alpha, re-train the model
+lr_train_xp1 = poly.fit_transform(model_train_x)
+
+lasso_fp = Lasso()
+lasso_fp.set_params(alpha = opt_a)
+lasso_fp.fit(lr_train_xp1, model_train_y)
+
+# lasso_fp is the Lasso model (polynomial feature), to be tested with test data.
+```
+
+然后train
+
+```python
+# combine the validate data and training data, use the optimal alpha, re-train the model
+lr_train_xp1 = poly.fit_transform(model_train_x)
+
+lasso_fp = Lasso()
+lasso_fp.set_params(alpha = opt_a)
+lasso_fp.fit(lr_train_xp1, model_train_y)
+
+# lasso_fp is the Lasso model (polynomial feature), to be tested with test data.
+```
+
+ridge也是同理
+
+### Non-Linear Model: Random Forest
+
+```python
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.cross_validation import cross_val_score
+from sklearn.model_selection import cross_validate
+# from sklearn.grid_search import GridSearchCV
+from sklearn.model_selection import GridSearchCV
+
+rf_train, rf_test = train_test_split(model_train, test_size=0.15, random_state = 0)
+
+rf_train_x = rf_train.drop(['video_id', 'cvt_per_day'], axis = 1)
+rf_test_x = rf_test.drop(['video_id', 'cvt_per_day'], axis = 1)
+rf_train_y = rf_train['cvt_per_day']
+rf_test_y = rf_test['cvt_per_day']
+
+param_grid = {
+                 'n_estimators': [54, 55, 56, 57, 58, 59, 60, 62],
+                 'max_depth': [12, 13, 14, 15, 16, 17]
+             }
+
+rf = RandomForestRegressor(random_state=2, max_features = 'sqrt')
+grid_rf = GridSearchCV(rf, param_grid, cv=5)
+grid_rf.fit(rf_train_x, rf_train_y)
+```
+
+最后出来的这个grid\_rf下有一个非常重要的best\_params\_，能输出最佳的hyper parameter数值
+
+```text
+grid_rf.best_params_
+```
+
+另外，还有一个重要的结果是cv\_results\_下的内容，其中有一个'mean\_test\_score'记录了test scores，可以在图上画出来，找最高点
+
+```python
+# plot the effect of different number of trees and maximum tree-depth druing cross validation 
+scores = grid_rf.cv_results_['mean_test_score']
+
+n_est = [54, 55, 56, 57, 58, 59, 60, 62]
+m_depth=[12, 13, 14, 15, 16, 17]
+scores = np.array(scores).reshape(len(m_depth), len(n_est))
+fig = plt.figure()
+ax = plt.subplot(111)
+for ind, i in enumerate(m_depth):
+    plt.plot(n_est, scores[ind], '-o', label='M Depth' + str(i),)
+    
+ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+plt.xlabel('N Trees')
+plt.ylabel('Mean Scores')
+plt.grid(True)
+plt.show()
+# savefig('rf_1')
+```
+
+
+
 ## Cross Validation 
 
 ```python
