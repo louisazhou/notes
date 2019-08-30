@@ -1,4 +1,4 @@
-# Chapter9 E Commerce
+# E Commerce
 
 ## SEO - Search Engine Optimization
 

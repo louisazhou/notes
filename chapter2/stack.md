@@ -4,6 +4,10 @@ Last in First Out
 
 list就是一个天然的stack，不需要单独定义class。
 
+push 
+
+pop
+
 ## 例题：括号匹配
 
 ```python
@@ -64,5 +68,5 @@ def arithmetic_expression_evaluation(terms):
   return operands[0]
 ```
 
-
+## 例题：946 Validate Stack Sequences
 

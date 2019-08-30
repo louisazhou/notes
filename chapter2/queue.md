@@ -6,6 +6,10 @@ description: 队列，先进先出； deque，双向队列
 
 队列是线性结构，First in First out policy. 
 
+enque 
+
+deque
+
 ## Interface
 
 backed by list
