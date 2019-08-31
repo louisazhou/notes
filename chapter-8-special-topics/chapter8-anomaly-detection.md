@@ -112,6 +112,34 @@ Statistical-based, distance based, density based, and cluster based outlier dete
 
 
 
+## Brainstorm Features for Fraud Detection
+
+**Transaction attributes** 
+
+> Country, ****state, zip, address, name, emaiI ip 
+>
+> Auth results\(phone/address match\) 
+>
+> Amount 
+>
+> Product type 
+>
+> Hour of day
+
+**Device Fingerprints** 
+
+VPN, browser, device, app
+
+**Linkage features**
+
+\# of sign in or out
+
+**Time Based aggregation** 
+
+amount in the last \*\* by \*\*
+
+**Other info**
+
 ## Imbalanced Dataset 处理方法
 
 ### Resampling 重新采样
@@ -184,6 +212,9 @@ $$
 from skleam.utils.class_weight import compute_class_weight 
 
 class_weights=compute_class_weight('balanced', np.unique(y), y)
+
+# 'balanced'用n_samples/(n_classes*np,bincount(y))
+# None 意味着所有label的权重都是1（original）
 ```
 
 ### 人工数据样本 SMOTE
@@ -199,6 +230,21 @@ Synthetic minority sampling technique\(SMOTE\): downsamples the majority class a
 
 
 另外SMOTE可以和RF叠加使用
+
+```python
+# pip install -U imbalanced-learn
+from imblearn.over_sampling import SMOTE
+
+#oversampling on only the training data, the right way! 
+#sampling_strategy = number of samples in the majority class over the number of samples in the minority class after resampling
+
+smote = SMOTE(random_state=12)
+x_train_sm, y_train_sm = smote.fit_sample(X_train, y_train)
+
+unique, counts = np.unique(y_train_sm, return_counts=True)
+
+print np.asarray((unique, counts)).T
+```
 
 ### 尝试使用Decision Tree
 

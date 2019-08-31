@@ -140,6 +140,8 @@ print (TV['import_id'].value_counts().reset_index())
 6. 看各种现成生成好的柱状图
 
 ```python
+# pip install pandas-profiling
+
 import pandas_profiling
 pandas_profiling.ProfileReport(df)
 ```
@@ -490,6 +492,12 @@ print(df.applymap(lambda x: x**2))
 
 ```python
 churn_df['voice_mail_plan'] = churn_df['voice_mail_plan'].map(lambda x: x.strip())
+```
+
+再比如，把device\_ip的column替换成这个id出现的次数（简易版feature encoding）
+
+```python
+X_train['n_dev_shared'] = X_train.device_id.map(X_train.device_id.value_counts(dropna=False))
 ```
 
 ### DateTime

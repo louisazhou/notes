@@ -27,6 +27,12 @@ yes_no_cols = ["intl_plan","voice_mail_plan"]
 churn_feat_space[yes_no_cols] = churn_feat_space[yes_no_cols] == 'yes'
 ```
 
+## Gender转换成1/0
+
+```python
+X_train['sex'] = (X_train.sex == 'M').astype(int)
+```
+
 ## Encoding Method
 
 ### get\_dummies\(\)函数
@@ -90,6 +96,12 @@ d_genres.drop(['Anime', 'Reality','Lifestyle', 'Adult','LGBT','Holiday'], inplac
 newTV = pd.concat([TV_temp, d_import_id, d_mpaa, d_awards, d_genres, d_year], axis=1)
 ```
 
+如果有很多个feature（比如国家，200个），那么可以用frequency作为encoder（简易版的target encoding）。
+
+```python
+X_train['n_country_shared'] = X_train.country.map(X_train.country.value_counts(dropna=False))
+```
+
 ### 年份的处理
 
 如果是时间序列或者有年份的column，可以以10%~90%的percentile来bin年份为一个个bucket，最后把年份区间作为categorical feature做one-hot encoding。
@@ -107,6 +119,8 @@ d_year = pd.get_dummies(year_bin).astype(np.int64)
 ## Train\_Test Split
 
 注意如果data是unbalanced，可能在split的时候没有平均的分，所以在这个函数里有一个stratify选择true
+
+另外如果面对“Train-Test Split“, "One Hot Encode", "SMOTE"等feature engineering的选项，第一个需要做的事一定是Train Test Split, 这样才不会让model偷看到Test的数据。
 
 ```python
 from sklearn import model_selection
@@ -142,7 +156,11 @@ X_test = scaler.transform(X_test)
 
 在实际做OA时一定要standardize，因为L1L2的系数，penalize的就不同 除了上面的standardscaler外，还有minmaxscalar、robustscalar
 
-
+```python
+scaler = preprocessing.MinMaxScaler().fit(X_train[['n_dev_shared', 'n_ip_shared', 'n_country_shared']])
+X_train[['n_dev_shared', 'n_ip_shared', 'n_country_shared']] = scaler.transform(X_train[['n_dev_shared', 'n_ip_shared', 'n_country_shared']])
+X_test[['n_dev_shared', 'n_ip_shared', 'n_country_shared']] = scaler.transform(X_test[['n_dev_shared', 'n_ip_shared', 'n_country_shared']]) 
+```
 
 ## Classification Problem 
 
@@ -217,6 +235,8 @@ def print_grid_search_metrics(gs):
         print("\t%s: %r" % (param_name, best_parameters[param_name]))
 ```
 
+
+
 ### Logistic Regression Hyperparameter 
 
 C： inverse of lambda 
@@ -232,6 +252,8 @@ parameters = {
 Grid_LR = GridSearchCV(LogisticRegression(),parameters, cv=5)
 Grid_LR.fit(X_train, y_train)
 best_LR_model = Grid_LR.best_estimator_
+
+print_grid_search_metrics(Grid_LR)
 ```
 
 ### KNN
@@ -245,6 +267,8 @@ parameters = {
 }
 Grid_KNN = GridSearchCV(KNeighborsClassifier(),parameters, cv=5)
 Grid_KNN.fit(X_train, y_train)
+
+print_grid_search_metrics(Grid_KNN)
 ```
 
 ### Random Forest
@@ -258,6 +282,102 @@ parameters = {
 Grid_RF = GridSearchCV(RandomForestClassifier(),parameters, cv=5)
 Grid_RF.fit(X_train, y_train)
 best_RF_model = Grid_RF.best_estimator_
+
+print_grid_search_metrics(Grid_RF)
+```
+
+
+
+还可以写个wrapper，根据不同的scorer来筛选model
+
+```python
+scorers = {
+    'precision_score': make_scorer(precision_score),
+    'recall_score': make_scorer(recall_score),
+    'f1_score': make_scorer(f1_score, pos_label=1)
+}
+```
+
+```python
+def grid_search_wrapper(model, parameters, refit_score='f1_score'):
+    """
+    fits a GridSearchCV classifier using refit_score for optimization(refit on the best model according to refit_score)
+    prints classifier performance metrics
+    """
+#     skf = StratifiedKFold(n_splits=10)
+#     grid_search = GridSearchCV(clf, param_grid, scoring=scorers, refit=refit_score,
+#                            cv=skf, return_train_score=True, n_jobs=-1)
+    grid_search = GridSearchCV(model, parameters, scoring=scorers, refit=refit_score,
+                           cv=3, return_train_score=True, n_jobs=-1)
+    grid_search.fit(X_train, y_train)
+
+    # make the predictions
+    y_pred = grid_search.predict(X_test)
+    y_prob = grid_search.predict_proba(X_test)[:, 1]
+    
+    print('Best params for {}'.format(refit_score))
+    print(grid_search.best_params_)
+
+    # confusion matrix on the test data.
+    print('\nConfusion matrix of Random Forest optimized for {} on the test data:'.format(refit_score))
+    cm = confusion_matrix(y_test, y_pred)
+    cmDF = pd.DataFrame(cm, columns=['pred_0', 'pred_1'], index=['true_0', 'true_1'])
+    print(cmDF)
+    
+    print("\t%s: %r" % ("roc_auc_score is: ", roc_auc_score(y_test, y_prob)))
+    print("\t%s: %r" % ("f1_score is: ", f1_score(y_test, y_pred)))#string to int
+
+    print 'recall = ', float(cm[1,1]) / (cm[1,0] + cm[1,1])
+    print 'precision = ', float(cm[1,1]) / (cm[1, 1] + cm[0,1])
+
+    return grid_search
+```
+
+比如 
+
+### Optimize F1 Score on LR
+
+```python
+# C: inverse of regularization strength, smaller values specify stronger regularization
+LRGrid = {"C" : np.logspace(-2,2,5), "penalty":["l1","l2"]}# l1 lasso l2 ridge
+#param_grid = {'C': [0.01, 0.1, 1, 10, 100], 'penalty': ['l1', 'l2']}
+logRegModel = LogisticRegression(random_state=0)
+
+grid_search_LR_f1 = grid_search_wrapper(logRegModel, LRGrid, refit_score='f1_score')
+```
+
+### Optimize F1 Score on RF
+
+```python
+parameters = {        
+'max_depth': [None, 5, 15],
+'n_estimators' :  [10,150],
+'class_weight' : [{0: 1, 1: w} for w in [0.2, 1, 100]]
+}
+
+clf = RandomForestClassifier(random_state=0)
+```
+
+```text
+grid_search_rf_f1 = grid_search_wrapper(clf, parameters, refit_score='f1_score')
+```
+
+```text
+best_rf_model_f1 = grid_search_rf_f1.best_estimator_
+```
+
+还可以把结果按照score sort了之后打印出来，precision, recall, f1等
+
+```python
+results_f1 = pd.DataFrame(grid_search_rf_f1.cv_results_)
+results_sortf1 = results_f1.sort_values(by='mean_test_f1_score', ascending=False)
+results_sortf1[['mean_test_precision_score', 'mean_test_recall_score', 'mean_test_f1_score', 'mean_train_precision_score', 'mean_train_recall_score', 'mean_train_f1_score','param_max_depth', 'param_class_weight', 'param_n_estimators']].round(3).head()
+```
+
+按照feature importance排序一下
+
+```python
+pd.DataFrame(best_rf_model_f1.feature_importances_, index = X_train.columns, columns=['importance']).sort_values('importance', ascending=False)
 ```
 
 ## Model Evaluation 
@@ -310,6 +430,14 @@ confusion_matrices = [
 ]
 
 draw_confusion_matrices(confusion_matrices)
+```
+
+还采用的做法是可以把cm转换成df打印出来
+
+```python
+cm = metrics.confusion_matrix(y_test, y_pred)
+cmDF = pd.DataFrame(cm, columns=['pred_0', 'pred_1'], index=['true_0', 'true_1'])
+print(cmDF)
 ```
 
 ### ROC
@@ -680,4 +808,89 @@ plt.show()
 在上面的code block里第三行的函数argsort，是numpy中的quicksort，可以沿着axis=0\(列）或者axis=1（行）排序，输出是从小到大的**索引** 如果想要获得从大到小，可以np.argsort\(-x\)，或者\[::-1\]
 
 第四行model\_test\_x.columns.get\_values\(\)可以方便地获取column的名字
+
+
+
+## Unsupervised Learning 
+
+### K-means clustering
+
+```python
+# k-means clustering
+from sklearn.cluster import KMeans
+
+# number of clusters
+num_clusters = 5
+km = KMeans(n_clusters=num_clusters)
+km.fit(tfidf_matrix)
+clusters = km.labels_.tolist()
+
+# create DataFrame films from all of the input files.
+films = { 'title': titles, 'rank': ranks, 'synopsis': synopses, 'cluster': clusters}
+frame = pd.DataFrame(films, index = [clusters] , columns = ['rank', 'title', 'cluster'])
+
+print ("Number of films included in each cluster:")
+frame['cluster'].value_counts().to_frame()
+
+print ("<Document clustering result by K-means>")
+
+#km.cluster_centers_ denotes the importances of each items in centroid.
+#We need to sort it in decreasing-order and get the top k items.
+order_centroids = km.cluster_centers_.argsort()[:, ::-1] 
+
+Cluster_keywords_summary = {}
+for i in range(num_clusters):
+    print ("Cluster " + str(i) + " words:", end='')
+    Cluster_keywords_summary[i] = []
+    for ind in order_centroids[i, :6]: #replace 6 with n words per cluster
+        Cluster_keywords_summary[i].append(vocab_frame_dict[tf_selected_words[ind]])
+        print (vocab_frame_dict[tf_selected_words[ind]] + ",", end='')
+    print ()
+    #Here ix means index, which is the clusterID of each item.
+    #Without tolist, the values result from dataframe is <type 'numpy.ndarray'>
+    cluster_movies = frame.ix[i]['title'].values.tolist()
+    print ("Cluster " + str(i) + " titles (" + str(len(cluster_movies)) + " movies): ")
+    print (", ".join(cluster_movies))
+    print ()
+```
+
+plot the result 
+
+```python
+# use pca to reduce dimensions to 2d for visibility, just want to see if there 2d can give us some insights
+# this is not an appropriate method, just a guess.
+pca = decomposition.PCA(n_components=2)
+tfidf_matrix_np=tfidf_matrix.toarray()
+pca.fit(tfidf_matrix_np)
+X = pca.transform(tfidf_matrix_np)
+
+xs, ys = X[:, 0], X[:, 1]
+
+#set up colors per clusters using a dict
+cluster_colors = {0: '#1b9e77', 1: '#d95f02', 2: '#7570b3', 3: '#e7298a', 4: '#66a61e'}
+#set up cluster names using a dict
+cluster_names = {}
+for i in range(num_clusters):
+    cluster_names[i] = ", ".join(Cluster_keywords_summary[i])
+```
+
+```python
+# %matplotlib inline 
+
+#create data frame with PCA cluster results
+df = pd.DataFrame(dict(x=xs, y=ys, label=clusters, title=titles)) 
+groups = df.groupby(clusters)
+
+# set up plot
+fig, ax = plt.subplots(figsize=(16, 9))
+#Set color for each cluster/group
+for name, group in groups:
+    ax.plot(group.x, group.y, marker='o', linestyle='', ms=12, 
+            label=cluster_names[name], color=cluster_colors[name], 
+            mec='none')
+
+ax.legend(numpoints=1,loc=4)  #show legend with only 1 point, position is right bottom.
+
+plt.show() #show the plot
+```
 

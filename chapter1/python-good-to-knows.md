@@ -125,8 +125,8 @@ np.set_printoptions(threshold = np.nan)
 
 或者用
 
-```text
-display.max_columns
+```python
+pd.set_option('display.max_columns', 500)
 ```
 
 23. 针对整个Jupiter notebook的打印格式，可以用
