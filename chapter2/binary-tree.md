@@ -163,9 +163,47 @@ Space: O\(max\(len\(q\)\)\)
 
 > 面试题目 Suppose a tree is stored on the disk, and each node may have a large number of fan-out. We only have limited size of memory. How can we access the tree in level order?
 
-### Base Case不是None的例子
+### Leetcode 156 Binary Tree Upside Down
+
+Base Case不是None的例子
 
 Given a binary tree where all the right nodes are either leaf nodes with a sibling \(a left node that shares the same parent node\) or empty, flip it upside down and turn it into a tree where the original right nodes turned into left leaf nodes. Return the new root. 
 
+![](../.gitbook/assets/image%20%283%29.png)
 
+根变成了左孩子的右孩子（line8），根的左孩子变成了根，根的右孩子变成了左孩子的左孩子\(line 7\)
+
+这和linked list的题目，reverse a singly linked list有点像。
+
+1—&gt; 2 —&gt; 3 —&gt; 4 —&gt; None
+
+cur. next. next =cur \(line7&8\)
+
+cur.next = None \(line9&10\)
+
+那么对于这个tree来说，root.right=root.left root.left=root
+
+```python
+def upside_tree(root):
+    if not root:
+        return root
+    if not root.left and not root.right:
+        return root
+    left_tree = upside_tree(root.left)
+    root.left.left = root.right #根的右孩子变成了左孩子的左孩子
+    root.left.right = root #根变成了左孩子的右孩子
+    root.left = None
+    root.right = None
+    return left_tree
+```
+
+Time: O\(n\)
+
+Space: O\(h\)
+
+
+
+## 相关题目
+
+Leetcode 226 104 110 236 103 109
 
