@@ -42,7 +42,7 @@
 * [Chapter5 SQL](sql.md)
 * [Chapter6 Spark](spark.md)
 * [Chapter7 Project Code Walk-Throughs](project-code-walk-throughs.md)
-* [Chapter 8 Special Topics](chapter-8-special-topics/README.md)
+* [Chapter8 Special Topics](chapter-8-special-topics/README.md)
   * [Anomaly Detection](chapter-8-special-topics/chapter8-anomaly-detection.md)
   * [E Commerce](chapter-8-special-topics/chapter9-e-commerce.md)
   * [Supply Chain](chapter-8-special-topics/chapter10-supply-chain.md)

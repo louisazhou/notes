@@ -162,6 +162,8 @@ Time: O\(n\)
 Space: O\(max\(len\(q\)\)\)
 
 > 面试题目 Suppose a tree is stored on the disk, and each node may have a large number of fan-out. We only have limited size of memory. How can we access the tree in level order?
+>
+> 用preorder traversal模拟level order 假设root是2，在level=1的时候打印。
 
 ### Leetcode 156 Binary Tree Upside Down
 
@@ -169,7 +171,7 @@ Base Case不是None的例子
 
 Given a binary tree where all the right nodes are either leaf nodes with a sibling \(a left node that shares the same parent node\) or empty, flip it upside down and turn it into a tree where the original right nodes turned into left leaf nodes. Return the new root. 
 
-![](../.gitbook/assets/image%20%283%29.png)
+![](../.gitbook/assets/image%20%285%29.png)
 
 根变成了左孩子的右孩子（line8），根的左孩子变成了根，根的右孩子变成了左孩子的左孩子\(line 7\)
 
@@ -200,6 +202,90 @@ def upside_tree(root):
 Time: O\(n\)
 
 Space: O\(h\)
+
+### 如何用非递归的方式打印binary tree
+
+用stack 区别只是 在访问每个节点第几次的时候打印它 
+
+如果是先序，第一次就打印；如果是中序，第二次打印；如果是后序，第三次打印
+
+stack里存Node和第几次访问该Node 
+
+```python
+def preorder_traversal(root):
+    output=[]
+    if not root:
+        return output 
+    stack =[(root,1)]
+    
+    while stack:
+        node, count = stack.pop()
+        if count == 1:
+            output.append(node.val)
+            stack.append((node, count+1))
+            if node.left:
+                stack.append((node.left, 1))
+        if count ==2:
+            if node.right:
+                stack.append((node.right,1))
+        return output
+```
+
+```python
+def inorder_traversal(root):
+    output=[]
+    if not root:
+        return output 
+    stack =[(root,1)]
+    
+    while stack:
+        node, count = stack.pop()
+        if count == 2:
+            output.append(node.val)
+            if node.right:
+                stack.append((node.right, 1))
+        if count ==1:
+            stack.append((node, count+1))
+            if node.left:
+                stack.append((node.left,1))
+        return output
+```
+
+```python
+def postorder_traversal(root):
+    output=[]
+    if not root:
+        return output 
+    stack =[(root,1)]
+    
+    while stack:
+        node, count = stack.pop()
+        if count == 3:
+            output.append(node.val)
+        if count ==1:
+            stack.append((node, count+1))
+            if node.left:
+                stack.append((node.left, 1))
+         if count ==2:
+            stack.append((node, count+1))
+            if node.right:
+                stack.append((node.right, 1))
+        return output
+```
+
+### 二叉树上找一个连续序列的长度（必须从parent到child）
+
+```python
+def longest(curr, parent, currlen):
+    if not curr:
+        return currlen
+    size = 1
+    if parent and curr.val == parent.val+1
+        size = currlen_1
+    return max(currlen, longest(curr.left, curr, size), longest(curr.right, curr, size))
+    
+longest(root, None, 0)
+```
 
 
 

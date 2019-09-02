@@ -89,3 +89,21 @@ Time: On average O\(nlogn\) 最坏的情况是有序的，每次的pivot都选�
 
 Space: O\(logn\) worse case  O\(n\)
 
+
+
+## 面试题目：
+
+### 为什么基于比较的排序 时间复杂度下界是Omega\(nlogn\)
+
+Given n numbers, there are n! possible permutations. For any value, x!=y, x&lt;y is half of the permutation. In each comparison, we are left with n!/2 permutation. In the end, we operate log\(n!\) to achieve sorting. 
+
+Olog\(n!\)=O\(nlogn\)      \(Stirling Formula\)
+
+### 如果有1Mb的数据，用哪个sorting algorithm? What about 10Mb,100Mb,1Gb,1Tb,1Pb?
+
+1Mb:  Memory sorting 随便算法
+
+1Tb: Disk sorting, External Sorting 外排，单机，多机，最后merge，写回磁盘 
+
+
+

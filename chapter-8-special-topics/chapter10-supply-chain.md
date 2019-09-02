@@ -20,7 +20,11 @@ RFID: Radio Frequency Identification
 
 Twitter feeds: sentiment 大众对产品的考虑，可以给出降价
 
+[Bullwhip Effects](https://zh.wikipedia.org/wiki/%E9%95%BF%E9%9E%AD%E6%95%88%E5%BA%94)
+
 ## Data角度的Supply Chain 
+
+![](../.gitbook/assets/image.png)
 
 ### 正在解决这些问题的公司/平台
 
@@ -30,7 +34,39 @@ Oracle SCM, SAP APO \(Advanced planning and optimization\), JDA, IBM Watson supp
 
 Demand forecasting, supply planning, A/B testing, root cause analysis, inventory optimization, price optimization, on-time delivery, customer survey etc.
 
-$$
+![](../.gitbook/assets/image%20%282%29.png)
 
-$$
+#### Logistic Companies
+
+Transportation/fuel optimization, lead-time prediction, on time performance 
+
+![](https://cdn.mathpix.com/snip/images/_rP-vAQgS_YZfHqBFi64m9rYJOTX4lV214HZPXdTF9I.original.fullsize.png)
+
+#### Consumer Goods Companies
+
+![](https://cdn.mathpix.com/snip/images/1Lo00gm4HTujMwwD-jYH0VxaVX0fp1upDw711lzGdt0.original.fullsize.png)
+
+#### Manufactoring 
+
+![](../.gitbook/assets/image%20%2810%29.png)
+
+#### Pharmaceutical 
+
+![](../.gitbook/assets/image%20%289%29.png)
+
+## Demand Forecasting 
+
+1. Traditional Commercial Software: SPSS, SAS 
+2. Commercial Machine Learning Platform: Google Cloud AutoML, DataRobot, Dataiku, H2O
+3. Build in-house solution from scratch 
+
+## 资源
+
+{% embed url="https://www.coursera.org/learn/supply-chain-analytics-essentials" %}
+
+{% embed url="https://zh.coursera.org/learn/predictive-modeling-analytics" %}
+
+{% embed url="https://zh.coursera.org/learn/supply-chain-logistics" %}
+
+
 
