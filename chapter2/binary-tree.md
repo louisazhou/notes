@@ -197,6 +197,36 @@ def get_max_dif(root):
     return res
 ```
 
+其实更好的做法是把两个global封装到一个class里，用函数调用reference指向object的方式去维护这两个global值。
+
+```python
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+    
+    class ResultWrapper:
+        def __init__(self):
+            self.global_max = -1
+            self.solution = None
+        
+        def max_diff_node(root, res):
+            if not root:
+                return 0
+            left_total = max_diff_node(root.left, res)
+            right_total = max_diff_node(root.right, res)
+            if abs(left_total-right_total)>res.global_max:
+                res.global_max = abs(left_total - right_total)
+                res.solution = root
+            return left_total+right_total+1
+        
+        def max_diff(root):
+            res = ResultWrapper()
+            max_diff_node(root, res)
+            return res.solution 
+```
+
 
 
 1. what do we expect from the left child/ right child?
@@ -276,6 +306,25 @@ def upside_tree(root):
 Time: O\(n\)
 
 Space: O\(h\)
+
+### Find minimum Depth
+
+From the root down to the nearest leaf node
+
+Base Case不是None的例子
+
+```python
+def getHeight(root):
+    if not root:
+        return 0
+    if root.left is None and root.right is None:
+        return 1
+        
+    left = getHeight(root.left) if root.left else float('inf')
+    right = getHeight(root.right) if root.right else float('inf')
+    
+    return min(left, right) + 1
+```
 
 ### 如何用非递归的方式打印binary tree
 
