@@ -288,18 +288,18 @@ $$
 
 ### Single, two-layer slab
 
-Set $$\tau=0$$ 
+ $$\tau$$ is the depth measured from the top slab to any layer p. The subscript numbers get larger as more layers are accumulated downwards. 
 
 $$
-\vec{I}_{1}^{+}(0, \mu, \phi)=\frac{a(\tau) \mu_{0} F^{s}}{4 \pi\left(\mu+\mu_{0}\right)} \vec{P}\left(\mu^{\prime}, \phi^{\prime} ; \mu, \phi\right)\{\left[1-e^{-\left(\tau_{1} / \mu+\tau_{1} / \mu_{0}\right)}\right]+\left[ e^{-\left[\tau_{1} / \mu+\tau_{1} / \mu_{0}\right]}-e^{-\left[\tau_{2} / \mu+\tau_{2} / \mu_{0}\right]}\right]\}
-$$
-
-$$
-=\frac{a(\tau) \mu_{0} F^{s}}{4 \pi\left(\mu+\mu_{0}\right)} \vec{P}\left(\mu^{\prime}, \phi^{\prime} ; \mu, \phi\right)\left\{\left[1-e^{-\left[\tau_{2} / \mu_{0}+\tau_{2}/ \mu\right]}\right]\right\}
+\vec{I}_{1}^{+}(\tau, \mu, \phi)=\frac{a(\tau) \mu_{0} F^{s}}{4 \pi\left(\mu+\mu_{0}\right)} \vec{P}\left(\mu^{\prime}, \phi^{\prime} ; \mu, \phi\right)\{\left[1-e^{-\left(\tau_{1} / \mu+\tau_{1} / \mu_{0}\right)}\right]+\left[ e^{-\left[\tau_{1} / \mu+\tau_{1} / \mu_{0}\right]}-e^{-\left[\tau_{1} / \mu+\tau_{1} / \mu_{0}\right]}\right]\}
 $$
 
 $$
-\vec{I}_{2}^{+}(0, \mu, \phi)=\frac{a(\tau) \mu_{0} F^{s}}{4 \pi\left(\mu+\mu_{0}\right)} \vec{P}\left(\mu^{\prime}, \phi^{\prime} ; \mu, \phi\right)\left[e^{-\left[\tau_{1} / \mu_{0}+(\tau_{1}-\tau)/ \mu\right]}-e^{-\left[\tau_{2} / \mu_{0}+(\tau_{2}-\tau)/ \mu\right]}\right]
+=\frac{a(\tau) \mu_{0} F^{s}}{4 \pi\left(\mu+\mu_{0}\right)} \vec{P}\left(\mu^{\prime}, \phi^{\prime} ; \mu, \phi\right)\left\{\left[1-e^{-\left[\tau_{1} / \mu_{0}+\tau_{1}/ \mu\right]}\right]\right\}
+$$
+
+$$
+\vec{I}_{2}^{+}(\tau, \mu, \phi)=\frac{a(\tau) \mu_{0} F^{s}}{4 \pi\left(\mu+\mu_{0}\right)} \vec{P}\left(\mu^{\prime}, \phi^{\prime} ; \mu, \phi\right)\left[e^{-\left[\tau_{1} / \mu_{0}+(\tau_{1}-\tau)/ \mu\right]}-e^{-\left[\tau_{2} / \mu_{0}+(\tau_{2}-\tau)/ \mu\right]}\right]
 $$
 
 >
