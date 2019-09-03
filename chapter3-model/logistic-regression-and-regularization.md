@@ -30,11 +30,11 @@ $$
 \begin{array}{l}{p \rightarrow[0,1],} \\ {\text { odds }=p /(1-p) \rightarrow[0, \text { + infinite }]} \\ {\log (\text {odds}) \rightarrow[\text { -infinite, }+\text { infinite }]}\end{array}
 $$
 
-细节，
+细节，可能性=feature的线性组合
 
 $$
 \begin{array}{c}{\log \frac{p}{1-p}=z=a x+b \Leftrightarrow p=\frac{1}{1+e^{-\alpha x-b}}} \\ 
-\
+
 {\log \frac{p}{1-p}=a x+b} \\ {\log \frac{1-p}{p}=-(a x+b)} \\ {\frac{1-p}{p}=e^{-(a x+b)}} \\ {\frac{1}{p}=1+e^{-(a x+b)}} \\ {p=\frac{1}{1+e^{-(a x+b)}}}\end{array}
 $$
 
@@ -138,4 +138,10 @@ Logistic Regression: y 服从 $$P(Y=y|X=x)=\frac{1}{1+e^{-(a x+b)}}$$ 的伯努�
 > 如果追问：指数关系是什么关系，为什么指数？
 >
 > 本质是因为x与p有非线性关系，所以我们需要惩罚离分类决策面很远的x对分类决策的影响；换句话说，不同的x对于loss的contribution需要区别对待。
+
+
+
+
+
+Logistic Regression 适用于很多feature的dataset， feature少的更适合random forest
 

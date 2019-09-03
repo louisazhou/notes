@@ -129,6 +129,80 @@ Time O\(n\)
 
 Space O\(h\)
 
+### 求二叉树的Size
+
+```python
+def get_size(root):
+    if not root:
+        return
+    left=get_size(root.left)
+    right=get_size(root.right)
+    return left+right+1
+```
+
+### 求二叉树的value
+
+```python
+def get_value(root):
+    if not root:
+        return
+    left=get_value(root.left)
+    right=get_value(root.right)
+    return left+right+root.value
+```
+
+### 求二叉树的left child总数
+
+```python
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+        self.total_left = 0
+    def total_left(self, node)
+        if not node:
+            return
+        left_total=get_value(node.left)
+        right_total=get_value(node.right)
+        node.total_left = left_total       # functionality 
+        return left+right+1     # tell parent
+```
+
+### Max difference in 左子树和右子树
+
+```python
+global_max = -1   #因为None 和 一个节点是两种情况 这就做了区分
+res = None
+
+def node_diff(root):
+    if root is None:
+        return 0
+    left_total = node_diff(root.left)
+    right_total = node_diff(root.right)
+    
+    global global_max
+    global res
+    
+    if abs(left_total = right_total)>global_max:
+        global_max = abs(left_total = right_total)
+        res = root
+        
+    return left_total+right_total+1
+    
+def get_max_dif(root):
+    global global_max
+    global res
+    node_diff(root)
+    return res
+```
+
+
+
+1. what do we expect from the left child/ right child?
+2. what do you want to do in the current layer?
+3. what do you want to return to your parent \(same as 1\)
+
 ### 按照Level打印二叉树（广度搜索）
 
 维护一个队列，q=\[\]，root进，看是否有左右孩子，如果有，deque，左右孩子enque，依此类推。
