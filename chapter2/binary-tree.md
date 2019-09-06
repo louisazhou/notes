@@ -112,7 +112,11 @@ The depth difference between the left and the right subtrees of every node diffe
 
 
 
-## 基本题目
+## Bottom Up \(从下往上返值 灵魂三问\)
+
+1. what do we expect from the left child/ right child?
+2. what do you want to do in the current layer?
+3. what do you want to return to your parent \(same as 1\)
 
 ### 求二叉树的高度
 
@@ -226,12 +230,6 @@ class TreeNode:
             max_diff_node(root, res)
             return res.solution 
 ```
-
-
-
-1. what do we expect from the left child/ right child?
-2. what do you want to do in the current layer?
-3. what do you want to return to your parent \(same as 1\)
 
 ### 按照Level打印二叉树（广度搜索）
 
@@ -415,4 +413,15 @@ longest(root, None, 0)
 ## 相关题目
 
 Leetcode 226 104 110 236 103 109
+
+
+
+## Top Down （从上往下传值）
+
+1. 参数传递信息，用全局变量记录结果
+2. 通常不需要返值
+3. 思维更简单，但代码不如bottom up简洁
+4. 如果需要输出完整path，top down更实用 但是如果依赖subtree的结果，用bottom up  如果我们认为bottom up是post-order，那么top down就可以认为是preorder
+
+函数 参数传值
 

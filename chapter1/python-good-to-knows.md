@@ -169,3 +169,24 @@ for index, line in enumerate(open(filepath,'r'))：
     count += 1
 ```
 
+25. 面向对象和面向过程
+
+面向过程：sequential 把问题分成多个步骤，按顺序执行；打开冰箱，放食物，关上冰箱
+
+面向对象OOP：封装，冰箱的操作：打开；存储；关闭 食物的操作：名字；大小
+
+面试Amazon考过，OOP，停车场
+
+sorting之类的改写成oop的形式
+
+
+
+26.  class内部如果有多个def，那么顺序可以不和实现一样，但是如果是class外部的，要先定义先使用的
+
+
+
+27. if \_\_name\_\_="\_\_main\_\_" Python的启动函数，这个文件直接被执行的时候 会执行main后面的 ；如果被作为外部文件导入（比如 from \*\*.py import \*） 就不执行main的
+
+  
+意味着 只有在这个文件内部的才会执行
+
