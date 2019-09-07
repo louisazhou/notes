@@ -1,3 +1,7 @@
+---
+description: 手写gradient descent和gradient boosting...
+---
+
 # Gradient Descent / Gradient Boosting
 
 ML里的很多问题都可以简化为求解优化问题，让loss function最小的 $$\hat{\theta}=\underset{\theta}{\arg \min } L(\theta)$$ 。

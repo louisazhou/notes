@@ -27,7 +27,7 @@ $$
 想建立x和p的关系，从值域的角度，因为概率的值域是01之间，我们的y取值却是正负无穷。odds也有一个概率的含义在其中，所以可以取一个odds，凑半个无穷，再对odds取个log，凑出正负无穷
 
 $$
-\begin{array}{l}{p \rightarrow[0,1],} \\ {\text { odds }=p /(1-p) \rightarrow[0, \text { + infinite }]} \\ {\log (\text {odds}) \rightarrow[\text { -infinite, }+\text { infinite }]}\end{array}
+\begin{array}{l}{p \rightarrow[0,1],  } {1-p \rightarrow[0,1],} \\ {\text { odds }=p /(1-p) \rightarrow[0, \text { + infinite }]} \\ {\log (\text {odds}) \rightarrow[\text { -infinite, }+\text { infinite }]}\end{array}
 $$
 
 细节，可能性=feature的线性组合
@@ -56,7 +56,82 @@ Exponential Family是GLM的核心，是在给定限定条件下，作出最少�
 \[参考\]\([https://www.cs.ubc.ca/~murphyk/MLbook/](https://www.cs.ubc.ca/~murphyk/MLbook/)\)
 {% endhint %}
 
-## （面试）Logistic Regression中的Loss Function的推导
+## 从Bernoulli Distribution到Logistic Regression
+
+### 翻硬币
+
+从data，model，induction principle的角度考虑一个“翻硬币”的问题，
+
+$$
+\begin{array}{l}{\text { Data: }<x_{1}, x_{2}, \cdots, x_{n}>, x_{i} \in\{0,1\}} \\ {\text { Prior Knowledge: } P\left(x_{i}=1\right)=\theta, P\left(x_{i}=0\right)=1-\theta} \\ {\text { Induction Principle: Maximum Likelihood } \hat{\theta}=\underset{\theta}{\arg \max } \prod_{i=1}^{n} P\left(x=x_{i}\right)}\end{array}
+$$
+
+直观理解，$$\hat{\theta}$$ 的结果应该是 $$avg(x)=\frac{\sum_{i} x_{i}}{n}$$ 。来推导一下对不对：
+
+$$
+P\left(x=x_{i}\right)=\left\{\begin{array}{c}{\theta, x_{i}=1} \\ {1-\theta, x_{i}=0}\end{array}=\theta^{x_{i}} \cdot(1-\theta)^{\left(1-x_{i}\right)}\right.
+$$
+
+$$
+\begin{aligned} \hat{\theta} &=\underset{\theta}{\arg \max } \prod_{i=1}^{n} P\left(x=x_{i}\right) \\ &=\arg \max _{\theta} \log \left(\prod_{i=1}^{n} P\left(x=x_{i}\right)\right) \\ &=\underset{\theta}{\arg \max } \sum_{i=1}^{n} \log \left(P\left(x=x_{i}\right)\right) \\ &\left.=\underset{\theta}{\arg \max } \sum_{i=1}^{n} \log \left(\theta^{x_{i}} \cdot(1-\theta)^{1-x_{i}}\right)\right) \\ &=\underset{\theta}{\arg \max } \sum_{i=1}^{n} x_{i} \log \theta+\left(1-x_{i}\right) \log (1-\theta) \end{aligned}
+$$
+
+$$
+\begin{aligned} \frac{d L}{d \theta} &=\sum_{i}\left(\frac{x_{i}}{\theta}-\frac{1-x_{i}}{1-\theta}\right) \\ &=\sum_{i} \frac{x_{i}(1-\theta)-\theta\left(1-x_{i}\right)}{\theta(1-\theta)} \\ &=\frac{\sum_{i} x_{i}-x_{i} \theta-\theta+x_{i} \theta}{\theta(1-\theta)} \\ &=\frac{\sum_{i} (x_{i}-\theta)}{\theta(1-\theta)} \\ &=\frac{\sum_{i} x_{i}-n \cdot \theta}{\theta(1-\theta)} \end{aligned}
+$$
+
+令上面的导数等于零，所以 $$\sum_{i} x_{i}=n \cdot \theta$$ ，得到 $$\theta=\frac{\sum_{i} x_{i}}{n}$$ 。
+
+### 条件翻硬币
+
+$$
+\begin{aligned}
+\text {Data: }  
+\\&
+{ \left\langle\left(x_{1}, y_{1}\right),\left(x_{2}, y_{2}\right), \ldots,\left(x_{n}, y_{n}\right)\right\rangle} \\& { y \in\{0,1\}} \\& {x_{i} \in \mathbb{R}^{m}}
+\end{aligned}
+\begin{aligned}
+\text{Model: } 
+\\&
+{P(Y=y | x ; \alpha, \beta)=\frac{1}{1+e^{-\left(\alpha+\sum_{j=1}^{m} \beta_{j} x_{j}\right)}}} \\& {\alpha \in \mathbb{R}, \beta \in \mathbb{R}^{m}}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\text {Induction Principle: }  
+\\&
+<\hat{\alpha}, \hat{\beta}>=\underset{\alpha, \beta}{\arg \max } \prod_{i} P\left(y_{i} | x_{i} ; \alpha, \beta\right) \\ &=\underset{\alpha, \beta}{\arg \max } \log \left(\prod_{i} P\left(y_{i} | x_{i} ; \alpha, \beta\right)\right) \\ &=\underset{\alpha, \beta}{\arg \max } \sum_{i} \log \left(P\left(y_{i} | x_{i} ; \alpha, \beta\right)\right)
+
+\end{aligned}
+
+\\
+L_{i}=\sum_{i} \log \left(P\left(y_{i} | x_{i} ; \alpha, \beta\right)\right)
+$$
+
+所以现在的问题变成了 $$\begin{array}{l}{=\log \left(\left\{\begin{array}{c}{P_{i}, y_{i}=1} \\ {1-P_{i}, y_{i}=0}\end{array}\right)\right.} \\ {=\log \left(P_{i}^{y_{i}} \cdot\left(1-P_{i}\right)^{1-y_{i}}\right)}\end{array}$$ 。此时，把P和Z引入， $$\begin{aligned} P_{i} &=\frac{1}{1+e^{-z_{i}}} \\ z_{i} &=\alpha+\sum_{k} \beta_{k} x_{i k} \end{aligned}$$ 
+
+利用chain rule： $$\frac{\delta L}{\delta \beta_{j}}=\sum_{i=1}^{n} \frac{\delta L_{i}}{\delta P_{i}} \cdot \frac{\delta P_{i}}{\delta z_{i}} \cdot \frac{\delta z_{i}}{\delta \beta_{j}}$$ ，每一项拿出来：
+
+$$
+\begin{aligned} \frac{\delta L_{i}}{\delta P_{i}} &=\frac{y_{i}}{P_{i}}-\frac{1-y_{i}}{1-P_{i}} \\ &=\frac{y_{i}-y_{i} P_{i}-P_{i}+y_{i} P_{i}}{P_{i}\left(1-P_{i}\right)} \\ &=\frac{y_{i}-P_{i}}{P_{i}\left(1-P_{i}\right)} \end{aligned}
+
+\begin{aligned} P_{i} &=\frac{1}{1+e^{-z_{i}}} \\ \frac{\delta P_{i}}{\delta z_{i}} &=-\frac{1}{\left(1+e^{-z_{i}}\right)^{2}} \cdot(-1) \cdot e^{-z_{i}} \\ &=\frac{1}{1+e^{-z_{i}}} \cdot \frac{e^{-z_{i}}}{1+e^{-z_{i}}} \\ &=P_{i} \cdot\left(1-P_{i}\right) \end{aligned}
+
+\begin{aligned} z_{i} &=\alpha+\sum_{k=1}^{m} \beta_{k} x_{i k} \\ \frac{\delta z_{i}}{\delta \beta_{j}} &=x_{i j} \end{aligned}
+$$
+
+最后，
+
+$$
+\begin{aligned} \frac{\delta L}{\delta \beta_{j}} &=\sum_{i=1}^{n} \frac{\delta L_{i}}{\delta P_{i}} \cdot \frac{\delta P_{i}}{\delta z_{i}} \cdot \frac{\delta z_{i}}{\delta \beta_{j}} \\ &=\sum_{i=1}^{n} \frac{y_{i}-P_{i}}{P_{i}\left(1-P_{i}\right)} \cdot P_{i}\left(1-P_{i}\right) \cdot x_{i j} \\ &=\sum_{i=1}^{n}\left(y_{i}-P_{i}\right) \cdot x_{i j} \end{aligned}
+
+\begin{aligned} \frac{\delta L}{\delta \beta_{j}} &=\sum_{i=1}^{n}\left(y_{i}-P_{i}\right) \cdot x_{i j} \\ \frac{\delta L}{\delta \alpha} &=\sum_{i=1}^{n}\left(y_{i}-P_{i}\right) \end{aligned}
+$$
+
+从 $$\frac{\delta L}{\delta \alpha}=0$$ 可以推出 $$\sum_{i=1}^{n} y_{i}=\sum_{i=1}^{n} P_{i}$$ 。 所以说，logistic regression is well calibrated. 
+
+### （面试）Logistic Regression中的Loss Function的推导
 
 虽然也有使用信息熵Entropy的方式进行的定义，但是更直观的还是使用maximum likelihood。
 
@@ -141,7 +216,17 @@ Logistic Regression: y 服从 $$P(Y=y|X=x)=\frac{1}{1+e^{-(a x+b)}}$$ 的伯努�
 
 
 
-Logistic Regression 适用于很多feature的dataset， feature少的更适合random forest
+
+
+## 经验之谈
+
+\(1\) Logistic Regression 适用于很多feature的dataset， feature少的更适合random forest。
+
+\(2\) Logistic Regression can handle cases where features have strong correlation.
+
+\(4\) The IID assumption of Logistic Regression is weaker than Naive Bayes. For Naive Bayes, we need strong IID. But for Logistic Regression, all we need is 'given x, y is iid'. 
+
+\(3\) Logistic Regression is resilient to unbalanced labels \(1:100 is fine, but beyond that, need down sampling\). 
 
 
 
