@@ -1,3 +1,7 @@
+---
+description: PCA的步骤
+---
+
 # PCA
 
 ## PCA做什么
