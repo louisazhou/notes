@@ -141,7 +141,9 @@ Logistic Regression: y 服从 $$P(Y=y|X=x)=\frac{1}{1+e^{-(a x+b)}}$$ 的伯努�
 
 
 
-
-
 Logistic Regression 适用于很多feature的dataset， feature少的更适合random forest
+
+
+
+
 

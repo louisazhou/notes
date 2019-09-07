@@ -177,7 +177,7 @@ for index, line in enumerate(open(filepath,'r'))：
 
 面试Amazon考过，OOP，停车场
 
-sorting之类的改写成oop的形式
+ 练习方式：sorting之类的改写成oop的形式
 
 
 
@@ -189,4 +189,18 @@ sorting之类的改写成oop的形式
 
   
 意味着 只有在这个文件内部的才会执行
+
+
+
+27. 程序运行时，stack存的是reference，heap存的是value
+
+
+
+28. 单双下划线：
+
+\_\_foo\_\_ 定义的是特殊方法，一般是系统builtin的名字，比如\_\_init\_\_\(\) 或者\_\_name\_\_
+
+\_foo 表示protected的变量，只允许其本身和子类访问，不能外部调用，不能用于 from module import \* 
+
+\_\_foo 表示private的变量，只能允许本身的访问，不能被子类访问，不能继承，不能被外部访问
 

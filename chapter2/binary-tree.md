@@ -226,7 +226,7 @@ class TreeNode:
             return left_total+right_total+1
         
         def max_diff(root):
-            res = ResultWrapper()
+            res = ResultWrapper()  #生成object/instance 
             max_diff_node(root, res)
             return res.solution 
 ```
@@ -273,7 +273,7 @@ Base Case不是None的例子
 
 Given a binary tree where all the right nodes are either leaf nodes with a sibling \(a left node that shares the same parent node\) or empty, flip it upside down and turn it into a tree where the original right nodes turned into left leaf nodes. Return the new root. 
 
-![](../.gitbook/assets/image%20%285%29.png)
+![](../.gitbook/assets/image%20%286%29.png)
 
 根变成了左孩子的右孩子（line8），根的左孩子变成了根，根的右孩子变成了左孩子的左孩子\(line 7\)
 
@@ -424,4 +424,61 @@ Leetcode 226 104 110 236 103 109
 4. 如果需要输出完整path，top down更实用 但是如果依赖subtree的结果，用bottom up  如果我们认为bottom up是post-order，那么top down就可以认为是preorder
 
 函数 参数传值
+
+### 求二叉树的高度
+
+```python
+class Solution (object):
+    def findHeight(self, root):
+        if root is None:
+            return 0
+        self.result=0
+        self.helper(root, 0) #还没有任何操作，没有任何计算，height=0
+        return self.result 
+
+def helper(self, root, depth):
+    if root is None:
+        self.result = max(self.result, depth)
+        return
+        
+    self.helper(root.left, depth+1)
+    self.helper(root.right, depth+1)
+    return 
+```
+
+如果在上面的代码加一个\_\_init\_\_， 把self.result=0放进init去，那么，每次调用时，上一次的result值并没有重置，每次需要加一个 s=Solution，创建一个新的object。
+
+### 求二叉树的最大值
+
+{% tabs %}
+{% tab title="Top Down" %}
+```python
+class Solution:
+    def maxValue(self, root):
+        self.max = None
+        self.helper(root)
+        return self.max
+    
+    def helper(self, root):
+        if root is None:
+            return
+        self.max = max(self.max, root.value)
+        self.helper(root.left)
+        self.helper(root.right)
+```
+{% endtab %}
+
+{% tab title="Bottom Up" %}
+```python
+class Solution:
+    def maxValue(self, root):
+        if root is None
+            return None
+        left = self.maxValue(root.left)
+        right = self.maxValue(root.right)
+        
+        return max(root.vale, left, right)
+```
+{% endtab %}
+{% endtabs %}
 
