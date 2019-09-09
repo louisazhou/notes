@@ -34,7 +34,7 @@ Oracle SCM, SAP APO \(Advanced planning and optimization\), JDA, IBM Watson supp
 
 Demand forecasting, supply planning, A/B testing, root cause analysis, inventory optimization, price optimization, on-time delivery, customer survey etc.
 
-![](../.gitbook/assets/image%20%282%29.png)
+![](../.gitbook/assets/image%20%283%29.png)
 
 #### Logistic Companies
 
@@ -48,11 +48,11 @@ Transportation/fuel optimization, lead-time prediction, on time performance
 
 #### Manufactoring 
 
-![](../.gitbook/assets/image%20%2811%29.png)
+![](../.gitbook/assets/image%20%2814%29.png)
 
 #### Pharmaceutical 
 
-![](../.gitbook/assets/image%20%2810%29.png)
+![](../.gitbook/assets/image%20%2813%29.png)
 
 ## Demand Forecasting 
 

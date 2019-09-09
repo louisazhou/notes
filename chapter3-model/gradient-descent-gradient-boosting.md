@@ -59,7 +59,7 @@ print(ret)
 
 ### 从general的boosting vs bagging说起
 
-![](../.gitbook/assets/image%20%283%29.png)
+![](../.gitbook/assets/image%20%284%29.png)
 
 Bagging: independent classifier并行运算，一群high variance, low bias的model，用一些avg的技巧得到最后的结果（因为low bias，所以大家犯不同的错误取平均后应该得到一个真实值），比如weighted average, majority vote, normal average  最后的结果是reduce variance，variance变成了原来的1/N。
 

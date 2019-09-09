@@ -36,6 +36,10 @@ E\(show\_num\) = sum \(P\(show1\)+P\(show2\)+ ... \)
 
 P\(show\_x\) 
 
+**Notation**
+
+P: Profit       T: ticket\_value    C: cost\_per\_person   S: \# of seats in the flight 
+
 到现在为止，我们把“设计一个超售系统”转化成了一个“预测show的概率”。这个逻辑思维能力非常重要。因为“如何使用Logistic Regression”是一个很简单的事，但是这个思维方式是很难训练的。面试如果能按照这个思路说，就算在model的部分出了一点小的知识点问题，也可以得到一个“yes”。很容易能够弥补domain knowledge的漏洞，用这种方式，面试官就可以给一些提示，自己也很容易上下迂回。
 
 倒数第二个步骤，其实还有一个表述， E\(show\_num\) = num\_sold\_ticket \* avg\_show\_rate。这两个等式其实都是正确的，第一个等式，是因为logistic regression is well calibrated, 成立。 第二个等式也成立。那我们为什么不用一个平均情况？而是用一个machine learning model？
@@ -44,11 +48,13 @@ P\(show\_x\)
 
 接下来就是为这个classification problem的ml model找feature... 
 
-比如，性别、年龄、购票时间和起飞时间之间的时间差、
+比如，性别、年龄、购票时间和起飞时间之间的时间差... 
 
-**Notation**
+如果我们在比较自己的ML model和使用平均值预测出来的结果时，发现model的方差还不如使用平均值，那说明这个model做的非常trivial。
 
-P: Profit       T: ticket\_value    C: cost\_per\_person   S: \# of seats in the flight 
+以下的sub-section就是各种modeling的细节。
+
+\*\*\*\*
 
  
 
