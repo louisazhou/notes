@@ -83,7 +83,7 @@ Sample: random sampling, stratified sampling, systematic sampling, cluster sampl
 ### 如何检验normality of the data
 
 1. QQ Plot
-2. QR Test
+2. QR Test?
 
 
 
