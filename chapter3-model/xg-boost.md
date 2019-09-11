@@ -1,5 +1,5 @@
 ---
-description: 'eXtreme Gradient Boosting, 对decision tree做boosting'
+description: 对decision tree做boosting
 ---
 
 # XG Boost and Light GBD
