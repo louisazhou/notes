@@ -106,11 +106,17 @@ CART \(Classification and Regression Tree\): Gini Impurity
 
 ### Boosting
 
-——放在XG Boost的section
+——放在Gradient Boosting和SD Boost的section了
 
-把很多Decision Tree组合在一起，再引入一些randomness
+
+
+### **区别**
+
+bagging就是大家都是学渣，每道题都由随机选出的一群学渣投票决定，这样需要的学渣比较多，而且每个学渣还都得很努力学习。boosting也是一群学渣，但每个人虽然总分菜，却是因为偏科导致的，每个学渣都贡献自己最擅长的那个题目。**比如**小明擅长做数学，小红擅长做语文。第一次只有小明参加考试，成绩出来，数学不错但语文低的一笔；于是小明机智的在第二次考试的时候喊上小红帮他替考语文。这样boosting需要的每个学渣都豪不费力，但是整体上更强了。xgb的学渣还通过预习，让自己偏科的科目学得更省力。所以整体上xgb看起来是非常省力的一群学渣组成，但是拿到的分数却很高。
 
 ## Random Forest
+
+简单来说是把很多Decision Tree组合在一起，再引入一些randomness
 
 **Decision Tree + Bagging + Feature Sampling =Random Forest**
 

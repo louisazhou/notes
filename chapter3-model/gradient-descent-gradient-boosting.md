@@ -2,7 +2,7 @@
 description: 手写gradient descent和gradient boosting...
 ---
 
-# Gradient Descent / Gradient Boosting
+# Gradient Descent and Gradient Boosting
 
 ML里的很多问题都可以简化为求解优化问题，让loss function最小的 $$\hat{\theta}=\underset{\theta}{\arg \min } L(\theta)$$ 。
 
@@ -59,7 +59,7 @@ print(ret)
 
 ### 从general的boosting vs bagging说起
 
-![](../.gitbook/assets/image%20%284%29.png)
+![](../.gitbook/assets/image%20%285%29.png)
 
 Bagging: independent classifier并行运算，一群high variance, low bias的model，用一些avg的技巧得到最后的结果（因为low bias，所以大家犯不同的错误取平均后应该得到一个真实值），比如weighted average, majority vote, normal average  最后的结果是reduce variance，variance变成了原来的1/N。
 
@@ -82,6 +82,16 @@ $$
 $$
 \begin{array}{l}{\text { 1: } f \leftarrow f_{0}} \\ {\text { 2: } i \leftarrow 1} \\ {\text { 3: while } i<T \text { do }} \\ {\text { 4: }  e_{i} \leftarrow \nabla L(f)} \\ {\text { 5: } \text { fit } f_{i} \text { using }\left\{<x_{i}, e_{i}>\right\}} \\ {\text { 6: } f(x) \leftarrow f(x)-\alpha_{i} \cdot f_{i}(x)} \\ {\text { 7: } i \leftarrow i+1} \\ {\text { 8: return } f}\end{array}
 $$
+
+所以 Boosting 有三个要素：
+
+A loss function to be optimized
+
+A weak learner to make predictions. eg. Tree model
+
+An additive model： 将多个弱学习器累加起来组成强学习器，进而使目标损失函数达到极小。 
+
+之所以称为 Gradient，是因为在添加新模型时使用了梯度下降算法来最小化的损失
 
 ### Adaboost 
 

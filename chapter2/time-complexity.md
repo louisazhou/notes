@@ -18,11 +18,15 @@ idea 1: Wall Time
 idea 2：CPU cycle （number of instructions the CPU needs to operate\)
 
 * Relation between CPU cycle and input size: number of CPU cycles = constant \* size of input
-* 使用了Big O notation: worst case scenario, computation time.
+* Big O notation: a way to describe the runtime or memory space requirement
 
-
+  of an algorithm as input size changes worst case scenario, computation time.
 
 Fibonacci 数列的时间复杂度是O\( $$2^{n}$$ \)
+
+![](../.gitbook/assets/image%20%2812%29.png)
+
+![](../.gitbook/assets/image%20%2810%29.png)
 
 ## Space Complexity 
 

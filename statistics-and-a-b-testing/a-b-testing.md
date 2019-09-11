@@ -46,3 +46,13 @@ Review可能会回到数据分析（engineering）或者重新A/B Testing。Ramp
 
 **Novelty Effect:** Version A and B in experiment should not differ too much, to avoid novelty effect. Aside from the difference itself, 新鲜感 wears off or 陌生感 brings bias to the metrics and thus influences the experiment.  
 
+## P-value
+
+eg. If we want to analyze the H0: students at xx have an average height of 7 feet \(2.13m\). 
+
+Let's say  $$H_{0}: \mu=7 feet$$ , then $$H_{\alpha}: \mu\not=7 feet$$ . We first assume the null hypothesis to be true. Then take a random sampling from the population \(the sample represents well the population\), know of the average height of the sample is $$\overline{X}=5'9''$$ . If the null is true, then if we enter any random classroom and draw the histogram of this parameter, then the histogram \(hypothetically\) will look like a mean of 7 and a bell-shape distribution. Also, in that histogram,  $$\overline{X}=5'9''$$ will fall to the left end. 
+
+So the key-point in here is 'if the null hypothesis is true, what's the histogram gonna look like'
+
+social-network中，不能单纯用P value，因为nodes之间不再是independent。所以原来的“如果p&lt;0.05, reject the null hypothesis H0“就不对了。
+
