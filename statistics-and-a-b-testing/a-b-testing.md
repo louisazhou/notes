@@ -189,3 +189,13 @@ t distribution df决定形状 当df=infinity时，t distribution就是标准正�
 
  $$\mathrm{T}=\frac{Z}{\sqrt{X / k}}, \text { where } \mathrm{Z} \sim \mathrm{N}(0,1), \mathrm{X} \sim \chi^{2}(k), \mathrm{Z} \text { and } \mathrm{X} \text { are independent. }$$ 
 
+binomial distribution
+
+multinomial distribution 
+
+Poisson distribution 
+
+### 补充
+
+bootstrap的HT cover到0，显著；不能cover到0，不显著
+
