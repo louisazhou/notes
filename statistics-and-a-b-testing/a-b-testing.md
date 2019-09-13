@@ -131,7 +131,61 @@ p0hat 数据算出来的均值， p0原假设下的均值 z=\(0.6-0.5\)/sqrt\(0.
 
 p1hat是A组的平均值，p2hat是B组的平均值, phat是两组数据合在一起的overall均值\(500/1000\), p = \(\)
 
-3）连续变量，2 sample的test score的公式都一样；但如果假设了数据是正态分布，那么最后test score服从t distribution；而不假设正态分布，得到的test score可以近似认为是0~1 Normal。
 
 
+Cumulative Distribution Function F\(x\)=P\(x&lt;=x\)
+
+P-value F\_normal\(-\|Z\|\)
+
+
+
+3）连续变量，2 sample的test score的公式都一样；但如果假设了数据是正态分布，那么最后test score服从t distribution；而不假设正态分布，得到的test score可以近似认为是0~1 Normal。 注意在平时不要随便假设数据正态分布，因为太少见了。
+
+事实上，数据越大（&gt;30 per group），越不需要对数据的分布做假设，因为中央极限定理，平均值本身就服从了正态分布。
+
+医学实验、clinical trial，无奈之下才会强行假设test的指标服从Gaussian分布。
+
+
+
+p-value F\_t\(-\|S\|\)\_df
+
+p-value F\_normal\(-\|S\|\)
+
+假如双尾，上面的p-value\*2
+
+如果 p-value &lt;=alpha, 就reject H0；否则，‘you don't have sufficient evidence to reject H0。 Cannot make conclusive result’ , 但是不代表H1就正确！！！
+
+
+
+### Hypothesis Testing Algorithm Explained
+
+#### BG Knowledge 1: Central Limit Theorem 
+
+* Formal Definition
+
+随机变量序列{X1,X2...Xn}，i.i.d.，E\[Xi\]=mu, Var\[Xi\]=sigma^2&lt;infinite. 随着n趋向无穷，sqrt\(n\)\(X\_bar - mu\) 收敛于N\(0, sigma^2\)
+
+$$
+\sqrt{n}\left(\frac{\sum_{i=1}^{n} X_{i}}{n}-\mu\right) \stackrel{D}{\rightarrow} N\left(0, \sigma^{2}\right)
+$$
+
+Note: Cauchy distribution, variance = infinity   D: converge to distribution 
+
+如果上式左右同时除以sigma，那么我们就得到了上一小节Non-Gaussian里的One Sample or Paired的情况。这也就证明了为什么N--&gt;infinity时均值服从正态分布。
+
+* Casual Definition
+
+无偏：E\[\]=theta\*=theta（true value）
+
+
+
+### distribution
+
+normal distribution 均值和方差
+
+chi-squared distribution k个独立标准正态分布的平方和 由df决定形状
+
+t distribution df决定形状 当df=infinity时，t distribution就是标准正态分布 所以可以理解为 standard normal distribution是t distribution的特例。
+
+ $$\mathrm{T}=\frac{Z}{\sqrt{X / k}}, \text { where } \mathrm{Z} \sim \mathrm{N}(0,1), \mathrm{X} \sim \chi^{2}(k), \mathrm{Z} \text { and } \mathrm{X} \text { are independent. }$$ 
 
