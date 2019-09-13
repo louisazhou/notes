@@ -125,6 +125,8 @@ z是test score 再在后续转化成P value
 
 p0hat 数据算出来的均值， p0原假设下的均值 z=\(0.6-0.5\)/sqrt\(0.5\*0.5\)/100\)=2， pval=. 
 
+另外，医疗行业还有[paired design](http://www.biostathandbook.com/pairedttest.html) 每个观测数据点都测了两次metric，治病前vs后，但是最后其实我们关注的是这两次metric的difference。这种只做one group test是因为如果做two group test，前后的组内数据是有关系的。
+
 2）A/B Testing背景下的HT多是Two Sample Test, p1和p2分别是A和B group。比如A 200/1000, B 300/1000
 
 p1hat是A组的平均值，p2hat是B组的平均值, phat是两组数据合在一起的overall均值\(500/1000\), p = \(\)
