@@ -24,7 +24,7 @@ idea 2：CPU cycle （number of instructions the CPU needs to operate\)
 
 Fibonacci 数列的时间复杂度是O\( $$2^{n}$$ \)
 
-![](../.gitbook/assets/image%20%2812%29.png)
+![](../.gitbook/assets/image%20%2813%29.png)
 
 ![](../.gitbook/assets/image%20%2810%29.png)
 

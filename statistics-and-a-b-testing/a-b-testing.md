@@ -48,13 +48,7 @@ Review可能会回到数据分析（engineering）或者重新A/B Testing。Ramp
 
 以下是 如何根据AB Testing所定义的metric的不同，利用HT得出结论。
 
-## Hypothesis Testing
-
-  
-
-##  
-
-
+## Hypothesis Testing  
 
 ### Key Concepts
 
@@ -113,4 +107,29 @@ Let's say  $$H_{0}: \mu=7 feet$$ , then $$H_{\alpha}: \mu\not=7 feet$$ . We firs
 So the key-point in here is 'if the null hypothesis is true, what's the histogram gonna look like'
 
 social-network中，不能单纯用P value，因为nodes之间不再是independent。所以原来的“如果p&lt;0.05, reject the null hypothesis H0“就不对了。
+
+
+
+### Hypothesis Testing as an Algorithm
+
+前提条件：
+
+* A/B Testing \(randomized experiment\)中的假设检验
+* Metric以均值的形式定义 - CTR，DAU\(daily active user\), ARPU\(annual revenue per user\)  与之相对的是，类似ROI这样的metric，这就不是简单的均值，就不适用于以下方法 所以在面试中，尽力把metric定义成均值的形式 也尽量让feature 是 binary data的均值或者continuous feature的均值
+
+![](../.gitbook/assets/image%20%2811%29.png)
+
+z是test score 再在后续转化成P value
+
+1）"抛硬币100次，60次head，这个硬币是否biased", 是一个One Sample Test。
+
+p0hat 数据算出来的均值， p0原假设下的均值 z=\(0.6-0.5\)/sqrt\(0.5\*0.5\)/100\)=2， pval=. 
+
+2）A/B Testing背景下的HT多是Two Sample Test, p1和p2分别是A和B group。比如A 200/1000, B 300/1000
+
+p1hat是A组的平均值，p2hat是B组的平均值, phat是两组数据合在一起的overall均值\(500/1000\), p = \(\)
+
+3）连续变量，2 sample的test score的公式都一样；但如果假设了数据是正态分布，那么最后test score服从t distribution；而不假设正态分布，得到的test score可以近似认为是0~1 Normal。
+
+
 
