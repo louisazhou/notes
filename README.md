@@ -1,6 +1,6 @@
 # Introduction
 
-This is a book powered by [GitBook](https://github.com/GitbookIO/gitbook), documenting my study notes and some thoughts studying ML/Statistics/Python/DL.
+This is a book powered by [GitBook](https://louisazhou.gitbook.io/notes/), documenting my study notes and some thoughts studying ML/Statistics/Python/DL.
 
 I try to maintain a daily update... until chapters and sections are filled out.   
   
@@ -11,6 +11,8 @@ Chapt1: until 1.4 Pandas
 Chapt2: until Binary Search Tree
 
 Chapt3: until Gradient Descent
+
+Chapt4: partly finished
 
 Chapt7: some template procedures
 

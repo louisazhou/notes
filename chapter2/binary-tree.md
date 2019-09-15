@@ -408,7 +408,29 @@ def longest(curr, parent, currlen):
 longest(root, None, 0)
 ```
 
+### Invert a Binary Tree
 
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    # @param {TreeNode} root
+    # @return {TreeNode}
+    def invertTree(self, root):
+        if root is None:
+            return None
+        if root.left:
+            self.invertTree(root.left)
+        if root.right:
+            self.invertTree(root.right)
+        root.left, root.right = root.right, root.left
+        return root
+```
 
 ## 相关题目
 
@@ -436,14 +458,14 @@ class Solution (object):
         self.helper(root, 0) #还没有任何操作，没有任何计算，height=0
         return self.result 
 
-def helper(self, root, depth):
-    if root is None:
-        self.result = max(self.result, depth)
-        return
+    def helper(self, root, depth):
+        if root is None:
+            self.result = max(self.result, depth)
+            return
         
-    self.helper(root.left, depth+1)
-    self.helper(root.right, depth+1)
-    return 
+        self.helper(root.left, depth+1)
+        self.helper(root.right, depth+1)
+        return 
 ```
 
 如果在上面的代码加一个\_\_init\_\_， 把self.result=0放进init去，那么，每次调用时，上一次的result值并没有重置，每次需要加一个 s=Solution，创建一个新的object。
@@ -481,4 +503,63 @@ class Solution:
 ```
 {% endtab %}
 {% endtabs %}
+
+### Path Sum
+
+Solution 1: Top Down
+
+```python
+Class Solution():
+
+    def hasPathSum(self, root, sum):
+        self.sum = sum
+        self.ret = False  #先假定False，只要在Line13找到一条True，之后的ret都是True
+        self.helper(root, 0)
+        return self.ret
+        
+    def helper(self, root, current):
+        if self.ret == True：
+            return
+        if root is None:
+            return
+        if root.left is None and root.right is None
+            self.ret = (self.ret or (current+root.val == self.sum))
+            return
+        
+        self.helper(root.left, current+root.val)
+        self.helper(root.right, current+root.val)
+        return
+```
+
+
+
+变种
+
+```python
+class Solution(object):
+    def hasPathSum(self, root, sum):
+        self.sum = sum
+        if root is None:
+            return False
+        self.ret = False
+        self.helper(root,root.val)
+        return self.ret
+    
+    def helper(self, root, current):
+        if root is None:
+            return 
+        
+        if root.left is None and root.right is None:
+            self.ret = (self.ret or current== self.sum)
+            return
+        
+        if root.left:
+            self.helper(root.left, current+root.left.val) 
+        if root.right:
+            self.helper(root.right, current+root.right.val)
+```
+
+Time: O\(n\)
+
+Space: O\(hight\)
 

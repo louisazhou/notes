@@ -1,4 +1,4 @@
-# Chapter 7. R
+# R
 
 R严格意义不是OOP 所以list可以被用来做container
 
