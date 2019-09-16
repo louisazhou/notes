@@ -119,6 +119,14 @@ social-network中，不能单纯用P value，因为nodes之间不再是independe
 
 ![](../.gitbook/assets/image%20%2811%29.png)
 
+
+
+phat是想test的metric，theta\*是真实值，p0零假设时的target value，
+
+sigmahat是在用样本方差代替真实方差
+
+在two sample里的t 分母上 如果两组数据不是独立的，sd的公式就不适用了
+
 z是test score 再在后续转化成P value
 
 1）"抛硬币100次，60次head，这个硬币是否biased", 是一个One Sample Test。
@@ -173,6 +181,8 @@ Note: Cauchy distribution, variance = infinity   D: converge to distribution
 
 如果上式左右同时除以sigma，那么我们就得到了上一小节Non-Gaussian里的One Sample or Paired的情况。这也就证明了为什么N--&gt;infinity时均值服从正态分布。
 
+By Slutsky Theorem, replacing \sigma by \hat{sigma}, the CLT conclusion still holds. 
+
 * Casual Definition
 
 无偏：E\[\]=theta\*=theta（true value）
@@ -189,13 +199,43 @@ t distribution df决定形状 当df=infinity时，t distribution就是标准正�
 
  $$\mathrm{T}=\frac{Z}{\sqrt{X / k}}, \text { where } \mathrm{Z} \sim \mathrm{N}(0,1), \mathrm{X} \sim \chi^{2}(k), \mathrm{Z} \text { and } \mathrm{X} \text { are independent. }$$ 
 
-binomial distribution
+binomial distribution         mean:np, sd: np\(1-\[\)
 
 multinomial distribution 
 
 Poisson distribution 
 
+### Equations, prove \(interview, PhD\)
+
+Exactly T  t的部分，只要n&gt;1 而利用CLT需要assume数据足够大；如果这个时候n也足够大，df也足够大，所以也会接近N\(0,1\)
+
+Approximately N\(0,1\) 
+
+Facebook考SQL, metric definition   不会考这个
+
+Linkedin的data science, analyst也不会考这个
+
+### 
+
+### 
+
+### 
+
+### 
+
+### 
+
+### 
+
 ### 补充
 
 bootstrap的HT cover到0，显著；不能cover到0，不显著
+
+ANOVA的一个应用：likelihood ratio test
+
+Ho在AB Testing都是=0，如果是一个范围，用composite test
+
+
+
+
 
