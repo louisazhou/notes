@@ -87,9 +87,51 @@ def quick_sort(lst, start, end):
 
 Time: On average O\(nlogn\) 最坏的情况是有序的，每次的pivot都选的特别差, worst case O\( $$n^{2}$$ \)    所以我们需要randrange
 
-Space: O\(logn\) worse case  O\(n\)
+Space: O\(logn\) worst case  O\(n\)
 
 
+
+### Find the k-th largest element in an array
+
+Soln1: Brute Force: Sort the array in descending order, and return the element at index \(k-1\). O\(nlogn\)
+
+Soln2: Heap
+
+Soln3: QuickSort     Average O\(n\)  Worst Case $$O(n^2)$$ 
+
+每次扔一半 左边是比pivot大的，右边是比pivot小的
+
+```python
+import random
+
+def find_kth_largest(arr, k):
+    left, right = 0, len(arr)-1
+    while left<=right:
+        pivot_idx=random.randint(left, right)
+        new_pivot_idx=partition(left, right, pivot_idx, arr)
+        if new_pivot_idx == k-1:
+            return arr[new_pivot_idx]
+        elif new_pivot_idx > k-1:
+            right = new_pivot_idx -1
+        else:
+            left = new_pivot_idx + 1
+            
+def partition(left, right, pivot_idx, arr):
+    pivot = arr[pivot_idx]
+    new_pivot_idx = left
+    arr[pivot_idx], arr[right] = arr[right], arr[pivot_idx]
+    for i in range(left, right):
+        if arr[i]>pivot:
+            arr[i], arr[new_pivot_idx]=arr[new_pivot_idx], arr[i]
+            new_pivot_idx += 1
+    arr[right], arr[new_pivot_idx] = arr[new_pivot_idx], arr[right]
+    return new_pivot_idx
+    
+arr = [3,2,5,1,4,0]
+print(find_kth_largest(arr,1))
+```
+
+$$\begin{array}{l}{\text { Time complexity: }} \\ {\begin{aligned} T(n) &=T(n / 2)+O(n) \\ &=T(n / 4)+O(n / 2+n) \\ &=\ldots \\ &\left.=T\left(n / 2^{n} k\right)+O\left(n+n / 2+\ldots+n / 2^{\wedge} k\right)\right] \\ &=T\left(n / 2^{n} k\right)+O\left(n+2^{*}\left(1-0.5^{\wedge} k\right)\right) \\ \text { Let } n &=2^{\wedge} k \\ T(n) &=T(1)+O(2 n-2) \Rightarrow T(n)=O(n) \\ \text { Space complexity: } O(1) \end{aligned}}\end{array}$$ 
 
 ## 面试题目：
 

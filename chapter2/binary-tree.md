@@ -102,6 +102,55 @@ def post_order(root):
 
 The depth difference between the left and the right subtrees of every node differ by 1 or less. 不满足的节点不一定是root
 
+```python
+Class Solution (object):
+    def isBalanced(self, root):
+        if not root:
+            return True
+        left = self.get_height(root.left)
+        right = self.get_height(root.right)
+        if abs(left-right)>1:
+            return False
+        return self.isBalanced(root.left) and self.isBalanced(root.right)
+    
+    def get_height(self, root):
+        if not root:
+            return 0
+        left=self.get_height(root.left)
+        right=self.get_height(root.right)
+        return max(left, right)+1
+```
+
+但因为调用get\_height太多次，这不是最优解  
+
+Best Case是退化成单链表的tree，第一次算left和right时就return False, O\(n\)
+
+Worst Case是一个Balanced Tree          O\(nlogn\)
+
+更好的，改一下get\_height 让找到不平衡时提前终止， Time Complexity O\(n\)
+
+```python
+Class Solution (object):
+    def isBalanced(self, root):
+        if self.helper(root) == -1
+            return False
+        else:
+            return True
+    
+    def helper(self, root):
+        if not root:
+            return 0
+        left=self.get_height(root.left)
+        right=self.get_height(root.right)
+        
+        if left==-1 or right==-1:
+            return -1
+        elif abs(left-right)>1:
+            return -1
+        else:
+            return max(left, right)+1
+```
+
 ### Complete Binary Tree
 
 最后一层以上的都满，最后一层没有泡泡 complete binary tree一定是balanced binary tree 
@@ -123,7 +172,7 @@ The depth difference between the left and the right subtrees of every node diffe
 ```python
 def get_height(root):
     if not root:
-        return
+        return 0
     left=get_height(root.left)
     right=get_height(root.right)
     return max(left, right)+1
@@ -562,4 +611,31 @@ class Solution(object):
 Time: O\(n\)
 
 Space: O\(hight\)
+
+
+
+### Lowest Common Ancestor 最小公共祖先
+
+假设两个数pq一定存在。那么只有2种情况，要么在某一个root的左右两边找到了p和q
+
+要么自己是root，另一个值在自己下，返回自己
+
+```python
+class Solution (object):
+    def lowestCommonAncestor(self, root, p, q):
+        if not root:
+            return root
+        if root==p or root==q:
+            return root
+        
+        ltree = self.lowestCommonAncestor(root.left, p, q)
+        rtree = self.lowestCommonAncestor(root.right, p, q)
+        
+        if ltree and rtree:
+            return root
+        elif not ltree:
+            return rtree
+        else:
+            return ltree
+```
 

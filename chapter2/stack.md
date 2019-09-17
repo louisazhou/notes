@@ -1,8 +1,8 @@
+---
+description: Last in First Out     list就是一个天然的stack，不需要单独定义class。
+---
+
 # Stack
-
-Last in First Out
-
-list就是一个天然的stack，不需要单独定义class。
 
 push 
 
@@ -109,7 +109,7 @@ Enqueue: Time O\(1\)
 
 Dequeue: Time worst case O\(n\), amortized O\(1\)
 
-## Implement a stack/queue with Max API 
+## Implement a stack with Max API 
 
 Solution 1: Brute Force, O\(n\), iterate each element in the stack to find the max
 
@@ -206,4 +206,6 @@ def scoreofparenthesis (S):
                 stack[-1] = top*2 + stack[-1]
      return stack[0]                
 ```
+
+
 

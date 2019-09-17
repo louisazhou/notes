@@ -78,3 +78,47 @@ def inorder(root, prev, res):
     inorder(root.right, prev, res)
 ```
 
+
+
+### Create a BST from a sorted list of integers 
+
+Given the following sequence:
+
+in-order: 1 2 4 6 7 8 9 10 12
+
+How many BSTs can you create for n input numbers？
+
+For o or 1 number, just 1 unique tree, None or TreeNode\(x\);
+
+For n&gt;1, there will be 1 value at root, with whatever remains on the left and right to form separate subtrees. Iterate through all the values that could be the root. 
+
+count =0
+
+count += count\_trees\(i-1\)\*count\_trees\(n-i\), for i in range\(i, n+1\)
+
+Another similar problem is counting the \# of valid parenthesis. 
+
+**Catalan Number**  $$\frac{C_{2n} ^{2}}{n+1}$$ 
+
+
+
+Which is the best one? 
+
+—— Balanced Tree
+
+```python
+def create_best(nums):
+    if not nums:
+        return None
+    return bst(nums, 0, len(nums)-1)
+
+def bst(nums, start, end):
+    if start>end:
+        return None
+    mid = (start+end)/2
+    root = TreeNode(nums[mid])
+    root.left = bst(nums, start, mid-1)
+    root.right = bst(nums, mid+1, end)
+    return root
+```
+

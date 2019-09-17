@@ -127,3 +127,35 @@ class MovingAverage(object):
 
 在工作中，data pipeline也会使用sliding window来存值，就像是在做down sampling，就可以存一个统计意义上更小的数据集。
 
+
+
+## Implement a queue with Max API 
+
+```python
+class QueueMax:
+    def __init__(self):
+        self.entries = []
+        self.max_val = []
+    
+    def enqueue(self, x):
+        self.entries.append(x)
+        while self.max_val:
+            if self.max_vals[-1] >=x:
+                break
+            self.max_vals.pop()
+        self.max_vals.append(x)
+        
+    def dequeue(self):
+        if self.entries:
+            res = self.entries.pop(0)
+            if res == self.max_val[0]:
+                self.max_vals.pop(0)
+            return res
+        raise Exception("Empty Queue")
+        
+    def max(self):
+        if self.max_vals:
+            return self.max_vals[0]
+        raise Exception("Empty Queue")
+```
+
