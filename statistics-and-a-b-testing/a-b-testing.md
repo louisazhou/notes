@@ -10,9 +10,9 @@
 
 ### **A/B Testing**
 
-A decision making procedure during product iteration. Experiment Design \(collect customer log\), Data Analysis and Hypothesis Testing. 
+A decision making procedure during product iteration. Experiment Design \(collect customer log\), Data Analysis and Hypothesis Testing. [Examples](https://www.designforfounders.com/ab-testing-examples/)  [Examples&Branstorm](https://vwo.com/blog/)
 
-![](https://cdn.mathpix.com/snip/images/qCrwzndk-aa__zyS2VSDKgBZ2Q5J6mz_fUABXf2AcbI.original.fullsize.png)
+![](../.gitbook/assets/image%20%287%29.png)
 
 Review可能会回到数据分析（engineering）或者重新A/B Testing。Ramp up：逐步上线，用户逐步从1到100%，launch：100%用户接触。
 
@@ -29,6 +29,12 @@ Review可能会回到数据分析（engineering）或者重新A/B Testing。Ramp
  ****quantitative measurements that reflect the product quality. 
 
 > 面试：
+>
+> 好=赚钱， revenue+good user experience
+>
+> 从AARRR的沙漏模型上定义，可以是
+
+![](../.gitbook/assets/image%20%2810%29.png)
 
 ### **Experiment and Randomized Experiments**
 
@@ -46,9 +52,19 @@ Review可能会回到数据分析（engineering）或者重新A/B Testing。Ramp
 
 **Novelty Effect:** Version A and B in experiment should not differ too much, to avoid novelty effect. Aside from the difference itself, 新鲜感 wears off or 陌生感 brings bias to the metrics and thus influences the experiment.  
 
+和AB Testing有关的名词解释 [链接](https://www.optimizely.com/optimization-glossary/)
+
+{% embed url="https://conversionxl.com/blog/ab-testing-statistics/" %}
+
+
+
 以下是 如何根据AB Testing所定义的metric的不同，利用HT得出结论。
 
 ## Hypothesis Testing  
+
+### Intuition： Why HT？
+
+Due to the randomness in the data, the estimate of the parameters is also random. HT is the procedure to determine if the estimated difference is a statistically meaningful difference. 
 
 ### Key Concepts
 
@@ -117,7 +133,7 @@ social-network中，不能单纯用P value，因为nodes之间不再是independe
 * A/B Testing \(randomized experiment\)中的假设检验
 * Metric以均值的形式定义 - CTR，DAU\(daily active user\), ARPU\(annual revenue per user\)  与之相对的是，类似ROI这样的metric，这就不是简单的均值，就不适用于以下方法 所以在面试中，尽力把metric定义成均值的形式 也尽量让feature 是 binary data的均值或者continuous feature的均值
 
-![](../.gitbook/assets/image%20%2812%29.png)
+![](../.gitbook/assets/image%20%2814%29.png)
 
 
 
@@ -137,7 +153,7 @@ p0hat 数据算出来的均值， p0原假设下的均值 z=\(0.6-0.5\)/sqrt\(0.
 
 2）A/B Testing背景下的HT多是Two Sample Test, p1和p2分别是A和B group。比如A 200/1000, B 300/1000
 
-p1hat是A组的平均值，p2hat是B组的平均值, phat是两组数据合在一起的overall均值\(500/1000\), p = \(\)
+p1hat是A组的平均值，p2hat是B组的平均值, phat是两组数据合在一起的overall均值\(500/1000\)
 
 
 
@@ -147,11 +163,13 @@ P-value F\_normal\(-\|Z\|\)
 
 
 
-3）连续变量，2 sample的test score的公式都一样；但如果假设了数据是正态分布，那么最后test score服从t distribution；而不假设正态分布，得到的test score可以近似认为是0~1 Normal。 注意在平时不要随便假设数据正态分布，因为太少见了。
+3）连续变量，2 sample的test score的公式都一样；但如果假设了数据是正态分布，那么最后test score服从t distribution；
+
+而不假设正态分布，得到的test score可以近似认为是0~1 Normal。 注意在平时不要随便假设数据正态分布，因为太少见了。医学实验、clinical trial，无奈之下才会强行假设test的指标服从Gaussian分布。这时的df有一个近似公式，在两组方差比较接近、sample size也接近时，df=sample size-2
 
 事实上，数据越大（&gt;30 per group），越不需要对数据的分布做假设，因为中央极限定理，平均值本身就服从了正态分布。
 
-医学实验、clinical trial，无奈之下才会强行假设test的指标服从Gaussian分布。
+
 
 
 
@@ -189,17 +207,17 @@ By Slutsky Theorem, replacing \sigma by \hat{sigma}, the CLT conclusion still ho
 
 
 
-### distribution
+### BG Knowledge 2: Distribution
 
-normal distribution 均值和方差
+normal distribution 均值和方差确定，distribution就确定了
 
-chi-squared distribution k个独立标准正态分布的平方和 由df决定形状
+chi-squared distribution k个独立标准正态分布随机变量的平方和就是自由度为k的chi-square distribution 由df决定形状
 
-t distribution df决定形状 当df=infinity时，t distribution就是标准正态分布 所以可以理解为 standard normal distribution是t distribution的特例。
+t distribution df决定形状 df=1时是heavy tail、fat tail，当df=infinity时，t distribution就是标准正态分布 所以可以理解为 standard normal distribution是t distribution的特例。
 
- $$\mathrm{T}=\frac{Z}{\sqrt{X / k}}, \text { where } \mathrm{Z} \sim \mathrm{N}(0,1), \mathrm{X} \sim \chi^{2}(k), \mathrm{Z} \text { and } \mathrm{X} \text { are independent. }$$ 
+ $$\mathrm{T}=\frac{Z}{\sqrt{X / k}}, \text { where } \mathrm{Z} \sim \mathrm{N}(0,1), \mathrm{X} \sim \chi^{2}(k), \mathrm{Z} \text { and } \mathrm{X} \text { are independent. k is df }$$ 
 
-binomial distribution         mean:np, sd: np\(1-\[\)
+binomial distribution         mean:np,   sd: np\(1-p\)
 
 multinomial distribution 
 
