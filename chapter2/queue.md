@@ -105,7 +105,9 @@ print 1==d.popleft() #True
 print 3==d.pop() #True
 ```
 
-## 例题：Sliding Window
+## 经典问题
+
+### 1 Sliding Window
 
 给一个window size，一串数，算出sliding window的平均值
 
@@ -125,9 +127,7 @@ class MovingAverage(object):
         return self._sum*1./len(self._nums)      #O(1)
 ```
 
-在工作中，data pipeline也会使用sliding window来存值，就像是在做down sampling，就可以存一个统计意义上更小的数据集。
-
-
+### 2 Tree Level Order Traversal \(BFS\)
 
 ## Implement a queue with Max API 
 
@@ -158,4 +158,12 @@ class QueueMax:
             return self.max_vals[0]
         raise Exception("Empty Queue")
 ```
+
+## 应用
+
+1. 在工作中，data pipeline也会使用sliding window来存值，就像是在做down sampling，就可以存一个统计意义上更小的数据集。
+2. 
+![](../.gitbook/assets/image%20%284%29.png)
+
+
 
