@@ -53,7 +53,9 @@ Review可能会回到数据分析（engineering）或者重新A/B Testing。Ramp
 
 **Novelty Effect:** Version A and B in experiment should not differ too much, to avoid novelty effect. Aside from the difference itself, 新鲜感 wears off or 陌生感 brings bias to the metrics and thus influences the experiment.  
 
-（面试）**Sampling Strategy/randomization strategy可能存在的问题**：check for confounding factor的distribution是否balanced（也就是检查randomization 是否biased AA部分可以检验）。如何设计避免这种bias？ 回答matching、segmentation。如果忘了matching，就用segmentation。
+（面试）**Sampling Strategy/randomization strategy可能存在的问题**：check for confounding factor的distribution是否balanced（也就是检查randomization 是否biased AA部分可以检验）。比如，1 sample continuous，划分地理位置的时候没有划分一致的大小，或者把Manhattan和Albany放在一起了，这就导致score的分母部分的方差偏大，score偏小，p value偏大，无法拒绝原假设。再或者，binary test，2 sample的 overall p离0.5近，那么standard error大，power减小，confidence interval变宽。  
+  
+如何设计避免这种bias？ 回答matching、segmentation。如果忘了matching，就用segmentation。
 
 和AB Testing有关的名词解释 [链接](https://www.optimizely.com/optimization-glossary/)
 
@@ -142,7 +144,11 @@ social-network中，不能单纯用P value，因为nodes之间不再是independe
 
 ![](../.gitbook/assets/image%20%2814%29.png)
 
+$$ \hat{\theta}_{n}$$ Metric的估计值 
 
+ $$\theta^{*}$$ 零假设成立时的metric的真实值 
+
+ $$S D\left(\hat{\theta}_{n}\right)$$ 零假设成立时的方差，等于根号下sample的方差/sample size
 
 $$
 \begin{array}{c|c|c}\hline & {\text { One group }} & {\text { Two group }} \\ \hline \hat{\theta}_{n} & {\hat{p}} & {\hat{p}_{1}-\hat{p}_{2}} \\ {\theta^{*} \text { under } H_{0}} & {p_{0}} & {0} \\ {S D\left(\hat{\theta}_{n}\right) \text { under } H_{0}} & {\sqrt{p_{0}\left(1-p_{0}\right) / n}} & {\sqrt{\hat{p}(1-\hat{p})\left(1 / n_{1}+1 / n_{2}\right)}}\end{array}
@@ -200,21 +206,25 @@ $$
 \sqrt{n}\left(\frac{\sum_{i=1}^{n} X_{i}}{n}-\mu\right) \stackrel{D}{\rightarrow} N\left(0, \sigma^{2}\right)
 $$
 
-Note: Cauchy distribution, variance = infinity , so it does not follow CLT 
+Note: Cuchy distribution, variance = infinity , so it does not follow CLT 
 
 Notation D: converge to distribution 
 
 如果上式左右同时除以sigma，那么我们就得到了上一小节Non-Gaussian里的One Sample or Paired的情况, $$Z=\frac{\overline{X}-\mu_{0}}{\sqrt{\hat{\sigma}^{2} / n}} \stackrel{D}{\rightarrow} N(0,1)$$ 。这也就证明了为什么N--&gt;infinity时均值服从正态分布。
 
+Difference between CLT and 大数定理
+
+大数定理是括号里的部分converge in probability，如果想要让它收敛速度变慢，就乘以 $$\sqrt{n}$$ 
+
 * Casual Definition
 
 无偏估计，sample mean的均值 $$\mathrm{E}(\overline{\mathrm{X}})=\mathrm{E}\left(\frac{1}{\mathrm{n}} \sum_{\mathrm{i}=1}^{\mathrm{n}} \mathrm{X}_{\mathrm{i}}\right)=\frac{1}{\mathrm{n}} \sum_{\mathrm{i}=1}^{\mathrm{n}} \mathrm{E}\left(\mathrm{X}_{\mathrm{i}}\right)=\frac{1}{\mathrm{n}} \times \mathrm{nE}\left(\mathrm{X}_{\mathrm{i}}\right)=\mu$$ 
 
- 等于population的均值。假设我们的参数 $$\theta$$ 本身就是均值，那么$$E\left[{\hat\theta}_{n}(X)\right]=\theta^{*}$$ ，右边的\*是population true value。
+ 等于population的均值。假设我们的参数 $$\theta$$ 本身就是均值，那么$$E\left[{\hat\theta}_{n}(X)\right]=\theta^{*}$$ ，右边的\*是population true value，对真实数据的估计值是 $$\hat{\theta}_{n}(X)$$ 。
 
 当n足够大时， $$\frac{\hat{\theta}_{n}-\theta^{*}}{S D\left(\hat{\theta}_{n}\right)}\stackrel{D}{\rightarrow} N\left(0, 1\right)$$ 
 
-By [Slutsky's theorem](https://en.wikipedia.org/wiki/Slutsky%27s_theorem), $$S D\left(\hat{\theta}_{n}\right)$$ 可以是population的true standard deviation, 也同样可以是sample的standard deviation. 
+ $$S D\left(\hat{\theta}_{n}\right)$$ 是零假设成立时对标准差的估计值。By [Slutsky's theorem](https://en.wikipedia.org/wiki/Slutsky%27s_theorem), $$S D\left(\hat{\theta}_{n}\right)$$ 可以是population的true standard deviation, 也同样可以是sample的standard deviation. 
 
 ### BG Knowledge 2: Distribution
 
@@ -256,7 +266,10 @@ binary变量： $$\left(Z_{\alpha / 2}+Z_{\beta}\right)^{2}*\left(p_{1}\left(1-p
 
 ### 补充
 
-* bootstrap的HT cover到0，显著；不能cover到0，不显著
+* 如果Binary Data，数据样本太小，用Fisher Exact Test; 如果Binary Data， p过大或过小，用Permutation Test
+* 如果Continuous Data，样本太小，Bootstrap Test，如果样本够大但是heavy tail（long tail，比如收入\)，也用Bootstrap Test。HT cover到0，显著；不能cover到0，不显著
+* 如果把数据分成了m组，每组都设定了alpha的significance level，比如按照地理划分，使用同样的H0，那到最后也不知道总体的Type 1 error rate. By Bonferroni correction, 就可以在family wise error rate做一个control。但是它过于conservative，比如如果有1000个group，那么每一个alpha就过小。这时FDR是一个更好的approach。
+* False Discovery Rate （FDR）adjustment可以让Type 1 error rate控制在某一个比例之中，对individual p value做correction。
 * ANOVA的一个应用：likelihood ratio test
 * $$H_{0}$$ 在AB Testing都是=0，如果是一个范围，用composite test
 * Python或R中一行得到cdf或者p value的代码： from scipy.stats import norm       norm.cdf\(value\) pnorm\(value\)
