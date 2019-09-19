@@ -173,6 +173,8 @@ Case 1: a\[fast\]!=stack.top\(\), stack.push\(a\[fast\]\), fast+=1
 
 Case 2: a\[fast\]==stack.top\(\), keep moving fast until a\[fast\]!=stack.top\(\), stack.pop\(\)
 
+要非常清楚fast本身的物理含义，在case2里，如果我们最终是要保留一个重复元素，那么就不需要pop\(\) 
+
 ```python
 def remove_duplicate(str):
     if not str or len(str)<1:
@@ -180,9 +182,10 @@ def remove_duplicate(str):
     lst = []
     fast = 0
     while fast < len(str):
+     #print fast, lst 
         c = str[fast]
         if len(lst)>0 and str[fast]==lst[-1]
-            while fast<len(str) and c==str[fast]:
+            while fast<len(str) and lst[-1]==str[fast]:
                 fast+=1
             lst.pop()
         else:
@@ -191,7 +194,21 @@ def remove_duplicate(str):
     return ''.join(lst)
 ```
 
+同理，也可以再定义一个slow pointer，借助双指针实现inplace的操作。  
 
+f fast: linear scan pointer \(fast and after are not processed\)
+
+s slow: all letters to the left of s \(not including s\) are processed letters that should be kept. 
+
+Initialization: slow=fast=1
+
+Case 1: a\[f\]!=a\[s-1\], then a\[s\]=a\[f\], s++, f++;
+
+Case 2: a\[f\]==a\[s-1\], then repeatedly f++ until a\[f\]!=a\[s-1\], s-=1
+
+Return a\[0:s\] \(不包含s\) 
+
+如果输入是一个list，那么空间复杂度就是O\(1\); 如果是个string，因为它immutable，先转换成string，空间复杂度是O\(n\)
 
 ### Reverse a string
 

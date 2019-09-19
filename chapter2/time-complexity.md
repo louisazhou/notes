@@ -22,6 +22,18 @@ idea 2：CPU cycle （number of instructions the CPU needs to operate\)
 
   of an algorithm as input size changes worst case scenario, computation time.
 
+这里有一个amortized time vs average time的概念，容易混淆
+
+amortized time：average of a **sequence** of **operations**. 
+
+average time: the average of **all possible inputs** in the input space 
+
+
+
+
+
+
+
 Fibonacci 数列的时间复杂度是O\( $$2^{n}$$ \)
 
 ![](../.gitbook/assets/image%20%2816%29.png)

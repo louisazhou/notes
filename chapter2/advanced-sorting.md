@@ -85,7 +85,17 @@ def quick_sort(lst, start, end):
     quick_sort(lst, new_pivot_index+1, end)
 ```
 
-Time: On average O\(nlogn\) 最坏的情况是有序的，每次的pivot都选的特别差, worst case O\( $$n^{2}$$ \)    所以我们需要randrange
+Time: Best Case and On average, both O\(nlogn\) 
+
+> 为什么Average是O\(nlogn\)
+>
+> 下面这个推导的最后结论
+
+$$
+\begin{array}{l}{\text { For any pivot position } i ; i \in\{0, \ldots, n-1\}} \\ {\cdot \text { Time for partitioning an array : } c n} \\ {\cdot \text { The head and tail subarrays contain } i \text { and } n-1-i \text { items, }} \\ {\text { respectively: } T(n)=c n+T(i)+T(n-1-i)} \\{\text { Average running time for sorting (a more complex recurrence): }} \\ {\qquad T(n)=\frac{1}{n} \sum_{i=0}^{n-1}(T(i)+T(n-1-i)+c n)} \end{array}
+$$
+
+最坏的情况是有序的，每次的pivot都选的特别差, worst case O\( $$n^{2}$$ \)    所以我们需要randrange
 
 Space: O\(logn\) worst case  O\(n\)
 

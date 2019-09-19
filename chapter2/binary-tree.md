@@ -284,8 +284,6 @@ class TreeNode:
 
 维护一个队列，q=\[\]，root进，看是否有左右孩子，如果有，deque，左右孩子enque，依此类推。
 
-同时还要注意每一层的空行 方法有很多，比如可以建立一个临时队列，q1是当前队列，q2是下一层的队列。q1打印完后，如果q2有值，把值给q1，q2接收下一行。如果q2是空，结束。
-
 ```python
 def print_by_level(root):
     q = [root]
@@ -311,6 +309,36 @@ def print_by_level(root):
 Time: O\(n\)
 
 Space: O\(max\(len\(q\)\)\)
+
+同时还要注意每一层的空行 方法有很多，比如可以建立一个临时队列，q1是当前队列，q2是下一层的队列。q1打印完后，如果q2有值，把值给q1，q2接收下一行。如果q2是空，结束。
+
+或者，使用一个queue，做一个counter记录需要打印几次。
+
+```python
+def levelOrder(self, root):
+    if not root:
+        return []
+    queue = deque([root])  #queue=deque() deque.append(root) 注意这里需要[] 因为deque需要接收iterable的参数
+    result = []
+    while queue:
+        count = len(queue)
+        current_level = []
+        while count > 0:
+            node = queue.popleft()
+            current_level.append(node.value)
+            
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+            count-=1
+        result.append(current_level)
+    return result
+```
+
+再followup 如果来回从左到右-从右到左，zigzag打印？
+
+——必须用2个queue，再加一个层数的变量
 
 > 面试题目 Suppose a tree is stored on the disk, and each node may have a large number of fan-out. We only have limited size of memory. How can we access the tree in level order?
 >

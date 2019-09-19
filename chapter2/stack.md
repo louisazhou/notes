@@ -8,6 +8,16 @@ push
 
 pop
 
+top
+
+从左到右linear scan，需要不断回头看过去的元素时，使用stack
+
+常见题型：
+
+1. Deduplication and Repeatedly deduplication, Leetcode 71, simplify path 
+2. 作为辅助实现更高级的data structure: two stack -&gt; queue, min stack; max stack
+3. 表达式计算、decode
+
 ## 例题：括号匹配
 
 ```python
@@ -45,7 +55,7 @@ def isValid(seq):
 
 
 
-## 例题： 算术表达式 
+## 例题： 算术表达式  逆波兰表达式
 
 本质是遇到‘）‘后把之前存的数字和operator拿出来做个计算，push回stack，直到stack空为止
 

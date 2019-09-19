@@ -4,7 +4,9 @@ description: 快速从一堆数据中找到极值
 
 # Heap
 
-逻辑上，堆是一个complete binary tree，即除了最后一层外都是满的，最后一层尽可能往左排。可以把Heap存在array里
+用途：维护一个变化的数据集的最优质的。
+
+逻辑上，堆是一个complete binary tree，即除了最后一层外都是满的，最后一层尽可能往左排。物理上，可以把Heap存在array里，因为它具有complete binary tree的性质。
 
 Left Child Node Index = Parent Node Index \*2 +1
 
@@ -18,7 +20,7 @@ Max-Heap：每个node的val都比自己孩子节点大
 
 Heap上也有两个基本操作，和stack一样，push和pop
 
-## Push
+## Push/Insert
 
 如果push到minheap的值是一个大的数，可以直接append；
 
@@ -77,7 +79,7 @@ def pop(self):
 
 Time Complexity: O \(log n\)
 
-## Initialization
+## Initialization/Heapify
 
 从Array初始化一个Heap 其实是一个Sift down
 
@@ -95,7 +97,7 @@ Time Complexity: O\(n\) 等比数列求和、求极限推导
 
 **soln2:** quick select O\(kn\)
 
-**Soln3:** 维护一个小根堆
+**Soln3:** 维护一个小根堆  Space O\(n\)
 
 Step 1: Heapify all elements    O\(n\)
 
@@ -116,7 +118,7 @@ def kSmallest(array, k):
     return res
 ```
 
-**Soln4:** 维护一个大根堆
+**Soln4:** 维护一个大根堆  Space O\(k\)
 
 Step 1: Heapify the first k elements to form a max-heap of size k     O\(k\)
 
@@ -149,6 +151,37 @@ def kSmallest2(array, k):
 | :--- | :--- | :--- |
 | k&lt;&lt;n | O\(c\*n\) | O\(nlogk\) |
 | k~~n | O\(nlogn\) | O\(n\) |
+
+## Top K Frequent Elements Leetcode 347
+
+Solution 1: 最直接的想法，max heap，全部进heap，取前k个。用-frequency的排序+min heap代替max heap的实现。
+
+Solution 2：用k-size min heap，不断push，把最小的弹出去。注意输出时需要reverse一下。 
+
+```python
+def topKFrequentPQ(nums, k):
+    # 统计频率 O（）
+    freq_hash = dict() #key=number, value=frequency
+    for n in numbers:
+        if n in freq_hash:
+            freq_hash[n]+=1
+        else:
+            freq_hash[n] =1
+    
+    # 末尾淘汰 n*2*O(logk)
+    heap=[]
+    for n, f in freq_hash.items():
+        heapq.heappush(heap,(f,n))
+        if len(heap)>k:
+            heapq.heappop(heap)
+    
+    # 调换顺序 O(klogk)
+    while len(heap)!=0:
+        ret.append(heapq.heappop(heap)[1])
+    ret.reverse()
+    
+    return ret
+```
 
 ## Merge K sorted array
 
@@ -185,7 +218,11 @@ k读入、k来heapify、nlogk
 
 Linkedin：Can you say something you know about stack and heap?
 
-数据结构
+数据结构的stack：LIFO，
 
-内存结构： 函数调用stack存reference，heap存object
+操作系统的stack： 函数调用stack存reference，dfs
+
+数据结构的heap：priority queue
+
+操作系统的heap：存object，申请内存来用
 
