@@ -1,3 +1,7 @@
+---
+description: Experiment Design + A/B Testing
+---
+
 # A/B Testing
 
 ## A/B Testing 
@@ -56,6 +60,12 @@ Review可能会回到数据分析（engineering）或者重新A/B Testing。Ramp
 （面试）**Sampling Strategy/randomization strategy可能存在的问题**：check for confounding factor的distribution是否balanced（也就是检查randomization 是否biased AA部分可以检验）。比如，1 sample continuous，划分地理位置的时候没有划分一致的大小，或者把Manhattan和Albany放在一起了，这就导致score的分母部分的方差偏大，score偏小，p value偏大，无法拒绝原假设。再或者，binary test，2 sample的 overall p离0.5近，那么standard error大，power减小，confidence interval变宽。  
   
 如何设计避免这种bias？ 回答matching、segmentation。如果忘了matching，就用segmentation。
+
+matching：sample the experiment group from the population, for each set of users in the experiment group, find a matched user from the rest of the population and put them in the control group. 可以one-to-one match on selected factors, set-to-set match on the frequency of the selected factors, one-to-one match on the frequency of the estimated propensity scores. 
+
+segmentation: divide the users into subsets and do analysis per segment. Can \(1\) help verify if there is heterogeneity in different subsets of users \(male, female have different preference, etc.\) \(2\) if confounding factors are imbalanced, segment-then-unify can be an alternative to matching. 
+
+
 
 和AB Testing有关的名词解释 [链接](https://www.optimizely.com/optimization-glossary/)
 

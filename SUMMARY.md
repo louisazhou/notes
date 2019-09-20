@@ -42,6 +42,7 @@
 * [Chapter4 Statistics and A/B Testing](statistics-and-a-b-testing/README.md)
   * [Statistics Glossary](statistics-and-a-b-testing/statistics-glossary.md)
   * [A/B Testing](statistics-and-a-b-testing/a-b-testing.md)
+  * [Inference about independence](statistics-and-a-b-testing/independence.md)
 * [Chapter5 SQL](sql.md)
 * [Chapter6 Spark](spark.md)
 * [Chapter7 Project Code Walk-Throughs](project-code-walk-throughs/README.md)
