@@ -4,15 +4,15 @@ This is a book powered by [GitBook](https://louisazhou.gitbook.io/notes/), docum
 
 I try to maintain a daily update... until chapters and sections are filled out.   
   
-Last Checkpoint: 2019/9/17/12:11
+Last Checkpoint: 2019/9/20/00:11
 
 Chapt1: until 1.4 Pandas
 
-Chapt2: until Binary Search Tree
+Chapt2: until Heap
 
-Chapt3: until Gradient Descent
+Chapt3: until XG Boost
 
-Chapt4: partly finished
+Chapt4: finished
 
 Chapt7: some template procedures
 
