@@ -161,7 +161,7 @@ Solution 2：用k-size min heap，不断push，把最小的弹出去。注意输
 ```python
 def topKFrequentPQ(nums, k):
     # 统计频率 O（）
-    freq_hash = dict() #key=number, value=frequency
+    freq_hash = dict() #0 frequency, 1 number
     for n in numbers:
         if n in freq_hash:
             freq_hash[n]+=1
@@ -171,6 +171,7 @@ def topKFrequentPQ(nums, k):
     # 末尾淘汰 n*2*O(logk)
     heap=[]
     for n, f in freq_hash.items():
+        # items()返回的是列表对象，iteritems（）返回的是iterator对象
         heapq.heappush(heap,(f,n))
         if len(heap)>k:
             heapq.heappop(heap)
@@ -182,6 +183,8 @@ def topKFrequentPQ(nums, k):
     
     return ret
 ```
+
+在这种方法下不需要每次heapify
 
 ## Merge K sorted array
 

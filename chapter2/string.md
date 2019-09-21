@@ -122,7 +122,7 @@ def remove_spaces(str):
 
 
 
-### Char De-duplication 
+## Char De-duplication 
 
 第一个字符，不论是否重复，都一定会被保留，所以initialization时，可以都从1开始。
 
@@ -183,9 +183,8 @@ def remove_duplicate(str):
     fast = 0
     while fast < len(str):
      #print fast, lst 
-        c = str[fast]
-        if len(lst)>0 and str[fast]==lst[-1]
-            while fast<len(str) and lst[-1]==str[fast]:
+        if len(lst)>0 and str[fast]==lst[-1] #易错点 lst[-1]但是忘了>0的前提
+            while fast<len(str) and lst[-1]==str[fast]: #易错点 fast++的过程中可能比input本身还大 
                 fast+=1
             lst.pop()
         else:
@@ -210,7 +209,7 @@ Return a\[0:s\] \(不包含s\)
 
 如果输入是一个list，那么空间复杂度就是O\(1\); 如果是个string，因为它immutable，先转换成string，空间复杂度是O\(n\)
 
-### Reverse a string
+## Reverse a string
 
 相当于reverse两次，call reverse这个helper，第一次 reverse整个list，第二次，j放在j-1，然后再call helper
 
@@ -238,7 +237,7 @@ def reverse_string(string):
 
 
 
-### Substring
+## Substring
 
 检查一个字符串是否是另一个字符串的子串，返回字符串开始的位置
 

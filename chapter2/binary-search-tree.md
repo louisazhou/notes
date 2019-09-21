@@ -4,6 +4,12 @@ description: 每个node，比左child最大的大，比右child最小的小
 
 # Binary Search Tree
 
+## Implementation 
+
+
+
+## 检查是否BST
+
 左节点, lower bound来自parent的lower bound, upper bound来自parent的值；
 
 右节点, lower bound 来自parent的值，upper bound来自parent的upper bound
@@ -80,7 +86,7 @@ def inorder(root, prev, res):
 
 
 
-### Create a BST from a sorted list of integers 
+## Create a BST from a sorted list of integers 
 
 Given the following sequence:
 
@@ -121,4 +127,124 @@ def bst(nums, start, end):
     root.right = bst(nums, mid+1, end)
     return root
 ```
+
+## 利用BST的性质
+
+### BST版的LCA
+
+```python
+def lca(root, node1, node2):
+    if not root:
+        return None
+    if node1<=root<node2:
+        return root
+    
+    elif root<node1
+        return lca(root.right, node1, node2)
+    
+    elif root>node2
+        return lca(root.left, node1, node2)
+```
+
+### BST版的search element
+
+return以它为root的subtree
+
+{% code-tabs %}
+{% code-tabs-item title="如果不是一个BST，不用BST的性质" %}
+```python
+class Solution (object):
+    def searchBST(self, root, val)
+    """
+    type root: TreeNode
+    type val: int
+    type return: TreeNode
+    """
+    
+    if root is None:
+        return None
+    
+    if root.val == val:
+        return root
+    
+    left = self.searchBST(root.left, val)
+    right = self.searchBST(root.right, val)
+    
+    if left:
+        return left
+    if right:
+        return right
+    return None
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+{% code-tabs %}
+{% code-tabs-item title="利用BST的性质" %}
+```python
+class Solution (object):
+    def searchBST(self, root, val)
+    """
+    type root: TreeNode
+    type val: int
+    type return: TreeNode
+    """
+    
+    if root is None:
+        return None
+    
+    if root.val == val:
+        return root
+    
+    elif left.val < val:
+        return self.searchBST(root.right, val)
+    else:
+        return self.searchBST(root.left, val)
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+### Range Sum of BST
+
+Given the root node of a BST, return the sum of values of all nodes with the value between l and r \(inclusive\). 
+
+{% code-tabs %}
+{% code-tabs-item title="如果不是一个BST，不用BST的性质" %}
+```python
+class Solution (object):
+    def rangesumBST(self, root, L, R)
+    
+    if not root:
+        return 0
+    r = 0
+    
+    if root.val >= L and root.val <= R:
+        r += root.val
+    r += self.rangeSumBST(root.left, L, R)
+    r += self.rangeSumBST(root.right, L, R)
+    
+    return r
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+{% code-tabs %}
+{% code-tabs-item title="利用BST的性质" %}
+```python
+class Solution (object):
+    def rangeSumBST(self, root, L, R)
+    
+    if root is None:
+        return 0
+    
+    if root.val < L:
+        return self.rangeSumBST(root.right, L, R)
+    elif left.val > R:
+        return self.rangeSumBST(root.left, L, R)
+    else:
+        return self.rangeSumBST(root.left, L, R) + root.val 
+        + self.rangeSumBST(root.right, L, R)
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
 

@@ -12,13 +12,18 @@ top
 
 从左到右linear scan，需要不断回头看过去的元素时，使用stack
 
+{% embed url="https://www.jianshu.com/p/78e3b21b842d" %}
+
+
+
 常见题型：
 
 1. Deduplication and Repeatedly deduplication, Leetcode 71, simplify path 
 2. 作为辅助实现更高级的data structure: two stack -&gt; queue, min stack; max stack
 3. 表达式计算、decode
+4. 单调栈 eg. Histogram中找到最大的长方形
 
-## 例题：括号匹配
+## 括号匹配
 
 ```python
 def isValid(seq):
@@ -55,7 +60,7 @@ def isValid(seq):
 
 
 
-## 例题： 算术表达式  逆波兰表达式
+## 算术表达式  逆波兰表达式
 
 本质是遇到‘）‘后把之前存的数字和operator拿出来做个计算，push回stack，直到stack空为止
 
@@ -78,7 +83,43 @@ def arithmetic_expression_evaluation(terms):
   return operands[0]
 ```
 
-## 例题：946 Validate Stack Sequences
+## Decode
+
+遇到【时把之前的内容暂存起来，保护现场，遇到】时把stack的内容释放出来，恢复现场。
+
+四个变量，cnt， string，cnt\_stack, str\_stack
+
+遇到 \[ : push cnt, string to stack, 重置cnt, string
+
+遇到 \] : pop from stack
+
+```python
+def decodeString(s): 
+    str_stack = []
+    cnt_stack = []
+    string = ""
+    i = 0
+    
+    for i in range (len(s)): 
+        if s[i].isdigit(): 
+            cnt = int(s[i]) 
+        elif s[i].isalpha(): 
+            string += s[i] 
+        elif s[i] == '[':
+            cnt_stack.append(cnt)
+            str_stack.append(string)
+            string = ""
+        else:
+            cnt = cnt_stack.pop()
+            last_ret = str_stack.pop()
+            string = last_ret + string * cnt #这个string相加是O(n)的操作
+            
+    return string
+```
+
+$$O(n^2)$$ 
+
+## 946 Validate Stack Sequences
 
 ## Implement a queue using 2 stacks
 
@@ -163,6 +204,36 @@ Class stack:
 Time: O\(1\)
 
 Space: O\(n\)
+
+同理，也可以实现getmin
+
+## Min Stack
+
+Push x: stack.append\(x\)
+
+Case 1: x&lt;getMin\(\): minStack.append\(x\)
+
+Case2: x&gt;=getMin\(\): minStack.append\(getMin\(\)\)
+
+Pop x: stack.pop\(\), minStack.pop\(\)
+
+
+
+优化，可以只有数值有变时再存min
+
+Push x: stack.append\(x\)
+
+Case 1: x&lt;=getMin\(\): minStack.append\(x\)
+
+Case2: x&gt;getMin\(\): Do nothing
+
+Pop x: 
+
+if stack\[-1\]==getMin\(\) 
+
+      minStack.pop\(\)    
+
+stack.pop\(\)
 
 ## Leetcode 1003 合法字符串
 
