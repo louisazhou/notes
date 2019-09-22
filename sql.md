@@ -25,9 +25,8 @@ description: Sequential Query Language
 
 FROM--&gt;WHERE--&gt;GROUP BY--&gt;HAVING--&gt;SELECT--&gt;ORDER BY
 
-Group By 1 可以当做一种简写，指的group by select语句中的第一列
-
-同理，ORDER BY 2 也是一种简写
+1. Group By 1 可以当做一种简写，指的group by select语句中的第一列  同理，ORDER BY 2 也是一种简写
+2. HAVING是在select之后才操作的，所以Having里有Select里用到的aggregation function
 
 ```sql
 SELECT FROM 
@@ -97,13 +96,13 @@ course
 
 | Cno | Cname |  |
 | :--- | :--- | :--- |
-|  | 计算机网络 | 90 |
+| C01 | 计算机网络 | 90 |
 
 SC
 
 | Sno | Cno | Grade |
 | :--- | :--- | :--- |
-| 9512101 |  | 90 |
+| 9512101 | C01 | 90 |
 
 
 
@@ -138,6 +137,13 @@ GROUP BY Sdept
 #7
 SELECT Cname, COUNT(Sno), MAX(Grade)
 FROM SC, course
+WHERE SC.Cno in (SELECT DISTINCT(Cno) FROM SC) AND SC.Cno=SC.Cno
+GROUP BY SC.Cno
 
+SELECT Cname, COUNT(Sno), MAX(Grade)
+FROM 
+INNER JOIN
+ON Cno
+GROUP BY
 ```
 

@@ -6,6 +6,10 @@ reg&lt;- lm\(\) 就能极其简单的regression，reg$就有所有hints 知道�
 
 dataframe也是一个list。
 
+```r
+
+```
+
 ### Introduction to the Tidyverse \(Notes\)
 
 ```r
@@ -212,4 +216,277 @@ nrow(subset()) # returns the number of the rows that satisfy the condition in th
 ```
 
 ### Cleaning Data in R \(Notes\)
+
+R里对于variable的定义
+
+character、numeric（NaN和Inf都是numeric）、integer（以L结尾的才是integer）、factor、logical（NA算logical）
+
+```r
+# view dimension of a dataframe, first row, second column
+dim(lunch)
+
+#look at column names
+names(lunch)
+
+#summary, median mean quantiles 
+summary(lunch)
+
+# dplyr 的package里
+glimpse(lunch)
+
+# view the top, can specify n
+head(lunch)
+tail(lunch) # bottom
+
+#draw histograms
+hist(lunch$per_free_red, breaks=20)
+#scatter plot
+plot(,)
+#boxplot
+boxplot(x, horizontal=TRUE)
+
+#The followings are from tidyr package
+
+#gather function gets key-value pairs
+gather(df, key, value, -namethiscolumn) #all colomns except for the namethiscolumn
+
+#spread function spread the key-value pairs
+spread(df, key, value)
+
+#separate a colmn to multiple columns
+separate(df, columnname, c('this', 'that'), sep= '')
+
+#unite multiple columns to one
+unite(df, unitedname, columname1, columname2, sep="-")
+
+
+# lubridate package 是用来处理datetime variable的
+ymd("2015-08-25") ymd("2015 August 25") mdy("August 25, 2015")
+hms("13:33:09") ymd_hms("2015/08/25 13.33.09")
+
+
+#stringr 用来处理string
+str_trim("") #删前后空格
+str_pad("",width=number, side="left"， pad="number") #填充内容
+str_detect(vectorname, "string") #在vector中找到指明的string return的是和vector size等长的logical
+str_replace(vectorname, "oldstringname", "newname")
+tolower("string")
+toupper("string")
+
+#NA的处理
+is.na(df) #返回和df一样dimension的df，里面写着logical 
+any(is.na(df)) #返回一个logical 
+sum(is.na(df)) #返回一个total number
+which(is.na(df$columnname))
+complete.cases(df) #以row为单位扫df，如果有na就false
+df[complete.cases(df),] #只保留所有没NA的行
+na.omit(df) #也可以remove有missing的row
+#table/summary也可以间接告诉NA
+
+#一次性的mutate
+mutate_all()
+mutate_at(weather5, vars(CloudCover:WindDirDegrees), funs(as.numeric))
+mutate_if() 
+
+transmute_all()
+transmute_at()
+transmute_if()
+```
+
+### Network Science in R \(Notes\)
+
+```r
+library(readr)
+library(igraph)
+
+#build a network from data frame
+g <- graph_from_data_frame(d=ties, directed = FALSE, vertices = nodes)
+
+#add name attribute to the network
+g$name <- "Name"
+
+# explore the set of nodes, and print the number of nodes
+V(g) #v for vertices
+vcount(g)
+
+# explore the set of ties and print the number of ties
+E(g) #e for edges
+ecount(g)
+
+# add node attribute id and print the node id attribute
+V(g)$id <- 1:vcount(g)
+
+# add cluster information 
+V(g)$cluster <- nodes$cluster
+
+# print the tie 'weight' attribute
+E(g)$weight
+
+library(ggraph)
+library(dplyr)
+library(ggplot2)
+
+ggraph(g, layout = 'with_kk')+  #Kamada-Kawai layout placed tied nodes at equal distances, so that all ties had roughly the same length.
+    geom_edge_link(aes(alpha=weight))+ #draws edges as a straight line between nodes
+    geom_node_point(ase(size=degree))   #draws each node as a point,
+                    #geom_node_text() draws a text label on each node.
+    geom_node_text(aes(label = id), repel = TRUE) #The label aesthetic should map to the id field.
+#Set the repel argument to TRUE to prevent the labels from overlapping.
+ggraph:::igraphlayouts #看到各种layout方式
+
+# Plot with Kamada-Kawai layout
+ggraph(filtered_network, layout="with_kk") + 
+  # Add an edge link geom, mapping transparency to similarity
+  geom_edge_link(aes(alpha=similarity))
+
+geom_edge_link(aes(alpha = betweenness, filter = betweenness > median_betweenness))
+
+'in_circle' #places nodes on a circle, and
+"on_grid" #which places nodes on a grid.
+
+#degree 一个node有几个edges igraph funciton
+degree(g)
+
+#strength 一个node边上edges的所有weight的加和 
+strength(g)
+
+nodes_with_centrality <- nodes %>%
+  # Add a column containing the degree of each node
+  mutate(degree = degree(g), strength = strength(g)) %>%
+  # Arrange rows by descending degree
+  arrange(desc(degree))
+
+#how often a node lies on the shortest path between other nodes.
+betweenness()
+# how close a node is to all other nodes in the network in terms of shortest path distance.
+closeness()
+
+#betweeness of ties: the number of shortest paths going through a tie.
+# 1. inverse of weight, call it dist_weight, then apply edge_betweeness()
+dist_weight = 1/E(g)$weight
+edge_betweeness(g, weights=dist_weight)
+
+#a weak tie as a tie with a weight equal to 1
+#find number and percentage of weak ties
+ties %>%
+  group_by(weight)%>%
+  summarise(n=n(), p=n/nrow(ties))%>%  #n=n() means number of nodes
+  arrange(-n)
+  
+tie_counts_by_weight <- ties %>% 
+  # Count the number of rows with each weight
+  count(weight) %>%
+  # Add a column of the percentage of rows with each weight
+  mutate(percentage = 100 * n / nrow(ties)) 
+  
+#connection patterns: using the adjacency matrix
+#undirected symmetric. 
+A = as_adjacency_matrix(g, attr="weight")
+
+A[1,] #first row
+A[,1] #first column
+
+#pearson similarity: [-1,1]
+ties_swapped <- ties %>%
+  mutate(temp = to, to = from, from = temp) %>% 
+  select(-temp)
+ties_bound <- bind_rows(ties, ties_swapped)
+
+# Using ties_bound, plot to vs. from, filled by weight
+ggplot(ties_bound, aes(x = from, y = to, fill = factor(weight))) +
+  # Add a raster geom
+  geom_raster() + #draw a point in the plot if there is a tie 
+  # Label the color scale as "weight"
+  labs(fill = "weight")
+  
+# visualize correlation
+ggplot(data=nodes, mapping=aes(x=degree, y=strength))+
+  geom_point()+
+  geom_smooth(method="lm", se=FALSE)
+  
+# graph to matrix
+A<-as_adjacancy_matrix(g)
+# matrix to graph
+g<-graph_from_adjacency_matrix(A, mode="undirected", weighted=TRUE)
+# graph to dataframe
+df = as_data_frame(g, what='both')
+sim_df <- igraph::as_data_frame(h, what = "edges")
+# dataframe to graph
+g<-graph_from_data_frame(df$ties, vertices=df$nodes)
+# matrix to dataframe
+df = as_data_frame(graph_from_adjacency_matrix(A), what="both")
+# dataframe to matrix
+A<- as_adjacency_matrix(graph_from_data_frame(df$ties, vertices=df$nodes))
+# Convert df to a tibble
+sim_tib <- as_tibble(sim_df)
+
+# hierarchical clustering in R
+# distance matrix from similarity matrix 
+D<- 1-S #distance is defined as the complement to 1 of similarity
+# distance object from distance matrix
+d<- as.dist(D)
+# average-linkage clustering method
+cc<- hclust(d, method="average")
+# cut dendrogram at 4 clusters
+cutree(cc,k=4)
+#Plot the dendrogram of cc with plot().
+plot(cc)
+#the first pair that was merged 
+cc$merge[1,]
+
+#在R里有点像SQL的操作：
+nodes %>%
+  # Filter rows for cluster 1
+  filter(cluster==1) %>% 
+  # Select the name column
+  select(name)
+# Calculate properties of each cluster
+nodes %>%
+  # Group by cluster
+  group_by(cluster) %>%
+  # Calculate summary statistics
+  summarize(
+    # Number of nodes
+    size = n(), 
+    # Mean degree
+    avg_degree = mean(degree),
+    # Mean strength
+    avg_strength = mean(strength)
+  ) %>% 
+  # Arrange rows by decreasing size
+  arrange(desc(size))
+  
+  
+# 画图的时候也可以像ggplot的facet_wrap一样，不同panel
+  facet_nodes(~cluster, scales="free")
+  
+#visNetwork, interactive plot
+data <- toVisNetworkData(g)
+head(data$nodes)
+head(data$edges)
+visNetwork(nodes = NULL, edges = NULL, dot = NULL, gephi = NULL,
+  width = NULL, height = NULL, main = NULL, submain = NULL,
+  footer = NULL, background = "rgba(0, 0, 0, 0)", ...)
+#还可以为它加不同的layout
+ls("package:igraph", pattern = "^layout_.")
+ # Change the layout to be in a circle %>%
+  visIgraphLayout(layout = "layout_with_kk") 
+#还可以在选中的时候再变颜色 %>%
+  visOptions(highlightNearest=TRUE)
+#增加bar选择
+  visOptions(nodesIdSelection=TRUE)
+#增加不同颜色 用cluster类别来为颜色划分
+V(g)$color <- V(g)$cluster
+  visOptions(selectedBy = "group")
+```
+
+### Predictive Analytics using Networked Data in R \(notes\)
+
+```r
+library(igraph)
+plot.igraph(g, edge.label=, edge.color=, layout= , vertex.label=, vertex.color=,)
+
+#The relational Neighbor Classifier
+RelationalNeighbor <- Avector/(Avector+Bvector)
+```
 
