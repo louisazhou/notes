@@ -4,17 +4,17 @@ This is a book powered by [GitBook](https://louisazhou.gitbook.io/notes/), docum
 
 I try to maintain a daily update... until chapters and sections are filled out.   
   
-Last Checkpoint: 2019/9/20/00:11
+Last Checkpoint: 2019/9/23/12:30
 
 Chapt1: until 1.4 Pandas
 
 Chapt2: until Heap
 
-Chapt3: until XG Boost
+Chapt3: until Back Tracking 
 
 Chapt4: finished
 
-Chapt7: some template procedures
+Chapt7: still updating
 
 Chapt8: until NLP Intro
 
