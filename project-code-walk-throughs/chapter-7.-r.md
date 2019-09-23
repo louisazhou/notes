@@ -7,7 +7,21 @@ reg&lt;- lm\(\) 就能极其简单的regression，reg$就有所有hints 知道�
 dataframe也是一个list。
 
 ```r
+# matrix multiplication
+%*%
 
+#grep grepl
+haystack <- c("red", "blue", "green", "blue", "green forest")
+
+
+grep("green", haystack)
+
+grep("r", haystack) # returns position
+grep("r", haystack, value = TRUE) # returns value
+grepl("r", haystack) # returns boolean
+
+sub("e", "+", haystack) # replaces pattern with replacement (once)
+gsub("e", "+", haystack) # replaces pattern with replacement (global)
 ```
 
 ### Introduction to the Tidyverse \(Notes\)
@@ -482,11 +496,71 @@ V(g)$color <- V(g)$cluster
 
 ### Predictive Analytics using Networked Data in R \(notes\)
 
+Number of edges in a fully connected network $$\left(\begin{array}{c}{\text {nodes}} \\ {2}\end{array}\right)=\frac{\text {nodes}(\text {nodes }-1)}{2}$$ 
+
+Network Connectance P  $$p=\frac{2 \cdot e d g e s}{n o d e s(n o d e s-1)}$$ \(ratio of the actual number of the edges/fully connected\)
+
+Expected Number of same label edges: $$\left(\begin{array}{c}{n q} \\ {2}\end{array}\right) \cdot p=\frac{n g(n g-1)}{2} \cdot p$$ 
+
+Diadicity $$D=\frac{\text { number of same label edges }}{\text { expected number of same label edges }}$$ $$\begin{array}{l}{D>1 \Rightarrow \text { Dyadic }} \\ {D \simeq 1 \Rightarrow \text { Random }} \\ {D<1 \Rightarrow \text { Anti-Dyadic }}\end{array}$$ 
+
+Expected Number of cross label edges = $$n_{w} n_{g} p$$ 
+
+Heterophilicty: $$H=\frac{\text { number of cross label edges }}{\text { expected number of cross label edges }}$$ 
+
+$$\begin{array}{l}{\text { 1. } H>1 \Rightarrow \text { Heterophilic }} \\ {\text { 2. } H \simeq 1 \Rightarrow \text { Random }} \\ {\text { 3. } H<1 \Rightarrow \text { Heterophobic }}\end{array}$$ 
+
 ```r
 library(igraph)
 plot.igraph(g, edge.label=, edge.color=, layout= , vertex.label=, vertex.color=,)
 
 #The relational Neighbor Classifier
 RelationalNeighbor <- Avector/(Avector+Bvector)
+# Compute the churn probabilities
+churnProb <- ChurnNeighbors / (ChurnNeighbors + NonChurnNeighbors)
+# Find who is most likely to churn
+mostLikelyChurners <- which(churnProb == max(churnProb))
+# Extract the IDs of the most likely churners
+customers$id[mostLikelyChurners]
+
+
+# Create a subgraph with only churners
+churnerNetwork <- induced_subgraph(network, 
+                    v = V(network)[which(V(network)$churn == 1)])
+                    
+# Plot the churner network 
+plot(churnerNetwork, vertex.label = NA, vertex.size = 2)
+
+
+# First Challenge: The following doesn't work, so either featurizing or train one network and test another network
+set.seed(1001)
+sampleVertices<-sample(1:10, 6, replace=FALSE)
+plot(induced_subgraph(g, V(g)[sampleVertices]))
+plot(induced_subgraph(g, V(g)[-sampleVertices]))
+
+# Second Challenge: data not iid
+# eg. probabilistic relational neighbor classifier 
+churnProb_updated <- as.vector((AdjacencyMatrix %*% churnProb) / neighbors)
+
+
+# Third Challenge: collective inference, eg. Gibbs sampling, iterative classification, relaxation labeling 
+#Collective inferencing is a procedure to simultaneously label nodes in interconnected data to reduce classification error.
+
+# R里的AUC在library(pROC)里
+library(pROC)
+auc(customers$churn, as.vector(churnProb))   #response, predictor
+
+# Homophily: birds of a feather flock together
+
+# match(x, y) returns a vector with the location of x in y
+edgeList$FromLabel <- customers[match(edgeList$from, customers$id), 2] #出来的就是匹配出来的那一堆0和1
+
+# Diadicity: measures the connectedness between nodes with the same label compared to what is expected 
+# in a random configuration of the network.
+
+# Heterophilicity: connectedness between nodes with different labels compared to what is expected for a random configuration
+ 
 ```
+
+
 
