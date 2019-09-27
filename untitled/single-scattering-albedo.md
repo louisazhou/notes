@@ -201,7 +201,11 @@ for i = 1:1        %1:numwl
 end
 ```
 
+{% hint style="info" %}
+Note:
 
+In here, a more precise way to do it is to output the a1 to a4 and b1, b2 directly from the mie code. The method above, to compute them from alpha1~alpha4 and beta1 beta2 is actually taking a detour.  
+{% endhint %}
 
 So far, we have calculated the scattering matrix $$\mathbf{F}_{S}$$. The phase matrix $$\mathbf{P}_{S}$$ is related to the scattering matrix by  $$\mathbf{P}_{S}\left(u^{\prime}, \phi^{\prime}, u, \phi\right)=\mathbf{R}_{S}\left(\pi-\sigma_{2}\right) \mathbf{F}_{S}(\Theta) \mathbf{R}_{S}\left(-\sigma_{1}\right)$$. $$\mathbf{R}_{S}$$ is a rotation matrix used to rotate reference planes, and it transforms phase matrix from the scattering plane to local meridian plane of reference. 
 
@@ -282,25 +286,27 @@ Now it's time to scale it to two-slab and multi-slab cases.
 
 ### Single Multi-layer Slab
 
+For a multilayered slab the corresponding solution is
+
 $$
 \begin{aligned} \mathbf{I}_{p}^{+}(\tau, \mu, \phi)=& \frac{\mu_{0}}{\left(\mu_{0}+\mu\right)} \sum_{n=p}^{L}\left\{\mathbf{X}_{n}^{+}(\mu, \phi)\right.\\ &\left. \times\left[e^{-\left[\tau_{n-1} / \mu_{0}+\left(\tau_{n-1}-\tau\right) / \mu\right]}-e^{-\left[\tau_{n} / \mu_{0}+\left(\tau_{n}-\tau\right) / \mu\right]}\right]\right\} \end{aligned}
 $$
+
+with $$\tau_{n-1}$$ replaced by $$\tau$$ for n=p. p is the layer at which level that we are trying to evaluate, $$\tau_{p}$$is the optical depth from the top of the slab to the p-th layer, and n is the total number of layer. 
 
 ### Single, two-layer slab
 
  $$\tau$$ is the depth measured from the top slab to any layer p. The subscript numbers get larger as more layers are accumulated downwards. 
 
-$$
-\vec{I}_{1}^{+}(\tau, \mu, \phi)=\frac{a(\tau) \mu_{0} F^{s}}{4 \pi\left(\mu+\mu_{0}\right)} \vec{P}\left(\mu^{\prime}, \phi^{\prime} ; \mu, \phi\right)\{\left[1-e^{-\left(\tau_{1} / \mu+\tau_{1} / \mu_{0}\right)}\right]+\left[ e^{-\left[\tau_{1} / \mu+\tau_{1} / \mu_{0}\right]}-e^{-\left[\tau_{1} / \mu+\tau_{1} / \mu_{0}\right]}\right]\}
-$$
+As an example, for a 2 layer slab, with $$\tau_{1}=0.0025, \tau_{2}=0.005, \text{and we are evaluating an optical depth at }\tau=0.0024, \text{which means }p=1,  \text{the equations are}$$ 
 
 $$
-=\frac{a(\tau) \mu_{0} F^{s}}{4 \pi\left(\mu+\mu_{0}\right)} \vec{P}\left(\mu^{\prime}, \phi^{\prime} ; \mu, \phi\right)\left\{\left[1-e^{-\left[\tau_{1} / \mu_{0}+\tau_{1}/ \mu\right]}\right]\right\}
+\begin{array}{l}{I_{1}^{+}=\frac{\mu_{0}}{\left(\mu_{0}+\mu\right)} X_{1}\left(e^{-\frac{\tau}{\mu{0}}}-e^{-\left(\frac{\tau_{1}}{\mu_{0}}+\frac{\tau_{1}-\tau}{\mu}\right)}\right)} \\ \frac{\mu_{0}}{\left(\mu_{0}+\mu\right)} {+X_{2}\left(e^{-\left(\frac{\tau_{1}}{\mu_{0}}+\frac{\tau_{1}-\tau}{\mu}\right)}-e^{-\left(\frac{\tau_{2}}{\mu_{0}}+\frac{\tau_{2}-\tau}{\mu}\right)}\right)} \end{array}
 $$
 
-$$
-\vec{I}_{2}^{+}(\tau, \mu, \phi)=\frac{a(\tau) \mu_{0} F^{s}}{4 \pi\left(\mu+\mu_{0}\right)} \vec{P}\left(\mu^{\prime}, \phi^{\prime} ; \mu, \phi\right)\left[e^{-\left[\tau_{1} / \mu_{0}+(\tau_{1}-\tau)/ \mu\right]}-e^{-\left[\tau_{2} / \mu_{0}+(\tau_{2}-\tau)/ \mu\right]}\right]
-$$
+If evaluate on the bottom layer, say $$\tau=0.0026, \text{which means }p=2$$ 
 
->
+$$
+I_{2}^{+}=\frac{\mu_{0}}{\left(\mu_{0}+\mu\right)} X_{2}\left(e^{-\frac{\tau}{\mu_{0}}}-e^{-\left(\frac{\tau_{2}}{\mu_{0}}+\frac{\tau_{2}-\tau}{\mu}\right)}\right)
+$$
 
