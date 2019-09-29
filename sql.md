@@ -23,10 +23,11 @@ description: Sequential Query Language
 
 ## Cheatsheet
 
-FROM--&gt;WHERE--&gt;GROUP BY--&gt;HAVING--&gt;SELECT--&gt;ORDER BY
+执行顺序 FROM--&gt;WHERE--&gt;GROUP BY--&gt;HAVING--&gt;SELECT--&gt;ORDER BY
 
 1. Group By 1 可以当做一种简写，指的group by select语句中的第一列  同理，ORDER BY 2 也是一种简写
 2. HAVING是在select之后才操作的，所以Having里有Select里用到的aggregation function
+3. row
 
 ```sql
 SELECT FROM 
@@ -82,9 +83,9 @@ FROM
 
 ## Homework/Practice
 
-练习平台 [https://www.w3schools.com/sql/](https://www.w3schools.com/sql/)
+练习平台 
 
-
+{% embed url="https://www.w3schools.com/sql/" %}
 
 student
 
@@ -94,7 +95,7 @@ student
 
 course
 
-| Cno | Cname |  |
+| Cno | Cname | HOURS |
 | :--- | :--- | :--- |
 | C01 | 计算机网络 | 90 |
 
@@ -141,9 +142,132 @@ WHERE SC.Cno in (SELECT DISTINCT(Cno) FROM SC) AND SC.Cno=SC.Cno
 GROUP BY SC.Cno
 
 SELECT Cname, COUNT(Sno), MAX(Grade)
-FROM 
-INNER JOIN
-ON Cno
-GROUP BY
+FROM course
+INNER JOIN SC
+USING Cno
+GROUP BY SC.Cno
+
+#8
+SELECT student.Sname, student.Sno, COUNT(Cno)
+FROM student
+INNER JOIN SC ON SC.Sno=student.Sno
+GROUP BY student.Sname, student.Sno
+ORDER BY COUNT(Cno)
+
+#9 
+SELECT COUNT (DISTINCT(Cno)), AVG(Grade)
+FROM SC
+
+#10
+SELECT Sno, Sname, COUNT(Cno), AVG(Grade)
+FROM student
+INNER JOIN SC on Sno
+GROUP BY Student.Sname
+HAVING COUNT(Cno)>2
+
+#11
+SELECT Sno, SUM(Grade) AS TOTAL
+FROM student
+INNER JOIN SC
+USING Sno
+GROUP BY student.Sno
+HAVING TOTAL>200
+
+#12 
+SELECT Sname, Sdept
+FROM student
+INNER JOIN SC
+USING Sno
+WHERE SC.Cno='C02'
+
+
+SELECT Sname, Sdept
+FROM student
+WHERE student.Sno==SC.Sno AND Cno='C02'
+
+#13
+SELECT Sname, Cno, Grade
+FROM student
+INNER JOIN SC
+USING Sno
+WHERE Grade>80
+ORDER BY Grade DESC 
+
+#14
+SELECT Sname, Ssex, Grade
+FROM student
+INNER JOIN SC
+USING Cno
+IN (SELECT Cno FROM course WHERE Cname='数据库基础') 
+AND student.Sno=SC.Sno
+WHERE Ssex='男' AND Sdept='计算机系'
+
+#15
+SELECT A.Sname, A.Sage
+FROM student as A
+INNER JOIN student B
+on A.Sage=B.Sage IN (SELECT )
 ```
+
+Customers
+
+| customerid | country |
+| :--- | :--- |
+|  |  |
+
+Orders
+
+| orderid | customerid |
+| :--- | :--- |
+|  |  |
+
+Orderdetails
+
+| orderid | productid | quantity |
+| :--- | :--- | :--- |
+|  |  |  |
+
+Products
+
+| productid | categoryid | price |
+| :--- | :--- | :--- |
+|  |  |  |
+
+Categories
+
+| categoryid | categoryname |
+| :--- | :--- |
+|  |  |
+
+```sql
+# Top sales(#) by country
+SELECT a.country, COUNT(orderid)
+FROM Customers
+INNER JOIN Orders
+USING customerid
+ORDER BY COUNT(orderid)
+```
+
+这里，如果sum所有的null就是null，如果count所有的null是0，但average了还是null
+
+如果两个都改成inner join，那么就只有4行，因为0的行不会出现。面试题：你用了inner join，那么如果你用left join会如何？ 
+
+如果只是第二个改成inner join
+
+
+
+
+
+```sql
+# revenue by country
+SELECT a.country, COUNT(orderid)
+FROM Customers
+INNER JOIN Orders
+USING customerid
+ORDER BY COUNT(orderid)
+```
+
+## Online Compiler
+
+
 
