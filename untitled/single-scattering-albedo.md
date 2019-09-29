@@ -310,3 +310,12 @@ $$
 I_{2}^{+}=\frac{\mu_{0}}{\left(\mu_{0}+\mu\right)} X_{2}\left(e^{-\frac{\tau}{\mu_{0}}}-e^{-\left(\frac{\tau_{2}}{\mu_{0}}+\frac{\tau_{2}-\tau}{\mu}\right)}\right)
 $$
 
+Therefore, to achieve this functionality, just need to 
+
+\(1\) Evaluate the range to know what p is  
+\(2\) Loop from p to n
+
+![2 Layer, tau=0.0026](../.gitbook/assets/iuv-multi.jpg)
+
+![1 Layer, tau=0.0026](../.gitbook/assets/iuv-single.jpg)
+
