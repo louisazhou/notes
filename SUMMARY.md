@@ -49,6 +49,7 @@
   * [Order Query](sql/order-query.md)
   * [Movie Rating Query](sql/movie-rating-query.md)
   * [Social-Network Query](sql/social-network-query.md)
+  * [Spark SQL](sql/spark-sql.md)
 * [Chapter6 Spark](spark.md)
 * [Chapter7 Project Code Walk-Throughs](project-code-walk-throughs/README.md)
   * [R](project-code-walk-throughs/chapter-7.-r.md)
