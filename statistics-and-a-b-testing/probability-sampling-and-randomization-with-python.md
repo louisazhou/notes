@@ -147,3 +147,53 @@ def random7():
 
 Time: O\(1\)              Space:O\(1\)         试验成功概率21/25
 
+所以我们知道，从大的random生成小的random是很简单的。五进制数xy转换成10进制数就是5\*x+y。一个2-digit五进制数的range就是5\*4+4=24；如果想要生成一个3-digit，最大的range是\[0,124\] 
+
+那么如果是2进制呢？3-digit是random8, \[0,7\]; 4-digit是random16，\[0,15\]; ... 10-digit就能产生random1000. 只要digit足够多，可以从任意的randomx来生成randomy。
+
+### Random\(1,000,000\) with Random\(2\)
+
+每在右边加一个random2，就等于对原来的数xy左移一位，\(xy\)\*2+z
+
+```python
+def rand(x)
+    count=0
+    cur=x
+    while cur>0:   #等于在做log 找到需要几位
+        cur=cur/2
+        count+=1
+    while True:
+        sum=0
+        for i in range(count):
+            sum=sum*2+rand2()
+        if sum<x:   #为什么写成while true 因为我们只在实验成功时才会返回，否则会继续做。
+            return sum    
+```
+
+Time: O\(logx\)     Space: O\(1\)
+
+
+
+### Given 1 million urls, find 95th percentile of length
+
+Idea: use a bucket to count how many urls whose length falls into the bucket.  
+bucket=10   1000urls  
+bucket=11   1050urls  
+...  
+bucket=4100   
+bucket\[i\]=\#of urls with length i
+
+```python
+bucket=[0 for i in range(4101)]    #[0...4100]
+for url in urls:
+    buckets[len(urls)]+=1
+
+num = 0.95 * 100000
+total_so_far=0
+for i in xrange(4101):  #i is the url's length
+    total_so_far += bucket[i]
+    if total_so_far>=num:
+        print i
+        break
+```
+
