@@ -1,6 +1,6 @@
 # Spark SQL
 
-Window Function
+### Window Function
 
 ```python
 # Load trainsched.txt
@@ -97,9 +97,19 @@ FROM schedule
 """
 sql_df = spark.sql(query)
 sql_df.show()
+
+# Words sorted by frequency query
+query = """
+SELECT word, COUNT(*) AS count FROM df
+GROUP BY word
+ORDER BY count DESC
+"""
+
+#等价的dot
+df.groupBy('word') .count() .sort(desc('count')) .explain()
 ```
 
-Load natural language text
+### Load natural language text
 
 ```python
 # load text
@@ -134,5 +144,277 @@ df3 = df2.select(split('v', '[ %s]' % punctuation).alias('words'))
 # Exploding an array
 df4 = df3.select(explode('words').alias('word')) 
 
+# Removing empty rows
+nonblank_df = df.where(length('word') > 0)
+# Adding a row id column
+df2 = df.select('word', monotonically_increasing_id().alias('id'))
+
+# Partitioning the data
+df2 = df.withColumn('title', when(df.id < 25000, 'Preface') .when(df.id < 50000, 'Chapter 1') .when(df.id < 75000, 'Chapter 2')
+.otherwise('Chapter 3'))
+df2 = df2.withColumn('part', when(df2.id < 25000, 0) .when(df2.id < 50000, 1) .when(df2.id < 75000, 2)
+.otherwise(3)) .show()
+
+# Repartitioning on a column
+df2 = df.repartition(4, 'part')
+
+# How to know how many chapters in in repartitioning 
+df.select('part', 'title').distinct().sort('part').show(truncate=False)
+# or the following gives a number 
+repart_df.rdd.getNumPartitions()
+
+# Reading pre-partitioned text
+df_parts = spark.read.text('sherlock_parts') #每个叫做sherlock的文档
+
+# Word for each row, previous two and subsequent two words
+query = """
+SELECT
+part,
+LAG(word, 2) OVER(PARTITION BY part ORDER BY id) AS w1,
+LAG(word, 1) OVER(PARTITION BY part ORDER BY id) AS w2,
+word AS w3,
+LEAD(word, 1) OVER(PARTITION BY part ORDER BY id) AS w4,
+LEAD(word, 2) OVER(PARTITION BY part ORDER BY id) AS w5
+FROM text
+"""
+spark.sql(query).where("part = 12").show(10)
+
+# 还可以再加subquery，统计word-tuple的count
+# Find the top 10 sequences of five words
+query = """
+SELECT w1, w2, w3, w4, w5, COUNT(*) AS count FROM (
+   SELECT word AS w1,
+   LEAD(word, 1) OVER (PARTITION BY part ORDER BY id) AS w2,
+   LEAD(word, 2) OVER (PARTITION BY part ORDER BY id)  AS w3,
+   LEAD(word, 3) OVER (PARTITION BY part ORDER BY id)  AS w4,
+   LEAD(word, 4) OVER (PARTITION BY part ORDER BY id)  AS w5
+   FROM text
+)
+GROUP BY w1, w2, w3, w4, w5
+ORDER BY count DESC
+LIMIT 10 """
+df = spark.sql(query)
+df.show()
+
+#   Most frequent 3-tuple per chapter
+query = """
+SELECT chapter, w1, w2, w3, count FROM
+(
+  SELECT
+  chapter,
+  ROW_NUMBER() OVER (PARTITION BY chapter ORDER BY count DESC) AS row,
+  w1, w2, w3, count
+  FROM ( %s )
+)
+WHERE row = 1
+ORDER BY chapter ASC
+""" % subquery
+spark.sql(query).show()
+
+# length
+query3agg = """
+SELECT w1, w2, w3, length(w1)+length(w2)+length(w3) as length FROM (
+SELECT
+word AS w1,
+LEAD(word,1) OVER(PARTITION BY part ORDER BY id ) AS w2, LEAD(word,2) OVER(PARTITION BY part ORDER BY id ) AS w3 FROM df
+WHERE part <> 0 and part <> 13
+)
+GROUP BY w1, w2, w3 ORDER BY length DESC """
+spark.sql(query3agg).show(truncate=False)
+```
+
+### Caching: 
+
+Eviction Policy  Least Recently Used \(LRU\)   
+Caching is a lazy operation. It requires an action to trigger it. 
+
+eg.   
+- spark.sql\("select count\(\*\) from text"\).show\(\)  
+- partitioned\_df.count\(\)  
+
+
+```python
+df.cache()    #df.persist() df.persist(storageLevel=pyspark.StorageLevel.MEMORY_AND_DISK)
+df.unpersist()
+
+#Determining whether a dataframe is cached
+df.is_cached
+
+#storage level useDisk useMemory useOffHeap deserialized replication
+df.storageLevel
+
+#Caching a table
+df.createOrReplaceTempView('df') 
+spark.catalog.cacheTable('df')
+spark.catalog.isCached(tableName='df')
+spark.catalog.dropTempView('table1')
+# List the tables
+print("Tables:\n", spark.catalog.listTables())
+
+# Uncaching a table
+spark.catalog.uncacheTable('df')
+spark.catalog.clearCache()
+```
+
+### Spark UI
+
+- Spark Task is a unit of execution that runs on a single cpu  
+- Spark Stage a group of tasks that perform the same computation in parallel, each task typically running on a different subset of the data  
+- Spark Job is a computation triggered by an action, sliced into one or more stages.  
+- Jobs, Stages, Storage, Environment, Executors, SQL  
+-Storage: in memory, or on disk, across the cluster, at a snapshot in time.
+
+如果是local，从[http://\[DRIVER\_HOST\]:404](http://[DRIVER_HOST]:4040)0开始依次往下。
+
+### Logging primer
+
+```python
+import logging
+logging.basicConfig(stream=sys.stdout, level=logging.INFO,
+format='%(asctime)s - %(levelname)s - %(message)s') 
+logging.info("Hello %s", "world")
+logging.debug("Hello, take %d", 2)
+
+#OUTPUT
+# 2019-03-14 15:92:65,359 - INFO - Hello world
+# 因为level=infor，debug不执行
+
+#Logging with DEBUG level
+import logging
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG,
+format='%(asctime)s - %(levelname)s - %(message)s') 
+logging.info("Hello %s", "world")
+logging.debug("Hello, take %d", 2)
+#OUTPUT
+#2018-03-14 12:00:00,000 - INFO - Hello world
+#2018-03-14 12:00:00,001 - DEBUG - Hello, take 2
+
+# Log columns of text_df as debug message
+logging.debug("text_df columns: %s", text_df.columns)
+
+# Log whether table1 is cached as info message
+logging.info("table1 is cached: %s", spark.catalog.isCached(tableName="table1"))
+
+# Log first row of text_df as warning message
+logging.warning("The first row of text_df:\n %s", text_df.first())
+
+# Log selected columns of text_df as error message
+logging.error("Selected columns: %s", text_df.select("id", "word"))
+```
+
+如果用一个timer来对logging计时，
+
+```python
+class timer:
+    start_time = time.time() 
+    step = 0
+    
+    def elapsed(self, reset=True): 
+        self.step += 1
+        print("%d. elapsed: %.1f sec %s"
+        % (self.step, time.time() - self.start_time))
+        if reset: 
+            self.reset()
+
+    def reset(self):
+        self.start_time = time.time()
+```
+
+要注意的是即使是在info的level，debug里的操作其实还是执行了，比如
+
+```python
+import logging logging.basicConfig(level=logging.INFO,
+format='%(asctime)s - %(levelname)s - %(message)s') 
+
+# < create dataframe df here >
+
+t = timer()
+logging.info("No action here.")
+t.elapsed()
+logging.debug("df has %d rows.", df.count()) 
+t.elapsed()
+
+#2018-12-23 22:24:20,472 - INFO - No action here. 
+#1. elapsed: 0.0 sec
+#2. elapsed: 2.0 sec
+```
+
+比较好的做法是，disable action
+
+```python
+ENABLED = False
+
+t = timer()
+logger.info("No action here.") t.elapsed()
+if ENABLED:
+    logger.info("df has %d rows.", df.count()) t.elapsed()
+```
+
+\(行吧，这章没学懂\)
+
+### Query Plans
+
+```python
+# SQL 中的EXPLAIN SELECT * FROM table1解释执行顺序
+
+#Load dataframe and register
+df = sqlContext.read.load('/temp/df.parquet')
+df.registerTempTable('df')
+#Running an EXPLAIN query
+spark.sql('EXPLAIN SELECT * FROM df').first()
+#等价于下面的
+df.explain()
+spark.sql("SELECT * FROM df").explain()
+#但如果cache()了，df.cache()
+#要倒着看执行顺序
+```
+
+### Extract, Transform, Select
+
+```python
+# Importing the udf function
+from pyspark.sql.functions import udf
+from pyspark.sql.types import BooleanType
+from pyspark.sql.types import StringType, IntegerType, FloatType, ArrayType
+# Creating a boolean UDF
+short_udf = udf(lambda x: 
+True if not x or len(x) < 10 else False, BooleanType())
+
+df.select(short_udf('textdata')\
+ .alias("is short"))\
+ .show(3)
+ 
+ #Creating an array UDF
+ df3.select('word array', in_udf('word array').alias('without endword'))\
+  .show(5, truncate=30)
+  
+  from pyspark.sql.types import StringType, ArrayType
+  # Removes last item in array
+in_udf = udf(lambda x:
+x[0:len(x)-1] if x and len(x) > 1 else [],
+ArrayType(StringType()))
+
+# Sparse vector format Indices Values
+# Array: [1.0, 0.0, 0.0, 3.0]
+# Sparse vector: (4, [0, 3], [1.0, 3.0])
+
+hasattr(x, "toArray") #en
+x.numNonzeros()
+
+# Show the rows where doc contains the item '5'
+df_before.where(array_contains('doc', '5')).show()
+
+# UDF removes items in TRIVIAL_TOKENS from array
+rm_trivial_udf = udf(lambda x:
+                     list(set(x) - TRIVIAL_TOKENS) if x
+                     else x,
+                     ArrayType(StringType()))
+
+# Remove trivial tokens from 'in' and 'out' columns of df2
+df_after = df_before.withColumn('in', rm_trivial_udf('in'))\
+                    .withColumn('out', rm_trivial_udf('out'))
+
+# Show the rows of df_after where doc contains the item '5'
+df_after.where(array_contains('doc','5')).show()
 ```
 
