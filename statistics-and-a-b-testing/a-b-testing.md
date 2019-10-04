@@ -14,7 +14,9 @@ description: Experiment Design + A/B Testing
 
 ### **A/B Testing**
 
-A decision making procedure during product iteration. Experiment Design \(collect customer log\), Data Analysis and Hypothesis Testing. [Examples](https://www.designforfounders.com/ab-testing-examples/)  [Examples&Branstorm](https://vwo.com/blog/)
+A decision making procedure during product iteration. Experiment Design \(collect customer log\), Data Analysis and Hypothesis Testing. 
+
+[Examples](https://www.designforfounders.com/ab-testing-examples/)  [Examples & Branstorm](https://vwo.com/blog/)
 
 ![](../.gitbook/assets/image%20%287%29.png)
 

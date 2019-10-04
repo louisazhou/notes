@@ -52,9 +52,25 @@ P: Profit       T: ticket\_value    C: cost\_per\_person   S: \# of seats in the
 
 如果我们在比较自己的ML model和使用平均值预测出来的结果时，发现model的方差还不如使用平均值，那说明这个model做的非常trivial。
 
-以下的sub-section就是各种modeling的细节。
+**本章**的sub-section就是各种modeling的细节。
 
 \*\*\*\*
+
+### Machine Learning Workflow
+
+Data→Feature Matrix→Models→Evaluation→Business Value
+
+
+
+### 面试时注意
+
+Missing Value的处理，可以按照feature matrix的角度去处理，也可以从model的角度，挑选不会受到missing value影响的model。
+
+Categorical Feature的处理，one-hot、DL的方法做embedding、聚类后one-hot。
+
+如何做evaluation，evaluation metrics的定义需要根据具体案例做具体分析。比如携程订房、做房价预估的问题，RMSE还是绝对值还是比例。MSE，惩罚定价特别高的项。 可以根据直觉判断，说绝对值 但是还是要AB Testing。订餐软件迟到的时间，MSE更好，因为迟到是一个难以容忍的use case。
+
+offline evaluation很好，但是online evaluation特别不好，为什么？ 可以提出各种原因。比如时间的变化、long-term effect、experiment的randomization没做好... 
 
  
 

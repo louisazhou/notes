@@ -89,7 +89,7 @@ $$
 
 > P. S. 一般不会让推导LR的loss function，因为太简单，但是Logistic Regression的会在面试问。
 
-首先，Given x, Y服从高斯分布
+首先，Given x, Y服从高斯分布 （mean和x有关，std和x无关）
 
 $$
 Y_{i} \sim N\left(\hat{\beta}_{0}+\hat{\beta}_{1} X_{i}, \sigma^{2}\right)
