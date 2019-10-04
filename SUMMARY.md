@@ -52,6 +52,7 @@
   * [Spark SQL](sql/spark-sql.md)
 * [Chapter6 Spark](spark/README.md)
   * [Data Cleaning with Apache Spark](spark/data-cleaning-with-apache-spark.md)
+  * [Big Data Related Paper](spark/big-data-related-paper.md)
 * [Chapter7 Project Code Walk-Throughs](project-code-walk-throughs/README.md)
   * [R](project-code-walk-throughs/chapter-7.-r.md)
 * [Chapter8 Special Topics](chapter-8-special-topics/README.md)
