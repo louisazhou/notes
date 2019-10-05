@@ -62,6 +62,34 @@ Data→Feature Matrix→Models→Evaluation→Business Value
 
 
 
+### Handle Missing Value
+
+* General ideas: 
+* * Deletion 因为所有补齐的数据都有自己的假设，也就是都是假的，认为引入了噪声，污染了数据
+  * Imputation
+* Categorical features
+* * Make NA as one category
+  * Logistic Regression
+* Continues features
+* * Mean, median, mode, etc. 
+  * Linear regression.
+
+> 面试真题：推荐用户购买商品，如果有一个feature是对于他之前x次看到了这个商品的排序，比如刚看过咖啡机就是1，再之前看过咖啡壶是2... 如果有一款咖啡豆，没有被看过，如果想补齐这个continuous variable，补什么？  
+> -可以补均值  
+> -如果不补，那可以补100（意味着不重要）  
+> -不可以补0或者-1 因为数字越小，意味着它越重要
+
+#### 用regression做插值
+
+1. 不用label，就用feature，用剩下的满的feature构造它们和有missing的那个feature之间的关系。
+2. 补上值（但是也引入了相关性）
+3. 新的training data就有了补上了的值，重新train一遍regression model
+4. 此时可能训练结果就有了变化。
+5. 再继续train
+6. 如此iterative，直到稳定。 （当然也可以只补一次）
+
+最大的局限性：overfitting，在feature之间引入了multicolinarity。
+
 ### 面试时注意
 
 Missing Value的处理，可以按照feature matrix的角度去处理，也可以从model的角度，挑选不会受到missing value影响的model。

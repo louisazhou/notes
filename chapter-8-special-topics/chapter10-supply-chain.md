@@ -24,7 +24,7 @@ Twitter feeds: sentiment 大众对产品的考虑，可以给出降价
 
 ## Data角度的Supply Chain 
 
-![](../.gitbook/assets/image.png)
+![](../.gitbook/assets/image%20%281%29.png)
 
 ### 正在解决这些问题的公司/平台
 
@@ -34,7 +34,7 @@ Oracle SCM, SAP APO \(Advanced planning and optimization\), JDA, IBM Watson supp
 
 Demand forecasting, supply planning, A/B testing, root cause analysis, inventory optimization, price optimization, on-time delivery, customer survey etc.
 
-![](../.gitbook/assets/image%20%285%29.png)
+![](../.gitbook/assets/image%20%289%29.png)
 
 #### Logistic Companies
 
@@ -48,11 +48,11 @@ Transportation/fuel optimization, lead-time prediction, on time performance
 
 #### Manufactoring 
 
-![](../.gitbook/assets/image%20%2822%29.png)
+![](../.gitbook/assets/image%20%2832%29.png)
 
 #### Pharmaceutical 
 
-![](../.gitbook/assets/image%20%2821%29.png)
+![](../.gitbook/assets/image%20%2831%29.png)
 
 ## Demand Forecasting 
 
