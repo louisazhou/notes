@@ -55,6 +55,8 @@
   * [Data Cleaning with Apache Spark](spark/data-cleaning-with-apache-spark.md)
   * [Feature Engineering with Pyspark](spark/feature-engineering-with-pyspark.md)
   * [Building Recommendation Engines with Pyspark](spark/building-recommendation-engines-with-pyspark.md)
+  * [Introduction to Pyspark](spark/introduction-to-pyspark.md)
+  * [Building Data Engineering Pipelines in Python](spark/building-data-engineering-pipelines-in-python.md)
   * [Big Data Related Paper](spark/big-data-related-paper.md)
 * [Chapter7 Project Code Walk-Throughs](project-code-walk-throughs/README.md)
   * [R](project-code-walk-throughs/chapter-7.-r.md)
