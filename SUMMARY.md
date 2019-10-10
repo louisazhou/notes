@@ -51,7 +51,7 @@
   * [Movie Rating Query](sql/movie-rating-query.md)
   * [Social-Network Query](sql/social-network-query.md)
   * [Spark SQL](sql/spark-sql.md)
-* [Chapter6 Spark](spark/README.md)
+* [Chapter6 Big Data and Spark](spark/README.md)
   * [Data Cleaning with Apache Spark](spark/data-cleaning-with-apache-spark.md)
   * [Feature Engineering with Pyspark](spark/feature-engineering-with-pyspark.md)
   * [Building Recommendation Engines with Pyspark](spark/building-recommendation-engines-with-pyspark.md)

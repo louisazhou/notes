@@ -1,2 +1,2 @@
-# Chapter6 Spark
+# Chapter6 Big Data and Spark
 
