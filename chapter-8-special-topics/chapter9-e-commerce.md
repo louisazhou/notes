@@ -81,3 +81,9 @@ Customer. action1. action2. Y 这里需要给action1和action2顺序，因为先
 
 如果有5个feature，会有5times5个feature
 
+
+
+## Counter-metric
+
+对于email来说指的是unsub，对于app来说是uninstall，总之就是bounce rate（中途走开）。
+

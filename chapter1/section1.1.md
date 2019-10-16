@@ -25,7 +25,7 @@ c = a 表示 c 和 a 指向相同的地址空间，并没有创建新的对象�
 
 ## Shallow Copy
 
-![Shallow Copy](../.gitbook/assets/image%20%2829%29.png)
+![Shallow Copy](../.gitbook/assets/image%20%2830%29.png)
 
 ```python
 import copy
@@ -74,7 +74,7 @@ print(a)
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-![](../.gitbook/assets/image%20%2834%29.png)
+![](../.gitbook/assets/image%20%2835%29.png)
 
 对象复制\(y=x\)和浅复制\(z=np.copy\(x\)\)一个list，list元素其实都是那些，所以x和yID相同，都指的同一片空间\[1,2,3\]。
 

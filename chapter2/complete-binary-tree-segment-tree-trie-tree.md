@@ -38,13 +38,73 @@ O\(n\).     query\_sum\(start, end\): return sum of array\[start:end\]
 
 SegmentTree内部存list的原始index信息，根节点是本身的array，往下的treenode是这个array的均分，直到leafnode每个children都是一个元素。这也是为什么叫segmenttree：每个leafnode都是单个数字的和，treenode都是array的某一个部分。
 
-在这样一个结构下，如果\(1\)想要更新一个数字，那么就要更新：root、它的某一个孩子、受影响的那个node、... 直到最后一个叶子。每一层又一个node会被影响，有height这么多，所以更新的时间复杂度是O\(n\). \(2\)求sum，先从root开始看start和end的区间，看左右分别需要分到多少区间。对于某一边可能只走了一步或者几步，对于另一边可能走了整个树的高度，所以时间复杂度也是O\(n\). 
+在这样一个结构下，如果\(1\)想要更新一个数字，那么就要更新：root、它的某一个孩子、受影响的那个node、... 直到最后一个叶子。每一层又一个node会被影响，有height这么多，所以更新的时间复杂度是O\(logn\). \(2\)求sum，先从root开始看start和end的区间，看左右分别需要分到多少区间。对于某一边可能只走了一步或者几步，对于另一边可能走了整个树的高度，所以时间复杂度也是O\(n\). 
 
 ```python
-class SegmentTreeNode():
-, children, value):
-        self.children = children #list
-        self.value=value
+class SegmentTreeNode:
+        def __init__(self, start, end):
+                self.start = start
+                self.end = end
+                self.sum = 0
+                self.left = None
+                self.right = None
+
+class SegmentTree:
+        def __init__(self, array):
+                self.array = array
+                self.root = self._build_segment_tree(array, 0, len(array)-1)
+        
+        def _build_segment_tree(self, array, start, end):
+                # sanity check
+                if start > end:
+                        return None
+                cur = SegmentTreeNode(start, end)
+               
+                 #base case single number
+                if start == end:
+                        cur.sum=array[start]
+                        return cur
+                
+                mid = start + (end - start)/2
+                cur.left = self._build_segment_tree(array, start, mid)
+                cur.right = self._build_segment_tree(array, mid+1, end)
+               
+                if cur.left is not None:
+                        cur.sum += cur.left.sum
+                if cur.right is not None:
+                        cur.sum += cur.right.sum
+                return cur
+        
+        def update(self, index, value):
+                diff = value - self.array[index]
+                self.array[index] = value
+                cur = self.root
+                while cur != None:
+                        cur.sum += diff
+                        mid = cur.start + (cur.end-cur.start)/2
+                        if index <= mid:
+                                cur = cur.left
+                        else:
+                                cur = cur.right
+        
+        def sum(self, start, end):
+                return self._get_sum_from_tree(self.root, start, end)
+                
+        def _get_sum_from_tree(self, cur, start, end):
+                if cur is None or cur.start>end or cur.end<start:
+                        return 0
+                
+                if cur.start >= start and cur.end <= end:
+                        return cur.sum
+                        
+                return self._get_sum_from_tree(cur.left, start, end) + self._get_sum_from_tree(cur.right, start, end)
+                
+
+# testcase
+s_tree = SegmentTree([1,2,3,4,5])
+print s_tree.sum(1,2)
+s_tree.update(1,3)
+print s_tree.sum(1,2)
 ```
 
 ## Trie Tree 字典树

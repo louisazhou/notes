@@ -35,6 +35,20 @@ Based on similar user preferences
 3. Rejoin unique integer ids back to the ratings data
 
 ```python
+from pyspark.sql.functions import array, col, explode, lit, struct
+
+def to_long(df, by = ["userId"]): # "by" is the column by which you want the final output dataframe to be grouped by
+
+    cols = [c for c in df.columns if c not in by] 
+    
+    kvs = explode(array([struct(lit(c).alias("movieId"), col(c).alias("rating")) for c in cols])).alias("kvs") 
+    
+    long_df = df.select(by + [kvs]).select(by + ["kvs.movieId", "kvs.rating"]).filter("rating IS NOT NULL")
+    # Excluding null ratings values since ALS in Pyspark doesn't want blank/null values
+             
+    return long_df
+
+
 #1
 users = long_ratings.select('userId').distinct()
 user.show()
@@ -96,7 +110,7 @@ Hyperparameters
 * rank, k: number of latent features
 * maxIter: number of iterations
 * regParam: Lambda; regularization parameter, term added to error matrix to avoid overfitting the training data
-* alpha: Only used with implicit ratings.
+* alpha: Only used with implicit ratings. How much \(in integer\) should add to the model's confidence that a user actually likes the movie/song.
 * nonnegative = True: Ensures positive numbers
 * coldStartStrategy = "drop": Addresses issues with test/train split; only use users that have ratings in both training and testing set, and not to use users that only appear in the testing set to calculate RMSE.
 
@@ -295,6 +309,247 @@ recommendForAllUsers(n)
 ### MillionSongs-implicit 
 
 [http://millionsongdataset.com/tasteprofile/](http://millionsongdataset.com/tasteprofile/)
+
+```python
+def add_zeros(df):
+# Extracts distinct users
+    users = df.select("userId").distinct()
+# Extracts distinct songs
+    songs = df.select("songId").distinct()
+# Joins users and songs, fills blanks with 0
+    cross_join = users.crossJoin(items)\
+    .join(df, ["userId", "songId"], "left").fillna(0)
+
+return cross_join
+```
+
+### Data Exploration
+
+因为这一次的data是implicit，所以需要filter那些非0的来过滤得到aggregation信息
+
+```python
+# Min num implicit ratings for a song
+print("Minimum implicit ratings for a song: ")
+msd.filter(col("num_plays") > 0).groupBy("songId").count().select(min("count")).show()
+
+# Avg num implicit ratings per songs
+print("Average implicit ratings per song: ")
+msd.filter(col("num_plays") > 0).groupBy("songId").count().select(avg("count")).show()
+
+# Min num implicit ratings from a user
+print("Minimum implicit ratings from a user: ")
+msd.filter(col("num_plays") > 0).groupBy("userId").count().select(min("count")).show()
+
+# Avg num implicit ratings from users
+print("Average implicit ratings per user: ")
+msd.filter(col("num_plays") > 0).groupBy("userId").count().select(avg("count")).show()
+```
+
+### Rank Ordering Error Metrics \(ROEM\)
+
+$$
+\mathrm{ROEM}=\frac{\sum_{u, i} r_{u, i}^{t} \operatorname{rank}_{u, i}}{\sum_{u, i} r_{u, i}^{t}}
+$$
+
+现在就不能再用RMSE了，因为在implicit data下，我们没有true value，只有: the number of time that a certain song is played and confidence level \(how much confident our model is that they like that song\). 这个时候，就判断test set里，我们判断的值和if the prediction make sense, whether they played it more than once. ROEM的意义就是whether songs with higher number of plays have higher predictions.
+
+```python
+ranks = [10, 20, 30, 40]
+maxIters = [10, 20, 30, 40]
+regParams = [.05, .1, .15]
+alphas = [20, 40, 60, 80]
+
+create and store ALS models
+for r in ranks:
+    for mi in maxIters:
+        for rp in regParams:
+            for a in alphas:
+                model_list.append(ALS(userCol= "userId", itemCol= "songId", ratingCol= "num_plays", rank = r, maxIter = mi, regParam = rp, alpha = a, coldStartStrategy="drop", nonnegative = True, implicitPrefs = True))
+
+# Print the model list, and the length of model_list
+print (model_list, "Length of model_list: ", len(model_list))
+
+# Validate
+len(model_list) == (len(ranks)*len(maxIters)*len(regParams)*len(alphas))
+
+# Split the data into training and test sets
+(training, test) = msd.randomSplit([0.8, 0.2])
+
+#Building 5 folds within the training set.
+train1, train2, train3, train4, train5 = training.randomSplit([0.2, 0.2, 0.2, 0.2, 0.2], seed = 1)
+fold1 = train2.union(train3).union(train4).union(train5)
+fold2 = train3.union(train4).union(train5).union(train1)
+fold3 = train4.union(train5).union(train1).union(train2)
+fold4 = train5.union(train1).union(train2).union(train3)
+fold5 = train1.union(train2).union(train3).union(train4)
+
+foldlist = [(fold1, train1), (fold2, train2), (fold3, train3), (fold4, train4), (fold5, train5)]
+
+# Empty list to fill with ROEMs from each model
+ROEMS = []
+
+# Loops through all models and all folds
+for model in model_list:
+    for ft_pair in foldlist:
+
+        # Fits model to fold within training data
+        fitted_model = model.fit(ft_pair[0])
+
+        # Generates predictions using fitted_model on respective CV test data
+        predictions = fitted_model.transform(ft_pair[1])
+
+        # Generates and prints a ROEM metric CV test data
+        r = ROEM(predictions)
+        print ("ROEM: ", r)
+
+    # Fits model to all of training data and generates preds for test data
+    v_fitted_model = model.fit(training)
+    v_predictions = v_fitted_model.transform(test)
+    v_ROEM = ROEM(v_predictions)
+
+    # Adds validation ROEM to ROEM list
+    ROEMS.append(v_ROEM)
+    print ("Validation ROEM: ", v_ROEM)
+    
+
+# Import numpy
+import numpy
+
+# Find the index of the smallest ROEM
+i = numpy.argmin(ROEMS)
+print("Index of smallest ROEM:", i)
+
+# Find ith element of ROEMS
+print("Smallest ROEM: ", ROEMS[i])
+
+# Extract the best_model
+best_model = model_list[38]
+
+# Extract the Rank
+print ("Rank: ", best_model.getRank())
+
+# Extract the MaxIter value
+print ("MaxIter: ", best_model.getMaxIter())
+
+# Extract the RegParam value
+print ("RegParam: ", best_model.getRegParam())
+
+# Extract the Alpha value
+print ("Alpha: ", best_model.getAlpha())
+```
+
+{% code-tabs %}
+{% code-tabs-item title="ALS\_expected\_percent\_rank\_cv" %}
+```python
+def ROEM_cv(ratings_df, userCol = "userId", itemCol = "songId", ratingCol = "num_plays", ranks = [10, 50, 100, 150, 200], maxIters = [10, 25, 50, 100, 200, 400], regParams = [.05, .1, .15], alphas = [10, 40, 80, 100]):
+#Originally run on a subset of the Echo Next Taste Profile dataset found here:
+#https://labrosa.ee.columbia.edu/millionsong/tasteprofile
+from pyspark.sql.functions import rand
+from pyspark.ml.recommendation import ALS
+  ratings_df = ratings_df.orderBy(rand()) #Shuffling to ensure randomness
+#Building train and validation test sets
+  train, validate = ratings_df.randomSplit([0.8, 0.2], seed = 0)
+#Building 5 folds within the training set.
+  test1, test2, test3, test4, test5 = train.randomSplit([0.2, 0.2, 0.2, 0.2, 0.2], seed = 1)
+  train1 = test2.union(test3).union(test4).union(test5)
+  train2 = test3.union(test4).union(test5).union(test1)
+  train3 = test4.union(test5).union(test1).union(test2)
+  train4 = test5.union(test1).union(test2).union(test3)
+  train5 = test1.union(test2).union(test3).union(test4)
+#Creating variables that will be replaced by the best model's hyperparameters for subsequent printing
+  best_validation_performance = 9999999999999
+  best_rank = 0
+  best_maxIter = 0
+  best_regParam = 0
+  best_alpha = 0
+  best_model = 0
+  best_predictions = 0
+#Looping through each combindation of hyperparameters to ensure all combinations are tested.
+for r in ranks:
+for mi in maxIters:
+for rp in regParams:
+for a in alphas:
+#Create ALS model
+          als = ALS(rank = r, maxIter = mi, regParam = rp, alpha = a, userCol=userCol, itemCol=itemCol, ratingCol=ratingCol,
+coldStartStrategy="drop", nonnegative = True, implicitPrefs = True)
+#Fit model to each fold in the training set
+          model1 = als.fit(train1)
+          model2 = als.fit(train2)
+          model3 = als.fit(train3)
+          model4 = als.fit(train4)
+          model5 = als.fit(train5)
+#Generating model's predictions for each fold in the test set
+          predictions1 = model1.transform(test1)
+          predictions2 = model2.transform(test2)
+          predictions3 = model3.transform(test3)
+          predictions4 = model4.transform(test4)
+          predictions5 = model5.transform(test5)
+#Expected percentile rank error metric function
+def ROEM(predictions, userCol = "userId", itemCol = "songId", ratingCol = "num_plays"):
+#Creates table that can be queried
+              predictions.createOrReplaceTempView("predictions")
+#Sum of total number of plays of all songs
+              denominator = predictions.groupBy().sum(ratingCol).collect()[0][0]
+#Calculating rankings of songs predictions by user
+              spark.sql("SELECT " + userCol + " , " + ratingCol + " , PERCENT_RANK() OVER (PARTITION BY " + userCol + " ORDER BY prediction DESC) AS rank FROM predictions").createOrReplaceTempView("rankings")
+#Multiplies the rank of each song by the number of plays and adds the products together
+              numerator = spark.sql('SELECT SUM(' + ratingCol + ' * rank) FROM rankings').collect()[0][0]
+              performance = numerator/denominator
+return performance
+#Calculating expected percentile rank error metric for the model on each fold's prediction set
+          performance1 = ROEM(predictions1)
+          performance2 = ROEM(predictions2)
+          performance3 = ROEM(predictions3)
+          performance4 = ROEM(predictions4)
+          performance5 = ROEM(predictions5)
+#Printing the model's performance on each fold
+print ("Model Parameters: ")("Rank:"), r, ("  MaxIter:"), mi, ("RegParam:"), rp, ("Alpha: "), a
+print("Test Percent Rank Errors: "), performance1, performance2, performance3, performance4, performance5
+#Validating the model's performance on the validation set
+          validation_model = als.fit(train)
+          validation_predictions = validation_model.transform(validate)
+          validation_performance = ROEM(validation_predictions)
+#Printing model's final expected percentile ranking error metric
+print("Validation Percent Rank Error: "), validation_performance
+print(" ")
+#Filling in final hyperparameters with those of the best-performing model
+if validation_performance < best_validation_performance:
+            best_validation_performance = validation_performance
+            best_rank = r
+            best_maxIter = mi
+            best_regParam = rp
+            best_alpha = a
+            best_model = validation_model
+            best_predictions = validation_predictions
+#Printing best model's expected percentile rank and hyperparameters
+print ("**Best Model** ")
+print ("  Percent Rank Error: "), best_validation_performance
+print ("  Rank: "), best_rank
+print ("  MaxIter: "), best_maxIter
+print ("  RegParam: "), best_regParam
+print ("  Alpha: "), best_alpha
+return best_model, best_predictions
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+### Binary Implicit Ratings
+
+如果是Binary Ratings，比如只是预测1和0，那可以在weighting上做更多工作。
+
+Item Weighting: Movies with more user views = higher weight
+
+User Weighting: Users that have seen more movies will have lower weights applied to unseen movies
+
+
+
+## Links
+
+{% embed url="https://www.mckinsey.com/industries/retail/our-insights/how-retailers-can-keep-up-with-consumers" %}
+
+![](http://yifanhu.net/PUB/cf.pdf)
+
+![](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.306.4684&rep=rep1&type=pdf)
 
 
 

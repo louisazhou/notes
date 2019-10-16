@@ -75,6 +75,91 @@ There are several ways to implement a column-database design in a commercial row
 
 Compression algorithms perform better on data with low information entropy, that said, if the data of the same type are stored together. Compressing data also makes it more efficient for I/O. Moreover, compression allows the repeated values to be handled in one step, resulting in the ability of a query executor to perform the same operation on multiple column values at once, further reducing CPU costs.
 
-Due to high tuple reconstruction costs, using a row-store system to implement a C-store is slow, although late materialization and compression can ameliorate this phenomenon. It is therefore a long way to go to fully address this issue.  
+Due to high tuple reconstruction costs, using a row-store system to implement a C-store is slow, although late materialization and compression can ameliorate this phenomenon. It is therefore a long way to go to fully address this issue.
+
+
+
+## Stream Data Mining: A survey
+
+Because it requires multiple scans on the dataset to extract information, the traditional data mining cannot work in the stream processing setting. 
+
+Data from stream processing has the characteristic of: unboundedness, continuous arrival from data streams, and no assumptions on the data be made. 
+
+There are two main methodologies of data streams   
+1. Examine a subset from the whole dataset / transform the data to reduce the size.
+
+* Sampling: used in the process of selecting incoming stream elements to be analyzed. The size of sample can be calculated using Hoeffding bound. But it does not work with anomaly detection in surveillance analysis. 
+* Load Shedding: used in querying data streams for optimization. Drop the load to minimize loss in accuracy. 
+* Sketching: vertical sampling the incoming stream, and randomly project subset of features. Used to compare two different data streams and for aggregation. 
+* Synopsis Data Structures: give a summary over data streams based on sampling methods, histograms, wavelets, sketches, micro cluster based summarization, or aggregation. 
+
+Among them, the sampling is best work with reservoir sampling method; wavelets are often used  with hierarchical data because it projects the given set of data value to an orthogonal set of basis vector. The higher order coefficients the decomposition illustrate the broad trends in the data; aggregation uses mean and variance to summarize the data stream. 
+
+2. Algorithms that efficiently use time and space information.
+
+* Approximation Algorithm.
+* Sliding Window \(time-based window/count-based window\)
+* Algorithm Output Granularity \(mine data streams, adapt resources and streams, merge the generated structure when running out of memory\)
+
+Application of Methodologies for Stream Mining 
+
+1. Clustering 
+
+These include K-median technique and K-mean technique. 
+
+2. Classification 
+
+Concept Drift: concepts are not stable but change with time. Eg. Weather prediction rule, customers preferences. 
+
+3. Association 
+
+4. Frequency Counting 
+
+5. Time Series Analysis
+
+## A survey on Data Preprocessing for data stream mining 
+
+Data preprocessing accounts for the majority workload of data analysis process, and within which the most important mandatory step is data preparation. This includes data integration, normalization, data cleaning and transformation. 
+
+The difficulty in handling contemporary dataset is that they grow in three dimensions: features, examples, and cardinality. Therefore, practitioners need to perform data reduction and simplify the dataset through: selecting an deleting redundancy, noisy features or instances, or discrediting complex continuous feature spaces. A decrease in dimensionality also ensures a faster training and improved generalization capabilities of learning algorithms, as well as better understandability and interpretability of the prediction results. 
+
+When it comes to data stream, it adds more difficulties because the dataset is constantly updating, therefore requiring learning algorithms to update with the new data. Moreover, streaming requires a time-constraint analysis in order to catch up with the speed of arrival of instances. Lastly, since the system is already handling data streams, the analysis process cannot take too much of memory. With all of the above into account, and the fact that as new data pours in, there might be a phenomenon of concept drift \(changes in distribution and definitions of learned concepts over time\), direct adaptation of static reduction technique is not enough to handle the data reduction in data stream processing.
+
+In streaming scenarios reduction techniques are demanded to preferably process elements online or in batch-mode as quick as possible and without making any assumptions about data distribution in advance
+
+'Concept Drift’ can be classified into multiple categories. 
+
+* Judging by its influence on the learned classification boundaries, ‘Real’ concept drift represents a drift that does influence, whereas ‘Virtual’ concept drift represents those that do not influence. 
+* The type of change, might be sudden, gradual, incremental, recurring, blips \(outliers\) or noise. 
+* The scope, local or global concept drift.  
+
+The detection mechanisms include:
+
+* ‘Explicit handling’, based on properties including std, predictive error, instance distribution, etc. Any changes in these properties are attributed to the potential presence of drift and thus allow monitor to continuous progress of data stream.
+* implicit handling through ‘sliding Window’. by maintain a buffer and stores the most recent examples in order to keep track on the progress of data stream by storing its current state in the memory. More often than not, a flexible window size or multiple windows with different sizes can be used because it ensures generality. 
+* other ways include online learners, studying one instance at a time; ensemble learners, changing the base classifieds in a line-up ensemble.
+
+Criteria to evaluate data stream mining are different from those in the stationary environments. 
+
+* predictive power is evaluated based on pre-sequential metrics, and presequential AUC because the relevance of instances diminishes with time, and this way the most recent encounters are weighted heavier than those before. 
+* memory consumption 
+* recovery time
+* Decision time
+* Requirements for true class labels, because usually true class labels cannot be acquired or it takes incredibly long to acquire a true class label. 
+
+As for data reduction, it includes:
+
+* Dimensionality reduction through:
+* feature selection, feature extraction. The aim is to yield a minimum set of features so that the subsequent distribution probability of classes remains as unchanged as possible. 
+* FS: usually three categories, filter, wrapper, embedded  
+* instance reduction through:
+* instance selection or instance generation. Instance selection is different from sampling in that sampling is a stochastic process, whereas instance selection is dependent on the problem itself.
+* Three categories: condensation \(deals with redundancy\), edition \(handles the noisy instances\), and hybrid \(taking both into accounts\). 
+* Feature space simplification
+* through bucketizing the continuous values into a finite set of discrete intervals.   ****
+
+##  
+
+  
 
 
