@@ -1,3 +1,7 @@
+---
+description: 字典树，segment tree
+---
+
 # Complete Binary Tree, Segment Tree, Trie Tree
 
 ## Complete Binary Tree
@@ -113,7 +117,51 @@ print s_tree.sum(1,2)
 
 如果有一系列word：ab, abd, abch, cg, ef. 按照list的方式存储，space是O\(infinity\)，因为对于一个字典，它可以无限大，不停有新单词加入。可以优化的地方是很多单词拥有相同的前缀，那就可以节约前缀的空间。
 
-root分成26个分岔，代表了26个字母，也就是分别以这26个字母为首。而每一个子叉都继续分成了26个叉。走到一个单词的结尾就为它加一个标记，比如加一个T。
+root分成26个分岔，代表了26个字母，也就是分别以这26个字母为首。而每一个子叉都继续分成了26个叉。走到一个单词的结尾就为它加一个标记，比如加一个True。
 
-
+```python
+class TrieTreeNode:
+    def __init__(self):
+        self.children = [None]*26
+        self.is_end = False
+        self.count = 0
+    
+class TrieTree:
+    def __init__(self):
+        self.root = TrieTreeNode()
+    
+    def search(self, word):
+        cur = self.root
+        for i in range(len(word)):
+            index = ord(word[i])=ord('a')
+            if cur.children[index] is None:
+                return None
+            else:
+                cur = cur.children[index]
+        return cur.is_end
+    
+    def add(self, word):
+        cur = self.root
+        for i in range(len(word)):
+            index = ord(word[i])-ord('a')
+            if cur.children[index] is None:
+                cur.children[index] = TrieTreeNode()
+            cur.count += 1
+            cur = cur.children[index]
+        cur.is_end = True
+    
+    def delete(self, word):
+        self._delete_helper(self.root, word, 0)
+        
+    def _delete_helper(self, cur, word, index):
+        if index==len(word):
+            cur.is_end = False
+            return
+        i = ord(word[index])-ord('a')
+        self._delete_helper(cur.children[i], word, index+1)
+        
+        if cur.children[i].count == 0:
+            cur.children[i] = None
+        cur.count -= 1
+```
 
