@@ -232,8 +232,6 @@ and then run it using:
 bash column.sh seasonal/autumn.csv 1
 ```
 
-{% embed url="https://www.datacamp.com/courses/data-processing-in-shell" %}
-
 ### write loops in a shell script
 
 ```text
@@ -252,4 +250,10 @@ head -n 5 | tail -n 3 somefile.txt
 ```
 
  `tail` goes ahead and prints the last three lines of `somefile.txt`, but `head` waits forever for keyboard input, since it wasn't given a filename and there isn't anything ahead of it in the pipeline.
+
+## Data Processing using Shell
+
+{% embed url="https://www.datacamp.com/courses/data-processing-in-shell" %}
+
+
 
