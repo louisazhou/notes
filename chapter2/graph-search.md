@@ -146,6 +146,8 @@ class Solution(object):
         return res
 ```
 
+### beginWord endWord
+
 3. Given two words \(beginWord and endWord\), and a dictionary's word list, find the length of shortest transformation sequence from beginWord to endWord such that:
 
 * only 1 letter can be changed at a time
@@ -155,6 +157,34 @@ This is a BFS problem, because the vertex are the words, and edges are the chang
 
 两种做法，可从每个单词出发找到所有它可能得到的新的单词；或者用已有的dict先建立一个图，再BFS。
 
+```python
+import string
+class Solution(object):
+    def ladderLength(self, beginWord, endWord, wordList):
+        wordList = set(wordList)
+        if endWord not in wordList:
+            return 0
+        ans = 1
+        frontier = [beginWord]
+        used = set(frontier)
+        while frontier:
+            next = []
+            for word in frontier:
+                for p in xrange(len(word)):    
+                    for c in string.ascii_lowercase:
+                        newWord = word[:p] + c + word[p+1:]
+                        if newWord == endWord:
+                            return ans+1
+                        if newWord in wordList and newWord not in used:
+                            used.add(newWord)
+                            next.append(newWord)
+            frontier = next
+            ans += 1
+        return 0
+```
+
+### Bipartite
+
 4. Given an undirected graph, return true if and only if it is bipartite. 
 
 Bipartite: 2染色，使一个图的两个短点不一样的颜色；if we can split its set of nodes into 2 independent subsets A and B such that every edge in the graph has 1 node in A and another node in B.
@@ -163,9 +193,58 @@ input是adjacency list.
 
 A graph is bipartite &lt;-&gt; this graph does not contain odd cycle. 对于BFS的spanning tree结构来说，就是有连接同一层的边, 因为跨层的环一定包含的是偶数条边，偶数条边一定是bipartite的。所以在算法的层面，实际上是在每一层检查一个node是否被探索过的同时还要检查它能不能和同一层的某一个node相连；如果相连，就不是二分图（bipartite）。直到把所有node都查看了位置。在修改模板伪代码的时候，（1）把has\_seen变成一个hashset（2）利用BFS的性质，邻居的距离+1就是现在到root的距离 （3）比较两个距离。
 
+```python
+def bfs(graph, visited, u):
+    visited[u] = 0
+    frontier = [u]
+    while frontier:
+        next = []
+        for u in frontier:
+            for v in graph[u]:
+                if v not in visted:
+                    visited[v] = visited[u] + 1
+                    next.append(v)
+                elif visited[v] == visited[u]:
+                    return False
+        frontier = next
+    return True
 
+class Solution(object):
+    def isBipartite(self, graph)
+        visited = {}
+        for v in xrange(len(graph)):
+            if v not in visited and not bfs(graph, visited, v):
+                return False
+        return True
+```
 
 > 在写graph的时候要注意，如果题目没有说明这个图是联通的，要想到孤岛的情况。这也是为什么这道题写了for循环
+
+### Closest Door
+
+5. Given a m\*n 2D grid initialized with 3 possible values: -1 for wall, 0 for a gate, inf means an empty room; fill each empty room with the distance to its nearest gate. If it is impossible to reach a gate, it should be filled with inf.
+
+```python
+class Solution(object):
+    def wallAndGates(self, rooms):
+        if not rooms:
+            return
+        dr, dc = [-1,0,1,0],[0,1,0,-1]
+        N, C = len(rooms), len(rooms[0])
+        frontier, INF = [(r,c) for r in xrange(N) 
+        for c in xrange(C) if rooms[r][c]==0], 2147483647
+        distance = 0
+        while frontier:
+            next = []
+            for r, c in frontier:
+                for d in xrange(4):
+                    nr, nc = r+dr[d], c+dc[d]
+                    if 0<=nr<N and 0<=nc<C and rooms[nr][nc]==INF:
+                        rooms[nr][nc] = distance + 1
+                        next.append((nr, nc))
+            frontier = next
+            distance += 1
+```
 
 
 
