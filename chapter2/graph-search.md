@@ -1,3 +1,7 @@
+---
+description: BFS解决的主要问题是如何systematically从一个点出发走完所有相关点
+---
+
 # Graph Search
 
 ## Graph Application
@@ -57,7 +61,7 @@ MetaGraphSearchAlgorithm(graph, s):
 ```python
 BFS(graph, s):
     frontier = [s]
-    has_seen = set(s)
+    has_seen = set(s)#防止走出一个环，无法停止
     while frontier:
         next=[]
         for u in frontier:
@@ -78,12 +82,16 @@ BFS(graph, s):
 
 ## Problems
 
+### zigzag printing
+
 1. Given a binary tree, return the zigzag level order traversal of its nodes' values.也就是每一层变换访问顺序，从左到右-从右到左-从左到右。
 
 {% code-tabs %}
 {% code-tabs-item title="参考伪代码的结构" %}
 ```python
-BFS(graph, s):
+BFS(root):
+    if not root:
+        return []
     frontier = [root]
     reverse = False
     ans=[]
@@ -104,13 +112,57 @@ BFS(graph, s):
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
+### Check Islands
+
 2. Given a 2d grid map of '1's\(land\) and '0's\(water\), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. 
 
 Claim: At a given cell that contains '1', we perform a BFS from this node. After this is done, we find all the lands that is reachable from this '1' and all these lands define an island. When we do BFS, we shoud start from a land that 
 
+```python
+def BFS(grid, r, c, marked):
+    dr, dc = [-1,0,1,0],[0,1,0,-1]
+    marked.add((r,c))
+    while frontier:
+        next=[]
+        for r,c in frontier:
+            for d in xrange(4):
+                nr,nc = r+dr[d], c+dr[d]
+                if 0<=nr<len(grid) and 0<=nc<len(grid[0] #合法
+                and grid[nr][nc])=='1'#陆地
+                and (nr,nc) not in marked:#没走过
+                    node = (nr, nc)
+                    marked.add(node)
+                    next.apped(node)
+        frontier = next
+        
+class Solution(object):
+    def numIslands(self, grid):
+        res, marked = 0, set()
+        for r in xrange(len(grid)):
+            for c in xrange(len(grid[0])):
+                if grid[r][c]=='1' and (r,c) not in marked:
+                    res += 1
+                    BFS(grid, r, c, marked)
+        return res
+```
 
+3. Given two words \(beginWord and endWord\), and a dictionary's word list, find the length of shortest transformation sequence from beginWord to endWord such that:
 
-3. A graph is bipartite &lt;-&gt; this graph does not contain odd cycle. 对于BFS的spanning tree结构来说，就是有连接同一层的边。而跨层的环一定包含的是偶数条边。在修改模板伪代码的时候，（1）把has\_seen变成一个hashset（2）利用BFS的性质，邻居的距离+1就是现在到root的距离 （3）比较两个距离。  
+* only 1 letter can be changed at a time
+* each transformed word must exist in the word list. \(beginWord is not a transformed word\)
+
+This is a BFS problem, because the vertex are the words, and edges are the changes.
+
+两种做法，可从每个单词出发找到所有它可能得到的新的单词；或者用已有的dict先建立一个图，再BFS。
+
+4. Given an undirected graph, return true if and only if it is bipartite. 
+
+Bipartite: 2染色，使一个图的两个短点不一样的颜色；if we can split its set of nodes into 2 independent subsets A and B such that every edge in the graph has 1 node in A and another node in B.
+
+input是adjacency list.   
+
+A graph is bipartite &lt;-&gt; this graph does not contain odd cycle. 对于BFS的spanning tree结构来说，就是有连接同一层的边, 因为跨层的环一定包含的是偶数条边，偶数条边一定是bipartite的。所以在算法的层面，实际上是在每一层检查一个node是否被探索过的同时还要检查它能不能和同一层的某一个node相连；如果相连，就不是二分图（bipartite）。直到把所有node都查看了位置。在修改模板伪代码的时候，（1）把has\_seen变成一个hashset（2）利用BFS的性质，邻居的距离+1就是现在到root的距离 （3）比较两个距离。
+
 
 
 > 在写graph的时候要注意，如果题目没有说明这个图是联通的，要想到孤岛的情况。这也是为什么这道题写了for循环

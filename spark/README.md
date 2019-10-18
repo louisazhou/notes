@@ -16,5 +16,9 @@ BigTable：都是key-value pair，因为value的值不一定数目，不能用�
 
 HBase：column family和timestamp，方便单数据的搜索添加查找，还有时间戳
 
+{% embed url="https://data-flair.training/blogs/hbase-vs-rdbms/" %}
+
+\*\*\*\*
+
 
 
