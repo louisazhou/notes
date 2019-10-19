@@ -124,6 +124,15 @@ class generator(object):
 
 Time: O\(n\)              Space:O\(1\)
 
+### Find median of infinite streaming data
+
+1. Histogram
+2. Binary Search
+
+Give you APIs to read the streaming data from the beginning to the end: HasNext\(\), GetNext\(\).先猜测一个median值，比如1000. 第一轮：过一遍，得到min、max、size、&gt;1000、&lt;1000；第二轮：知道了小于1000和大于1000的个数，用\(max+1000\)/2下一个median；
+
+
+
 ## Randomization
 
 用random7生成random5：  

@@ -57,6 +57,7 @@
   * [Feature Engineering with Pyspark](spark/feature-engineering-with-pyspark.md)
   * [Building Recommendation Engines with Pyspark](spark/building-recommendation-engines-with-pyspark.md)
   * [Building Data Engineering Pipelines in Python](spark/building-data-engineering-pipelines-in-python.md)
+  * [Hadoop MapReduce](spark/hadoop-mapreduce.md)
   * [Big Data Related Paper](spark/big-data-related-paper.md)
 * [Chapter7 Code Walk-Throughs](project-code-walk-throughs/README.md)
   * [Python](project-code-walk-throughs/python.md)
