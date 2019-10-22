@@ -19,3 +19,10 @@ n\_init: 代表做几次k means（可能是一开始的初始点就不同），m
 
 init='k-means++'：优化普通的k means，避免了有时cluster的结果很糟糕的问题 第一个中心点从已知的数据点中随便取；第二个中心点，从剩下的数据点中选取，12之间的距离的平方就是第二个点被选到的概率；第三个点，每个数据点计算和前两个中心点的距离的平方的最小值。
 
+
+
+## Clustering
+
+* Distance Based: K means
+* Density Based: DB scan 
+

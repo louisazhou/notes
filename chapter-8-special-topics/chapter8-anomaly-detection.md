@@ -100,7 +100,7 @@ description: A.K.A. Outlier Analysis or fraud detection
 
 总之, 
 
-Statistical-based, distance based, density based, and cluster based outlier detection 
+Statistical-based, distance based, density based \(DB Scan\), and cluster based outlier detection 
 
 ## 面的公司
 

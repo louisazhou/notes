@@ -40,3 +40,29 @@ HBase：column family和timestamp，方便单数据的搜索添加查找，还�
 >
 > 画histogram
 
+## Data Stream Analytics
+
+### Volume Reduction
+
+* Sampling 如果是fraud，可能sample的时候完全不会看到fraud cases； sample不能用于做alerting的； 另外 得到的都是approximation 
+* Sketching  尽量少用内存，对于数一堆数的时候有用 得到的都是accurate的
+
+### Data Stream Analytics: Data Analysis
+
+* Concept Drift 是其中最重要的，需要关注是否有drifting
+* 和aggregate相比，单个data的重要性要大得多，因为这就是分析的对象
+
+![](../.gitbook/assets/image%20%285%29.png)
+
+
+
+### Sampling
+
+Approaches：
+
+* Reservoir Sampling： sample first m items, 缺点是不能parallelize
+* Min-Wise Sampling： generate a random number uniformly distributed between 0 and 1, 
+* "Smart" Sampling: domain knowledge sampling, 比如security的人会知道先关注small packets data
+
+
+

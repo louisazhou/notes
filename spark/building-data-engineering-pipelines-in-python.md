@@ -4,7 +4,7 @@
 
 The landing zone contains raw data, the clean zone contains clean data, and the business zone contains domain-specific data, usually related to solve business problems.
 
-![](../.gitbook/assets/image%20%2811%29.png)
+![](../.gitbook/assets/image%20%2812%29.png)
 
 parquet文件也可以是csv，用file filename可以看到file的类型。
 
@@ -20,7 +20,7 @@ Singer is a specication
 * extract and load with taps and targets =&gt; language independent
 * communicate over streams:  schema \(metadata\) state \(process metadata\)  record \(data\)
 
-![](../.gitbook/assets/image%20%2829%29.png)
+![](../.gitbook/assets/image%20%2830%29.png)
 
 ```python
 columns = ("id", "name", "age", "has_children") 
