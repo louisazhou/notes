@@ -405,11 +405,85 @@ class QueueMax:
         raise Exception("Empty Queue")
 ```
 
+## Implement a queue with Min API
+
+```python
+from collections import deque
+
+class Queue(object):
+    def __init__(self):
+        self._deque = deque()
+        self._mins = deque()
+    
+     def __len__(self):
+         return len(self._deque)
+     
+     def is_empty(self):
+         return len(self._deque)==0
+     
+     def enqueue(self, value):
+         self._deque.append(value)
+         while self._mins and self._mins[-1]>value:
+             self._mins.pop()
+         self._mins.append(value)
+         
+     def dequeue(self):
+         value = self._deque.popleft()
+         if value == self._mins[0]:
+             self._mins.popleft()
+         return value
+     
+     def front(self):
+         return self._deque[0]
+     
+     def min(self):
+         return self._mins[0]
+```
+
 ## 应用
 
 1. 在工作中，data pipeline也会使用sliding window来存值，就像是在做down sampling，就可以存一个统计意义上更小的数据集。
 2. 
 ![](../.gitbook/assets/image%20%2812%29.png)
 
+3. System Design、OO Design
 
+
+
+## Queue
+
+假设有屏幕的width=3, height=2, food的位置\(\[1,2\], \[0,1\]\)，蛇的位置，实现snake object。
+
+如果要设计一个data structure来表示“🐍”，那就需要update蛇头和蛇尾的坐标。那么deque就可以支持头尾的取放。在尾部取元素是O\(1\)的操作，在头部加元素也是O\(1\)的操作。不过如果想要判断头部接下来要在的位置是否会撞上身体，那么brute-force的复杂度是O\(n\)。如果想在这里优化，引入一个set或者dictionary。
+
+到现在，🐍的身体有两个表现形式，数据结构的组合：一个是set，一个是deque。在更新时，两者都需要更新。
+
+```python
+class SnakeGame(object):
+	def __init__(self, width, height, food):
+		initial_pos=(0,0)
+		self._snake=deque([initial_pos])
+		self._snakePos=set([initial_pos])
+		self._foods=deque(food)
+		self._width, self._height=width, height
+		self._directions = {'U':(-1,0), 'L':(0,-1), 'R':(0,1), 'D':(1,0)}
+		
+    def move(self, direction):
+        head = self._snake[0]
+        next_pos = (head[0]+self._directions[direction][0], head[1]+self._directions[direction][1])    
+
+        tail = self._snake.pop()
+        self._snakePos.remove(tail)
+        if next_pos in self._snakePos or not (0<=next_pos[1]<self._width and 0<=next_pos[0]<self._height):
+            return -1
+
+        self._snake.appendleft(next_pos)
+        self._snakePos.add(next_pos) 
+        if self._foods and tuple(self._foods[0])==next_pos:
+            self._foods.popleft()
+            self._snake.append(tail)
+            self._snakePos.add(tail)
+
+        return len(self._snake)-1
+```
 

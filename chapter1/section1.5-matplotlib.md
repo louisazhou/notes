@@ -18,6 +18,14 @@ description: Matplotlib and seaborn
 
 {% embed url="https://python-graph-gallery.com/" %}
 
+## Tableau
+
+{% embed url="https://public.tableau.com/en-us/gallery/?tab=viz-of-the-day&type=viz-of-the-day" %}
+
+{% embed url="https://public.tableau.com/en-us/s/resources" %}
+
+
+
 ## Import Package
 
 ```python

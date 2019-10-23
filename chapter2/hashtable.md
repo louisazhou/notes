@@ -362,6 +362,17 @@ In python, hash\_set is set; hash\_table is dictionary
 因为是sorted，所以可以用2 pointers的方法，利用增加和减小的单调性：一个往前移一个往后移；如果现在的和比target小，移动i往后；如果比现在的target大，移动j往前。
 
 ```python
+def two_sum(list, target):
+    i,j = 0, len(list)-1
+    while i<j:
+        if list[i]+list[j] < target:
+            i += 1
+        elif list[i]+list[j] > target:
+            j -= 1
+        elif list[i]+list[j] == target:
+            return True
+    return False
+    
 # Time O(n)
 # Space O(1)
 ```
@@ -371,6 +382,15 @@ In python, hash\_set is set; hash\_table is dictionary
 利用set的性质，经过的数字都存下来；用target的数字和当前经过的数字相减，如果得到的结果在之前的set里，就找到了，return true。否则，false。
 
 ```python
+def two_sum(list, target):
+    hashset = set()
+    for key in list:
+        if (target-key) in hashset:
+            return True
+        else:
+            hashset.add(key)
+    return False
+    
 # Time O(n)
 # Space O(n)
 ```
@@ -382,18 +402,82 @@ In python, hash\_set is set; hash\_table is dictionary
 * 如果题目要output多少对，用一个dict，存count： {10:1, 2:2, ...}
 * 如果题目要output哪些index的组合，dict里是list of index: {10:\(0\), 2:\(1,2\), ...}
 
+```python
+def two_sum_duplicate(arr, sum):
+    dic = {}
+    count = 0
+    for key in arr:
+        if sum-key in dic:
+            count+=dic[sum-key]
+        if key in dic:
+            dic[key]+=1
+        else:
+            dic[key]=1
+    return count
+
+# Time O(n)
+# Space O(n)
+```
+
 ### 3 sum unsorted
 
-方法一：走n遍的2 sum。O\( $$n^2$$ \)
+方法一：走n遍的2 sum。Time O\( $$n^2$$ \) Space O\(n\)
 
 方法二：先排序，反正已经O\( $$n^2$$ \)了，就算先排序也不会影响这个时间复杂度，那就排序吧！可以让空间复杂都变成O\(1\)。
+
+```python
+def three_sum (array, target):
+    if array is None or len(array)==0:
+        return False
+    
+    array.sort()
+    for i in range(len(array)-2):
+        start = i + 1
+        end = len(array)-1
+        while start<end:
+            tmp_sum = array[start] + array[end] + array[i]
+            if tmp_sum == target:
+                return True
+            elif tmp_sum < target:
+                start += 1
+            else:
+                end -= 1
+        return False
+        
+# Time O(n2)
+# Space O(1)
+```
 
 ### 4 sum unsorted
 
 方法一：走n遍的3 sum。O\( $$n^3$$ \)
 
+```python
+for i in range(len(array)-3):
+  for j in range(i+1, len(array)-2):
+    #2sum  
+  
+# Time O(n3)
+# Space O(1)
+```
+
 方法二：变成2个2sum，如何找到pair of 2 sum, 和是target。  
-1. 先配对 2. sort一遍或者hashset  需要注意的是，在配对的时候要检查它是否是用过的 
+1. 先配对  O\( $$n^2$$ \)  
+2. sort一遍或者hashset  O\( $$n^2$$ \)  
+3. 在配对的时候要检查它是否是用过的 O\(1\)
+
+```python
+class twoSumPair:
+    def __init__(self, index1, index2):
+        self.index1 = index1
+        self.index2 = index2
+        self.number1 = array[index1]
+        self.number2 = array[index2]
+        self.sum = self.number1 + self.number2
+
+    pairlist=[twoSumPair(0,1), twoSumPair(0,2), twoSumPair(0,3), twoSumPair(0,4),
+    twoSumPair(1,2),twoSumPair(1,3)...]
+```
 
 ### k sum
 
@@ -403,9 +487,59 @@ In python, hash\_set is set; hash\_table is dictionary
 
 2 pointers，错一位同向而行。因为如果是相向而行，目前的值大于target，那么移动i或者j都行，所以到底移动哪个？ 两个都尝试时间复杂度就会变高。同向而行，如果当前值大于target，移动i向前；如果当前值小于target，移动j向前。
 
+```python
+def two_difference(array,target):
+    i,j = 0, 1
+    while j<len(array):
+        if array[j]-array[i] < target:
+            j += 1
+        elif array[j]-array[i] > target:
+            i += 1
+        elif:
+            return True
+    return False
+    
+# Time O(n)
+# Space O(1)
+```
+
 ### 2 difference unsorted
 
+1. 创建set
+2. loop array，检查set里的元素是否等于array\[i\]-target或者array\[i\]+target
 
+```python
+def two_sum(list, target):
+    hashset = set()
+    for key in list:
+        if (key-target) in hashset or (target+key) in hashset:
+            return True
+        else:
+            hashset.add(key)
+    return False
+    
+# Time O(n)
+# Space O(n)
+```
+
+### Longest sublist without duplicate values. 
+
+1 2 3 1 4 3 longest is 2 3 1 4
+
+```python
+def longest_sub_list(list):
+    hashset=set()
+    longest=0
+    slow=fast=0
+    while fast<len(list):
+        while list[fast] in hashset:
+            hashset.remove(list[slow])
+            slow+=1
+        hashset.add(list[fast])
+        longest = max(longest, fast-slow+1)
+        fast+=1
+    return longest
+```
 
 
 

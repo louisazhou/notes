@@ -60,7 +60,7 @@ def isValid(seq):
 
 
 
-## 算术表达式  逆波兰表达式
+## 简易计算器（+-）
 
 本质是遇到‘）‘后把之前存的数字和operator拿出来做个计算，push回stack，直到stack空为止
 
@@ -82,6 +82,49 @@ def arithmetic_expression_evaluation(terms):
       operands.append(int(term))
   return operands[0]
 ```
+
+{% code-tabs %}
+{% code-tabs-item title="queue&stack review里 从string输入的版本" %}
+```python
+def tokenize(s):
+  from_num, num = False, 0
+  for c in s:
+    if c.isdigit():
+      from_num = True
+      num = 10*num+int(c)
+    else:
+      if from_num:
+        yield num
+        from_num, num = False, 0
+      if not c.isspace():
+        yield c
+  if from_num:
+    yield num
+
+import operator
+def arithmetic_expression_evaluation(terms):
+  operands=[0]
+  operators=['+']
+  ops = {'+': operator.add, '-': operator.sub, '*': operator.mul, '/': operator.truediv}
+  for term in terms:
+    if term == '(':
+      operators.append('+')
+      ooperands.append(0)
+    elif term == ')':
+      right, left = operands.pop(), operator.pop()
+      operands.append(ops[operators.pop])(left, right))
+    elif term in ops:
+      operators.append(term)
+    else:
+      operands.append(ops[operators.pop()](operands.pop(), term)
+  return operands[-1]
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+## 逆波兰表达式
+
+
 
 ## Decode
 
@@ -119,7 +162,24 @@ def decodeString(s):
 
 $$O(n^2)$$ 
 
-## 946 Validate Stack Sequences
+## 946 Validate Stack Sequences \(with distinct values\)
+
+input: pushed=\[1,2,3,4,5\], popped = \[4,5,3,2,1\]  
+output: True
+
+```python
+class Solution():
+    def validateStackSequences(self, pushed, popped):
+        s, next_consumed = [], 0
+        for item in popped:
+            while (not s or s[-1]!=item) and next_consumed<len(pushed):
+                s.append(pushed[next_consumed])
+                next_consumed += 1
+            if s[-1]!=item:
+                break
+            s.pop()
+        return not s
+```
 
 ## Implement a queue using 2 stacks
 
@@ -288,5 +348,18 @@ def scoreofparenthesis (S):
      return stack[0]                
 ```
 
-
+```python
+def evaluate(seq):
+    s=[]
+    for c in seq:
+        if c== '(':
+            s.append(c)
+        else:
+            acc=0
+            while s and s[-1]!='(':
+                acc += s.pop()
+            s.pop()  #pop the (
+            s.append(max(acc*2, 1))  #when acc=0
+    return sum(s) #because ()() s=[1,1]
+```
 
