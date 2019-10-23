@@ -18,7 +18,7 @@ A decision making procedure during product iteration. Experiment Design \(collec
 
 [Examples](https://www.designforfounders.com/ab-testing-examples/)  [Examples & Branstorm](https://vwo.com/blog/)
 
-![](../.gitbook/assets/image%20%2814%29.png)
+![](../.gitbook/assets/image%20%2820%29.png)
 
 Review可能会回到数据分析（engineering）或者重新A/B Testing。Ramp up：逐步上线，用户逐步从1到100%，launch：100%用户接触。
 
@@ -41,7 +41,7 @@ Review可能会回到数据分析（engineering）或者重新A/B Testing。Ramp
 > 从AARRR的沙漏模型上定义，可以是下图。  
 > \* 注意CTR是一个binary metric
 
-![](../.gitbook/assets/image%20%2818%29.png)
+![](../.gitbook/assets/image%20%2824%29.png)
 
 ### **Experiment and Randomized Experiments**
 
@@ -154,7 +154,7 @@ social-network中，不能单纯用P value，因为nodes之间不再是independe
 * A/B Testing \(randomized experiment\)中的假设检验
 * Metric以均值的形式定义 - CTR，DAU\(daily active user\), ARPU\(annual revenue per user\)  与之相对的是，类似ROI这样的metric，这就不是简单的均值，就不适用于以下方法 所以在面试中，尽力把metric定义成均值的形式 也尽量让feature 是 binary data的均值或者continuous feature的均值
 
-![](../.gitbook/assets/image%20%2824%29.png)
+![](../.gitbook/assets/image%20%2833%29.png)
 
 $$ \hat{\theta}_{n}$$ Metric的估计值 
 

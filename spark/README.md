@@ -40,6 +40,58 @@ HBase：column family和timestamp，方便单数据的搜索添加查找，还�
 >
 > 画histogram
 
+## MapReduce
+
+* 好处：有迹可循，存了中间结果
+* 坏处：每次读入写入磁盘很慢
+
+## Spark
+
+1. One Computation Engine to fit all
+2. From disk to memory
+3. From single job to DAG
+4. From 1 pass to multiple pass
+
+* 有向无环图DAG方便优化步骤，中间没有读写
+
+如果有100GB data on disk，20G in memory，Spark会memory and disk，把一部分放在memory，一部分放在disk；通过来回swap的方式，在数据放不下memory的时候写一些到disk（面试不太会考了）。
+
+Spark session：配置一些基本信息，比如application name，memory和CPU sparksession下有一些function，比如spark.read.format\("csv"\)，load进来就是spark **dataframe**
+
+Spark context是spark RDD操作的接口；类比就像是SparkContext是宝库的大门，里面给**RDD**开了一些小门；所以通过data=sc.textFile\(\)之类的function 
+
+### Spark RDD
+
+* RDD是分布式内存环境的抽象（或者说，分布式内存的一个对象） 通过RDD访问每一个机器内存里的数据 但是在用户使用时是感受不到它有多个分块的 RDD is an immutable collection of **objects** that can be operated on in parallel **\(面试常考\)**
+* Spark中实现了内存级别的备份（use lineage information, user不能访问的），和硬盘级别的备份（checkpoint）
+* **Resilient:** RDD keeps its **lineage** information; it can be recreated from parent RDDs
+* **Distributed:** partitions can be distributed across multiple nodes in the cluster; each RDD is composed of 1 or more partitions. 
+
+### Spark physical plan
+
+国内某公司面试问到：groupbykey和reducebykey有什么区别？
+
+
+
+![](../.gitbook/assets/image%20%2810%29.png)
+
+![](../.gitbook/assets/image%20%2816%29.png)
+
+reducebykey存了一个中间结果，中间有一个C2，这就减少了中间数据的shuffle。reducebykey相当于把aggregation的操作放在了前面来做。
+
+### Spark Dataframe
+
+先只有RDD，没有dataframe的概念；RDD is a key-value pairs object, 所以数据没有schema。而用dataframe的时候，能直接assess某一列，因为数据有了schema。
+
+至于SQL Query，其实可以和dataframe走一样的逻辑引擎；这就是为什么它们之间可以互相转化；dataframe的结果可以转换成query，反之亦然。
+
+![](../.gitbook/assets/image%20%2834%29.png)
+
+### ML-lib Spark ML
+
+* ML-lib API: 针对的是RDD的操作
+* Spark-ML: 针对的是data frame的操作
+
 ## Data Stream Analytics
 
 ### Volume Reduction

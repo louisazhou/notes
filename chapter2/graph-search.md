@@ -2,7 +2,7 @@
 description: BFS解决的主要问题是如何systematically从一个点出发走完所有相关点
 ---
 
-# Graph Search
+# Graph Search BFS
 
 ## Graph Application
 

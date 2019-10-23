@@ -409,7 +409,7 @@ class QueueMax:
 
 1. 在工作中，data pipeline也会使用sliding window来存值，就像是在做down sampling，就可以存一个统计意义上更小的数据集。
 2. 
-![](../.gitbook/assets/image%20%289%29.png)
+![](../.gitbook/assets/image%20%2812%29.png)
 
 
 

@@ -4,6 +4,14 @@ description: 'Dictionary, Set, 例题'
 
 # HashTable
 
+## 底层机制
+
+set是简化版hashtable，而hashtable的本质其实是array（或者说Python里的list），因为list的本质就是array index和value的映射。所以关键问题是把key转换成index。一般分成3步：
+
+1. 通过key和hash function计算它的hash\_number=hash\(key\) 这一步虽然可能有collision但是可能性比较低
+2. index=hash\_number%N, N是array size。 这一步有很大概率有collision，取决于N的大小
+3. 如果有hash collision，两种方法； 如果没有，list\[index\]=value
+
 ## Dictionary 使用场景
 
 TF-IDF \(Term Frequency- Inverse Document Frequency\) 统计词频时，可以用list来统计频率，但是使用list的缺点是每次更新频率的时间复杂度都是O\(n\), 只能遍历一遍、找到词、给词频+1； 随着单词变多，这个过程就变得低效了。
@@ -298,7 +306,7 @@ Update O\(1\) O\(n\)
 
 有时我们并不关心value，只关心key本身，这个时候dict就退化成了set，集合。集合就是只包含了key的hashtable。需要注意的是，集合本身可变mutable，但是里面包含的元素不变。所以增删查改咯～
 
-#### Add
+### Add
 
 ```python
 x = {"a","b","c","d"}
@@ -307,13 +315,13 @@ x.add("e") #one element
 x. update({"e", "f"}) #multiple elements
 ```
 
-#### remove 
+### remove 
 
 如果remove的元素不在，使用x.remove会报keyerror； 但是使用x.discard\("a"\)不会报
 
 如果从中随意删除任何一个\(因为set没有顺序，所以真的不知道删了哪个... \)，x.pop\(\)； 如果是清空，x.clear\(\) ；
 
-#### union
+### union
 
 下面是集合操作的取并集 这个x和y是用set（）把list变成集合
 
@@ -323,7 +331,7 @@ y = set\(\[ "Radio", "Television"\]\)
 
 print x.union\(y\) 
 
-#### 更多
+### 更多
 
 ![](https://cdn.mathpix.com/snip/images/77rv6-zY5MX29CrX7WnJlZ2CnYKgkN2eZtkMrfn-hUU.original.fullsize.png)
 
@@ -346,6 +354,58 @@ squared = {x**2 for x in [1,1,2]}
 5. hash\_set is a set {1,3}, it only contains keys 
 
 In python, hash\_set is set; hash\_table is dictionary 
+
+## 题目
+
+### 2 sum sorted
+
+因为是sorted，所以可以用2 pointers的方法，利用增加和减小的单调性：一个往前移一个往后移；如果现在的和比target小，移动i往后；如果比现在的target大，移动j往前。
+
+```python
+# Time O(n)
+# Space O(1)
+```
+
+### 2 sum unsorted
+
+利用set的性质，经过的数字都存下来；用target的数字和当前经过的数字相减，如果得到的结果在之前的set里，就找到了，return true。否则，false。
+
+```python
+# Time O(n)
+# Space O(n)
+```
+
+### 2 sum with duplicates
+
+\[10, 2, 2, 13, 2\], target 4 
+
+* 如果题目要output多少对，用一个dict，存count： {10:1, 2:2, ...}
+* 如果题目要output哪些index的组合，dict里是list of index: {10:\(0\), 2:\(1,2\), ...}
+
+### 3 sum unsorted
+
+方法一：走n遍的2 sum。O\( $$n^2$$ \)
+
+方法二：先排序，反正已经O\( $$n^2$$ \)了，就算先排序也不会影响这个时间复杂度，那就排序吧！可以让空间复杂都变成O\(1\)。
+
+### 4 sum unsorted
+
+方法一：走n遍的3 sum。O\( $$n^3$$ \)
+
+方法二：变成2个2sum，如何找到pair of 2 sum, 和是target。  
+1. 先配对 2. sort一遍或者hashset  需要注意的是，在配对的时候要检查它是否是用过的 
+
+### k sum
+
+在array里选k个数字组成sum=target。DFS，k个数字的subset
+
+### 2 difference sorted
+
+2 pointers，错一位同向而行。因为如果是相向而行，目前的值大于target，那么移动i或者j都行，所以到底移动哪个？ 两个都尝试时间复杂度就会变高。同向而行，如果当前值大于target，移动i向前；如果当前值小于target，移动j向前。
+
+### 2 difference unsorted
+
+
 
 
 
