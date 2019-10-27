@@ -60,12 +60,34 @@ Spark session：配置一些基本信息，比如application name，memory和CPU
 
 Spark context是spark RDD操作的接口；类比就像是SparkContext是宝库的大门，里面给**RDD**开了一些小门；所以通过data=sc.textFile\(\)之类的function 
 
+Spark SQL is data warehouse   
+Spark ML support deep learning   
+Spark Streaming is able to process stream data  
+Spark SQL can query Hive Table
+
+### Spark DAG and stage
+
+Organization data flow of RDD   
+Optimize network communication cost   
+One job is divided into different stages based on data shuffle
+
 ### Spark RDD
 
 * RDD是分布式内存环境的抽象（或者说，分布式内存的一个对象） 通过RDD访问每一个机器内存里的数据 但是在用户使用时是感受不到它有多个分块的 RDD is an immutable collection of **objects** that can be operated on in parallel **\(面试常考\)**
 * Spark中实现了内存级别的备份（use lineage information, user不能访问的），和硬盘级别的备份（checkpoint）
 * **Resilient:** RDD keeps its **lineage** information; it can be recreated from parent RDDs
 * **Distributed:** partitions can be distributed across multiple nodes in the cluster; each RDD is composed of 1 or more partitions. 
+* Big data object abstraction 
+* Contains multiple data partitions
+* Can persist into disk
+
+Spark RDD caching 
+
+* save the iterative computation cost 
+* caching data into memory function is : RDD.cache\(\)
+* Store data into memory 
+* Reusable for different stages 
+* Reduce overhead to read data from disk
 
 ### Spark physical plan
 
@@ -79,6 +101,14 @@ Spark context是spark RDD操作的接口；类比就像是SparkContext是宝库�
 
 reducebykey存了一个中间结果，中间有一个C2，这就减少了中间数据的shuffle。reducebykey相当于把aggregation的操作放在了前面来做。
 
+### Fault Tolerance机制
+
+Spark data lineage可以fault tolerance，track back to the data source
+
+### Spark Data Partitioner \(Data Engineer的OA考过\)
+
+输入是key-value，输出是 the partition id
+
 ### Spark Dataframe
 
 先只有RDD，没有dataframe的概念；RDD is a key-value pairs object, 所以数据没有schema。而用dataframe的时候，能直接assess某一列，因为数据有了schema。
@@ -91,6 +121,22 @@ reducebykey存了一个中间结果，中间有一个C2，这就减少了中间�
 
 * ML-lib API: 针对的是RDD的操作
 * Spark-ML: 针对的是data frame的操作
+
+### Spark Vs Hive 
+
+Spark is memory based   
+Hive is based on MapReduce   
+Hive Spark can execute Hive table
+
+### 面试必问：K Means手写、分布式的K Means
+
+### 面试必问：SGD、为什么-alpha、alpha设置不当会怎么样
+
+### 面试必问：Linear Regression的分布式实现
+
+老的做法：把数据做成分块，然后每一块学w，最后汇总平均；但问题在于这不一定是最好的结果，比如对于skewed data就不行；
+
+现在的做法：parameter server，数据分成多个存储，参数也分块存储
 
 ## Data Stream Analytics
 

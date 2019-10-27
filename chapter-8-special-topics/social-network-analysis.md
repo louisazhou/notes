@@ -99,9 +99,7 @@ Idea: Pilot study, sort the probability in a descending order.
 
 
 
+{% embed url="https://www.sci.unich.it/~francesc/teaching/network/" %}
 
 
-Q\* Definitions of edges and nodes are subjective. 
-
-Q\* 30 sample size
 
