@@ -9,9 +9,18 @@ description: 手动总结题库
 #代表容量为10，第一件物品体积5，第二件物品体积7... 
 
 #转化为列表之后不能直接int(List)
-n=int(sys.stdin.readline().strip())
+#这是错的：n=int(sys.stdin.readline().strip())
+
 #正确解法：需要对列表内每个数int();使用raw_input()不会读取回车，sys.stdin()会读取回车键
-dat=[int(x) for x in raw_input().strip().split()]
+dat=[int(x) for x in input().strip().split()]
+#这是如果输入是空格分割的话
+
+#假如，.split(‘,’)
+#另外还可以定义分割次数 ‘,’,1
+
+#或者用 import sys 
+# sys.stdin.readline().strip('\n').split()
+# 其实strip本身默认是用来去除字符串首位空格的 但也可以用户指定，比如在这里 指定去除最后的\n
 
 c=dat[0]
 p=[]
@@ -474,6 +483,11 @@ class Solution(object):
       minSum = min(minSum, sum)
             
     return maxSum
+
+num = sys.stdin.readline().strip('\n').split()
+dat = [int(n) for n in num]
+
+print(largestSum(dat))
 ```
 
 ```python
@@ -485,6 +499,11 @@ class Solution:
             max_sum = max(max_sum_ending_curr_index, max_sum)
             
         return max_sum
+
+num = sys.stdin.readline().strip('\n').split()
+dat = [int(n) for n in num]
+
+print(largestSum(dat))
 ```
 
 [https://github.com/azl397985856/leetcode/blob/master/problems/53.maximum-sum-subarray-cn.md](https://github.com/azl397985856/leetcode/blob/master/problems/53.maximum-sum-subarray-cn.md)
@@ -499,7 +518,113 @@ class Solution:
 
 题目和答案 [https://www.pd4cs.org/reverse-and-add-until-a-palindrome/](https://www.pd4cs.org/reverse-and-add-until-a-palindrome/)
 
-### 7. Balanced Smileys \[90min\]
+```text
+Given a positive integer, reverse the digits and add the resulting number to the original number. 
+How many times does one have to repeat the process until one gets a palindrome? 
+A palindrome is a number whose digits are the same when read left to right 
+and right to left. 
+
+For example, for 5280, we get a palindrome after 3 steps (each step reverses the string and add both)
+
+Step 1: 5280 + 0825 = 6105
+
+Step 2: 6105 + 5016 = 11121
+
+Step 3: 11121 + 12111 = 23232
+
+If we start executing the described step over and over again and we generate a palindrome, the algorithm terminates.  
+However, if we don’t get a palindrome after 100 steps, after a 1000 steps, after 10,000 steps, what can we conclude?
+
+We can stop and say “we have not generated a palindrome after 10000 iterations” 
+but we cannot make any claim that a palindrome cannot be found later.  
+Indeed, there exists no algorithm that generates the answer “no palindrome can be generated.”
+```
+
+```python
+def reversDigits(num): 
+    rev_num=0
+    while (num > 0): 
+        rev_num = rev_num*10 + num%10
+        num = num/10
+    return rev_num 
+  
+# Function to check whether the number is palindrome or not 
+def isPalindrome(num): 
+    return (reversDigits(num) == num) 
+  
+# Reverse and Add Function 
+def ReverseandAdd(num): 
+    rev_num = 0
+    steps = 0
+    
+    while (steps <= 1000): 
+        # Reversing the digits of the number 
+        steps += 1
+        rev_num = reversDigits(num) 
+  
+        # Adding the reversed number with the original 
+        num = num + rev_num 
+  
+        # Checking whether the number is palindrome or not 
+        if(isPalindrome(num)): 
+            print steps, num 
+            break
+            
+        else: 
+            if (num > 4294967295): 
+                print "No palindrome exist"
+
+ReverseandAdd(168)
+```
+
+### 7. Reverse until Even
+
+![](https://cdn.mathpix.com/snip/images/i6aL824ccsmHAGF05wUgekz-UF_-EGSjKBInmJd2DKQ.original.fullsize.png)
+
+```python
+def reversDigits(num): 
+    rev_num=0
+    while (num > 0): 
+        rev_num = rev_num*10 + num%10
+        num = num/10
+    return rev_num 
+  
+# Function to check whether the number is palindrome or not 
+def isEven(num): 
+    while (num > 0): 
+        digit = num%10
+        num = (num-digit)//10
+        if (digit %2!= 0):
+          return False
+    
+    return True
+  
+# Reverse and Add Function 
+def ReverseandAdd(num): 
+    rev_num = 0
+    steps = 0
+    
+    while (steps <= 1000): 
+        # Reversing the digits of the number 
+        steps += 1
+        rev_num = reversDigits(num) 
+  
+        # Adding the reversed number with the original 
+        num = num + rev_num 
+  
+        # Checking whether the number is palindrome or not 
+        if(isEven(num)): 
+            print steps, num 
+            break
+            
+        else: 
+            if (num > 4294967295): 
+                print "No palindrome exist"
+
+ReverseandAdd(168)
+```
+
+### 8. Balanced Smileys \[90min\]
 
 [https://gist.github.com/mstepniowski/4660602](https://gist.github.com/mstepniowski/4660602)
 
@@ -511,25 +636,118 @@ Follow Up: 1）你的代码的复杂度； 2）Best case和worest case的复杂�
 
 ### 1. K largest/K smallest
 
-排序
+**soln1:** sort   O\(nlogn\)
 
-堆 答案  [https://app.gitbook.com/@louisazhou/s/notes/~/drafts/-LrvXc7YBq4Ng2CtjfSd/primary/chapter2/heap\#smallest-k-elements](https://app.gitbook.com/@louisazhou/s/notes/~/drafts/-LrvXc7YBq4Ng2CtjfSd/primary/chapter2/heap#smallest-k-elements)  
+**soln2:** quick select O\(kn\)
 
+**Soln3:** 维护一个小根堆  Space O\(n\)
+
+Step 1: Heapify all elements    O\(n\)
+
+Step 2: Call pop\(\) k times to get the k smallest elements. O\(klogn\)
+
+Time Complexity Total: O\(n+klogn\)
+
+```python
+import heapq
+
+def kSmallest(array, k):
+    if not array:
+        return []
+    res = []
+    heapq.heapify(array)
+    for i in range(min(k,len(array))):
+        res.append(heapq.heappop(array))
+    return res
+```
+
+**Soln4:** 维护一个大根堆  Space O\(k\)
+
+Step 1: Heapify the first k elements to form a max-heap of size k     O\(k\)
+
+Step 2: Iterate over the remaining n-k elements one by one. 
+
+Compare with the largest element of the previous smallest k candidates. 
+
+case 1: new element&gt;=top: ignore
+
+case 2: new element&lt;top: update \(top -&gt;new element\)              O\(\(n-k\)logk\)
+
+Total O\(k+\(n-k\)logk\)
+
+```python
+def kSmallest2(array, k):
+    if not array:
+        return array
+    if k>=len(array):
+        return array
+    res = [-elem for elem in array[0:k]]
+    heapq.heapify(res)
+    for i in range(k,len(array)):
+        if array[i] < -res[0]
+            heapq.heappop(res)
+            heapq.heappush(res, -array[i])
+    return [-elem for elem in res]
+```
+
+|  | O\(n+klogn\) | O\(k+\(n-k\)logk\) |
+| :--- | :--- | :--- |
+| k&lt;&lt;n | O\(c\*n\) | O\(nlogk\) |
+| k~~n | O\(nlogn\) | O\(n\) |
+
+## 
 
 ### 2. Merge K sorted array
 
-[https://app.gitbook.com/@louisazhou/s/notes/~/drafts/-LrvXc7YBq4Ng2CtjfSd/primary/chapter2/heap\#merge-k-sorted-array](https://app.gitbook.com/@louisazhou/s/notes/~/drafts/-LrvXc7YBq4Ng2CtjfSd/primary/chapter2/heap#merge-k-sorted-array)  
+Step 1: Create a min heap, put the first element of each array into the heap
+
+Step 2: Each time pop an element from the heap, and then push the next element into the heap. 
+
+```python
+def mergek(arrays):
+    if not arrays:
+        return None
+    heap = []
+    for i in range (len()):
+        if len(arrays[i]):
+            heap.append((arrays[i][0], i, 0))
+        heapq.heapify(heap)
+        result=[]
+        
+        while heap:
+            val, index_array, index_element = heapq.heappop(heap)
+            result.append(val)
+            if index_element+1<len(arrays[index_array]):
+                heapq.heappush(heap, (arrays[index_array][index_element+1], 
+                index_array, index_element+1))
+                
+        return result
+```
+
+Time: O\(2K+nlogk\)
+
+k读入、k来heapify、nlogk  
 
 
 ### 3. LeetCode20：Valid Parenthesis
 
 常用解法：stack存左括号 遇到右括号和栈顶判断一下是否匹配
 
-答案
+[解析](https://github.com/MisterBooo/LeetCodeAnimation/blob/master/notes/LeetCode%E7%AC%AC20%E5%8F%B7%E9%97%AE%E9%A2%98%EF%BC%9A%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7.md) 
 
-[https://github.com/MisterBooo/LeetCodeAnimation/blob/master/notes/LeetCode%E7%AC%AC20%E5%8F%B7%E9%97%AE%E9%A2%98%EF%BC%9A%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7.md](https://github.com/MisterBooo/LeetCodeAnimation/blob/master/notes/LeetCode%E7%AC%AC20%E5%8F%B7%E9%97%AE%E9%A2%98%EF%BC%9A%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7.md)  
-  
-
+```python
+def isValid(seq):
+    left_bracket = []
+    matching_bracket = {'{':'}', '[':']', '(': ')'}
+    for b in brackets:
+        if b in matching_bracket:
+            left_bracket.append(b)
+        elif not left_bracket or matching_bracket[left_bracket[-1]]!=b:
+            return False
+        else:
+            left_bracket.pop()
+        return not reft_bracket
+```
 
 ### 4. Count Value Frequency
 
@@ -543,9 +761,13 @@ Follow Up: 1）你的代码的复杂度； 2）Best case和worest case的复杂�
 
 ### 5. LeetCode202：Happy Number
 
+```text
 Write an algorithm to determine if a number is "happy".
-
-A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 \(where it will stay\), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.
+A happy number is a number defined by the following process: 
+Starting with any positive integer, replace the number by the sum of the squares of its digits, 
+and repeat the process until the number equals 1 (where it will stay), 
+or it loops endlessly in a cycle which does not include 1. Those numbers for which this process 
+ends in 1 are happy numbers.
 
 Example: 
 
@@ -554,26 +776,20 @@ Input: 19
 Output: true
 
 Explanation: 
-
-12 + 92 = 82
-
-82 + 22 = 68
-
-62 + 82 = 100
-
-12 + 02 + 02 = 1
-
-三种解法[https://www.cnblogs.com/grandyang/p/4447233.html  
-](https://www.cnblogs.com/grandyang/p/4447233.html)常见解法 用一个set来保存出现过的数字，如果再次出现说明endless循环，如果等于1了说明是happy number  
-
+1^2 + 9^2 = 82
+8^2 + 2^2 = 68
+6^2 + 8^2 = 100
+1^2 + 0^2 + 0^2 = 1
 
 Follow UP：5min, 30sec preparation
+If happy numbers are generally prime (19, 79, 239), should it always end in a 9? 
+Can u think of a happy number that doesn't end in 9? 
 
-If happy numbers are generally prime \(19, 79, 239\), should it always end in a 9? Can u think of a happy number that doesn't end in 9?   
+1
+```
 
-
-1  
-
+三种解法[https://www.cnblogs.com/grandyang/p/4447233.html  
+](https://www.cnblogs.com/grandyang/p/4447233.html)常见解法 用 HashSet 来记录所有出现过的数字，然后每出现一个新数字，在 HashSet 中查找看是否存在，若不存在则加入表中，若存在则跳出循环，并且判断此数是否为1，若为1返回true，不为1返回false
 
 ## 单纯的Array或字符串操作
 
@@ -590,22 +806,17 @@ If happy numbers are generally prime \(19, 79, 239\), should it always end in a 
 
 ### 3. LeetCode 38: Count and Say 
 
+```text
 Given a sequence of number: 1, 11, 21, 1211, 111221, …
-
 The rule of generating the number in the sequence is as follow:
-
 1 is "one 1" so 11.
-
 11 is "two 1s" so 21.
-
 21 is "one 2 followed by one 1" so 1211.
-
 Find the nth number in this sequence.
-
 Assumptions:
-
-* n starts from 1, the first number is "1", the second number is "11"
-* n is smaller than 30
+n starts from 1, the first number is "1", the second number is "11"
+n is smaller than 30
+```
 
 [https://zhuanlan.zhihu.com/p/34300515](https://zhuanlan.zhihu.com/p/34300515) 这是java  
 
@@ -614,16 +825,18 @@ Assumptions:
 
 上一题的类似题 [https://www.cnblogs.com/grandyang/p/8742564.html](https://www.cnblogs.com/grandyang/p/8742564.html) 这是java
 
-Given a string, replace adjacent, repeated characters with the character followed by the number of repeated occurrences. If the character does not has any adjacent, repeated occurrences, it is not changed.
+```text
+Given a string, replace adjacent, repeated characters with the character followed by the
+ number of repeated occurrences. If the character does not has any adjacent, repeated 
+ occurrences, it is not changed.
 
 Assumptions
-
-* The string is not null
-* The characters used in the original string are guaranteed to be ‘a’ - ‘z’
+The string is not null
+The characters used in the original string are guaranteed to be ‘a’ - ‘z’
 
 Examples
-
-* “abbcccdeee” → “ab2c3de3”
+“abbcccdeee” → “ab2c3de3”
+```
 
 ### 5. LeetCode121~123: 股票买卖
 
