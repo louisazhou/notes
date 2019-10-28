@@ -19,7 +19,7 @@ dat=[int(x) for x in input().strip().split()]
 #另外还可以定义分割次数 ‘,’,1
 
 #或者用 import sys 
-# sys.stdin.readline().strip('\n').split()
+ sys.stdin.readline().strip('\n').split()
 # 其实strip本身默认是用来去除字符串首位空格的 但也可以用户指定，比如在这里 指定去除最后的\n
 
 c=dat[0]
@@ -395,6 +395,11 @@ def knapSack(W, wt, val, n):
                 K[i][w] = K[i-1][w] 
   
     return K[n][W] #K[-1][-1]
+
+
+x = np.array([int(i) for i in x.split()]).reshape(5,2)
+L = x[0][0]
+N = x[0][1]
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
@@ -751,6 +756,17 @@ def isValid(seq):
 
 ### 4. Count Value Frequency
 
+```python
+def words_to_frequencies (words):
+    myDict={}
+    for word in words:
+        if word in myDict:
+            myDict[word]+=1
+        else:
+            myDict[word]=1
+    return myDict
+```
+
 [https://www.geeksforgeeks.org/count-frequencies-elements-array-o1-extra-space-time/](https://www.geeksforgeeks.org/count-frequencies-elements-array-o1-extra-space-time/)
 
 [https://www.geeksforgeeks.org/counting-frequencies-of-array-elements/](https://www.geeksforgeeks.org/counting-frequencies-of-array-elements/)
@@ -788,6 +804,19 @@ Can u think of a happy number that doesn't end in 9?
 1
 ```
 
+```python
+def isHappy(n):
+	seen = []
+	while n != 1:
+		n = sum(int(i) ** 2 for i in str(n))
+		if n in seen:
+			return False
+		else:
+			seen.append(n)
+	else:
+		return True
+```
+
 三种解法[https://www.cnblogs.com/grandyang/p/4447233.html  
 ](https://www.cnblogs.com/grandyang/p/4447233.html)常见解法 用 HashSet 来记录所有出现过的数字，然后每出现一个新数字，在 HashSet 中查找看是否存在，若不存在则加入表中，若存在则跳出循环，并且判断此数是否为1，若为1返回true，不为1返回false
 
@@ -795,14 +824,99 @@ Can u think of a happy number that doesn't end in 9?
 
 ### 1. 找出一个数组中最大的两数差值
 
-估计是这道 有答案 [https://algorithms.tutorialhorizon.com/maximum-difference-between-two-elements-in-array-largest-gap-problem/](https://algorithms.tutorialhorizon.com/maximum-difference-between-two-elements-in-array-largest-gap-problem/)  
+```text
+Given an array of numbers, write an algorithm to find the maximum difference 
+between any two elements in the array.
 
+Example:
+
+Int [] a = {2, 8, 1, 6, 10, 4}
+Output: Maximum difference= 9 (elements are 1 and 10)
+Int [] b = {10, 30, 5, 16, 19};
+Output:: Maximum difference= 25 (elements are 30 and 5)
+```
+
+```python
+def maxdif(arr):
+  maxnum=float('-inf')
+  minnum=float('inf')
+
+  for i in arr:
+    maxnum=max(i, maxnum)
+    #print maxnum
+    minnum=min(i, minnum)
+    #print minnum
+  
+  difference=maxnum-minnum
+
+  return difference
+
+
+import sys 
+inputarr=sys.stdin.readline().strip('\n').split(',')
+data = [int(x) for x in inputarr]
+
+print(maxdif(data))
+```
+
+```text
+larger element appears after the smaller number
+```
+
+```python
+def maxDiff(arr, arr_size): 
+    max_diff = arr[1] - arr[0] 
+    min_element = arr[0] 
+      
+    for i in range( 1, arr_size ): 
+        if (arr[i] - min_element > max_diff): 
+            max_diff = arr[i] - min_element 
+      
+        if (arr[i] < min_element): 
+            min_element = arr[i] 
+    return max_diff 
+```
 
 ### 2. Beautiful String \[20min\]
 
-题目和答案都在这里 [https://www.hackerearth.com/zh/practice/algorithms/sorting/quick-sort/practice-problems/algorithm/beautiful-strings-10/](https://www.hackerearth.com/zh/practice/algorithms/sorting/quick-sort/practice-problems/algorithm/beautiful-strings-10/)  
-  
+```text
+Given a string s, little Johnny defined the beauty of the string 
+as the sum of the beauty of the letters in it.
+The beauty of each letter is an integer between 1 and 26, inclusive, 
+and no two letters have the same beauty. Johnny doesn’t care about 
+whether letters are uppercase or lowercase, so that doesn’t affect 
+the beauty of a letter. (Uppercase ‘F’ is exactly as beautiful as 
+lowercase ‘f’, for example.)
+You’re a student writing a report on the youth of this famous 
+hacker. You found the string that Johnny considered most beautiful. 
+What is the maximum possible beauty of this string?
+```
 
+```python
+import numpy as np
+
+def beauty_string(x):
+
+    x = np.array(list(x.lower())) 
+    x_unique = np.unique(x) 
+    count = []
+    
+    for i in range(len(x_unique)): 
+        x_sum = np.sum(x == x_unique[i])
+        count.append(x_sum)
+    
+    count=sorted(count, reverse=True)
+    letter_beauty = [n for n in range(26,26-len(x_unique),-1)]
+    result = np.sum(np.multiply(count,letter_beauty))
+    
+    return result
+
+import sys
+
+data=sys.stdin.readline().strip('\n')
+
+print beauty_string(data)
+```
 
 ### 3. LeetCode 38: Count and Say 
 
@@ -813,15 +927,53 @@ The rule of generating the number in the sequence is as follow:
 11 is "two 1s" so 21.
 21 is "one 2 followed by one 1" so 1211.
 Find the nth number in this sequence.
+
 Assumptions:
 n starts from 1, the first number is "1", the second number is "11"
 n is smaller than 30
 ```
 
-[https://zhuanlan.zhihu.com/p/34300515](https://zhuanlan.zhihu.com/p/34300515) 这是java  
+```python
+import numpy as np
+def count_number(vector):
+    vector_unique = [vector[0]]
+   
+    for i in range(1,len(vector)):
+        if vector[i - 1] != vector[i]:
+            vector_unique.append(vector[i])
+    
+    n = len(vector_unique)
+    count = []
+    
+    for i in range(n):
+        count_i = sum(np.array(vector) == vector_unique[i])
+        count.append(count_i)
+        count.append(vector_unique[i])
+    
+    count = " ".join(str(i) for i in count)
+    
+    return count
 
+import sys
+raw = sys.stdin.readline().strip('\n').split()
+data = [int(i) for i in raw]
+print count_number(data)
+```
 
-### 4. Compress String
+```python
+class Solution(object):
+    def countAndSay(self, n):
+        """
+        :type n: int
+        :rtype: str
+        """
+        res = '1'
+        for i in xrange(n-1):
+            res = ''.join([str(len(list(group))) + digit for digit, group in itertools.groupby(res)])
+        return res
+```
+
+### 类似题 Compres String
 
 上一题的类似题 [https://www.cnblogs.com/grandyang/p/8742564.html](https://www.cnblogs.com/grandyang/p/8742564.html) 这是java
 
@@ -840,16 +992,14 @@ Examples
 
 ### 5. LeetCode121~123: 股票买卖
 
-[https://github.com/MisterBooo/LeetCodeAnimation/blob/master/notes/LeetCode%E7%AC%AC121%E5%8F%B7%E9%97%AE%E9%A2%98%EF%BC%9A%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA.md](https://github.com/MisterBooo/LeetCodeAnimation/blob/master/notes/LeetCode%E7%AC%AC121%E5%8F%B7%E9%97%AE%E9%A2%98%EF%BC%9A%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA.md)  
+最后考的是maximum subarray 不是这些
+
+[\[LC121\]](https://github.com/MisterBooo/LeetCodeAnimation/blob/master/notes/LeetCode%E7%AC%AC121%E5%8F%B7%E9%97%AE%E9%A2%98%EF%BC%9A%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA.md)  
+[\[LC122\]](https://github.com/MisterBooo/LeetCodeAnimation/blob/master/notes/LeetCode%E7%AC%AC122%E5%8F%B7%E9%97%AE%E9%A2%98%EF%BC%9A%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BAII.md)  
+[\[LC123\]](https://github.com/MisterBooo/LeetCodeAnimation/blob/master/notes/LeetCode%E7%AC%AC123%E5%8F%B7%E9%97%AE%E9%A2%98%EF%BC%9A%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BAIII.md)  
 
 
-[https://github.com/MisterBooo/LeetCodeAnimation/blob/master/notes/LeetCode%E7%AC%AC122%E5%8F%B7%E9%97%AE%E9%A2%98%EF%BC%9A%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BAII.md](https://github.com/MisterBooo/LeetCodeAnimation/blob/master/notes/LeetCode%E7%AC%AC122%E5%8F%B7%E9%97%AE%E9%A2%98%EF%BC%9A%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BAII.md)  
-
-
-[https://github.com/MisterBooo/LeetCodeAnimation/blob/master/notes/LeetCode%E7%AC%AC123%E5%8F%B7%E9%97%AE%E9%A2%98%EF%BC%9A%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BAIII.md](https://github.com/MisterBooo/LeetCodeAnimation/blob/master/notes/LeetCode%E7%AC%AC123%E5%8F%B7%E9%97%AE%E9%A2%98%EF%BC%9A%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BAIII.md)  
-
-
-### 6. LeetCode 493：Reverse Pairs
+### 6. LeetCode 315 Count of Smaller Numbers After Self
 
 number of inversions   
 
@@ -875,75 +1025,51 @@ inversion 就是每个index都和后面数字比 只要比后面大就是inversi
 
 比较接近LeetCode493. Reverse Pairs
 
-[https://leetcode.com/problems/reverse-pairs/solution/](https://leetcode.com/problems/reverse-pairs/solution/)
+```python
+def reversePairs(self, nums):
+  return sum([nums[j] > nums[i] for i in range(len(nums)) for j in range(0 , i)])
 
-### 7. Maximum Number in an array
+input  
+sortlist = sorted ([reversePairs(input), inverse=True)
+```
 
-d = 100/max\(arr\), 用arr每个数乘以d
+```python
+class Solution(object):
+    def __init__(self):
+        self.cnt = 0
+    def reversePairs(self, nums):
+        def msort(lst):
+            # merge sort body
+            L = len(lst)
+            if L <= 1:                          # base case
+                return lst
+            else:                               # recursive case
+                return merger(msort(lst[:int(L/2)]), msort(lst[int(L/2):]))
+        def merger(left, right):
+            # merger
+            l, r = 0, 0                         # increase l and r iteratively
+            while l < len(left) and r < len(right):
+                if left[l] <= right[r]:
+                    l += 1
+                else:
+                    self.cnt += len(left)-l     # add here
+                    r += 1
+            return sorted(left+right)           # I can't avoid TLE without timsort...
 
-给m个list，找到每个List的最大值，算出d = 100 / 最大值，然后把每个element转换成d \* element  
+        msort(nums)
+        return self.cnt
+    
+```
 
+{% embed url="https://zhengyang2015.gitbooks.io/lintcode/reverse\_pairs\_532.html" %}
 
-#### 
-
-### 8. Mth to Last Element from a Sequence
-
-[https://gist.github.com/ankitsahay/04db49f6668a1775c8b6](https://gist.github.com/ankitsahay/04db49f6668a1775c8b6)  
-
-
-#### 
-
-### 9. URL match 
-
-[https://pypi.org/project/urlmatch/](https://pypi.org/project/urlmatch/)
-
-#### ![](https://lh6.googleusercontent.com/5u_VvGye60sddvLDMc6houD_CoZvJfHe_BueU5Ss_v3sd0QrYlV_CZW32S1WTkafnz0zWTLFxlSisAI0Jwn8FvwVwQcWTl2b9Yu3LWSykrj2F_UMwvkfSyonJXnIRmzoZXTHxL21)
-
-## Behavior Question/Phone Interview Questions
-
-1. 每道算法题后都1题解释自己的算法，分析时间空间复杂都，如果有时间的话再说改进思路
-2. 你最近做的一个项目是什么？你在其中担任什么角色？你遇到了什么挑战？
-3. Describe a time when you have worked as part of a successful team. What role did you play and what were the challenges you encountered?
-4. 给没有quant背景的人介绍一个你做的quantitative project \(可能写作文可能口述\)
-5. 介绍一个你用过的ml algorithm  为什么适合你的project
-6. 作文题 Write and explain one of your previous project
-7. Describe a scenario when you are in a successful team, describe your role and what challenges you have encountered
-
-Phone
-
-1. why jpm, biggest challenge, career goal...etc
-2. 45分钟的面试。先是问random forest，然后问别的bagging的模型，怎么做梯度下降，函数式编程的好处, ARIMA
-
-## 倒霉蛋低频题/难题/没找到答案题
-
-### Implement Collaborative Filtering的算法来进行推荐
-
-collaborative filtering can be reduced to two steps:
-
-1.        Look for users with similar interests as the active user
-
-2.        Use ratings from the other users identified above to make a prediction for the active user
-
-后面的部分没太看懂，大概意思是通过inversion来找相似
-
-输入
-
-Bob:Rock,Blues,Jazz
-
-Alice:Rock,Jazz,Blues
-
-John:Jazz,Blues,Rock
-
-输出
-
-For example:
-
-Alice,John  
+{% embed url="https://leetcode.com/problems/reverse-pairs/discuss/97268/general-principles-behind-problems-similar-to-reverse-pairs" %}
 
 
-Collaborative Filtering 很简单就算第一步
 
-编程挑战说明：
+### 换汤不换药再考一次
+
+Implement Collaborative Filtering的算法来进行推荐
 
 A Recommender System is capable of predicting the preferences of an active user for a set of items. For example, an online store can suggest a product to the shopper based on a history of purchases or page views.
 
@@ -957,7 +1083,7 @@ Usually, collaborative filtering can be reduced to two steps:
 
 Your task is to implement the first step using the number of inversions in the lists of user ratings as a numerical similarity measure.
 
-An Inversion is a pair of elements \(S\_{i}, S\_{j}\)\(Si,Sj\) of the sequence, such that i &lt; ji&lt;j and S\_{i} &gt; S\_{j}Si&gt;Sj. For example, sorted array \(1,2,3,4,5\) has zero inversions. Array \(5,1,2,3,4\) has four inversions \(5,1\), \(5,2\), \(5,3\), \(5,4\). Array \(1,3,5,2,4\) has three inversions \(3,2\), \(5,2\), \(5,4\). The maximum possible number of inversions in the array with n elements is \frac{n\(n-1\)}22n\(n−1\).
+An Inversion is a pair of elements\(Si,Sj\) of the sequence, such that i&lt;j and Si&gt;Sj. For example, sorted array \(1,2,3,4,5\) has zero inversions. Array \(5,1,2,3,4\) has four inversions \(5,1\), \(5,2\), \(5,3\), \(5,4\). Array \(1,3,5,2,4\) has three inversions \(3,2\), \(5,2\), \(5,4\). The maximum possible number of inversions in the array with n elements is .
 
 Suppose we asked several people to rank three music genres. Now, we can form lists with ratings for each person from the most favorite genre to the least favorite. See the input description below for an example.
 
@@ -965,11 +1091,11 @@ If a person in this set has identical preferences and ranks items exactly the sa
 
 So, Alice has more preferences in common with Bob and she is more suitable as the basis of a prediction.
 
-Bob:Rock,Blues,Jazz
+Bob:  Rock, Blues, Jazz
 
-Alice:Rock,Jazz,Blues
+Alice: Rock, Jazz, Blues
 
-John:Jazz,Blues,Rock
+John: Jazz, Blues, Rock
 
 输出：
 
@@ -977,91 +1103,199 @@ Print the list of users to be considered for making a recommendation. The list m
 
 For example:
 
-Alice,John  
-  
+Alice, John
 
+[https://www.cnblogs.com/grandyang/p/6657956.html](https://www.cnblogs.com/grandyang/p/6657956.html)
 
-### Normalize Levels
+### 7. Normalize Levels
 
-编程挑战说明：
-
+```text
 Imagine a music studio has a set of recorded audio tracks they are mixing. The tracks each have their own range of audio levels. To mix them into a single track, the studio wants you to adjust them individually so they all fall into the same volume range.
-
 Write a program that reads in a set of signal levels. The range of levels in each track can be any integer from 0 to 32767. Your program must return the same set of tracks but adjusted so they all peak at the same level of 100.
-
 For example, consider these three tracks:
-
 28,54,812,438
-
 12,35,78,26
-
 18,2,212,5
-
 Your algorithm should:
-
 1.        Determine the max value MM for each track. In the example, these would be 812, 78, and 212 respectively.
-
 2.        Calculate the damping factor dd for each track as d = {100 \over M}d=M100
-
 3.        Apply the weighting factor to each track's series of values as v \times dv×d where vv is the given value in the series
-
 The results for each series should all have the same peak level.
-
 For fractional values, round to the nearest whole number. Midpoint rounding should be upward/away from zero. For example, the value 3.5 should round to 4.
 
 输入：
-
-Each line of input will be a comma-separated series of positive integers representing the stream of sound levels for each track.
-
+Each line of input will be a comma-separated series of positive integers 
+representing the stream of sound levels for each track.
 输出：
-
-Print out a comma-separated series of the normalized values for each track, one track per line of output in the order they were input.
-
+Print out a comma-separated series of the normalized values for each track, 
+one track per line of output in the order they were input.
 Using the example above, the correct output would be:
-
 3,7,100,54
-
 15,45,100,33
-
+8,1,100,2
+矩阵运算
+在混音的过程中要把所有的track调整到统一的volume range，写一段程序，input是每个track的声音，需要把每个track统一成最大100的volume
+Example：
+28,54,812,438
+12,35,78,26
+18,2,212,5
+结果：
+3,7,100,54
+15,45,100,33
 8,1,100,2
 
-矩阵运算
+d = 100/max(arr), 用arr每个数乘以d
+给m个list，找到每个List的最大值，算出d = 100 / 最大值，然后把每个element转换成d * element
+```
 
-在混音的过程中要把所有的track调整到统一的volume range，写一段程序，input是每个track的声音，需要把每个track统一成最大100的volume
+```python
 
-Example：
+```
 
-28,54,812,438
+#### 
 
-12,35,78,26
+### 8. Mth to Last Element from a Sequence
 
-18,2,212,5
+```python
+def mth(vector):
+    vector = list(vector)
+    
+    number = int(vector[len(vector) - 1])
+    if number > len(vector) - 1:
+        result = " "
+        return result
+    mth = vector[len(vector) - 1 - number]
+    return mth
 
-结果：
+import sys
+data = sys.stdin.readline().strip('\n').split()
+print mth(data)
+```
 
-3,7,100,54
+#### 
 
-15,45,100,33
+### 9. URL match 
 
-8,1,100,2  
-  
+[https://pypi.org/project/urlmatch/](https://pypi.org/project/urlmatch/)
 
+#### ![](https://lh6.googleusercontent.com/5u_VvGye60sddvLDMc6houD_CoZvJfHe_BueU5Ss_v3sd0QrYlV_CZW32S1WTkafnz0zWTLFxlSisAI0Jwn8FvwVwQcWTl2b9Yu3LWSykrj2F_UMwvkfSyonJXnIRmzoZXTHxL21)
 
-### 近似中位数解法
+```python
+link1, link2 = sys.stdin.readline().strip('\n').split(';')
+
+from urlmatch import urlmatch
+match_patter = link1
+
+urlmatch(link1, link2)
+```
+
+### 10. 近似中位数解法QuickSelect 
 
 Divide the list into sublists with k elements. The last sublist may contain fewer than k elements. Sort each sublist, get its median and append it to another list containing medians of sublists. If the medians list has a length more than k, compute its median recursively, proceeding with step 1. If the medians list has k elements or fewer, sort it and determine its median. Return it as a pivot. If an array is of odd length, the median is the middle element after the array has been sorted. If an array is of even length, there are two middle elements after it has been sorted. In this case, we will define the median as the left \(first\) of these two middle elements.  
-recursion 答案 [https://www.geeksforgeeks.org/randomized-algorithms-set-3-12-approximate-median/](https://www.geeksforgeeks.org/randomized-algorithms-set-3-12-approximate-median/)
+recursion 
 
-### 黄金交叉点
+{% embed url="https://rcoh.me/posts/linear-time-median-finding/" %}
+
+```python
+import random
+
+def quickselect_median(l, pivot_fn=random.choice):
+    if len(l) % 2 == 1:
+        return quickselect(l, len(l) / 2, pivot_fn)
+    else:
+        return 0.5 * (quickselect(l, len(l) / 2 - 1, pivot_fn) +
+                      quickselect(l, len(l) / 2, pivot_fn))
+
+
+def quickselect(l, k, pivot_fn):
+    """
+    Select the kth element in l (0 based)
+    :param l: List of numerics
+    :param k: Index
+    :param pivot_fn: Function to choose a pivot, defaults to random.choice
+    :return: The kth element of l
+    """
+    if len(l) == 1:
+        assert k == 0
+        return l[0]
+
+    pivot = pivot_fn(l)
+
+    lows = [el for el in l if el < pivot]
+    highs = [el for el in l if el > pivot]
+    pivots = [el for el in l if el == pivot]
+
+    if k < len(lows):
+        return quickselect(lows, k, pivot_fn)
+    elif k < len(lows) + len(pivots):
+        # We got lucky and guessed the median
+        return pivots[0]
+    else:
+        return quickselect(highs, k - len(lows) - len(pivots), pivot_fn)
+```
+
+### 11. 均线法估值
 
 A classic stock trading pattern happens when a 9-Day Moving Average \(9-DMA\) crosses the 50-Day Moving Average \(50-DMA\). This can be indicative of a bullish or a bearish setup, depending on the direction. When the 9-DMA crosses above the 50-DMA from below, it is Bullish. When the 9-DMA cross below the 50-DMA from above, it is Bearish. Write a program that reads in a series of dates and prices, calculates the 9-DMA and 50-DMA, then returns the dates of any bullish signals that occurred.
 
- 和timedate处理有关
+ datetime, moving average 如果短期average比长期average高了，就是牛市；如果短期比长期低了就是熊市。
 
-看看这个datetime处理吧
+1. 用pandas输入转换成DF，两列column，date，value
+2. 用datetime转换日期变成天数，以第一天作为参考，另存一列叫day
+3. 用np从第九天开始计算9-DMA，存一列9DMA，第50天开始计算50-DMA，存一列50DMA
+4. 所以这两个DMA都有NA，把NA填成0 df.fillna\(0, inplace=True\)
+5. filter = df\['9DMA'\]&gt;df\['50DMA'\] & df\['day'\]&gt;50
+6. bulls = df.where\(filter, inplace=True\)
+7. return bulls\['date'\].values
 
-[http://www.wklken.me/posts/2015/03/03/python-base-datetime.html](http://www.wklken.me/posts/2015/03/03/python-base-datetime.html)  
+看看这个datetime处理吧  
+[http://www.wklken.me/posts/2015/03/03/python-base-datetime.html](http://www.wklken.me/posts/2015/03/03/python-base-datetime.html)
 
+```python
+import pandas as pd
+import numpy as np
+from datetime import datetime
+
+df=pd.DataFrame(data)
+
+df.day = df.date.apply(lambda x: datetime.strptime(x, '%d/%m/%Y %H.%M.%S'))
+df['9DMA'] = df.iloc[:,1].rolling(window=9).mean()
+df['50DMA'] = df.iloc[:,1].rolling(window=50).mean()
+df.fillna(0, inplace=True)
+
+filter = df['9DMA']>df['50DMA'] & df['day']>50
+bulls = df.where(filter, inplace=True)
+
+return bulls['date'].values
+
+
+
+
+#用np方法做的话
+def movingaverage(values, window):
+    weights = np.repeat(1.0, window)/window
+    smas = np.convolve(values, weights, 'valid')
+    return smas
+```
+
+## Behavior Question/Phone Interview Questions
+
+1. 每道算法题后都1题解释自己的算法，分析时间空间复杂都，如果有时间的话再说改进思路
+2. 你最近做的一个项目是什么？你在其中担任什么角色？你遇到了什么挑战？
+
+* NYC crime 2GB 
+* 1 person project for Big Data Course, Spark AWS
+* 
+1. Describe a time when you have worked as part of a successful team. What role did you play and what were the challenges you encountered?
+2. 给没有quant背景的人介绍一个你做的quantitative project \(可能写作文可能口述\)
+3. 介绍一个你用过的ml algorithm  为什么适合你的project
+4. 作文题 Write and explain one of your previous project
+5. Describe a scenario when you are in a successful team, describe your role and what challenges you have encountered
+
+Phone
+
+1. why jpm, biggest challenge, career goal...etc
+2. 45分钟的面试。先是问random forest，然后问别的bagging的模型，怎么做梯度下降，函数式编程的好处, ARIMA
 
 ## 前车之鉴
 
