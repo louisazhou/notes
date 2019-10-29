@@ -204,3 +204,9 @@ for index, line in enumerate(open(filepath,'r'))：
 
 \_\_foo 表示private的变量，只能允许本身的访问，不能被子类访问，不能继承，不能被外部访问
 
+So there it is, you just call the global function `len()` on the `list` or `tuple` and you get its size / length.
+
+Did you expect to have something like `list.len()` or `tuple.len()` instead? Actually there is something like that, but it is called `list.__len__()` or `tuple.__len__()`. And what `len()` really does is, it takes the object and tries to call the objects's `__len__()` method. So essentially, `len()` works only on objects that has a `__len__()` method. If you have a custom object that has the `__len__()` method, you can call `len()` even on that.
+
+So you learnt: to get the size or length of a `list` or `tuple` in Python \(you probably didn't mean Python `array`\), you just call the `len()` function on the object.
+

@@ -4,10 +4,11 @@ description: 手动总结题库
 
 # JP Morgan OA Prep
 
-```python
-#如果输入是 10 5 7 2 3 8 10 3 4 
-#代表容量为10，第一件物品体积5，第二件物品体积7... 
+## 输入输出的stdin stdout
 
+要用的时候直接input 里提取。 另外所有input都是string，比如"4 1 7 2"， 所以如果有数学计算，或者数字排序的话 得先split，再convert成int。 有些input是“4，1，2，7\n" 这样的形式， 读取的时候记得把后面的换行符给去掉哟
+
+```python
 #转化为列表之后不能直接int(List)
 #这是错的：n=int(sys.stdin.readline().strip())
 
@@ -18,10 +19,14 @@ dat=[int(x) for x in input().strip().split()]
 #假如，.split(‘,’)
 #另外还可以定义分割次数 ‘,’,1
 
-#或者用 import sys 
+#或者用 
+import sys 
  sys.stdin.readline().strip('\n').split()
 # 其实strip本身默认是用来去除字符串首位空格的 但也可以用户指定，比如在这里 指定去除最后的\n
 
+
+#如果输入是 10 5 7 2 3 8 10 3 4 
+#代表容量为10，第一件物品体积5，第二件物品体积7... 
 c=dat[0]
 p=[]
 v=[]
@@ -31,6 +36,50 @@ for i in range(1, m, 2):
     p.append(dat[i])
 for j in range(2, m, 2):
     v.append(dat[j])
+    
+
+for line in sys.stdin：
+     input.append(line)
+```
+
+需要读多行的话
+
+```python
+import sys
+msg = sys.stdin.readlines()
+msged = [item.strip('\n').split() for item in msg]
+msged = list(msged)
+print msged 
+
+
+input
+1 2 3
+4 5 6
+7 8 9
+
+output
+[['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']]
+```
+
+```python
+import sys
+
+input = []
+
+for line in sys.stdin:
+  input.append(line)
+  processed = [item.strip('\n').split() for item in input]
+print input
+
+效果和上面一样
+```
+
+```python
+process = []
+for inputaitem in inputa:
+  process.append([int(i) for i in inputaitem])
+然后这么转化一下
+[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 ```
 
 ## DP/Back Tracking/Divide and Conquer
@@ -55,18 +104,6 @@ Note:
 You may assume that you have an infinite number of each kind of coin.
 
 ```
-
-{% hint style="info" %}
-DP的关键点在于1\) Overlapping Subproblems 2\) Optimal Substructure
-
-用dp\[i\] 来表示组成i块钱，需要最少的硬币数，那么
-
-1. 第j个硬币我可以选择不拿 这个时候， 硬币数 = dp\[i\]
-2. 第j个硬币我可以选择拿 这个时候， 硬币数 = dp\[i - coins\[j\]\] + 1
-
-* 和背包问题不同， 硬币是可以拿任意个
-* 对于每一个 dp\[i\] 我们都选择遍历一遍 coin， 不断更新 dp\[i\]
-{% endhint %}
 
 {% code-tabs %}
 {% code-tabs-item title="solution 1 Recursion or DFS" %}
@@ -249,6 +286,18 @@ def count(S, m, n ):
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
+
+{% hint style="info" %}
+DP的关键点在于1\) Overlapping Subproblems 2\) Optimal Substructure
+
+用dp\[i\] 来表示组成i块钱，需要最少的硬币数，那么
+
+1. 第j个硬币我可以选择不拿 这个时候， 硬币数 = dp\[i\]
+2. 第j个硬币我可以选择拿 这个时候， 硬币数 = dp\[i - coins\[j\]\] + 1
+
+* 和背包问题不同， 硬币是可以拿任意个
+* 对于每一个 dp\[i\] 我们都选择遍历一遍 coin， 不断更新 dp\[i\]
+{% endhint %}
 
 DP的做法 [https://github.com/azl397985856/leetcode/blob/master/problems/322.coin-change.md](https://github.com/azl397985856/leetcode/blob/master/problems/322.coin-change.md)
 
@@ -817,8 +866,115 @@ def isHappy(n):
 		return True
 ```
 
+通过分析该问题，利用一些分析结果，可以对算法进行优化。比如利用10以内的happy number只有1和7，或者先求出100以内的所有happy number等。
+
+代码二
+
+```text
+class Solution(object): 
+    
+ def isHappy(self, n): 
+    """ :type n: int 
+    :rtype: bool """ 
+    
+    happySet = set([1, 7, 10, 13, 19, 23, 28, 31, 32, 44, 49, 68, 70, 79, 82, 86, 91, 94, 97])
+    
+    while n>99:
+        n = sum([int(x) * int(x) for x in list(str(n))])
+    
+    return n in happySet
+```
+
 三种解法[https://www.cnblogs.com/grandyang/p/4447233.html  
 ](https://www.cnblogs.com/grandyang/p/4447233.html)常见解法 用 HashSet 来记录所有出现过的数字，然后每出现一个新数字，在 HashSet 中查找看是否存在，若不存在则加入表中，若存在则跳出循环，并且判断此数是否为1，若为1返回true，不为1返回false
+
+> From 1point3acre
+>
+> 在真实面试的时候，如果遇到这道题目，很多刚开始刷题的求职者上来就说想实现code，把答案写出来！ Hold on! Hold on!  
+>   
+> 推荐的解题逻辑：  
+>   
+> 1. 解读题目的含义与讲讲函数signature输入和输出是什么  
+> 2. 讲解算法（非实现\)，依据算法需求选择数据结构  
+> 3. 代码实现  
+> 4. 找测试数据，验证code正确性  
+> 5.分析算法复杂度与空间复杂复杂度  
+>   
+> 这里面涉及编程语言考点（java为例）  
+>
+>
+> * hashset /treeset的区别；
+> * 为什么选择hashset？
+> * java最大的integer是多大？
+> * 如何估计2^31-1 的大小？
+> * 补码和反码 
+>
+> 关于这道题目背景与很多求职者交流情况  
+>   
+> 1.这道题目Uber曾经面试过，题目看起来很简单，但是全部都能答对不容易。这道题我问了大概50个人分析时间复杂度，没见过能分析特别明白的。  
+>   
+> 2. 依照这个题目，引申问了很多java的知识点，70%的人或多或少都有不会的。比如估计2^31-1 这个数的大小吧，很多转专业的人不知道在计算机里面有个很重要的估计方法2^10 = 1000，很能反映出求职者的基本素质。Apple曾经面试过一道题：2的最小多少次幂大于10万，对2^16= 65536 这种数字的记忆能反映出码农的基本素质。  
+>   
+> 3.大部分同学并没有建立起依据算法需求选择数据结构的逻辑链条：为什么要选择Hashset 而不选择treeset？为什么选择hashset 而不用hashmap？对基本数据结构掌握不牢固，将算法和数据结构混为一谈，是转专业同学的大问题。  
+>   
+> 4. 一道题目其实可以引申出很多计算机基本知识点，补码和反码什么的，overflow，这些都应该在刷题时候好好查一查，否则容易阴沟里翻船
+
+\(unordered\_set\) O\(1\)
+
+难点在于判断是否进入死循环，这里可以用 unordered\_set 来存之前已经算出过的数字。
+
+计算每位数字的平方和 结果为1，则返回True 结果已出现过，说明陷入死循环，返回False 其他情况则重新计算每位数字的平方和，并把结果加入set 
+
+时间复杂度 O\(1\)： 
+
+\(1\) 首先看总共需要遍历多少个数，所有遍历的数最终会进入循环。进入环前会经过几次变换操作，每次数字 n 最多变成 81logn，所以大于1000的数很快会缩小\(n&gt;81logn\)， $$2^{31}-1$$ 操作四五次就会变到1000以内。考虑环内最大也是999，变化后为243，不会跳出环外，所以环内最多有1000个数。因此，环外有四五个数，环内有常数k个数。  
+ \(2\) 由于用哈系表判重，所以每个数最多被遍历一次，总计算次数小于1000，所以时间复杂度是 O\(1\)。
+
+空间复杂度 O\(n\)： 额外占用空间的是 unordered\_set。
+
+作者：extrovert 链接: [https://www.acwing.com/solution/LeetCode/content/284/](https://www.acwing.com/solution/LeetCode/content/284/) 
+
+### 类比题 LeetCode 141: Linked List Cycle
+
+{% embed url="https://leetcode.com/problems/linked-list-cycle/" %}
+
+上道题的环解Floyd Cycle detection algorithm. I believe that many people have seen this in the Linked List Cycle detection problem. The following is my code:
+
+```python
+class Solution(object):
+    def isHappy(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        slow = fast = n
+        while True:
+            slow = self.squareSum(slow)
+            fast = self.squareSum(fast)
+            fast = self.squareSum(fast)
+            if slow == fast:
+                break
+        return slow == 1
+
+    def squareSum(self, n):
+        sum = 0
+        while(n>0):
+            tmp = n % 10
+            sum += tmp * tmp
+            n /= 10
+        return sum
+```
+
+把sum的值看成是一个链表，那么问题转换成链表是否有环。 用快慢指针判断链表中是否有环，slow和fast最后一定会收敛到某个数字。
+
+时间复杂度 O\(1\)：   
+\(1\) 首先看总共需要遍历多少个数，所有遍历的数最终会进入循环。进入环前会经过几次变换操作，每次数字 n 最多变成 81logn，所以大于1000的数很快会缩小\(n&gt;81logn\)， $$2^{31}-1$$ 操作四五次就会变到1000以内。考虑环内最大也是999，变化后为243，不会跳出环外，所以环内最多有1000个数。因此，环外有四五个数，环内有常数k个数。  
+ \(2\) 然后看每个数最多遍历次数。快指针最多将每个数遍历2次就会和慢指针相遇。  
+ \(3\) 每个数最多遍历3次，所以总计算次数小于3000，时间复杂度是 O\(1\)。
+
+空间复杂度 O\(1\)：没有用额外的空间。
+
+作者：extrovert 链接：[https://www.acwing.com/solution/LeetCode/content/284/](https://www.acwing.com/solution/LeetCode/content/284/) 
 
 ## 单纯的Array或字符串操作
 
@@ -918,6 +1074,29 @@ data=sys.stdin.readline().strip('\n')
 print beauty_string(data)
 ```
 
+```text
+import sys
+import collections
+import string
+
+for line in open(sys.argv[1]).readlines()[1:]:
+  line = line.lower()
+  l = collections.Counter(line)
+
+  add = 26
+  beauty = 0
+  for key,value in l.most_common():
+    if key in string.letters[:26]:
+      beauty += value*add
+      add -= 1
+
+  print beauty
+```
+
+```text
+
+```
+
 ### 3. LeetCode 38: Count and Say 
 
 ```text
@@ -958,6 +1137,28 @@ import sys
 raw = sys.stdin.readline().strip('\n').split()
 data = [int(i) for i in raw]
 print count_number(data)
+```
+
+```text
+def countAndSay(self, n):
+        """
+        :type n: int
+        :rtype: str
+        """
+        res = "1"
+        for i in range(n - 1):
+            prev = res[0]
+            count = 1
+            ans = ""
+            for j in range(1, len(res)):
+                cur = res[j]
+                if prev != cur:
+                    ans = ans + str(count) + str(prev)
+                    prev = cur
+                    count = 0
+                count += 1
+            res = ans + str(count) + str(prev)
+        return res
 ```
 
 ```python
@@ -1061,6 +1262,11 @@ class Solution(object):
     
 ```
 
+1. use the first line to get the weights of each item, for instance, 3, 2, 1; 3 pairs 
+2. store those weights in a dict, so the next time meet abc from the following lines, and use this dict to get the weights of the rest of the lines
+3. once I converted all the words to numbers, I can get inversion pairs each line in the reverse pairs a function
+4. compare the inversion pairs and output the 2 inversion pars that have the largest inversion
+
 {% embed url="https://zhengyang2015.gitbooks.io/lintcode/reverse\_pairs\_532.html" %}
 
 {% embed url="https://leetcode.com/problems/reverse-pairs/discuss/97268/general-principles-behind-problems-similar-to-reverse-pairs" %}
@@ -1149,11 +1355,42 @@ d = 100/max(arr), 用arr每个数乘以d
 ```
 
 ```python
+import numpy as np
+import math
+inputdata = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+a = np.array(inputdata)
+ratios = 100.0/np.max(a, axis = 1)
+print ratios
 
+for i in range(len(a)):
+  for j in range(len(a[0])):
+    a[i][j]=ratios[i]*a[i][j]
+    print a[i][j]
+
+print a
 ```
 
-#### 
+```text
+import math
+a = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+ratios=[0]*len(a)
+for i in range (len(a)):
+  ratios[i] = 100.0/max(a[i])
+print ratios
 
+for i in range(len(a)):
+  for j in range(len(a[0])):
+    a[i][j]=int(ratios[i]*a[i][j])
+    print a[i][j]
+
+print a
+```
+
+* find max of each line 
+* use 100 to divide the max to find the ratio to get the normalized value
+* multiply each number in the array with the ratio to get the normalized levels
+* numbers, sep by coma, matrix;
+* 
 ### 8. Mth to Last Element from a Sequence
 
 ```python
@@ -1283,14 +1520,35 @@ def movingaverage(values, window):
 1. 每道算法题后都1题解释自己的算法，分析时间空间复杂都，如果有时间的话再说改进思路
 2. 你最近做的一个项目是什么？你在其中担任什么角色？你遇到了什么挑战？
 
-* NYC crime 2GB 
-* 1 person project for Big Data Course, Spark AWS
-* 
+* challenge: NYC crime 2GB 
+* 1 person project for Big Data Course, Spark, eventually AWS
+* random sampling 
+* do it offline on databricks, so no need to install packages or learn complicated things
+* Spark, trial & error, documentation
+* learn AWS
+
 1. Describe a time when you have worked as part of a successful team. What role did you play and what were the challenges you encountered?
-2. 给没有quant背景的人介绍一个你做的quantitative project \(可能写作文可能口述\)
-3. 介绍一个你用过的ml algorithm  为什么适合你的project
-4. 作文题 Write and explain one of your previous project
-5. Describe a scenario when you are in a successful team, describe your role and what challenges you have encountered
+
+* NYC CitiBike 3 member, got A and good demonstration in class
+* cleaning data for the modeling process, bc not good at writing
+* predict customer type
+* but independent variables not much
+* feature engineering \(binning datetime, using Google API for geo locations and eventually distance\), more features: time range; distance travelled; speed
+
+1. 给没有quant背景的人介绍一个你做的quantitative project \(可能写作文可能口述\)
+2. 介绍一个你用过的ml algorithm  为什么适合你的project
+
+* K Means
+* Clustering method, based on distance
+* Random generate k centroids
+* calculate distances from each datapoint to those k centroids 
+* cluster to the closest centroids
+* update new centroid based on the cluster's distances
+* identify new centroids
+* iterate
+* although O\(kniteration\), easy to interpret the result
+
+1. 作文题 Write and explain one of your previous project
 
 Phone
 
@@ -1334,6 +1592,9 @@ p.s. 用的python，估计唯一的可能是sys.stdin获取input的时候出错�
 发现valid parenthesis 没法一边读input一边进行compare，而是得先把所有input集合到一个string里 然后用LC上面的isValid（可能是我太菜或者漏掉了什么所以没法一边直接读一边compare）  
 
 
-每道题的文字都超级长，基本上reading comprehension过关了就能写了。而且要自己读取input，process input，print output，超级麻烦  
+每道题的文字都超级长，基本上reading comprehension过关了就能写了。而且要自己读取input，process input，print output，超级麻烦
 
+
+
+1. import numpy, pandas, urlmatch 都不可以；import heapq, math, datetime，random可以 
 
