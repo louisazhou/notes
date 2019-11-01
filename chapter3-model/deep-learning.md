@@ -1,2 +1,8 @@
 # Deep Learning
 
+## Basics
+
+### Perceptron
+
+
+

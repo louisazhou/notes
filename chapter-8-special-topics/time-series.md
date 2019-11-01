@@ -1,5 +1,37 @@
 # Time Series
 
+### 考法
+
+concept, procedure, **logic**, data challenge
+
+eg. 什么是平稳过程，为什么
+
+## Type of Analysis
+
+### Exploratory Analysis
+
+* 画图看数据长什么样
+* Autocorrelation analysis, examine serial dependence
+* Spectral Analysis
+* Decomposition of time series
+
+### Curve Fitting
+
+* Interpolation \(smoothing, regression analysis\)
+* Extrapolation
+
+### Function Approximation
+
+### Prediction, Forecasting and Classification
+
+### Signal Detection
+
+## Definition 
+
+
+
+
+
 自学列表：
 
 * [ ] 自回归模型 AR
