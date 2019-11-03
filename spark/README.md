@@ -115,7 +115,7 @@ Spark data lineage可以fault tolerance，track back to the data source
 
 至于SQL Query，其实可以和dataframe走一样的逻辑引擎；这就是为什么它们之间可以互相转化；dataframe的结果可以转换成query，反之亦然。
 
-![](../.gitbook/assets/image%20%2834%29.png)
+![](../.gitbook/assets/image%20%2836%29.png)
 
 ### ML-lib Spark ML
 

@@ -36,9 +36,9 @@ average time: the average of **all possible inputs** in the input space
 
 Fibonacci 数列的时间复杂度是O\( $$2^{n}$$ \)
 
-![](../.gitbook/assets/image%20%2838%29.png)
+![](../.gitbook/assets/image%20%2840%29.png)
 
-![](../.gitbook/assets/image%20%2829%29.png)
+![](../.gitbook/assets/image%20%2831%29.png)
 
 ## Space Complexity 
 

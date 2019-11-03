@@ -241,8 +241,34 @@ def reverse_string(string):
 
 检查一个字符串是否是另一个字符串的子串，返回字符串开始的位置
 
-1. Brute-force  O\(m\*n\)
-2. Robin-Karp： Avg Case O\(m-n\)， worst case：O\(m\*n\) 把字符串的比较转化成26进制数的比较
+* Brute-force  O\(m\*n\)
+
+```python
+class Solution:
+    def strstr(self, haystack, needle):
+        """
+        :type haystack: str
+        :type needle: str
+        :rtype int
+        """
+        if not needle:
+            return 0
+        
+        for h in xrange(len(haystack)-len(needle)+1): #[l,r)
+            for n in xrange(len(needle)):
+                if haystack[h+n]!=needle[n]:
+                    break
+            else: # when the for look terminates naturally (without early break)
+                return h
+        
+        return -1
+```
+
+这里注意for和else搭配的用法，这是为了避免引入一个flag变量记录状态。如果正常退出，也就是没有执行break，else会执行；如果执行break，else不执行。这样在内部的for正常退出时h的位置就是match的字符串在原串的起始位置。
+
+虽然乍一看这是一个O\(m\*n\)的复杂度，但是在早年word之类的Ctrl+F查找时都是这套brute force。这是因为对于英文文本来说，只要前面几个字符匹配了，大概率这就是一个词，实际的时间复杂度其实更接近于O\(m+n\)
+
+* Rbin-Karp：  Avg Case O\(m-n\)， worst case：O\(m\*n\) 把字符串的比较转化成26进制数的比较
 
 比如，16进制表示FBA=15\*16^2+11\*16^1+10\*16^0
 

@@ -373,6 +373,24 @@ def subarraySum(self, nums, k):
         return ret
 ```
 
+### Longest Substring contains at most k distinct characters
+
+#### Brute Force: 
+
+在一个string里有O\( $$n^2$$ \)个substring，每个substring里需要O\(n\)来比较distinct chars。所以O\( $$n^3$$ \)  
+  
+也就是S\[i:j\] 0&lt;=i&lt;=j&lt;=n-1
+
+#### 优化
+
+如果说在两个for循环执行的过程中  
+for i in  range \(len\(s\)\):  
+    for j in range \(i:len\(s\)\):  
+在s\[:t\]时就找到了k distinct chars的subarray，s\[:t+1\]时找到了k+1 distinct chars的subarray，那
+
+1. j便不用继续t+2，t+3...
+2. i=1时不用看j在\[1:t\]里的，可以直接跳到t 知道subarray S\[i=1...j\]里面的元素超过k个了再停下
+3. 
 ## Tree Level Order Traversal \(BFS\)
 
 ## Implement a queue with Max API 
