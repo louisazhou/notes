@@ -390,7 +390,57 @@ for i in  range \(len\(s\)\):
 
 1. j便不用继续t+2，t+3...
 2. i=1时不用看j在\[1:t\]里的，可以直接跳到t 知道subarray S\[i=1...j\]里面的元素超过k个了再停下
-3. 
+3. 所以，2pointers，fast移动到里面包含k+1为止，slow移动到k为止。
+
+```python
+# 调用counter，它其实是一个default是int的dictionary，这是为了避免使用dict的话带来keyerror
+from collections import Counter
+class solution(object):
+    def lengthOfLongestSubstringKDistinct(self, s, k):
+    """
+    type s: string
+    type k: int
+    rtype: int
+    """
+    start, end, ans = 0, 0, 0
+    counter=Counter()
+    while end<len(s):
+        ans = max(ans, end-start)
+        counter[s[end]]+=1
+        while len(counter)==k+1:
+            counter[s[start]]-=1
+            if counter[s[start]]==0:
+                del counter[s[start]]
+            start+=1
+        end+=1
+    return max(ans, end-start)
+```
+
+#### Follow up: 如果是stream data怎么办
+
+在dict里不存count，而是存每次看到这个字符的位置，这样就可以handle流数据的情况，因为每一次移动start指针的时候，可以直接一步到位移动到当前k+1的这个字符的上一次出现的位置的最小位置+1.
+
+```python
+class Solution(object):
+    def lengthOfLongestSubstringKDistinct(self, s, k):
+    """
+    type s: string
+    type k: int
+    rtype: int
+    """
+        start, end, ans = 0, 0, 0
+        last_position_by_char={}
+        while end<len(s):
+            ans = max(ans, end-start)
+            last_position_by_char[s[end]]=end
+            if len(last_position_by_char)==k+1:
+                char, pos = min(last_position_by_char.items(), key=lambda item:item[1])
+                del last_position_by_char[char]
+                start = pos+1
+            end+=1
+        return max(ans, end-start)
+```
+
 ## Tree Level Order Traversal \(BFS\)
 
 ## Implement a queue with Max API 

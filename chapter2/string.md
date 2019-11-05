@@ -268,7 +268,7 @@ class Solution:
 
 虽然乍一看这是一个O\(m\*n\)的复杂度，但是在早年word之类的Ctrl+F查找时都是这套brute force。这是因为对于英文文本来说，只要前面几个字符匹配了，大概率这就是一个词，实际的时间复杂度其实更接近于O\(m+n\)
 
-* Rbin-Karp：  Avg Case O\(m-n\)， worst case：O\(m\*n\) 把字符串的比较转化成26进制数的比较
+* Rabin-Karp：  Avg Case O\(m-n\)， worst case：O\(m\*n\) 把字符串的比较转化成26进制数的比较
 
 比如，16进制表示FBA=15\*16^2+11\*16^1+10\*16^0
 
@@ -303,5 +303,41 @@ Class RabinKarp:
     
 rk=RabinKarp()
 print(rk.strstr('bacbabababacaab', 'abaca'))
+```
+
+```python
+class Solution(object):
+    def strStr(self, haystack, needle):
+        """
+        :type haystack: str
+        :type needle: str
+        :rtype: int
+        """
+        if not needle:
+            return 0
+        if len(haystack)<len(needle):
+            return -1
+        Q, W = 10**9+0, 256
+        HW = 1
+        
+        for i in xrange(1, len(needle)):
+            HW = (HW*W)%Q
+        needle_hash, haystack_hash = 0,0
+        
+        for i in xrange(len(needle)):
+            needle_hash = (W*needle_hash+ord(needle[i]))%Q
+            haystack_hash = (W*haystack_hash+ord(haystack[i]))%Q
+        
+        if needle_hash == haystack_hash:
+            return 0
+        
+        for i in xrange(len(needle), len(haystack)):
+            haystack_hash = (haystack_hash -HW*ord(haystack[i-len(needle)])%Q+Q)%Q
+            haystack_hash = (haystack_hash*W+ord(haystack[i]))%Q
+            
+            if needle_hash==haystack_hash
+                return i -len(needle)+1
+        
+        return -1
 ```
 
