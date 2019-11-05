@@ -138,7 +138,7 @@ residual 之间的correlation。eg. 看10.1和10.10之间的correlation，但是
 
 1. Run a linear regression with time index 
 2. Run a polynomial regression with time index  弱点1: non-local, 所以如果在某一个点附近y值有了变化，整个poly就变了 弱点2: 多项式的fit 可能更高项的fit更好，但是却是overfitting 所以针对这样的弱点，弥补方式就是分段 构造k个阶梯函数，找这些阶梯函数的线性组合。 
-3. Fit a spline regression 用光滑的曲线，比较没有棱角。
+3. Fit a spline regression 用光滑的曲线，比较没有棱角。（最后还可以用penalized spline regression）
 
 {% embed url="https://www.analyticsvidhya.com/blog/2018/03/introduction-regression-splines-python-codes/" %}
 
@@ -251,7 +251,7 @@ $$
 
 起始时x0=z0 
 
-![](../.gitbook/assets/image%20%2830%29.png)
+![](../.gitbook/assets/image%20%2831%29.png)
 
 ### AR\(p\) AutoRegressive process of order P
 
