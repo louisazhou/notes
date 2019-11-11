@@ -83,8 +83,8 @@ def arithmetic_expression_evaluation(terms):
   return operands[0]
 ```
 
-{% code-tabs %}
-{% code-tabs-item title="queue&stack review里 从string输入的版本" %}
+{% tabs %}
+{% tab title="queue&stack review里 从string输入的版本" %}
 ```python
 def tokenize(s):
   from_num, num = False, 0
@@ -119,8 +119,8 @@ def arithmetic_expression_evaluation(terms):
       operands.append(ops[operators.pop()](operands.pop(), term)
   return operands[-1]
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 ## 逆波兰表达式
 

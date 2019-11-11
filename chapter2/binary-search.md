@@ -74,8 +74,8 @@ eg \[1,2,5,9\] target=3, index=1, number=2
 
 不能让left和right之间没有元素，不然会让left和right来回传值, 所以while的条件必须要在left和right之中隔一个值
 
-{% code-tabs %}
-{% code-tabs-item title="错误示范" %}
+{% tabs %}
+{% tab title="错误示范" %}
 ```python
 def binary_search (nums, target):
     left=0
@@ -90,8 +90,8 @@ def binary_search (nums, target):
             return mid
 return None
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 {% hint style="info" %}
 1. 要在LR之间隔一个元素
@@ -100,8 +100,8 @@ return None
 
 `正确做法`
 
-{% code-tabs %}
-{% code-tabs-item title="正确做法" %}
+{% tabs %}
+{% tab title="正确做法" %}
 ```python
 def binary_search (nums, target):
     left=0
@@ -116,8 +116,8 @@ def binary_search (nums, target):
             return mid
 return left if abs(nums[left]-target)<abs(nums[right]-target) else right
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 Time: O\(logn\)
 

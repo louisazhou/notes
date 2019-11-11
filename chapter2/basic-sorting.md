@@ -118,8 +118,8 @@ def insert_num(array, n):
 
 调用insert\_num这个help function，实现insertion sort
 
-{% code-tabs %}
-{% code-tabs-item title="方法一 O\(N\)的空间消耗" %}
+{% tabs %}
+{% tab title="方法一 O\(N\)的空间消耗" %}
 ```python
 def insert_sort(array):
     new_array=[]
@@ -127,8 +127,8 @@ def insert_sort(array):
         insert_num(new_array, array[i])
     return new_array
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 Space O\(n\)                   在line2中建立了一个空数组，往空数组里加元素，多占了n   
 
@@ -175,8 +175,8 @@ Time O\( $$n^{2}$$ \)
 
 也可以直接去优化方法一，因为binary search可以简化找位置的操作，让时间复杂度缩减到 $$O(log(n))$$ , 交换的操作是 $$O(n)$$, 最后总的时间复杂度依然是$$O(log(n)+n)*n=O(n^{2})$$
 
-{% code-tabs %}
-{% code-tabs-item title="这个有点问题 但我还不知道啥问题= =" %}
+{% tabs %}
+{% tab title="这个有点问题 但我还不知道啥问题= =" %}
 ```python
 def insert_num (array, n):
   idx=len(array)-1
@@ -210,6 +210,6 @@ for i in range (len(array)):
 
 print new_array
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 

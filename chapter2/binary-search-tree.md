@@ -150,8 +150,8 @@ def lca(root, node1, node2):
 
 return以它为root的subtree
 
-{% code-tabs %}
-{% code-tabs-item title="如果不是一个BST，不用BST的性质" %}
+{% tabs %}
+{% tab title="如果不是一个BST，不用BST的性质" %}
 ```python
 class Solution (object):
     def searchBST(self, root, val)
@@ -176,11 +176,11 @@ class Solution (object):
         return right
     return None
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
-{% code-tabs %}
-{% code-tabs-item title="利用BST的性质" %}
+{% tabs %}
+{% tab title="利用BST的性质" %}
 ```python
 class Solution (object):
     def searchBST(self, root, val)
@@ -201,15 +201,15 @@ class Solution (object):
     else:
         return self.searchBST(root.left, val)
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 ### Range Sum of BST
 
 Given the root node of a BST, return the sum of values of all nodes with the value between l and r \(inclusive\). 
 
-{% code-tabs %}
-{% code-tabs-item title="如果不是一个BST，不用BST的性质" %}
+{% tabs %}
+{% tab title="如果不是一个BST，不用BST的性质" %}
 ```python
 class Solution (object):
     def rangesumBST(self, root, L, R)
@@ -225,11 +225,11 @@ class Solution (object):
     
     return r
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
-{% code-tabs %}
-{% code-tabs-item title="利用BST的性质" %}
+{% tabs %}
+{% tab title="利用BST的性质" %}
 ```python
 class Solution (object):
     def rangeSumBST(self, root, L, R)
@@ -245,6 +245,6 @@ class Solution (object):
         return self.rangeSumBST(root.left, L, R) + root.val 
         + self.rangeSumBST(root.right, L, R)
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 

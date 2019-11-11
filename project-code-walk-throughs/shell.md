@@ -255,5 +255,11 @@ head -n 5 | tail -n 3 somefile.txt
 
 {% embed url="https://www.datacamp.com/courses/data-processing-in-shell" %}
 
+### Sample data
 
+header line plus a random sample of lines after
+
+```text
+awk 'BEGIN {srand()} !/^$/ { if (rand() <= .01 || FNR==1) print $0}'
+```
 

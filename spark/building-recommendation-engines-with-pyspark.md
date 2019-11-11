@@ -179,8 +179,8 @@ print ("Sparsity: "), sparsity
 
 ### Explore with aggregation function
 
-{% code-tabs %}
-{% code-tabs-item title="for data exploration" %}
+{% tabs %}
+{% tab title="for data exploration" %}
 ```python
 # Min num ratings for movies
 print("Movie with the fewest ratings: ")
@@ -198,8 +198,8 @@ ratings.groupBy("userId").count().select(min("count")).show()
 print("Avg num ratings per user: ")
 ratings.groupBy("userId").count().select(avg("count")).show()
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 ## ALS model buildout on MovieLens Data
 
@@ -438,8 +438,8 @@ print ("RegParam: ", best_model.getRegParam())
 print ("Alpha: ", best_model.getAlpha())
 ```
 
-{% code-tabs %}
-{% code-tabs-item title="ALS\_expected\_percent\_rank\_cv" %}
+{% tabs %}
+{% tab title="ALS\_expected\_percent\_rank\_cv" %}
 ```python
 def ROEM_cv(ratings_df, userCol = "userId", itemCol = "songId", ratingCol = "num_plays", ranks = [10, 50, 100, 150, 200], maxIters = [10, 25, 50, 100, 200, 400], regParams = [.05, .1, .15], alphas = [10, 40, 80, 100]):
 #Originally run on a subset of the Echo Next Taste Profile dataset found here:
@@ -530,8 +530,8 @@ print ("  RegParam: "), best_regParam
 print ("  Alpha: "), best_alpha
 return best_model, best_predictions
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 ### Binary Implicit Ratings
 

@@ -50,8 +50,8 @@ print a
 
 d = copy.copy\(a\) 创建了一个新对象，复制了原有对象的引用。
 
-{% code-tabs %}
-{% code-tabs-item title="如果不是compound objects，而只是简单的list，不会受到影响" %}
+{% tabs %}
+{% tab title="如果不是compound objects，而只是简单的list，不会受到影响" %}
 ```python
 a = [1, 22]
 b = a[:]
@@ -71,8 +71,8 @@ b[0] = 3
 print(a)
 >>> [1,22]
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 ![](../.gitbook/assets/image%20%2864%29.png)
 

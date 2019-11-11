@@ -182,8 +182,8 @@ b=AnotherObject(1)
 
 #### Add to index
 
-{% code-tabs %}
-{% code-tabs-item title="方法一：头节点单独处理" %}
+{% tabs %}
+{% tab title="方法一：头节点单独处理" %}
 ```python
 def add_to_index(head, index, value):
     #head: type node, the first node of the passed singly linked list
@@ -204,15 +204,15 @@ def add_to_index(head, index, value):
         prevNode.next = new_node
         return head
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 为了add a new node，其实不能直接走到index，而是要走到index-1的位置，因为单链表只能往后走，只能往前走。但是很棘手的是，头节点没有index-1. 所以定义一个new\_head，这也是如果我们改动了头节点然后返回的。
 
 注意15～17行的顺序: 先让new\_node指向真正的下一个，再让prev指向new\_node。如果把16和17调换，那就不对了，因为new\_node就变成了指向自己，后面的没了。有了环形结构，这就不是单链表了。
 
-{% code-tabs %}
-{% code-tabs-item title="方法二：加一个sentinel，避免分条件讨论" %}
+{% tabs %}
+{% tab title="方法二：加一个sentinel，避免分条件讨论" %}
 ```python
 def add_to_index(head, index, val): 
     fake_head = ListNode("whatever you want")
@@ -225,8 +225,8 @@ def add_to_index(head, index, val):
     insert_place.next = new_node
     return fake_head.next
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 注意的是，加了sentinel（fake\_head）之后，如果想在原来的index**之前插入**一个元素，在加入了fake head后，就等价于在以fake head为首的新链表的index**之后**做插入。
 
