@@ -97,3 +97,11 @@ An additive model： 将多个弱学习器累加起来组成强学习器，进�
 
 用exponential loss的gradient boosting
 
+1. 让所有的weight都一样，可以是1/N或者是1
+2. 让dependent variable变成Y={-1,1} 因为在后期公式里是看正负号判断data的positive/negative
+3. 增加错误部分的weights
+
+{% embed url="http://www.robots.ox.ac.uk/~az/lectures/cv/adaboost\_matas.pdf" %}
+
+
+

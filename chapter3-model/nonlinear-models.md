@@ -96,6 +96,8 @@ CART \(Classification and Regression Tree\): Gini Impurity
 
 ## Ensemble Learning
 
+Ensemble learning的intuition是CLT，取足够多的sample后，得到的均值接近population mean。
+
 ### Bagging \(Bootstrap Aggregating\)
 
 本质是Sampling with replacement, 有放回的抽样，这其实是Bootstrap的工作。通过引入随机性来解决overfitting的问题。 
