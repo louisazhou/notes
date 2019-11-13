@@ -134,7 +134,7 @@ def find_first(nums, target):
     if nums==None or len(nums)==0:
         return -1
     left = 0
-    right = len(nums)-s
+    right = len(nums)-1
     
     while left < right-1:
         mid=(left+right)/2
