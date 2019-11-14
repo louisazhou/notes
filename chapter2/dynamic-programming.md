@@ -79,8 +79,7 @@ case 1： \[a-z\]\* or .\*
 case2：\[a-z\] or .  
                 isMatch\(s\[1:\], p\[1:\]\)
 
-{% tabs %}
-{% tab title="加个decorator" %}
+{% code title="加个decorator" %}
 ```python
 from functools import lru_cache
 class Solution:
@@ -101,11 +100,9 @@ class Solution:
             return self.isMatch(s[1:],p[1:])
         return False
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
-{% tabs %}
-{% tab title="如果手写一个decorator" %}
+{% code title="如果手写一个decorator" %}
 ```python
 def memo(func): #decorator accepts a function and returns a new function
     cache={}
@@ -133,6 +130,5 @@ class Solution:
             return self.isMatch(s[1:],p[1:])
         return False
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 

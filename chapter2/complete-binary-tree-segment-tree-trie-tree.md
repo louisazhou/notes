@@ -12,16 +12,14 @@ left\_child\_node\_index = parent\_node\_index\*2+1
 right\_child\_node\_index = parent\_node\_index\*2+2  
 parent\_node\_index = \(child\_node\_index-1\)/2
 
-{% tabs %}
-{% tab title="常用表示" %}
+{% code title="常用表示" %}
 ```python
 class GeneralTreeNode:
     def __init__(self, children, value):
         self.children = children #list
         self.value=value
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 Heap也可以用数组表示,因为本质上heap是一个complete binary tree
 
@@ -44,8 +42,7 @@ SegmentTree内部存list的原始index信息，根节点是本身的array，往�
 
 在这样一个结构下，如果\(1\)想要更新一个数字，那么就要更新：root、它的某一个孩子、受影响的那个node、... 直到最后一个叶子。每一层又一个node会被影响，有height这么多，所以更新的时间复杂度是O\(logn\). \(2\)求sum，先从root开始看start和end的区间，看左右分别需要分到多少区间。对于某一边可能只走了一步或者几步，对于另一边可能走了整个树的高度，所以时间复杂度也是O\(n\). 
 
-{% tabs %}
-{% tab title="" %}
+{% code title="" %}
 ```python
 class SegmentTreeNode:
         def __init__(self, start, end):
@@ -112,8 +109,7 @@ print s_tree.sum(1,2)
 s_tree.update(1,3)
 print s_tree.sum(1,2)
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 ## Trie Tree 字典树
 

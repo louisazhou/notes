@@ -6,8 +6,7 @@ description: 图上的DFS
 
 如果说BFS是找眼镜，先从自己身边最近的地方摸一圈再往外找的话，那么DFS就是走迷宫，它的本质是一个backtracking的过程：从一个路口出发，走一个可以走的路口，走到底为止，再从里往外走之前所有没有走过的路口，直到回到最初的那个路口，找下一个没走过的路径... Recursively explore the graph, backtracking as necessary. 
 
-{% tabs %}
-{% tab title="伪代码模板" %}
+{% code title="伪代码模板" %}
 ```python
 def DFS(graph, visited, s):
     # recursively visit every reachable vertices from s that are still not being visited
@@ -23,8 +22,7 @@ def DFS_All(graph):
             visited.add(v)
             DFS(graph, visited, v)
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 对于有向图来说，有tree edges（遍历时真的走的边），forward edge（没有走，从ancestor指向descendant的边），backward edge（没有走，从descendant指回去的边），cross edge（没有走，cousin或者uncle关系的边）。对于无向图，只有tree edge和backward edge。
 
@@ -191,8 +189,7 @@ class Solution(object):
 
 ## Graph的总结
 
-{% tabs %}
-{% tab title="Meta Template" %}
+{% code title="Meta Template" %}
 ```python
 def whatever_search_first(graph, s):
     put s in the bag
@@ -204,8 +201,7 @@ def whatever_search_first(graph, s):
                 mark neighbor
                 put neighbor in bag
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 如果bag是stack：depth first search；是queue：breadth first search；priority queue：best first search。
 

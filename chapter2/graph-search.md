@@ -32,8 +32,7 @@ b:{a,c}
 3. Given a graph, traverse all the nodes inside it.  
 4. ...
 
-{% tabs %}
-{% tab title="伪代码" %}
+{% code title="伪代码" %}
 ```python
 MetaGraphSearchAlgorithm(graph, s):
     #systematically explore all the vertices that are reachable from s.
@@ -49,15 +48,13 @@ MetaGraphSearchAlgorithm(graph, s):
 # T: the time complexity for putting a node n bag 如果是queue
 # 的结构，T=1
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 ### Breadth First Search
 
 就像是近视的人找眼镜，剥洋葱似的先从最近的一圈开始找。For breadth first search algorithm, we will finish visiting all vertices that are reachable from source by k moves before visiting vertices that are reachable from source by k+1 moves. Thus we just need to replace the bag with a **queue**. 先放进bag的要先拿出来。
 
-{% tabs %}
-{% tab title="伪代码" %}
+{% code title="伪代码" %}
 ```python
 BFS(graph, s):
     frontier = [s]
@@ -71,8 +68,7 @@ BFS(graph, s):
                     has_seen.add(v)
         frontier = next
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 ![](https://cdn.mathpix.com/snip/images/W9Nqthp7ZJilgYE1mDZGuBKXNrhMUX20lKl2OIrOVo8.original.fullsize.png)
 
@@ -86,8 +82,7 @@ BFS(graph, s):
 
 1. Given a binary tree, return the zigzag level order traversal of its nodes' values.也就是每一层变换访问顺序，从左到右-从右到左-从左到右。
 
-{% tabs %}
-{% tab title="参考伪代码的结构" %}
+{% code title="参考伪代码的结构" %}
 ```python
 BFS(root):
     if not root:
@@ -109,8 +104,7 @@ BFS(root):
         frontier = next
         reverse = not reverse
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 ### Check Islands
 

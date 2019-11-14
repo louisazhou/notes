@@ -62,8 +62,7 @@ gen_split.sort_values(ascending=False).plot.bar()
 
 具体看[这个链接](http://contrib.scikit-learn.org/categorical-encoding/)
 
-{% tabs %}
-{% tab title="方式一" %}
+{% code title="方式一" %}
 ```python
 cleaned = df.set_index('video_id').genres.str.split(','), expand = True).stack()
 cleaned = pd.get_dummies(cleaned, prefix = 'g').groupby(level=0).sum()
@@ -71,19 +70,16 @@ cleaned = pd.get_dummies(cleaned, prefix = 'g').groupby(level=0).sum()
 df = pd.merge(df, cleaned, on='video_id')
 df.drop(['genres'], axis=1, inplace=True)
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 第二种方法更好读一点
 
-{% tabs %}
-{% tab title="方法二" %}
+{% code title="方法二" %}
 ```python
 genre = df['genres'].str.get_dummies(sep=',')
 df = pd.merge(df.drop(columns=['genres'], genres, left_index=True, right_index=True, how='inner'))
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 如果有一些categorical feature实在太少，可以bin在一起，用\| 或就行，或者是concat函数
 

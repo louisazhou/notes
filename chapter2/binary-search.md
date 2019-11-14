@@ -130,23 +130,35 @@ Time: O\(logn\)
 3. num\[mid\]=target, 虽然找到了，但也有可能不是第一个，所以right=mid
 
 ```python
-def find_first(nums, target):
-    if nums==None or len(nums)==0:
+class Solution(object):
+  def firstOccur(self, array, target):
+    """
+    input: int[] array, int target
+    return: int
+    """
+    # write your solution here
+    if not array or len(array)==0:
         return -1
-    left = 0
-    right = len(nums)-1
     
-    while left < right-1:
-        mid=(left+right)/2
-        if nums[mid]<target:
-            left=mid+1
-        else:
-            right=mid
-        if left==nums[mid]:
-            return left
-        if right==nums[mid]:
-            return right
-    return None
+    left, right = 0, len(array)-1
+    
+    while left<right-1:
+      
+      mid = (left+right)//2
+      
+      if array[mid]==target:
+        right=mid
+      elif array[mid]<target:
+        left=mid+1
+      elif array[mid]>target:
+        right=mid-1
+    
+    if array[left]==target:
+      return left
+    if array[right]==target:
+      return right
+
+    return -1  
 ```
 
 ## 有重复元素，返回最后一个
@@ -158,21 +170,35 @@ def find_first(nums, target):
 2. Post-Processing的顺序先后：先检查右边
 
 ```python
-def last_occurance(nums, target):
-    if not nums:
+class Solution(object):
+  def lastOccur(self, array, target):
+    """
+    input: int[] array, int target
+    return: int
+    """
+    # write your solution here
+    if not array or len(array)==0:
         return -1
-    left, right = 0, len(nums)
+        
+    left, right = 0, len(array)-1
+    
     while left<right-1:
-        mid=(left+right)/2
-        if nums[mid]>target:
-            right=mid-1
-        else:
-            left=mid
-        if nums[right]==target:
-            return right
-        if nums[left]==target:
-            return left
-    return None
+      
+      mid = (left+right)//2
+      
+      if array[mid]==target:
+        left = mid
+      elif array[mid]<target:
+        left = mid+1
+      elif array[mid]>target:
+        right = mid-1
+    
+    if array[right]==target:
+        return right
+    if array[left]==target:
+        return left
+    
+    return -1
 ```
 
 

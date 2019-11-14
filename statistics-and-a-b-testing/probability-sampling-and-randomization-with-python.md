@@ -64,8 +64,7 @@ How to sample for an unlimited data flow and we are required to return 1 random 
 
 #### Reservoir sampling 就是这个思想
 
-{% tabs %}
-{% tab title="pseudo code" %}
+{% code title="pseudo code" %}
 ```python
 s = [] #unlimited data flow
 solu=s[0]
@@ -76,13 +75,11 @@ while (True):
     if r==0:
         solu=s[i-1]
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 开k个格子，就能让每个item被return的概率为k/n
 
-{% tabs %}
-{% tab title="pseudo code" %}
+{% code title="pseudo code" %}
 ```python
 s = [] #unlimited data flow
 solu=s[0:100]
@@ -93,8 +90,7 @@ while (True):
     if r<100:
         solu[r]=s[i-1]
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 ### Return a Random Largest Number's Index
 
