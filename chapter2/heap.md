@@ -217,6 +217,76 @@ Time: O\(2K+nlogk\)
 
 k读入、k来heapify、nlogk
 
+## Merge in Stream
+
+```python
+def merge_two_streams(A, B):
+     
+    INVALID = sys.maxsize
+    streams = (A, B)
+    cache = [(INVALID, 0), (INVALID, 1)]
+    for i in [0, 1]:
+        try:
+            cache[i] = (next(streams[i]), i)
+        except StopIteration:
+            cache[i] = (INVALID, i) 
+    while cache:
+        min_val, index = min(cache)
+        if min_val == INVALID:
+            break
+        try:
+            cache[index] = (next(streams[index]), index)
+        except StopIteration:
+            cache[index] = (INVALID, index)
+        yield min_val
+ 
+def merge_three_streams(A, B, C):
+ 
+    INVALID = sys.maxsize
+    streams = (A, B, C)
+    cache = [(INVALID, 0), (INVALID, 1), (INVALID, 2)]
+    for i in [0, 1, 2]:
+        try:
+            cache[i] = (next(streams[i]), i)
+        except StopIteration:
+            cache[i] = (INVALID, i) 
+    while cache:
+        min_val, index = min(cache)
+        if min_val == INVALID:
+            break
+        try:
+            cache[index] = (next(streams[index]), index)
+        except StopIteration:
+            cache[index] = (INVALID, index)
+        yield min_val
+ 
+from heapq import heapify, heappop, heappush
+def merge_k_streams(streams):
+     
+    cache, k = [], len(streams)
+    for i in range(k):
+        try:
+            cache.append((next(streams[i]),i))
+        except StopIteration:
+            pass
+    heapify(cache)
+    while cache:
+        min_val, index = heappop(cache)
+        try:
+            heappush(cache, (next(streams[index]), index))
+        except StopIteration:
+            pass
+        yield min_val
+ 
+def streaming(nums):
+    for num in nums: yield num
+ 
+if __name__ == "__main__":
+    print([num for num in merge_two_streams(streaming([1,3,5]),streaming([2,4,6]))])
+    print([num for num in merge_three_streams(streaming([1,4,7]),streaming([2,5,8]),streaming([3,6,9]))])
+    print([num for num in merge_k_streams([streaming(nums) for nums in [[1,3,5,7],[2,4,6,8],[1,4,7,10],[2,5,8,11]]])])
+```
+
 ## 面试题
 
 Linkedin：Can you say something you know about stack and heap?

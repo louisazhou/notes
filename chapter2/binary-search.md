@@ -201,17 +201,13 @@ class Solution(object):
     return -1
 ```
 
-
-
-## 应用
-
-Pull Request有很多个版本，如果有一个version有bug，在version7发现了，快速找到这个有bug的version的第一个version
+## K Closest to Sorted Array
 
 
 
-## 题目
 
-### Sqrt（）
+
+## Sqrt（）
 
 找一个最接近于平方根的整数, floor
 
@@ -257,7 +253,7 @@ def sqaure_root(n):
         return left
 ```
 
-#### Find the bug, sorted release, UNKNOWN size
+## Find the bug, sorted release, UNKNOWN size
 
 1. Find the end 倍增法
 2. Binary Search
@@ -267,6 +263,56 @@ def sqaure_root(n):
 ```
 
 Time: O\(log 2\(first\_bug\_version\)\) 
+
+
+
+## 新题: 虚拟数组
+
+给一个已排好序的正整数数组，在首尾之间，不连续的部分可以看成是漏掉了一些数。这些漏掉的数可以组成一个虚拟的数组，要求给出一个序号k，返回虚拟数组的第k个数。 比如给定原数组：\[2,4,7,8,9,15\]，漏掉的数组成这样一个虚拟数组：\[3,5,6,10,11,12,13,14\]。若k=2，返回虚拟数组的第二个数“5”。
+
+每次取数组中间位置mid的元素a\[mid\]，跟数组最右边的元素a\[right\]比较，求出k=\(a\[right\]-a\[mid\]\)-\(right-mid\) 这个k值就代表从mid到right之间有多少个hole。比较k和n的大小，如果k&lt;n就说明第n个hole在数组左半边，那么让n=n-k然后继续搜索左半边；否则的话第n个hole在数组右半边，就继续搜索右半边。直到最后left+1==right，直接返回a\[right\]-n就是最终要求的值
+
+```python
+def kth_missing_num(nums, k):
+     
+    missed = num_missing(nums)
+    if missed < k: 
+        raise ValueError("not that many missing numbers")
+     
+    start, end = 0, len(nums)-1
+    while start + 1 != end:
+        mid = (start+end)//2
+        missed = num_missing(nums, start, mid)
+        if missed >= k:
+            end = mid
+        else:
+            start = mid 
+            k = k - missed 
+    return nums[start] + k
+     
+def num_missing(nums, start = 0, end = None):
+    if end is None:
+        end = len(nums) - 1
+     
+    return nums[end] - nums[start] - (end - start)
+ 
+class TestMissingNumber(unittest.TestCase):
+ 
+    def setUp(self):
+        self.nums = [2,4,7,8,9,15]
+        self.missings = [3,5,6,10,11,12,13,14]
+    def tearDown(self):
+        pass
+    def testMissingNumber(self):
+        for i, missed in enumerate(self.missings):
+            self.assertEqual(kth_missing_num(self.nums, i+1), missed)
+        with self.assertRaises(ValueError):
+            kth_missing_num(self.nums, len(self.missings)+1)
+```
+
+## 应用
+
+Pull Request有很多个版本，如果有一个version有bug，在version7发现了，快速找到这个有bug的version的第一个version
 
 
 
