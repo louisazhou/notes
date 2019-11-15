@@ -83,7 +83,8 @@ def arithmetic_expression_evaluation(terms):
   return operands[0]
 ```
 
-{% code title="queue&stack review里 从string输入的版本" %}
+{% tabs %}
+{% tab title="queue&stack review里 从string输入的版本" %}
 ```python
 def tokenize(s):
   from_num, num = False, 0
@@ -118,7 +119,8 @@ def arithmetic_expression_evaluation(terms):
       operands.append(ops[operators.pop()](operands.pop(), term)
   return operands[-1]
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 ## 逆波兰表达式
 
@@ -277,6 +279,8 @@ Pop x: stack.pop\(\), minStack.pop\(\)
 
 
 
+Follow up: duplicate element
+
 优化，可以只有数值有变时再存min
 
 Push x: stack.append\(x\)
@@ -292,6 +296,16 @@ if stack\[-1\]==getMin\(\)
       minStack.pop\(\)    
 
 stack.pop\(\)
+
+## Sort Numbers with 2/3 Stacks
+
+2 stack:
+
+方法一：while stack2.size\(\)&gt;stack2.initial\_size\_before\_this\_iteration  
+方法二：while stack2.top\(\)&gt;=global\_min  
+keep popping back to s1   
+  
+Follow Up: duplicate element: add a counter 
 
 ## Leetcode 1003 合法字符串
 

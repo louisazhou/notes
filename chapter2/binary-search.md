@@ -205,6 +205,44 @@ class Solution(object):
 
 
 
+```python
+class Solution(object):
+  def kClosest(self, array, target, k):
+    """
+    input: int[] array, int target, int k
+    return: int[]
+    """
+    # write your solution here
+    res=[]
+    if len(array)==0 or k==0:
+      return res
+    index=self.getIndex(array, target)
+    l,r=index-1, index+1
+    res.append(array[index])
+    while len(res)<k and (l>=0 or r<len(array)):
+      if r<len(array) and (l<0 or abs(array[l]-target)>abs(array[r]-target)):
+        res.append(array[r])
+        r+=1
+      elif l>=0:
+        res.append(array[l])
+        l-=1
+    return res
+    
+  
+
+  def getIndex(self, array, target):
+    left, right = 0,len(array)-1
+    while left<right-1:
+      mid=(left+right)//2
+      if array[mid]==target:
+        return mid
+      elif array[mid]<target:
+        left=mid
+      else:
+        right=mid
+    return left if abs(array[left]-target)<abs(array[right]-target) else right
+```
+
 
 
 ## Sqrt（）
@@ -233,6 +271,8 @@ if mid\*mid&gt;n: go left \[left, mid\]
 
 if mid\*mid==n: return mid
 
+{% tabs %}
+{% tab title="post-processing" %}
 ```python
 def sqaure_root(n):
     if n<=1:
@@ -252,14 +292,61 @@ def sqaure_root(n):
     else:
         return left
 ```
+{% endtab %}
 
-## Find the bug, sorted release, UNKNOWN size
+{% tab title="classic" %}
+```python
+class Solution(object):
+  def sqrt(self, x):
+    """
+    input: int x
+    return: int
+    """
+    # write your solution here
+    if x<=1:
+      return x
+    left = 1
+    right = x//2
+    
+    while True:
+      mid = (left+right)//2
+      if mid>x//mid:
+        right=mid-1
+      elif mid<=x//mid and mid+1>x//(mid+1):
+        return mid
+      else:
+        left = mid+1
+```
+{% endtab %}
+{% endtabs %}
+
+## Search In Unknown Sized Sorted Array
 
 1. Find the end 倍增法
 2. Binary Search
 
 ```python
-
+class Solution(object):
+  def search(self, dic, target):
+    """
+    input: Dictionary dic, int target
+    return: int
+    """
+    # write your solution here
+    start = 1
+    while dic.get(start) and dic.get(start)<target:
+      start*=2
+  
+    left, right = start//2, start
+    while left<=right:
+      mid = (left+right)//2
+      if dic.get(mid) is None or dic.get(mid)>target:
+        right = mid-1
+      elif dic.get(mid)<target:
+        left = mid+1
+      else:
+        return mid
+    return -1
 ```
 
 Time: O\(log 2\(first\_bug\_version\)\) 
