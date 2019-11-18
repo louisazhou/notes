@@ -101,5 +101,48 @@ Idea: Pilot study, sort the probability in a descending order.
 
 {% embed url="https://www.sci.unich.it/~francesc/teaching/network/" %}
 
+## New approaches
 
+### Node Embedding 
+
+#### Method 1: Graph Laplacian 
+
+L=A-D \(adjacency-degree\)
+
+Pros: predict friendship \(link connection\)  
+Cons: sparse matrix size   
+  
+potential way: laplacian embedding, select the top k eignen vectors from the laplacian matrix. However, still need to store the original matrix in memory, still costly.
+
+#### Method 2: Analogy to text classify 
+
+Create a document-term-matrix\(DTM\), potential problem is \(1\) there are way more columns than the entries. \(2\) because words are related, we cannot assume an IID of the columns   
+  
+A potential solution is to map them to topics, and instead of finding the frequency of word, we find the percentage of each topic from each doc. 
+
+#### Method 3: Word Embedding 
+
+\(1\) way: Use a taxonomy like WordNet\(that tells the synonym of word\) that has hypernyms relationship  
+\(2\) way: use domain knowledge to create synonym set  
+\(3\) a vector form, turn each word into a vector, and look at its neighbors: the meaning of words can be known through the company it keeps. Summarize the cooccurrence relationship, use a matrix here, and check the cosine similarities.   
+problem is the cooccurrence matrix size will increase, we can surely run a SVD or PCA on that matrix and reduce the dimensionality.    
+Once with a low-dimensional vector, can run similarity test.   
+  
+another way is to do a gradient descent, 'how likely that this word will cooccur with some other words'. input: word, output: neighboring words, multi-class classification, and the number of class is the number of vocabulary   
+
+
+In a network setting, the idea is similar. The neighboring nodes of a neighbor is very similar to the neighboring word. Use word2vec on graph. input: node in network, output: network
+
+Treat the node sequence as sentences. biased second order random walk, 'random walk with memory'.The nodes that are most similar to the original point will have more weights in a random walk.  
+
+Node to work paper: BFS: more incliend to explore the local neighborhood; DFS: more inclined to explore the neighbors 
+
+return parameter p: the likelihood to return where i was  
+in=class parameter q:
+
+
+
+Step 1: Generate random walks   
+Step 2: Treat nodes as words, sequences as sentences, use word2vec to reduce dimensions   
+Step 3: Use node vectors for other tasks \(eg. prediction or link prediction\) 
 
