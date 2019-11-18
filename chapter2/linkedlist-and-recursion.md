@@ -27,7 +27,7 @@ Python处理的基本单元是对象（object）。Anything can be an object.
 
 #### Class: 
 
-无论马自达还是兰博基尼，有唯一的VIN-number.定义class就描述了一个对象应该具有的状态和行为是什么。所以class是对于对象的描述。所以一个class是一个**blueprint**，描述了一系列我们想要的object具备的特点是什么。.  
+无论马自达还是兰博基尼，有唯一的VIN-number.定义class就描述了一个对象应该具有的状态和行为是什么。class是对于对象的描述，一个class是一个**blueprint**，描述了一系列我们想要的object具备的特点是什么。  
 
 
 ### Singly Linked List
@@ -70,12 +70,33 @@ line9，从物理含义上，让node1里的next存node2的地址。所以node1�
 
 或者，用循环iteration或递归recursion来遍历。
 
+{% tabs %}
+{% tab title="iteration" %}
 ```python
 def traverse(head):
     while head is not None:     #while head 等价
         print head.value
         head = head.next
 ```
+{% endtab %}
+
+{% tab title="recurssion" %}
+```python
+def print_all_nodes(head):
+    if not head:
+        return 
+    print head.val
+    print_all_nodes(head.next)
+    
+    # or alternatively
+    
+    if head:
+        print(head.val)
+        print(print_all_nodes(head.next))
+    return
+```
+{% endtab %}
+{% endtabs %}
 
 注意head是一个reference，并不是一个value。就像是身份证可以代表人，但是身份证和本人是两个完全不同的物理存在。所以line4的含义是reference的箭头。
 
@@ -143,7 +164,7 @@ def search_by_value (head,value):
 >
 > a = None 
 >
-> print a is None 输出是True，因为None是一个有且只有一个的object 所以再定义一个b=None 问print a is b 会输出rue
+> print a is None 输出是True，因为None是一个有且只有一个的object 所以再定义一个b=None 问print a is b 依然会输出true
 >
 > a=ListNode\(1\)
 >
@@ -205,7 +226,7 @@ def add_to_index(head, index, value):
 ```
 {% endcode %}
 
-为了add a new node，其实不能直接走到index，而是要走到index-1的位置，因为单链表只能往后走，只能往前走。但是很棘手的是，头节点没有index-1. 所以定义一个new\_head，这也是如果我们改动了头节点然后返回的。
+为了add a new node，其实不能直接走到index，而是要走到index-1的位置，因为单链表只能往后走，不能往前走。但是很棘手的是，头节点没有index-1. 所以定义一个new\_head，这也是如果我们改动了头节点然后返回的。
 
 注意15～17行的顺序: 先让new\_node指向真正的下一个，再让prev指向new\_node。如果把16和17调换，那就不对了，因为new\_node就变成了指向自己，后面的没了。有了环形结构，这就不是单链表了。
 
@@ -214,9 +235,9 @@ def add_to_index(head, index, value):
 def add_to_index(head, index, val): 
     fake_head = ListNode("whatever you want")
     fake_head.next = head
-    insert_place = search_by_index(fake_head, index)
-    if insert_place is None:
-        return fake_head.next
+    insert_place = searchbyindex(fake_head, index)
+    if insert_place is None: #在一个不存在的index或者越界的位置插入新的node
+        return fake_head.next #此时返回的依然是原来的linkedlist
     new_node = ListNode(val)
     new_node.next = insert_place.next
     insert_place.next = new_node
@@ -249,12 +270,64 @@ def remove_from_index (head, index):
     
     remove_node = prev_node.next
     prev_node.next = remove_node.next
-    prev_node.next = None
+    remove_node.next = None #or don't write anything
     
     return fake_head.next
 ```
 
-### How to design a linked list class
+```python
+class ListNode(object):
+    def __init__(self, value):
+        self.value=value
+        self.next=None
+
+        
+class SinglyLinkedList(object):
+    def traverse(self, head):
+        while not head:
+            print (head.value)
+            head=head.next
+    
+    def searchByIndex(self, head, index):
+        #sanity check
+        if index<0 or not head:
+            return None
+        for jump_steps in range(index):
+            head=head.next
+            if head is None:
+                return None
+        return head
+    
+    def searchByValue(self, head, value):
+        if not head:
+            return None
+        while head is not None:
+            if head.value==value:
+                return head
+            head=head.next
+        return None
+    
+    def addByIndex(self, head, index, value):
+        newnode=ListNode(value)
+        fakehead=ListNode(None)
+        fakehead.next=head
+        insertplace=self.searchByIndex(fakehead, index)
+        if insertplace is not None:
+            newnode.next=insertplace.next
+            insertplace.next=newnode
+        return fakehead.next
+    
+    def deleteNode(self, head, index):
+        fakehead=ListNode(None)
+        fakehead.next=head
+        pred_node=self.searchByIndex(fakehead, index)
+        if pred_node is not None and pred_node.next is not None:
+            pred_node.next=pred_node.next.next
+            pred_node.next.next = None
+        return fakehead.next
+```
+
+## How to design a linked list class
 
 ```python
 class _ListNode(object):
@@ -280,7 +353,7 @@ class MyLinkedList(object):
         return node
     
     def get(self, index): #instance method or object method 调用这些方法一定要通过对象来调用 free function就不用self（写在class外面的不用）
-    #返回第index个index的node value
+    #返回第index个node的node value
     # How do we know the index is out of range?
         if index < 0 or index >=self._size:
             return -1
@@ -400,6 +473,37 @@ def remove(head):
 {% endtab %}
 {% endtabs %}
 
+### Remove Nth Node From End of List
+
+设立两个指针p1和p2，一开始它们都指向队首的dummy，然后单独令p2向后跳n个元素，这样p1和p2之间就相隔了n个元素，如果这个时候p2发现自己不能完整跳完n步，说明给的数字太大了，越界，所以直接return。  
+令p1和p2同时向后不断跳，直到p2已经到了最后一个node，由于此时p1和p2之间相隔n个元素，所以p1的下一个元素就是我们要删除的元素了。
+
+为了方便删除第一个元素，建议设立一个空的“头结点”。
+
+```python
+class Solution(object):
+  def removeNthFromEnd(self, head, n):
+    """
+    input: ListNode head, int n
+    return: ListNode
+    """
+    # write your solution here
+    dummy = ListNode(0)
+    dummy.next = head
+    fast, prev = dummy, dummy
+    for _ in range(n): 
+      if fast.next:
+        fast = fast.next
+      else:
+        return dummy.next
+
+    while fast.next:
+      fast, prev = fast.next, prev.next
+    
+    prev.next = prev.next.next
+    return dummy.next 
+```
+
 ### Add two linked list which represents large number 
 
 大数：传统语言int long的范围是 $$2^{32}$$ 范围之外称为大数
@@ -414,7 +518,7 @@ def remove(head):
 ```python
 def reverse_list(node):
     previous_node = None
-    while none:
+    while node:
         next_node = node.next
         node.next = previous_node
         previous_node = node
