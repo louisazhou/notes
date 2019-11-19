@@ -93,6 +93,8 @@ Space O\(1\)   \(in place\)
 
 Time O\( $$n^{2}$$ \)
 
+### 3 stacks to sort an array
+
 ## Insertion Sort 插入排序
 
 Insertion sort is based on the idea that one element from the input elements is consumed in each iteration to find its correct position i.e, the position to which it belongs in a sorted array.
