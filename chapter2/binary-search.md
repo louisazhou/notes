@@ -203,7 +203,9 @@ class Solution(object):
 
 ## K Closest to Sorted Array
 
+log\(n\)+k
 
+line 35其实根本不用abs 因为既然sorted了也就知道谁大谁小了
 
 ```python
 class Solution(object):
@@ -243,7 +245,28 @@ class Solution(object):
     return left if abs(array[left]-target)<abs(array[right]-target) else right
 ```
 
+在上面这种写法里，要先把数字自己放进去，left, number, right 三个数字这样的顺序出现在数组里，然后left、right依次左、右expand。  
+左边expand的条件是，  
+- 首先左边还没过界并且result里的值还有的剩   
+- 其次满足接下来两个条件二选一 （1）右边到界了左边还没到 （2）左边的距离比右边的距离更小  
+相似的，右边expand的条件是，  
+- 首先右边还没过界并且result里的值还有的剩   
+- 其次满足接下来两个条件二选一 （1）左边到界了右边还没到 （2）右边的距离比左边的距离更小
 
+所以还可以这么写
+
+```python
+l = self.getIndex(array, target)
+r=l+1
+for i in range(0,k):
+    if r>=len(array) or (l>0 and target-array[l]<array[right]-target):
+        res.append(array[l])
+        l-=1
+    else:
+        res.append(array[r])
+        r+=1
+return res
+```
 
 ## Sqrt（）
 

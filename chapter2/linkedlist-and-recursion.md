@@ -64,6 +64,12 @@ line9，从物理含义上，让node1里的next存node2的地址。所以node1�
 
 对于一个单链表，最基本的操作就是对这个list进行遍历\(traverse\)。
 
+在这里最容易犯的错误是dereference的时候在None上操作了 比如
+
+![](../.gitbook/assets/image%20%2836%29.png)
+
+这里temp.next=temp.next.next没问题，但是current.next=current.next.next就会报错
+
 ### Traverse 遍历
 
 遍历一个单链表，将它的值打出来。head是最重要的，head指的是一个单链表中的头节点。如果真要手写，那么我们会写的可能是 从第一个print head.value写到最后一个print head.next.next.next.value
@@ -127,6 +133,16 @@ for jump_times in xrange(index):
     head=head.next
     if head is None:
         return None
+return head
+```
+
+或者用个while loop
+
+```python
+while (index>0 and head!= None):
+    head=head.next
+    index--
+# index<=0 or head==None
 return head
 ```
 
@@ -250,6 +266,33 @@ def add_to_index(head, index, val):
 在return时return的都是fake\_head.next. 因为引入fake\_head的原因是避免对head单独讨论。但是！fake\_head并不是真正的头节点，所以真的头节点永远都是fake\_head后面的1个。
 
 如果是在原来链表的头节点插入，那么fake\_head之后的就是新的头节点。
+
+dummy node 在两种情况非常好用1）在构建一个新的链表不知道谁是头的时候（比如谁小移谁，合并了两个linkedlist）2）在需要对头进行操作的时候（增删改）
+
+### Insert in a Sorted Linkedlist
+
+```python
+class Solution(object):
+  def insert(self, head, value):
+    """
+    input: ListNode head, int value
+    return: ListNode
+    """
+    # write your solution here
+    
+    dummy=ListNode('dummy')
+    dummy.next=head
+    prev=dummy
+    
+    while prev.next and prev.next.val<value:
+      prev=prev.next
+    
+    newnode=ListNode(value)
+    newnode.next=prev.next
+    prev.next=newnode
+  
+    return dummy.next
+```
 
 ### Remove 删除
 
@@ -504,6 +547,51 @@ class Solution(object):
     return dummy.next 
 ```
 
+### Partition a Linked List
+
+Given a linked list and a target value T, partition it such that all nodes less than T are listed before the nodes larger than or equal to target value T. The original relative order of the nodes in each of the two partitions should be preserved.
+
+**Examples**
+
+* L = 2 -&gt; 4 -&gt; 3 -&gt; 5 -&gt; 1 -&gt; null, T = 3, is partitioned to 2 -&gt; 1 -&gt; 4 -&gt; 3 -&gt; 5 -&gt; null
+
+```python
+class Solution(object):
+  def partition(self, head, target):
+    """
+    input: ListNode head, int target
+    return: ListNode
+    """
+    # write your solution here
+    # step 1: initiate 2 dummy heads, head1 connects all the T that are smaller and equal to target,
+    # and head2 connects all the T that are larger than target
+    # we also need tailsmall and tallarge 
+    # step 2: tailsmall.next=dummylarge.next
+    # step 3: remove the tail of the dummytaillarge, and make it pointing to None
+
+    dummys=ListNode('dummysmall')
+    c1=dummys
+    dummyl=ListNode('dummylarge')
+    c2=dummyl
+    curr=head
+
+    while curr:
+      if curr.val<target:
+        c1.next=curr
+        c1=c1.next
+        curr=curr.next
+      elif curr.val>=target:
+        c2.next=curr
+        c2=c2.next
+        curr=curr.next
+    
+    c2.next=None
+    c1.next=dummyl.next
+
+
+    return dummys.next
+```
+
 ### Add two linked list which represents large number 
 
 大数：传统语言int long的范围是 $$2^{32}$$ 范围之外称为大数
@@ -579,14 +667,22 @@ def add_list(head1, head2):
 关于快慢指针找中点
 
 ```python
-def find_mid(head):
-    if head is None or head.next is None:
-        return head
-    slow = head
-    fast = head
-    while fast.next is not None and fast.next.next is not None:
-        fast = fast.next.next
-        slow = slow.next
+class Solution(object):
+  def middleNode(self, head):
+    """
+    input: ListNode head
+    return: ListNode
+    """
+    # write your solution here
+    if not head or not head.next:
+      return head
+
+    slow,fast=head,head
+
+    while fast.next and fast.next.next:
+      slow=slow.next
+      fast=fast.next.next
+    
     return slow
 ```
 
@@ -617,5 +713,139 @@ head.next.next = ListNode(0)
 
 corner case：None、数量不同、奇偶
 
-### 
+## 链表、环的问题
+
+### Check if linkedlist has cycle
+
+```python
+class Solution(object):
+  def checkCycle(self, head):
+    """
+    input: ListNode head
+    return: boolean
+    """
+    # write your solution here
+    if not head:
+      return False
+    slow, fast = head, head
+
+    while fast and fast.next:
+      slow=slow.next
+      fast=fast.next.next
+      if fast==slow:
+        return True
+
+    return False
+```
+
+### Cycle Node In Linked List
+
+**找到环的入口点？**
+
+定理：**slow和fast相遇点为p，让slow从head开始，fast从p开始，每次往后各走一步，直到slow和fast再次相遇，则相遇点即为环的入口。**
+
+证明：
+
+当fast若与slow相遇时，slow肯定没有走遍历完链表，而fast已经在环内循环了n圈\(n&gt;=1\)。假设slow走了s步，则fast走了2s步（fast步数还等于s 加上在环上多转的n圈），设环长为r，则：
+
+2s = s + nr 即：s= nr
+
+设整个链表长L，环入口与相遇点距离为x，起点到环入口点的距离为a。
+
+则s=a+x, L=a+r。那么a + x = nr = \(n – 1\)r +r = \(n-1\)r + L - a，则有a = \(n-1\)r + \(L – a – x\)。
+
+\(L–a–x\)为相遇点到环入口点的距离，由此可知，从链表头到环入口点等于\(n-1\)循环内环+相遇点到环入口点，于是我们从链表头、相遇点分别设一个指针，每次各走一步，两个指针必定相遇，且相遇第一点为环入口点。
+
+```python
+class Solution(object):
+  def findCycle(self, head):
+    """
+    input: ListNode head
+    return: ListNode
+    """
+    # write your solution here
+    if not head or not head.next:
+      return None
+    slow, fast=head, head
+   
+    while fast and fast.next:
+      slow=slow.next
+      fast=fast.next.next
+      if slow==fast:
+        break
+    
+    if slow==fast:
+      slow=head
+      while slow!=fast:
+        slow=slow.next
+        fast=fast.next
+      return slow
+    
+    return None
+
+```
+
+### **如何知道环的长度？**
+
+记录下碰撞点meet，slow、fast从该点开始，再次碰撞所走过的操作数就是环的长度r
+
+### 向循环有序链表插入节点 · Insert into a Cyclic Sorted List
+
+```python
+class Solution(object):
+  def insertCircularList(self, head, newVal):
+    """
+    input: ListNode head, int newVal
+    return: ListNode
+    """
+    # write your solution here
+    if not head:
+      newnode=ListNode(newVal)
+      newnode.next=newnode
+      return newnode
+
+    prev, curr = None, head
+    
+    while True:
+        prev = curr
+        curr = curr.next
+        if newVal <=curr.val and newVal>=prev.val: #新节点需要插入到某2个节点之间，这两个节点是顺序的
+          break
+        
+        if (prev.val>curr.val) and (newVal<curr.val or newVal>prev.val): #新节点需要插入到某2个节点之间，这两个节点是有break的 5——>6——>1 插入0 或者插入7  
+          break
+        
+        if curr is head: #遍历链表找到尾结点
+          break
+    
+    newNode=ListNode(newVal)
+    newNode.next=curr
+    prev.next=newNode
+
+    return head
+```
+
+### **判断两个无环单链表是否相交**
+
+如果相交，给出相交的第一个点。
+
+一、将其中一个链表L2首尾相连，检测另外一个链表L1是否存在环，如果存在，则两个链表相交，而检测出来的依赖环入口即为相交的第一个点。但是这样改变了输入的结构，不太好。
+
+二、如果两个链表有一个公共结点，那么该公共结点之后的所有结点都是重合的。那么，它们的最后一个结点必然是重合的。因此，我们判断两个链表是不是有重合的部分，只要分别遍历两个链表到最后一个结点。如果两个尾结点是一样的，说明它们用重合；否则两个链表没有公共的结点。
+
+在上面的思路中，顺序遍历两个链表到尾结点的时候，我们不能保证在两个链表上同时到达尾结点。这是因为两个链表不一定长度一样。但如果假设一个链表比另一个长l个结点，我们先在长的链表上遍历l个结点，之后再同步遍历，这个时候我们就能保证同时到达最后一个结点了。由于两个链表从第一个公共结点开始到链表的尾结点，这一部分是重合的。因此，它们肯定也是同时到达第一公共结点的。于是在遍历中，第一个相同的结点就是第一个公共的结点。
+
+在这个思路中，我们先要分别遍历两个链表得到它们的长度，并求出两个长度之差。在长的链表上先遍历若干次之后，再同步遍历两个链表，知道找到相同的结点，或者一直到链表结束。此时，如果第一个链表的长度为m，第二个链表的长度为n，该方法的时间复杂度为O\(m+n\)。
+
+### 判断两有环单链表是否相交 <a id="&#x5224;&#x65AD;&#x4E24;&#x6709;&#x73AF;&#x5355;&#x94FE;&#x8868;&#x662F;&#x5426;&#x76F8;&#x4EA4;"></a>
+
+思路：
+
+1. 先判断两链表是否均有环，有一个无环则不相交
+2. 若入环节点一样，则相交
+3. 若入环节点不一样，则从一个入环点往后遍历，若能和另一个链表的入环点相遇则相交，若遍历回自己的入环点还没相遇，则不相交
+
+注意：
+
+* 第 3 步里从一个入环点往后遍历，注意起始条件
 

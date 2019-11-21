@@ -99,9 +99,47 @@ $$
 
 Space: O\(logn\) worst case  O\(n\)
 
+```python
+class Solution(object):
+  def quickSort(self, array):
+    """
+    input: int[] array
+    return: int[]
+    """
+    # write your solution here
+    if not array or len(array)<=1:
+      return array
 
+    return self.helper(array, 0, len(array)-1)
 
-### Find the k-th largest element in an array
+  def helper(self, array, start, end):
+    
+    from random import randrange
+
+    if start>=end:
+      return
+   
+    pivot_index=randrange(start, end+1)
+    new_index=self.partition(array, pivot_index, start, end)
+    self.helper(array, start, new_index-1)
+    self.helper(array, new_index+1, end)
+    return array
+    
+  def partition(self, array, index, start, end):
+    store_index=start
+    array[end],array[index]=array[index],array[end]
+    pivot=array[end]
+
+    for i in range (start, end):
+      if array[i]<pivot:
+        array[i], array[store_index] = array[store_index],array[i]
+        store_index+=1
+    array[store_index], array[end] = array[end], array[store_index]
+
+    return store_index 
+```
+
+## Find the k-th largest element in an array
 
 Soln1: Brute Force: Sort the array in descending order, and return the element at index \(k-1\). O\(nlogn\)
 
@@ -142,6 +180,121 @@ print(find_kth_largest(arr,1))
 ```
 
 $$\begin{array}{l}{\text { Time complexity: }} \\ {\begin{aligned} T(n) &=T(n / 2)+O(n) \\ &=T(n / 4)+O(n / 2+n) \\ &=\ldots \\ &\left.=T\left(n / 2^{n} k\right)+O\left(n+n / 2+\ldots+n / 2^{\wedge} k\right)\right] \\ &=T\left(n / 2^{n} k\right)+O\left(n+2^{*}\left(1-0.5^{\wedge} k\right)\right) \\ \text { Let } n &=2^{\wedge} k \\ T(n) &=T(1)+O(2 n-2) \Rightarrow T(n)=O(n) \\ \text { Space complexity: } O(1) \end{aligned}}\end{array}$$ 
+
+## Rainbow Sort 彩虹排
+
+#### 3种颜色，用pointer
+
+三种颜色，-1、0、1，两个挡板，left的左侧不包含left都是-1，right的右侧不包含right都是1，\[left, right\]是0.
+
+```python
+class Solution(object):
+  def rainbowSort(self, array):
+    """
+    input: int[] array
+    return: int[]
+    """
+    # write your solution here
+    if not array or len(array)<=1:
+      return array
+    
+    left,index,right=0,0,len(array)-1
+    while index<=right:
+      if array[index]==-1:
+        array[index], array[left]= array[left], array[index]
+        index+=1
+        left+=1
+      elif array[index]==1:
+        array[index], array[right] = array[right],array[index]
+        right-=1
+      else:
+        index+=1
+    return array
+```
+
+#### 不知道几种颜色，用quick sort
+
+```python
+class Solution(object):
+  def rainbowSortII(self, array):
+    """
+    input: int[] array
+    return: int[]
+    """
+    # write your solution here
+    return self.quickSort(array, 0, len(array) - 1)
+
+  def quickSort(self, A, start, end):
+      if start >= end:
+          return A
+      
+      left, right = start, end
+      # key point 1: pivot is the value, not the index
+      pivot = A[(start + end) // 2];
+
+      # key point 2: every time you compare left & right, it should be
+      # left <= right not left < right
+      while left <= right:
+          while left <= right and A[left] < pivot:
+              left += 1
+          
+          while left <= right and A[right] > pivot:
+              right -= 1
+          
+          if left <= right:
+              A[left], A[right] = A[right], A[left]
+              
+              left += 1
+              right -= 1
+      
+      self.quickSort(A, start, right)
+      self.quickSort(A, left, end)
+      return A
+```
+
+#### K种颜色，用quick sort的思想
+
+传入两个区间，一个是颜色区间 color\_from, color\_to。另外一个是待排序的数组区间 index\_from, index\_to.  
+找到颜色区间的中点，将数组范围内进行 partition，&lt;= color 的去左边，&gt;color 的去右边。  
+然后继续递归。  
+时间复杂度 O\(nlogk\)n是数的个数， k 是颜色数目。这是基于比较的算法的最优时间复杂度。
+
+不基于比较的话，可以用计数排序（Counting Sort）
+
+```python
+class Solution(object):
+  def rainbowSortIII(self, array, k):
+    """
+    input: int[] array, int k
+    return: int[]
+    """
+    # write your solution here
+    if not array or len(array)<=1:
+      return array
+    return self.sort(array, 0, len(array)-1,1,k)
+
+  def sort(self, array, idx_l, idx_r, color_l, color_r):
+    if idx_l==idx_r or color_l==color_r:
+      return
+    
+    pivot=(color_l+color_r)//2
+    left, right = idx_l, idx_r
+
+    while left<=right:
+      while left<=right and array[left]<=pivot:
+        left+=1
+      while left<=right and array[right]>pivot:
+        right-=1
+      if left<=right:
+        array[left],array[right]=array[right],array[left]
+        left+=1
+        right-=1
+    
+    self.sort(array,idx_l,right,color_l,pivot)
+    self.sort(array,left,idx_r,pivot+1,color_r)
+
+    return array
+```
 
 ## 面试题目：
 
