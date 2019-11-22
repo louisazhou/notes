@@ -10,7 +10,7 @@ set是简化版hashtable，而hashtable的本质其实是array（或者说Python
 
 1. 通过key和hash function计算它的hash\_number=hash\(key\) 这一步虽然可能有collision但是可能性比较低
 2. index=hash\_number%N, N是array size。 这一步有很大概率有collision，取决于N的大小
-3. 如果有hash collision，两种方法； 如果没有，list\[index\]=value
+3. 如果有hash collision，两种方法来解决（正文）； 如果没有，list\[index\]=value
 
 ## Dictionary 使用场景
 
@@ -69,9 +69,44 @@ new_mydic={
 #output: {'a': 17, 'b': 34, 'z': 3}
 ```
 
+### get\(\):
+
+Python 字典\(Dictionary\) get\(\) 函数返回指定key的value，如果值不在字典中返回默认值。
+
+#### 语法
+
+```text
+dict.get(key, default=None)
+```
+
+#### 参数
+
+* key -- 字典中要查找的键。
+* default -- 如果指定键的值不存在时，返回该默认值。
+
+#### 返回值
+
+返回指定键的值，如果值不在字典中返回默认值None。
+
+#### 实例
+
+```text
+dict = {'Name': 'Zara', 'Age': 27}
+
+print "Value : %s" %  dict.get('Age')
+print "Value : %s" %  dict.get('Sex', "Never")
+```
+
+以上实例输出结果为：
+
+```text
+Value : 27
+Value : Never
+```
 
 
-### Example: Top K freq words
+
+### [Example: Top K freq words](https://app.laicode.io/app/problem/67)
 
 第一步：先把词频算出来 
 
@@ -82,20 +117,111 @@ sorted的syntax:   sorted\(iterable, key=key, reverse=reverse\)
 再次注意，dictionary没有顺序！所以不能直接输出前x个。
 
 ```python
-def top_k (nums, k):
-    freq = {}
-    for num in nums:
-        if num in freq:
-            freq[num]+=1
-        else:
-            freq[num]=1
-    sorted_tuples = sorted(freq.items(), key=lambda kv: -kv[1]) #按照tuple第一个元素的相反数排序
-    return [x[0] for x in sorted_tuples][:k]
+class Solution(object):
+  def topKFrequent(self, combo, k):
+    """
+    input: string[] combo, int k
+    return: string[]
+    """
+    # write your solution here
+
+    mydict={}
+    for char in combo:
+      if char in mydict:
+        mydict[char]+=1
+      else:
+        mydict[char]=1
+
+    sorted_tuple=sorted(mydict.items(), key= lambda kv: -kv[1] )
+
+    return [x[0] for x in sorted_tuple][:k]
 ```
 
 前面部分是O\(n\), sort部分都是O\(nlogn\), 最后一步还是O\(n\), 最终就是O\(nlogn\)
 
+这里输出的是dict\_keys
 
+如果使用collections这个package，然后把items转成list 可以通过。
+
+```python
+class Solution(object):
+  def topKFrequent(self, combo, k):
+    """
+    input: string[] combo, int k
+    return: string[]
+    """
+    # write your solution here
+    import collections
+    import heapq
+    counts = collections.Counter(combo)
+    items = list(counts.items())
+    items.sort(key=lambda item:(-item[1],item[0]))
+    return [item[0] for item in items[0:k]]
+```
+
+另外还可以用heap做这道题，也就是把整理好的dict一个个push到max heap或者min heap里。因为Python内置函数的heap是一个min heap，如果想用它做max heap，在每个元素push进去的时候对value取负号。然后在有元素可pop并且pop出来的元素数量&lt;=k的前提下一个个pop元素, append到result上，然后反过来输出。
+
+{% tabs %}
+{% tab title="Max Heap" %}
+```python
+class Solution(object):
+  def topKFrequent(self, combo, k):
+    """
+    input: string[] combo, int k
+    return: string[]
+    """
+    # write your solution here
+    # max heap
+    mydict={}
+    for char in combo:
+      if char in mydict:
+        mydict[char]+=1
+      else:
+        mydict[char]=1
+      
+    import heapq  
+    freq=[]
+    for char in mydict.keys():
+      heapq.heappush(freq, (-mydict[char], char))
+    
+    topk, i =[],0
+    while i < k and len(freq)>=1:
+        topk.append(heapq.heappop(freq)[1])
+        i+=1
+    return topk
+```
+{% endtab %}
+
+{% tab title="Min Heap" %}
+```python
+class Solution(object):
+  def topKFrequent(self, combo, k):
+    """
+    input: string[] combo, int k
+    return: string[]
+    """
+    # write your solution here
+    # max heap
+
+    import collections
+    import heapq
+
+    count=collections.Counter(combo)
+    heap=[]
+    
+    for key in count.keys():
+      heapq.heappush(heap, (count[key], key))
+      if len(heap)>k:
+        heapq.heappop(heap)
+    
+    res=[]
+    while len(res)<=k and len(heap)>=1: 
+      res.append(heapq.heappop(heap)[1])
+    
+    return res[::-1]
+```
+{% endtab %}
+{% endtabs %}
 
 ### Example: Palindromic Testing
 
@@ -122,7 +248,35 @@ Time Complexity: O\(n\)
 
 Space Complexity: O\(C\) C是distinct chars in string 
 
+### [Example: Subarray Sum to Target II](https://app.laicode.io/app/problem/571)
 
+Given an array nums and a target value k, find the total number of subarrays that sums to k.
+
+Nums = \[1,6,5,2,3,4,0\] k=7, return 4  
+prefixS = \[0,1,7,12,14,17,21,21\]  
+prefixS\[j\]-prefixS\[i\]==target &lt;---&gt;prefixS\[j\]-target==prefixS\[i\]
+
+O\(n\) time, O\(C\) space, c is the number of distinct values
+
+```python
+class Solution(object):
+  def numOfSubarraySumToK(self, nums, k):
+    """
+    input: int[] nums, int k
+    return: int
+    """
+    # write your solution here
+    sums, count = 0,0
+    mydict={}
+    for num in nums:
+      if sums not in mydict:
+        mydict[sums]=0
+      mydict[sums]+=1 #注意这句和下句的先后顺序
+      sums+=num
+      if sums-k in mydict:
+        count+=mydict[sums-k]
+    return count
+```
 
 ### Example: Nearest repeated entries in an array
 
@@ -142,6 +296,25 @@ def nearest_repeat (arr):
 Time Complexity: O\(n\)
 
 Space Complexity: O\(C\) C是distinct entries in arr
+
+### [Example: 2 sum unsorted, no dup](https://app.laicode.io/app/problem/180)
+
+return index, O\(n\) time and O\(n\) space
+
+```python
+def 2sum(nums, target):
+    if len(nums)<=1:
+        return False
+    dict={}
+    for i in range (nums):
+        if nums[i] in dict:
+            return (dict[num[i]], i)
+        else:
+            dict[target-nums[i]]=i
+    return False
+```
+
+### Example: Nearest repeated entries in an array
 
 
 
