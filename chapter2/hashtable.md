@@ -404,7 +404,7 @@ grades['Ana'] = 'B+'
 
 ```python
 del grades['Ana'] #从字典里取这个key，然后删了
-grades.pop('Ana') 
+grades.pop('Ana')  #随机pop出一个Ana（如果有两个Ana）
 ```
 
 ### 拿到key的集合
@@ -568,7 +568,7 @@ def two_sum(list, target):
 # Space O(n)
 ```
 
-### 2 sum with duplicates
+### [2 sum with duplicates](https://app.laicode.io/app/problem/181)
 
 \[10, 2, 2, 13, 2\], target 4 
 
