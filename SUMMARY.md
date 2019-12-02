@@ -76,5 +76,5 @@
   * [Time Series](chapter-8-special-topics/time-series.md)
 * [Document Matlab Code](untitled/README.md)
   * [Single scattering albedo](untitled/single-scattering-albedo.md)
-* [A Social Network Project Report Draft](a-social-network-project-report-draft.md)
+* [Draft for Social Network Project Report](a-social-network-project-report-draft.md)
 
