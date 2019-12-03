@@ -71,7 +71,7 @@ After proper data cleaning, the datasets now have the headings described in xx a
 
 ### Create EdgeList and Node Attributes
 
-Although the dataset contains many information, the networks I constructed in this project only needs edge-list and node attributes. To be more specific, node attributes are: Name, Role \(Actor/Director/DualRole\), Result\(Y/N\). Name is the name of actor or director, and role is the role of this person. Edge attributes cannot accept an actor who is a director in some other film, or that otherwise. Therefore, when this happens, the role is changed to DualRole. 
+Although the dataset contains many information, the networks I constructed in this project only needs edge-list and node attributes. To be more specific, node attributes are: Name, Role \(Actor/Director/DualRole\), Result\(Y/N\). Name is the name of the actor or director, and role is the role of this person. Edge attributes cannot accept an actor who is a director in some other film, or that otherwise. Therefore, when this happens, the role is changed to DualRole. 
 
 A network of companies that collaborated in the same film is constructed as a mono-partite graph \(company-company\). General movies have more than one actor or actress filming, so this network is cleaned up to create tri-partite nodes \(actor-movie-director\). A node/vertex is the fundamental unit of a graph and the edges are the lines connecting a set of nodes \(edges are also referred to as arcs when the edges are undirected\). The tripartite nodes are later converted to bi-partite nodes \(one of the three nodes is made as an edge\) and mono-partite nodes \(two of the tri-partite nodes are made as edges\). For illustration, a comparison is shown in graph \* below. 
 
@@ -83,21 +83,135 @@ As for the network for Best Actor/Actress/Supporting Actor/Supporting Actress, t
 
 For a better visualization and analysis, it is also important to assign to each node a color and size. This will be further discussed in the following sessions. 
 
-### Exploratory Data Analysis
+## Data Analysis
 
 [Gephi](http://gephi.org/), a popular open source network visualization tool is used to apply the various graph algorithms and generate insights at this stage, while further analysis are conducted with R and python. This is because Gephi has a more interactive UI in displaying network graphs and results of the graph algorithms. The downside of the Gephi tool is its inability to handle large datasets. However, with the current datasets, this shouldn't cause a problem.
 
+Another visualization tool is [Palladio](http://hdlab.stanford.edu/palladio/), developed by Humanities+Design Lab of Stanford. Palladio is easy to use and do not need any installation as it is an online visualization tool. The reason for choosing two visualization tools is that it is harder to show all the labels \(names of the nominees\) with Gephi's layouts, whereas Palladio can generate a graph with labels in just one click, without filtering or adjustments. It also provides simple panels and this is suffice for initial visualizations. 
 
+Lastly, both Networkx with Python and iGraph with R were used to calculate the exact statistics and for more targeted visualizations.
+
+### Bacon Number in the winner network
+
+The Bacon number of an actor or actress is the number of degrees of separation they have from actor Kevin Bacon, as defined by the game known as Six Degrees of Kevin Bacon. It applies the Erdős number concept to the movie industry. Simply put, a Bacon Number is how further away a person is from Kevin Bacon in a network. 
+
+For example, Kevin Bacon's Bacon number is 0. If an actor works in a [movie](https://simple.wikipedia.org/wiki/Movie) with [Kevin Bacon](https://simple.wikipedia.org/wiki/Kevin_Bacon), the actor's Bacon number is 1. If an actor works with an actor who worked with Kevin Bacon in a movie, the first actor's Bacon number is 2, and so forth.
+
+It is a game of finding the shortest path to a person and it is said that the whole Hollywood cast are all only steps away from Bacon. Each year, some movie sites would summarize the relation of the winners from that year with Bacon and draw a shortest-path graph. An example of such is given in xx. However, up till now, I do not see anyone tried to calculate the Bacon Numbers amongst the Oscar Awards nominees’ network.
+
+> slide \#4
+
+Using Palladio and selecting the winners from this decade, it is clear that Kevin Bacon is a bridge \(has a high betweenness centrality\) among all the Oscar winners. There are only four clusters floating around at the edge, but the winners in general are well-connected with Bacon. 
+
+The node that is furthest away from him has a Bacon Number of 15. 
+
+### Other Bridges like Kevin Bacon. 
+
+Kevin Bacon is just one of the brokers in an Oscar Best Picture network. If take all the nominees, regardless of the results, then two other bridges, Ridley Scott, and Julianne Moore are noticed among the others.
+
+> Slide \#15, exclude the three stickers
+
+Ridley Scott is a 
+
+> copy & paste something from wikipedia
+
+While it is easier for a director/producer to be at relatively more strategic nodes in the networks, it is generally harder for actors or actresses to bridge the two communities. Julianne Moore, like Kevin Bacon, is one of such rare examples. Julianne is most known for her acting in _Still Alice_ and __this was also the film that won her an Academy Award. From the network graph, Julianne is connecting the community of younger, new stars, and those of the old ones. This shows that Juliane has gained much fame even before her nomination throughout her acting career. 
+
+### Network of Collaborating Companies
+
+The colors in Graph x are coded with respect to the clusters that a modularity algorithm assigns. For a company collaboration, it is easy to tell the four communities apart. This algorithm, when running on company network, has a result that looks similar to running a KNN. The size of each node represents the number of Oscar Awards that this company helps to win in the end. Larger companies with their reputation in the whole filming industry are the most distinguishable. Warner Bros., DreamWorks, and Plan B Entertainment make the largest nodes in the giant component subset network, taken from the whole network of collaborating companies. 
+
+> slide \#5 \(I'll change this with a white background later after all the formatting. Just put the black here for place-holding\)
+
+### Comparison of Best Picture Network with Best Actor Network
+
+Before digging into the networks, it's worth a mention that the IMDB averaged scores of the nominated films from 2000 till now has the opposite trend. The years where Best Picture films averaged scores are low \(such as in 2005 and 2011\), Best Actor films are at relatively higher average scores.
+
+> Slide \#16
+
+The two graphs follow \(Picture x and y\) illustrates the actor-director network of nominees from Best Picture and from the Best Actor/tress/ Supporting Actor/Supporting Actress. Both networks are coded with the same rule: color is the weighted degree within the network, and larger size are winners. 
+
+> The two node pics from slide \#12 and slide \#17, put side-by-side \(I'll change this with a white background later after all the formatting. Just put the black here for place-holding\)
+
+The most noticeable difference is that of the number of nodes in the graph. As compared, since the right graph includes more nominees, there are more nodes included. Moreover, due to the node attribute 'result' of the two networks were originally labelled differently, a Best Picture network looks more clustered and dense. The graph density of Best Picture is 0.01, while that of Best Actor is 0.005. On a scale of 0 to 1, neither of them is a dense network, which comports with what is shown in the visualization. A density of 0 would mean that there are no connections at all, and a 1 would indicate that all possible edges are present \(a perfectly connected network\).
+
+Modularity was used as a measure of relative density in the network: a community \(or a modularity class\) has high density relative to other nodes within its module but low density with those outside. Further, Fast Greedy Algorithm was used for community detection. The algorithm is a bottom up hierarchical decomposition process and it merges two current communities iteratively, with the goal to achieve the maximum modularity gain at local optimal.
+
+This algorithm runs pretty fast, and can merge a sparse graph at linear time. However, if the network is large enough, small communities tend to be combined even if they are well-shaped. In our case for Best Picture Network, the community is easier to tell for such small network size. However, it did not work that will in the analysis for Best Actor Network. The two pictures below \(Picture x and y\) demonstrates this clearly.
+
+> Slide \#14, two graphs
+
+The most prominent communities that are highly likely to win an Oscar are also found amongst the communities mentioned above \(Picture x and y\). As mentioned, there are more winners in the Best Picture Network than in the Best Actor Network due to the nature of how the 'result' is labelled in the two network graphs. 
+
+> Slide \#20, the two graphs
+
+Further, the giant components that lie in the middle of the two graphs are put together for another comparison. In Picture x and y, the yellow nodes are actual winners of the corresponding awards, and node sizes represent the degree centralities of each node.
+
+> The two pics from slide \#18
+
+A coincidence here is both networks has a largest component of the same size, diameter of 11, which means there is a path length of 11 between the two farthest-apart nodes in the subset giant network. 
+
+The giant yellow node of the left side is Leonardo Dicaprio, and that on the right side is Meryl Streep and Leonardo is the second largest node \(overlaid on top of the node of Meryl Streep\). This shows that Leonardo has the most connections within the whole Oscar Nomination network. 
+
+It is worth mentioning that Leonardo also has high values in other centrality measurements. A table for the top five rankings is given below in Table \*\*. 
+
+> make a table based on slide \#25 and \#26. The details of those numbers are:
+
+```text
+# Best Picture: 
+
+Top 5 nodes by degree:
+('Leonardo DiCaprio', 24)
+('Tom Hanks', 20)
+('Steven Spielberg', 20)
+('Russell Crowe', 19)
+('Brad Pitt', 19)
+
+Top 5 nodes by betweenness centrality:
+('Leonardo DiCaprio', 0.10317801164472765)
+('Alejandro G. Iñárritu', 0.08164871216064475)
+('Matt Damon', 0.06750369527954317)
+('Emma Stone', 0.06442715700141442)
+('Steven Spielberg', 0.06179198690382382)
+
+# Best Actor/Actress:
+
+Top 5 nodes by degree:
+('Meryl Streep', 29)
+('Leonardo DiCaprio', 24)
+('Denzel Washington', 19)
+('Cate Blanchett', 19)
+('Julianne Moore', 19)
+
+Top 5 nodes by betweenness centrality:
+('Leonardo DiCaprio', 0.140951477535268)
+('Matt Damon', 0.0869423493709777)
+('Russell Crowe', 0.06402294657060532)
+('Jennifer Connelly', 0.058856066842957744)
+('Meryl Streep', 0.055020858669292634)
+```
+
+Eigenvector centrality cares if a node is a hub, but it also cares how many hubs this node is connected to. It’s calculated as a value from 0 to 1: the closer to one, the greater the centrality. In this regard, eigenvector centrality is useful for understanding which nodes can get information to other nodes quickly. If one knows a lot of well-connected people, they could spread a message very efficiently. For our case, Leo is again ranked on top, which indicates that he has all the necessary connections within this network. 
+
+Betweenness centrality is a bit different from the other two measures in that it doesn’t care about the number of edges any one node or set of nodes has. Betweenness centrality looks at all the shortest paths that pass through a particular node. To do this, it must first calculate every possible shortest path in your network, so it took a little bit longer to calculate than other centrality measures.
+
+If a node is the only thing connecting two clusters, every communication between those clusters has to pass through you. In contrast to a hub, this sort of node is often referred to as a broker. It not only gives information as to which nodes are important, but also gives the network connectivity and cohesion. Leonardo's betweenness centrality is even higher than all the film directors in this network, which is very impressive.
+
+It also can been seen that some people, like Alejandro G. Iñárritu \(film director\), Matt Damon \(actor\) and Emma Stone \(Actress\), have high betweenness centrality but low degree. They probably are important brokers, connecting otherwise disparate parts of the graph, but since these nodes only show information and connections of Oscar Nomination movies, it doesn't necessarily mean that other nodes do not have other access to the people on the other side of the bridge. Still, a simple idea here is, knowing more people sometimes isn’t everything.
 
 ## Conclusion
 
- strategic nodes in the networks of scientific communication that provide ready access to information at the frontiers of research. 
+Centrality measurements are good supplements when one needs to predict winners from the Oscar nominees. The nodes that bear higher centralities are regarded as more strategically-advantaged nodes in the networks of filming that provide ready access to information as well as access to the best filming opportunities. 
 
-As William Goldman, a well-respected screenwriter puts it, the recipe in the entire movie industry is ‘nobody knows anything’.
+However, even with such statistics included, to predict winners accurately is still a challenge. As put by Leonardo Dipario during an interview after he failed to win a nominated Best Actor for 10 times, 'One thing I learned a long time ago is that you have absolutely no control of that.' Leonardo finally won his Gold Medal after trying for over 20 years from 1994 to 2016. Him failing each year became the longest internet meme. Given that the person with the most Oscar-related connections and resources came to such conclusion, it is not hard to understand the famous quote from William Goldman, a well-respected screenwriter, that the recipe in the entire movie industry is ‘nobody knows anything’.
 
 ## Reference
 
-https://imdbpy.readthedocs.io/en/latest/
+https://imdbpy.readthedocs.io/en/latest/  
+[Vogel, Harold L. 2004. Entertainment Industry Economics: A Guide for Financial Analysis. Cambridge University Press.](http://paperpile.com/b/aNMfIL/3eJr)  
+[De Vany, Arthur. 1999. Uncertainty in the Movies: Does Star Power Reduce the Terror of the Box Office?](http://paperpile.com/b/aNMfIL/sQoR)  
+  
+
 
   
 
