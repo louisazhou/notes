@@ -76,5 +76,5 @@
   * [Time Series](chapter-8-special-topics/time-series.md)
 * [Project: The Winning Recipes to an Oscar Award](a-social-network-project-report-draft.md)
 * [Project: A Crime Analysis of the Last Decade NYC](project-a-crime-analysis-of-the-last-decade-nyc.md)
-* [Single scattering albedo](single-scattering-albedo.md)
+* [Single Scattering Albedo](single-scattering-albedo.md)
 

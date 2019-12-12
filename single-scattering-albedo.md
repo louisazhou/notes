@@ -5,7 +5,7 @@ description: >-
   VRT_v8.m
 ---
 
-# Single scattering albedo
+# Single Scattering Albedo
 
 The single scattering albedo is $$a=1$$ , and the total optical depth $$\tau^{\star}=0.01$$ . The setting satisfies single-scattering approximation, $$a \times \tau^{\star}=0.01\ll1$$. The incident solar flux is a unpolarized light, $$F=[0.5, 0.5, 0, 0]$$. In the following case example, the angles are set as follows, $$\theta^{\prime}=0^{o}, \mu^{\prime}=1, \phi^{\prime}=0^{o} ; \theta=\left[0^{o}, 180^{\circ}\right], \mu=[-1,1], \phi=60^{o} $$, where  $$\theta^{\prime}, \phi^{\prime}$$ are the polar angle and azimuth angle of the incident light $$\Omega^{\prime}$$ , and the $$\theta , \phi$$ are for the corresponding observe angles $$\Omega$$ . 
 
