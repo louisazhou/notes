@@ -1,19 +1,88 @@
 # Hadoop MapReduce
 
-### VIM进入和退出命令
+以“统计一个无限不循环小数的小数位数字出现频率”为例
 
-原文链接：[http://caibaojian.com/vim.html](http://caibaojian.com/vim.html)
+{% code title="Mapper function" %}
+```python
+import sys
 
-按ESC键 跳到命令模式，然后：[·](http://caibaojian.com/vim.html)
+linecount=0
+# Get input lines from stdin
+for line in sys.stdin:
+	# Remove spaces from beginning and end of the line
+    line = line.strip()
+    
+    # Remove the 2., and only keep the decimals 
+    if linecount == 0:
+        line = line[2:]
+	
+    # Split it into list of numbers
+    numbers = list(line)
+	# Output tuples on stdout
+    for number in numbers:
+        print ('%s\t%s' % (number, "1"))
+        
+    linecount+=1
+```
+{% endcode %}
 
-1. :w 保存文件但不退出vi
-2. :w file 将修改另外保存到file中，不退出vi
-3. :w! 强制保存，不推出vi
-4. :wq 保存文件并退出vi
-5. :wq! 强制保存文件，并退出vi
-6. q: 不保存文件，退出vi
-7. :q! 不保存文件，强制退出vi
-8. :e! 放弃所有修改，从上次保存文件开始再编辑
+mapper得到一大堆key-value pairs, 分别是每一个位置出现的数字以及出现的个数（1次）。
 
+{% code title="Reducer function" %}
+```python
+import sys
+ 
+# Create a dictionary to map numbers to counts
+numbercount = {}
+ 
+# Get input from stdin
+for line in sys.stdin:
+    #Remove spaces from beginning and end of the line
+    line = line.strip()
+ 
+    # parse the input from mapper.py
+    number, count = line.split('\t', 1)
+    # convert count (currently a string) to int
+    try:
+        count = int(count)
+        number = int(number)
+    except ValueError:
+        continue
+ 
+    try:
+        numbercount[number] = numbercount[number]+count
+    except:
+        numbercount[number] = count
+ 
 
+sumnumber, countnumber =  0, 0
+for number in numbercount.keys():
+    # Write the tuples to stdout
+    # Currently tuples are unsorted
+    sumnumber += number*numbercount[number]
+    countnumber += numbercount[number]
+    print ('%s\t%s'% ( number, numbercount[number] ))
+
+# Now they are sorted by the values, in increasing order     
+print(sorted(numbercount.items(), key=lambda kv:(kv[1], kv[0])))
+
+# Calculate the average of the digits
+print('avg=', sumnumber/countnumber)
+```
+{% endcode %}
+
+结果是 一堆key value pairs 如果用以上的map reduce来处理sqrt2，那么得到的结果是
+
+```python
+7	92
+1	89
+8	98
+2	95
+4	96
+5	78
+9	108
+0	95
+3	106
+6	93
+```
 

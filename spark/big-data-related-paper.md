@@ -1,5 +1,5 @@
 ---
-description: for the Big Data Seminar course
+description: academic paper assignments for the Big Data Seminar course
 ---
 
 # Big Data Related Paper

@@ -31,22 +31,6 @@ giant component
 
 cliques: all connected 
 
-6; AEGFD is not bc dg not connected. 
-
-paths
-
-shortest path
-
-diameter 
-
-hubs and bridges 
-
-clusters/communities 
-
-subnetworks
-
-egocentric network: 
-
 degree 1: d, d's direct friend, and edges between them 
 
 degree 1.5: plus the connections between friends. and it's also ok to exclude d in it, bc it's obvious by definition. 
@@ -65,8 +49,6 @@ clustering coefficient \(transitivity\):
 
 
 Probabilistic Counting Algorithms for Data Base 
-
-&lt;&gt;
 
 Pain Point: Find roughly how many unique nodes there are. 
 

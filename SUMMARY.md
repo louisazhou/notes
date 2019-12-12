@@ -76,5 +76,6 @@
   * [Time Series](chapter-8-special-topics/time-series.md)
 * [Document Matlab Code](untitled/README.md)
   * [Single scattering albedo](untitled/single-scattering-albedo.md)
-* [Draft for Social Network Project Report](a-social-network-project-report-draft.md)
+* [Project: The Winning Recipes to an Oscar Award](a-social-network-project-report-draft.md)
+* [Project: A Crime Analysis of the Last Decade NYC](project-a-crime-analysis-of-the-last-decade-nyc.md)
 
