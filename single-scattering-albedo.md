@@ -36,7 +36,7 @@ $$
 \cos \Theta=\cos \theta^{\prime} \cos \theta+\sin \theta^{\prime} \sin \theta \cos \left(\phi^{\prime}-\phi\right)
 $$
 
-![Illustration of the relationship between Cartesian and spherical coordinates.](../.gitbook/assets/cartesian.png)
+![Illustration of the relationship between Cartesian and spherical coordinates.](.gitbook/assets/cartesian.png)
 
 There are two representations for the phase matrix, $$\mathbf{P}_{S}$$ and $$\mathbf{P}_{C}$$, where $$\mathbf{P}_{S}$$ is used for the Stocks vector representation $$\mathbf{I}_{S}=[I, Q, U, V]^{T}$$, and  $$\mathbf{P}_{C}$$ is for $$\mathbf{I}=\left[I_{ \|}, I_{\perp}, U, V\right]^{T}$$ representation \(or Chandrasekhar's representation\). The connection between these two representations is simply $$\mathbf{I}_{S} = \mathbf{DI}_{C}$$ , where the matrix $$\mathbf{D}$$ is given by:
 
@@ -144,7 +144,7 @@ p02 = plm2(0,nterms-1,ctheta); %P subscript m=0, n=2
 
 Read in the phase moments from the `'mie_output_small2.dat'` file to alphas and betas \(`line 2~8`\). Suppressing the $$a = b$$ dependence, the following equations are for cases of non-spherical particles.
 
-![](../.gitbook/assets/spherical.png)
+![](.gitbook/assets/spherical.png)
 
   
 The general form of Stokes scattering matrix Fs \(which is the ensemble-averaged Mueller matrix averaging over a small volume containing an ensemble of particles\) is of the form: 
@@ -315,7 +315,7 @@ Therefore, to achieve this functionality, just need to
 \(1\) Evaluate the range to know what p is  
 \(2\) Loop from p to n
 
-![2 Layer, tau=0.0026](../.gitbook/assets/iuv-multi.jpg)
+![2 Layer, tau=0.0026](.gitbook/assets/iuv-multi.jpg)
 
-![1 Layer, tau=0.0026](../.gitbook/assets/iuv-single.jpg)
+![1 Layer, tau=0.0026](.gitbook/assets/iuv-single.jpg)
 

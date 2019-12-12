@@ -74,8 +74,7 @@
   * [Social Network Analysis](chapter-8-special-topics/social-network-analysis.md)
   * [NLP intro](chapter-8-special-topics/nlp-intro.md)
   * [Time Series](chapter-8-special-topics/time-series.md)
-* [Document Matlab Code](untitled/README.md)
-  * [Single scattering albedo](untitled/single-scattering-albedo.md)
 * [Project: The Winning Recipes to an Oscar Award](a-social-network-project-report-draft.md)
 * [Project: A Crime Analysis of the Last Decade NYC](project-a-crime-analysis-of-the-last-decade-nyc.md)
+* [Single scattering albedo](single-scattering-albedo.md)
 
