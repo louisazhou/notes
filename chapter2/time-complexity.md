@@ -4,7 +4,15 @@ description: 时间复杂度、空间复杂度
 
 # Fundamental Knowledge
 
-## Time Complexity 
+## How to judge whether your program is good or not
+
+就像是在奥运会上的体操，不是完成所有动作就有满分；评委是根据动作的好坏来评分的。在计算机里，就是用Big O notation来衡量时间和空间复杂度。  
+Big O notation是一个upper bound，也就是worst case scenario.   
+Theta n 是tight bound，  
+Omega n是lower bound.   
+但是在通常情况下，更在乎的是worst case scenario，这是因为：搜索算法有很多剪枝，没有tight bound；或者工业界只在意在顶峰时刻的复杂度，比如春运购票或者双十一期间支付宝的稳定性.
+
+### Time Complexity 
 
 比较算法时 
 
@@ -28,21 +36,16 @@ amortized time：average of a **sequence** of **operations**.
 
 average time: the average of **all possible inputs** in the input space 
 
-
-
-
-
-
-
 Fibonacci 数列的时间复杂度是O\( $$2^{n}$$ \)
 
 ![](../.gitbook/assets/image%20%2843%29.png)
 
 ![](../.gitbook/assets/image%20%2832%29.png)
 
-## Space Complexity 
+### Space Complexity 
 
-输入输出除外，为了实现这个算法所带来的空间消耗
+虽然在定义中有两种，Space Complexity和Auxiliary space complexity, 但是大家更在乎后者.   
+Auxiliary space complexity: 输入输出除外，为了实现这个算法所带来的空间消耗
 
 
 
@@ -107,4 +110,10 @@ TCP考点：握手、挥手
 ![](../.gitbook/assets/image%20%2840%29.png)
 
 UDP不会提前确认，直接传输它想要传输的数据。所以TCP更可靠，UDP不那么可靠。TCP是有序的，有一个sequence number，知道每个信息排在第几位。TCP可以传输大量数据，UDP只能传少量数据；TCP慢，UDP快。
+
+
+
+## Data Structure
+
+Wikipedia: a particular way of organizing data in a computer so that it can be used efficiently. 其实就是存放数据的方式，就像是生活中用五斗柜和抽屉柜来存放衣服；Data structure就是
 

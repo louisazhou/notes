@@ -2,7 +2,7 @@
 description: Machine Learning Models
 ---
 
-# Chapter3 Model
+# Chapter4 Model
 
 面试必考内容，对于data scientist来说，有一个思想转变很重要：从基于归纳到基于演绎。
 

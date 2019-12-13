@@ -13,10 +13,10 @@ def binary_search(nums, target):
  if not nums:
   return None
  left, right = 0, len(nums)-1
- while left<=right:
+ while left<=right: #小于还是小于等于？可以用1个元素debug，循环都进不去，所以这里一定要小于等于
   mid=(left+right)/2
   if nums[mid]<target:
-   left=mid+1
+   left=mid+1 #必须+1， 因为还是用1个元素debug，如果数组里是5，找的是7，循环出不去
   elif nums[mid]>target:
    right=mid-1
   else 
@@ -94,7 +94,10 @@ return None
 {% endtabs %}
 
 {% hint style="info" %}
-1. 要在LR之间隔一个元素
+1. 本质是提前一步退出
+
+   搜索空间只剩下两个元素，target和谁更近就是谁 
+
 2. Post-processing 最后剩下LR还没有比较
 {% endhint %}
 
@@ -106,15 +109,18 @@ return None
 def binary_search (nums, target):
     left=0
     right=len(nums)-1
-    while left<right-1:
+    while left<right-1: 
         mid=(left+right)/2
         if nums[mid]>target:
-            right=mid
+            right=mid #不可以-1
         elif nums[mid]<target:
-            left=mid
+            left=mid #不可以+1
         else:
             return mid
 return left if abs(nums[left]-target)<abs(nums[right]-target) else right
+
+#上面这种写法虽然没有+1-1 但是肯定不会有死循环，因为while循环条件不同了，循环内一定是三个元素，
+#所以不会在两个数之间来回传值
 ```
 {% endtab %}
 {% endtabs %}
@@ -268,6 +274,16 @@ for i in range(0,k):
 return res
 ```
 
+## Smallest Element that is Larger than Target
+
+input = ssss eeee bbbb \(smaller, equal, bigger\) 本质是在找bigger里面的第一个
+
+case1: if input\[m\]&lt;target\('s'\)              -&gt; l=m or l=m+1 both ok  
+case2: if input\[m\]==target\('e'\)            -&gt;l=m or l=m+1 both ok  
+case3: if input\[m\]&gt;target\('b'\)              -&gt;r=m 不可以-1
+
+post-processing：先左后右
+
 ## Sqrt（）
 
 找一个最接近于平方根的整数, floor
@@ -343,39 +359,6 @@ class Solution(object):
 {% endtab %}
 {% endtabs %}
 
-## Search In Unknown Sized Sorted Array
-
-1. Find the end 倍增法
-2. Binary Search
-
-```python
-class Solution(object):
-  def search(self, dic, target):
-    """
-    input: Dictionary dic, int target
-    return: int
-    """
-    # write your solution here
-    start = 1
-    while dic.get(start) and dic.get(start)<target:
-      start*=2
-  
-    left, right = start//2, start
-    while left<=right:
-      mid = (left+right)//2
-      if dic.get(mid) is None or dic.get(mid)>target:
-        right = mid-1
-      elif dic.get(mid)<target:
-        left = mid+1
-      else:
-        return mid
-    return -1
-```
-
-Time: O\(log 2\(first\_bug\_version\)\) 
-
-
-
 ## 新题: 虚拟数组
 
 给一个已排好序的正整数数组，在首尾之间，不连续的部分可以看成是漏掉了一些数。这些漏掉的数可以组成一个虚拟的数组，要求给出一个序号k，返回虚拟数组的第k个数。 比如给定原数组：\[2,4,7,8,9,15\]，漏掉的数组成这样一个虚拟数组：\[3,5,6,10,11,12,13,14\]。若k=2，返回虚拟数组的第二个数“5”。
@@ -420,9 +403,55 @@ class TestMissingNumber(unittest.TestCase):
             kth_missing_num(self.nums, len(self.missings)+1)
 ```
 
+## 高等难度
+
+### K-th smallest in Two Sorted Arrays
+
+1.1: 两个sorted array的median 两个array凑在一起的
+
+  
+1.2: 两个sorted array的第k小或者前k小的元素   
+方法一：可以2-pointers的方法，谁小移谁，用O\(k\)的时间  
+方法二：Binary Search 谁小删除谁 每一次搜索范围都是当前的k/2个元素 O\(logk\)
+
+### Closest k Element 
+
+用上面的方法来接着做  
+1. Binary Search to find L and R   log\(n\)  
+2. 此时有了两个array，left及left的左边都可以通过当前element和target的距离，这就是所谓的array A，同理，right及right的右边都是arrayB。就成了上面的这个题 log\(k\)就可以搞定
+
+### Search In Unknown Sized Sorted Array
+
+1. Find the end 倍增法
+2. Binary Search
+
+```python
+class Solution(object):
+  def search(self, dic, target):
+    """
+    input: Dictionary dic, int target
+    return: int
+    """
+    # write your solution here
+    start = 1
+    while dic.get(start) and dic.get(start)<target:
+      start*=2
+  
+    left, right = start//2, start
+    while left<=right:
+      mid = (left+right)//2
+      if dic.get(mid) is None or dic.get(mid)>target:
+        right = mid-1
+      elif dic.get(mid)<target:
+        left = mid+1
+      else:
+        return mid
+    return -1
+```
+
+Time: O\(log 2\(first\_bug\_version\)\) 
+
 ## 应用
 
 Pull Request有很多个版本，如果有一个version有bug，在version7发现了，快速找到这个有bug的version的第一个version
-
-
 

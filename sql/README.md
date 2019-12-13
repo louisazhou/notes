@@ -2,7 +2,7 @@
 description: Sequential Query Language
 ---
 
-# Chapter5 SQL
+# Chapter6 SQL
 
 ## 基本解题思路
 
