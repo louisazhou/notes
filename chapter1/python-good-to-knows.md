@@ -177,7 +177,7 @@ for index, line in enumerate(open(filepath,'r'))：
 
 面试Amazon考过，OOP，停车场
 
- 练习方式：sorting之类的改写成oop的形式
+练习方式：sorting之类的改写成oop的形式
 
 
 

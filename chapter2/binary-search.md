@@ -279,8 +279,8 @@ return res
 input = ssss eeee bbbb \(smaller, equal, bigger\) 本质是在找bigger里面的第一个
 
 case1: if input\[m\]&lt;target\('s'\)              -&gt; l=m or l=m+1 both ok  
-case2: if input\[m\]==target\('e'\)            -&gt;l=m or l=m+1 both ok  
-case3: if input\[m\]&gt;target\('b'\)              -&gt;r=m 不可以-1
+case2: if input\[m\]==target\('e'\)            -&gt; l=m or l=m+1 both ok  
+case3: if input\[m\]&gt;target\('b'\)              -&gt; r=m 不可以-1
 
 post-processing：先左后右
 

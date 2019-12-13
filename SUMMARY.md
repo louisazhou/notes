@@ -9,7 +9,7 @@
   * [Section1.5 Data Visualization](chapter1/section1.5-matplotlib.md)
   * [Section 1.6 DateTime](chapter1/section-1.6-datetime.md)
   * [Python Good to knows](chapter1/python-good-to-knows.md)
-* [Chapter2 Java](chapter2-java.md)
+* [Chapter2 Java Cheatsheet](chapter2-java.md)
 * [Chapter3 Algorithm](chapter2/README.md)
   * [Fundamental Knowledge](chapter2/time-complexity.md)
   * [Binary Search](chapter2/binary-search.md)
