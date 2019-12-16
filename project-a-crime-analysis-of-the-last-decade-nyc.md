@@ -1,5 +1,5 @@
 ---
-description: Spark + Amazon EMR project
+description: Big Data Project with Apache Spark + Amazon EMR
 ---
 
 # Project: A Crime Analysis of the Last Decade NYC

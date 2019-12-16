@@ -1,7 +1,20 @@
 # Introduction
 
-This is a book powered by [GitBook](https://louisazhou.gitbook.io/notes/), documenting my study notes and some thoughts studying ML/Statistics/Python.
+This is a book powered by [GitBook](https://louisazhou.gitbook.io/notes/), documenting my study notes, project slides/reports and some thoughts studying ML/Statistics/Python/R/Algorithms.  
+  
+The following chapters are written in English because I was expecting such audience: 
 
-Some of the chapters are relatively well-written, as I was reviewing them I did a bit of polishing, but there are some that are for note-taking purpose or documenting purposes only. If you are using this as your reference, please use it cautiously.   
+{% embed url="https://louisazhou.gitbook.io/notes/project-a-crime-analysis-of-the-last-decade-nyc" %}
 
+{% embed url="https://louisazhou.gitbook.io/notes/a-social-network-project-report-draft" %}
+
+{% embed url="https://louisazhou.gitbook.io/notes/project-predict-user-type-based-on-citibike-data" %}
+
+{% embed url="https://louisazhou.gitbook.io/notes/single-scattering-albedo" %}
+
+
+
+
+
+As for the rest of the chapters, some are relatively well-written, because I did a bit of polishing when reviewing the materials, but they are mostly for note-taking purpose or documenting purposes only. 
 

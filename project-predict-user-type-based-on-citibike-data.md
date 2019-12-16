@@ -1,3 +1,7 @@
+---
+description: My first ML project when I just started
+---
+
 # Project: Predict User Type Based on Citibike Data
 
 This was a project done about 9 months ago, in April, 2019. 

@@ -1,5 +1,5 @@
 ---
-description: Social Network Analysis
+description: 'Social Network Analysis Project, analyze the Academy-Award Nominees Network'
 ---
 
 # Project: The Winning Recipes to an Oscar Award

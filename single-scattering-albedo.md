@@ -1,7 +1,7 @@
 ---
 description: >-
   Vector (Polarized) Radiative Transfer in the Coupled Atmosphere–Ocean System,
-  The single Scattering Approximation. This is a walk-through document for the
+  the single Scattering Approximation. This is a walk-through document for the
   VRT_v8.m
 ---
 
