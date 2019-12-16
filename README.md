@@ -4,15 +4,17 @@ This is a book powered by [GitBook](https://louisazhou.gitbook.io/notes/), docum
   
 The following chapters are written in English because I was expecting such audience: 
 
+## Course Projects \(Big Data, Social Network, and Machine Learning\)
+
 {% embed url="https://louisazhou.gitbook.io/notes/project-a-crime-analysis-of-the-last-decade-nyc" %}
 
 {% embed url="https://louisazhou.gitbook.io/notes/a-social-network-project-report-draft" %}
 
 {% embed url="https://louisazhou.gitbook.io/notes/project-predict-user-type-based-on-citibike-data" %}
 
+## A Glimpse of My Research Work
+
 {% embed url="https://louisazhou.gitbook.io/notes/single-scattering-albedo" %}
-
-
 
 
 
