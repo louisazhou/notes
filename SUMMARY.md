@@ -10,7 +10,7 @@
   * [Section 1.6 DateTime](chapter1/section-1.6-datetime.md)
   * [Python Good to knows](chapter1/python-good-to-knows.md)
 * [Chapter2 Java Cheatsheet](chapter2-java/README.md)
-  * [Java Good to Knows](chapter2-java/java-good-to-knows.md)
+  * [Fundamentals to Java](chapter2-java/java-good-to-knows.md)
   * [java.io](chapter2-java/java.io.md)
 * [Chapter3 Algorithm](chapter2/README.md)
   * [Fundamental Knowledge](chapter2/time-complexity.md)
