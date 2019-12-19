@@ -263,3 +263,12 @@ header line plus a random sample of lines after
 awk 'BEGIN {srand()} !/^$/ { if (rand() <= .01 || FNR==1) print $0}'
 ```
 
+### Screen 
+
+| screen -S sessionname | 创建screen会话时为会话指定一个名字 |
+| :---: | :---: |
+| screen -ls | 列出所有对话 |
+| screen -r sessionname  | 进入某一对话 |
+| Ctrl+A+D | 暂时断开对话 |
+| killall screen | 杀了所有对话 |
+
