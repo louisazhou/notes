@@ -6,7 +6,15 @@ description: 递归和linkedlist
 
 ## 引入
 
+1. 表象上 function calls itself
+2. 实质上 boil down a big problem to smaller ones \(size n depends on n-1, n-2 ...\)
+3. 实现上  - base case smallest problem to solve - recursive rule 当前层干一点什么事可以解决这个问题
+
 Recursion解决问题的方式是做规约（reduction），把未知的规约到已知的。Recursion其实解决的更小号问题就是它本身。比如，实现一个从1加到n的function
+
+![](../.gitbook/assets/image%20%2828%29.png)
+
+
 
 ### iteratively
 

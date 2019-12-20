@@ -66,7 +66,7 @@ line9，从物理含义上，让node1里的next存node2的地址。所以node1�
 
 在这里最容易犯的错误是dereference的时候在None上操作了 比如
 
-![](../.gitbook/assets/image%20%2836%29.png)
+![](../.gitbook/assets/image%20%2837%29.png)
 
 这里temp.next=temp.next.next没问题，但是current.next=current.next.next就会报错
 

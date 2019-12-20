@@ -6,6 +6,8 @@ description: 'Merge-Sort,  Quick Sort'
 
 ## Merge Sort 归并排序
 
+假如有一个sort好的array的前后半边，就可以用谁小移谁的方式sort完整个array
+
 {% embed url="https://www.hackerearth.com/zh/practice/algorithms/sorting/merge-sort/visualize/" %}
 
 子问题：如何merge两个sorted array
@@ -51,6 +53,8 @@ def merge_sort(array):
 空间复杂度 call stack: logn 再加merge的空间消耗n 所以总的空间复杂度是O\(n\) 不过假如说我们传index但是不slicing，就是O\(logn\)
 
 ## Quick Sort 快排
+
+
 
 {% embed url="https://www.hackerearth.com/zh/practice/algorithms/sorting/quick-sort/visualize/" %}
 

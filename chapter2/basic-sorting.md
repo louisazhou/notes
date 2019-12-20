@@ -44,6 +44,7 @@ Time O\( $$n^{2}$$ \)
 
 ## Selection Sort 选择排序
 
+n个元素，做n轮，每轮选出剩余元素最小值归类。  
 For each pass, we will move left to right looking for the next largest value. Once that is found, it will be swapped into its final position.
 
 以下是它的visualization
@@ -94,6 +95,14 @@ Space O\(1\)   \(in place\)
 Time O\( $$n^{2}$$ \)
 
 ### 3 stacks to sort an array
+
+stack1\(store input\)
+
+stack2\(buffer\)                                                          global min=
+
+stack3\(store output\)
+
+Time O\( $$n^{2}$$ \)
 
 ## Insertion Sort 插入排序
 
