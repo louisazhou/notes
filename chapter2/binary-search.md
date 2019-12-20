@@ -35,22 +35,34 @@ Time: O\(logn\)
 第一个index是0，最后一个index是n\*m-1。所以初始化的left=0, right=n\*m-1.
 
 ```python
-def binary_2D (matrix, target):
-    if matrix == None or len(matrix) ==0:
-        return None
-    n,m=len(matrix),len(matrix[0])
-    left,right=0,n*m-1
-    while left<=right:     #当范围内还有元素时继续搜索，L>R时停止搜索
-        mid = (left+right)/2 #python 2
-        row=mid/m
-        col=mid%m
-        if matrix[row][col]>target:
-            right=mid-1
-        if matrix[row][col]<target:
-            left=mid+1
-        else:
-            return(row,col)
-    return None #跳出循环，还没找到元素
+class Solution(object):
+  def search(self, matrix, target):
+    """
+    input: int[][] matrix, int target
+    return: int[]
+    """
+    # write your solution here
+    if not matrix or len(matrix)==0:
+      return [-1,-1]
+
+    m, n = len(matrix), len(matrix[0])
+    left, right= 0, m*n-1
+
+    while left<=right:
+      mid = (left+right)//2
+      row = mid//n
+      column = mid%n
+
+      if matrix[row][column]==target:
+        return [row, column]
+      
+      elif matrix[row][column]<target:
+        left = mid+1
+      
+      else:
+        right = mid-1
+    
+    return [-1,-1]
 ```
 
 Time: O\(log\(n\*m\)\)
@@ -106,18 +118,28 @@ return None
 {% tabs %}
 {% tab title="正确做法" %}
 ```python
-def binary_search (nums, target):
-    left=0
-    right=len(nums)-1
-    while left<right-1: 
-        mid=(left+right)/2
-        if nums[mid]>target:
-            right=mid #不可以-1
-        elif nums[mid]<target:
-            left=mid #不可以+1
-        else:
-            return mid
-return left if abs(nums[left]-target)<abs(nums[right]-target) else right
+class Solution(object):
+  def closest(self, array, target):
+    """
+    input: int[] array, int target
+    return: int
+    """
+    # write your solution here
+    if not array or len(array)==0:
+      return -1
+    
+    left, right = 0, len(array)-1
+
+    while left<right-1:
+      mid = (left+right)//2
+      if array[mid]==target:
+        return mid
+      elif array[mid]<target:
+        left = mid #不可以+1
+      else:
+        right = mid #不可以-1
+    
+    return left if (array[right]-target>target-array[left]) else right
 
 #上面这种写法虽然没有+1-1 但是肯定不会有死循环，因为while循环条件不同了，循环内一定是三个元素，
 #所以不会在两个数之间来回传值
@@ -213,6 +235,8 @@ log\(n\)+k
 
 line 35其实根本不用abs 因为既然sorted了也就知道谁大谁小了
 
+{% tabs %}
+{% tab title="While循环条件1" %}
 ```python
 class Solution(object):
   def kClosest(self, array, target, k):
@@ -250,6 +274,52 @@ class Solution(object):
         right=mid
     return left if abs(array[left]-target)<abs(array[right]-target) else right
 ```
+{% endtab %}
+
+{% tab title="While循环条件2" %}
+```python
+class Solution(object):
+  def kClosest(self, array, target, k):
+    """
+    input: int[] array, int target, int k
+    return: int[]
+    """
+    # write your solution here
+    if not array or len(array)==0 or k<0:
+      return -1
+    
+    index = self.binarySearch(array, target)
+    result = []
+    if k>0:
+      result.append(array[index])
+    
+    i,j= index-1, index+1
+    
+    while len(result)<k and (i>=0 or j<=len(array)-1):
+      if i>=0 and (j>len(array)-1 or target-array[i]<array[j]-target):
+        result.append(array[i])
+        i-=1
+      else:
+        result.append(array[j])
+        j+=1
+    return result
+
+  def binarySearch(self, array, target):
+    left, right = 0, len(array)-1
+
+    while left<right-1:
+      mid = (left+right)//2
+      if array[mid]==target:
+        return mid
+      elif array[mid]<target:
+        left = mid
+      else:
+        right = mid
+    
+    return left if (array[right]-target>target-array[left]) else right
+```
+{% endtab %}
+{% endtabs %}
 
 在上面这种写法里，要先把数字自己放进去，left, number, right 三个数字这样的顺序出现在数组里，然后left、right依次左、右expand。  
 左边expand的条件是，  
@@ -259,19 +329,51 @@ class Solution(object):
 - 首先右边还没过界并且result里的值还有的剩   
 - 其次满足接下来两个条件二选一 （1）左边到界了右边还没到 （2）右边的距离比左边的距离更小
 
-所以还可以这么写
+{% hint style="info" %}
+要特别注意两个点
+
+1）先append 再移动  
+2）while循环里if和elif的判断的先后条件，因为很容易list index out of range
+{% endhint %}
+
+还可以这么写 看起来简单点
 
 ```python
-l = self.getIndex(array, target)
-r=l+1
-for i in range(0,k):
-    if r>=len(array) or (l>0 and target-array[l]<array[right]-target):
-        res.append(array[l])
+class Solution(object):
+  def kClosest(self, array, target, k):
+    """
+    input: int[] array, int target, int k
+    return: int[]
+    """
+    # write your solution here
+    if not array or len(array)==0 or k<0:
+      return -1
+    
+    index = self.binarySearch(array, target)
+    l,r=index,index+1
+    result=[]
+    for i in range(0,k):
+      if l>=0 and (r>len(array)-1 or array[r]-target>target-array[l]):
+        result.append(array[l])
         l-=1
-    else:
-        res.append(array[r])
+      else:
+        result.append(array[r])
         r+=1
-return res
+    return result
+
+  def binarySearch(self, array, target):
+    left, right = 0, len(array)-1
+
+    while left<right-1:
+      mid = (left+right)//2
+      if array[mid]==target:
+        return mid
+      elif array[mid]<target:
+        left = mid
+      else:
+        right = mid
+    
+    return left if (array[right]-target>target-array[left]) else right
 ```
 
 ## Smallest Element that is Larger than Target
@@ -283,6 +385,36 @@ case2: if input\[m\]==target\('e'\)            -&gt; l=m or l=m+1 both ok
 case3: if input\[m\]&gt;target\('b'\)              -&gt; r=m 不可以-1
 
 post-processing：先左后右
+
+```python
+class Solution(object):
+  def smallestElementLargerThanTarget(self, array, target):
+    """
+    input: int[] array, int target
+    return: int
+    """
+    # write your solution here
+    if not array or len(array)==0:
+      return -1
+    
+    left, right = 0, len(array)-1
+    
+    while left<right-1:
+      mid=(left+right)//2
+      if array[mid]==target:
+        left=mid
+      elif array[mid]>target:
+        right=mid
+      else:
+        left=mid
+    
+    if array[left]>target:
+      return left
+    elif array[right]>target:
+      return right
+    
+    return -1
+```
 
 ## Sqrt（）
 
