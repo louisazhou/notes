@@ -4,7 +4,7 @@ description: 普通版、2D版、万金油版、有重复元素版
 
 # Binary Search
 
-## 二分查找思想
+## Classic Version
 
 每次缩小一半的查找范围，和中间值比较。大于中间值往左，小于中间值往右。通过L=mid+1 or R=mid-1改变LR边界值。
 
@@ -26,7 +26,7 @@ def binary_search(nums, target):
 
 Time: O\(logn\)
 
-## 2D的二分查找
+## 2D Version
 
 一个二维坐标可以和一维坐标联系，4\*4的matrix，（2，2）代表2\*4+2个元素比它小。index=row\_index\*m+col\_index.\(m: number of cols\).
 
@@ -76,7 +76,7 @@ Time: O\(log\(n\*m\)\)
 
 
 
-## 最接近某元素的element
+## Find Closest Element
 
 eg \[1,2,5,9\] target=3, index=1, number=2
 
@@ -149,7 +149,7 @@ class Solution(object):
 
 Time: O\(logn\)
 
-## 有重复元素，返回第一个
+## First Occurrence 
 
 > 如果找不到，return-1 （面试时，注意和面试官沟通，回复-1还是None）
 
@@ -189,7 +189,7 @@ class Solution(object):
     return -1  
 ```
 
-## 有重复元素，返回最后一个
+## Last Occurrence
 
 和First Occurrence的区别在 
 
@@ -497,7 +497,7 @@ class Solution(object):
 {% endtab %}
 {% endtabs %}
 
-### Search In Shifted Sorted Array I
+## Search In Shifted Sorted Array I
 
 ```java
 class Solution(object):
