@@ -75,7 +75,23 @@ def getsum(n):
 
 ## pow\(a, b\)
 
+```python
+class Solution(object):
+  def power(self, a, b):
+    """
+    input: int a, int b
+    return: long
+    """
+    # write your solution here
+    if b==0:
+      return 1
+    elif b==1:
+      return a
 
+    midres = self.power(a, b//2)
+
+    return midres*midres if b%2==0 else midres*midres*a
+```
 
 ## Linked List Recursion
 

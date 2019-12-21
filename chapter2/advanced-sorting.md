@@ -37,7 +37,7 @@ def merge(array1, array2):
 ```
 
 ```python
-# slicing
+# slicing 
 def merge_sort(array):
     if len(array)==0 or len(array)==1:
         return array
@@ -48,7 +48,7 @@ def merge_sort(array):
     
     return merge(left, right) #调用一次merge是O(n)Time,在这里调用了logn次
 
-# indexing
+# indexing 这个代码有问题= =
 def merge_sort(array, left, right):
     if left==right:
         return array[left]
@@ -98,9 +98,11 @@ Total Time Complexity O\(nlogn\)
 
 {% embed url="https://www.hackerearth.com/zh/practice/algorithms/sorting/quick-sort/visualize/" %}
 
+### 一个挡板（赶紧忘了这个！）
+
 store index是一个隔板，左边都是比pivot小的，右边都是比pivot大的。所以一开始store index是从0开始移动
 
-（..., store\_index）: &lt;pivot
+\(..., store\_index）: &lt;pivot
 
 \[store\_index, i\): &gt;pivot
 
@@ -129,6 +131,10 @@ def quick_sort(lst, start, end):
     quick_sort(lst, new_pivot_index+1, end)
 ```
 
+{% hint style="info" %}
+`randrange (start, stop, step)` doesn’t consider the last item i.e. it is exclusive. For example, `randrange (10,20,1)`  will return any random number from 10 to 19 \(exclusive\). it will never select 20.
+{% endhint %}
+
 Time: Best Case and On average, both O\(nlogn\) 
 
 > 为什么Average是O\(nlogn\)
@@ -141,10 +147,8 @@ $$
 
 最坏的情况不取决于input本身是否有序，而是取决于每次的pivot都选的特别差，比如每次都选到了最大的或者最小的，导致每一次都是n-1比它小，这就成了一个直上直下的一叉树，每一层都需要做n次交换，高度是n， worst case O\( $$n^{2}$$ \)   
 
-Space: O\(logn\) worst case  O\(n\)
+Space: O\(logn\) worst case  O\(n\) 这次是只取决于高度了，因为每层的call stack上只分配了常数级别的空间（pivot\_index）
 
-{% tabs %}
-{% tab title="Python" %}
 ```python
 class Solution(object):
   def quickSort(self, array):
@@ -184,25 +188,55 @@ class Solution(object):
 
     return store_index 
 ```
-{% endtab %}
 
-{% tab title="Java" %}
-```java
-from random import randrange
+### 两个挡板三个区域
 
-void quickSort(int[] array){
-        int pivot = random(0, array.length-1);
-        int savedindex = pivot
-        swap(array[pivot], array[-1])
-                
-}
+```python
+class Solution(object):
+  def quickSort(self, array):
+    """
+    input: int[] array
+    return: int[]
+    """
+    # write your solution here
+    if not array or len(array)<=1:
+      return array
+    left, right = 0, len(array)-1
+    self.helper(array, left, right)
+    return array
 
-void swap(){
+  def helper(self, array, left, right):
+    if left>=right:
+      return
+    
+    pivotIdx = self.partition(array, left, right)
+    self.helper(array, left, pivotIdx-1)
+    self.helper(array, pivotIdx+1, right)
+    
 
-}
+  def partition(self, array, left, right):
+    from random import randrange
+    pivotIdx=randrange(left, right+1)
+    pivot=array[pivotIdx]
+
+    array[pivotIdx], array[right] = array[right], array[pivotIdx]  
+    leftbound, rightbound = left, right-1
+
+    while leftbound<=rightbound:
+        if array[leftbound]<pivot:
+          leftbound+=1
+        elif array[rightbound]>=pivot:
+          rightbound-=1
+        else:
+          array[leftbound],array[rightbound]=array[rightbound],array[leftbound]
+          leftbound+=1
+          rightbound-=1
+    
+    array[leftbound], array[right] = array[right], array[leftbound]
+    return leftbound
 ```
-{% endtab %}
-{% endtabs %}
+
+
 
 ### Array Shuffling 
 

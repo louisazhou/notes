@@ -67,13 +67,24 @@ def find_min(array):
 {% tabs %}
 {% tab title="solution 1 find\_min" %}
 ```python
-def selection_sort (array):
-    for i in range (len(array)):
-        min_index = i
-        for j in range (i, len(array)): #也可i+1
-            if array[j]<array[min_index]:
-                min_index=j
-        array[min_index],array[i]=array[i],array[min_index]
+class Solution(object):
+  def solve(self, array):
+    """
+    input: int[] array
+    return: int[]
+    """
+    # write your solution here
+    if not array or len(array)==0:
+      return array
+
+    for i in range (0, len(array)): #也可range(len(array))
+      minIdx=i
+      for j in range(i, len(array)): #也可i+1
+        if array[j]<array[minIdx]:
+          minIdx=j
+      array[i], array[minIdx] = array[minIdx], array[i]
+    
+    return array
 ```
 {% endtab %}
 
