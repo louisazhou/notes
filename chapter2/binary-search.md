@@ -535,6 +535,37 @@ class Solution(object):
     return -1
 ```
 
+## First Bug Version
+
+Pull Request有很多个版本，如果有一个version有bug，在version7发现了，快速找到这个有bug的version的第一个version
+
+{% hint style="info" %}
+这里需要注意：如果bad versio是第一个，那么在while除的时候有可能就直接让n=0了，这样left和right都是0，not valid.  所以要在while前面先判断n还没有到1
+{% endhint %}
+
+```java
+class Solution extends VersionControl {
+  public int findFirstBadVersion(int n) {
+    // write your solution here
+    while ((n!=1) & (isBadVersion(n))){
+      n/=2;
+    }
+    int left = n; 
+    int right = n*2;
+
+    while (left<right-1){
+      int mid = (right+left)/2;
+      if (isBadVersion(mid)){
+        right=mid;
+      }else{
+        left=mid+1;
+      }
+    }
+    return isBadVersion(left)? left:right;
+  }
+}
+```
+
 ## 新题: 虚拟数组
 
 给一个已排好序的正整数数组，在首尾之间，不连续的部分可以看成是漏掉了一些数。这些漏掉的数可以组成一个虚拟的数组，要求给出一个序号k，返回虚拟数组的第k个数。 比如给定原数组：\[2,4,7,8,9,15\]，漏掉的数组成这样一个虚拟数组：\[3,5,6,10,11,12,13,14\]。若k=2，返回虚拟数组的第二个数“5”。
@@ -626,35 +657,4 @@ class Solution(object):
 ```
 
 Time: O\(log 2\(first\_bug\_version\)\) 
-
-## 应用
-
-Pull Request有很多个版本，如果有一个version有bug，在version7发现了，快速找到这个有bug的version的第一个version
-
-{% hint style="info" %}
-这里需要注意：如果bad versio是第一个，那么在while除的时候有可能就直接让n=0了，这样left和right都是0，not valid.  所以要在while前面先判断n还没有到1
-{% endhint %}
-
-```java
-class Solution extends VersionControl {
-  public int findFirstBadVersion(int n) {
-    // write your solution here
-    while ((n!=1) & (isBadVersion(n))){
-      n/=2;
-    }
-    int left = n; 
-    int right = n*2;
-
-    while (left<right-1){
-      int mid = (right+left)/2;
-      if (isBadVersion(mid)){
-        right=mid;
-      }else{
-        left=mid+1;
-      }
-    }
-    return isBadVersion(left)? left:right;
-  }
-}
-```
 
