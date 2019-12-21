@@ -497,9 +497,30 @@ class Solution(object):
 {% endtab %}
 {% endtabs %}
 
+## Find Peak Element
+
+```python
+class Solution(object):
+    def findPeak(self, array):
+    """
+    input: int[] array
+    return: int
+    """
+        left, right = 0, len(array)-1
+        while left<right-1:
+            mid = (left+right)//2
+            if array[mid]>array[mid-1] and array[mid]>array[mid+1]:
+                return mid
+            elif array[mid]<array[mid+1]:
+                left=mid+1
+            elif array[mid]>array[mid-1]:
+                right=mid-1
+        return left if array[left]>array[right] else right
+```
+
 ## Search In Shifted Sorted Array I
 
-```java
+```python
 class Solution(object):
   def search(self, array, target):
     """
@@ -507,6 +528,7 @@ class Solution(object):
     return: int
     """
     # write your solution here
+    
     if not array or len(array)==0:
       return -1
     
@@ -540,9 +562,27 @@ class Solution(object):
 Pull Request有很多个版本，如果有一个version有bug，在version7发现了，快速找到这个有bug的version的第一个version
 
 {% hint style="info" %}
-这里需要注意：如果bad versio是第一个，那么在while除的时候有可能就直接让n=0了，这样left和right都是0，not valid.  所以要在while前面先判断n还没有到1
+Java那个版本的答案需要注意：因为一开始先找到n/2和n这个范围，如果bad version是第一个，那么在while除的时候有可能就直接让n=0了，这样left和right都是0，not valid.  所以要在while前面先判断n还没有到1
 {% endhint %}
 
+{% tabs %}
+{% tab title="Python" %}
+```python
+class Solution:
+  def findFirstBadVersion(n): 
+    # write your solution here
+    left, right = 1, n
+    while left<right-1:
+      mid = (left+right)//2
+      if isBadVersion(mid):
+        right=mid
+      else:
+        left=mid+1
+    return left if isBadVersion(left) else right
+```
+{% endtab %}
+
+{% tab title="Java" %}
 ```java
 class Solution extends VersionControl {
   public int findFirstBadVersion(int n) {
@@ -565,6 +605,8 @@ class Solution extends VersionControl {
   }
 }
 ```
+{% endtab %}
+{% endtabs %}
 
 ## 新题: 虚拟数组
 
