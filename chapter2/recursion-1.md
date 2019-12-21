@@ -4,7 +4,7 @@ description: 递归和linkedlist
 
 # Recursion 1
 
-## 引入
+## Fibonacci 引入
 
 1. 表象上 function calls itself
 2. 实质上 boil down a big problem to smaller ones \(size n depends on n-1, n-2 ...\)
@@ -14,7 +14,39 @@ Recursion解决问题的方式是做规约（reduction），把未知的规约�
 
 ![](../.gitbook/assets/image%20%2828%29.png)
 
+```python
+class Solution(object):
+  def fibonacci(self, K):
+    """
+    input: int K
+    return: int
+    """
+    # write your solution here
+    if K < 0:
+      return 0
 
+    if K == 0 or K == 1:
+      return K
+    
+    return self.fibonacci(K-1)+self.fibonacci(K-2)
+```
+
+$$
+Time: \mathrm{O}\left(1+2+2^{2} +2^{3} +\ldots .+2^{n-1}\right)=\mathrm{O}\left(2^{n} \right) \\
+Space: O(n)
+$$
+
+### 常见错误
+
+1. Recursive Function 的时间复杂度等于recursion tree节点的总个数？  ——除非每一个节点的operation是O\(1\)
+2. Recursive Function 的时间复杂度等于最后一层节点的个数？ ——如果是一个直上直下一叉树就错得离谱了
+3. Recursive Function 的时间复杂度等于最后一层节点的时间复杂度之和？ ——同上
+4. Recursive Function 的空间复杂度等于recursion tree的层数或者高度？ ——除非每一层的space是O\(1\)
+5. Recursive Function 的空间复杂度等于所有节点的空间复杂度之和？ ——只和直上直下的那条call stack有关，因为冯诺依曼原理，每一层调用结束之后原来的那个空间就被释放了
+
+**Call stack:** can be regarded as a **globally accessible information** that tells you what happened before each _break point_ in each level. 
+
+## getSum 引入
 
 ### iteratively
 
@@ -39,9 +71,13 @@ def getsum(n):
 
 递归的调用带来一个新的execution environment（运行式环境）。
 
+使用一次递归，其实本质上就是在实现一个数学归纳法induction的证明。
+
+## pow\(a, b\)
 
 
-使用一次递归，其实本质上就是在实现一个数学归纳法的证明。在数学归纳法（induction）里，我们有
+
+## Linked List Recursion
 
 1. Induction Base Verification \(Base Case\) P\(0\) and P\(1\)
 2. Recursion Rule: Assuming k&lt;n, P\(k\) is true. Generally, k=n-1. Focus on proving the correctness of P\(n-1\)--&gt;P\(n\) 

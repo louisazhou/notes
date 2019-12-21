@@ -51,21 +51,33 @@ For each pass, we will move left to right looking for the next largest value. On
 
 {% embed url="https://www.hackerearth.com/zh/practice/algorithms/sorting/selection-sort/visualize/" %}
 
-先要解决的子问题：找到一个array中最大的数
+先要解决的子问题：找到一个array中最小的数
 
 ```python
-def find_max(array):
-    max_value = array[0]
+def find_min(array):
+    min_value = array[0]
     for i in range (len(array)):
-        if array[i]>max_value:
-            max_value=array[i]
-    return max_value
+        if array[i]<min_value:
+            min_value=array[i]
+    return min_value
 ```
 
 然后推广到每一层
 
 {% tabs %}
-{% tab title="solution 1 find\_max" %}
+{% tab title="solution 1 find\_min" %}
+```python
+def selection_sort (array):
+    for i in range (len(array)):
+        min_index = i
+        for j in range (i, len(array)): #也可i+1
+            if array[j]<array[min_index]:
+                min_index=j
+        array[min_index],array[i]=array[i],array[min_index]
+```
+{% endtab %}
+
+{% tab title="solution 2 find\_max" %}
 ```python
 def selection_sort (array):
     for i in range(len(array)-1,0,-1):
@@ -76,25 +88,13 @@ def selection_sort (array):
         array[i], array[max_index] = array[max_index], array[i]
 ```
 {% endtab %}
-
-{% tab title="solution 2 find\_min" %}
-```python
-def selection_sort (array):
-    for i in range (len(array)):
-        min_index = i
-        for j in range (i, len(array)):
-            if array[j]<array[min_index]:
-                min_index=j
-        array[min_index],array[i]=array[i],array[min_index]
-```
-{% endtab %}
 {% endtabs %}
 
 Space O\(1\)   \(in place\)
 
 Time O\( $$n^{2}$$ \)
 
-### 3 stacks to sort an array
+## 3 stacks 实现选择排序 无重复
 
 stack1\(store input\)
 
@@ -103,6 +103,10 @@ stack2\(buffer\)                                                          global
 stack3\(store output\)
 
 Time O\( $$n^{2}$$ \)
+
+## 3 stacks 实现选择排序 有重复
+
+## 2 stacks 实现选择排序
 
 ## Insertion Sort 插入排序
 

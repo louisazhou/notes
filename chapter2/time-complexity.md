@@ -38,7 +38,7 @@ average time: the average of **all possible inputs** in the input space
 
 Fibonacci 数列的时间复杂度是O\( $$2^{n}$$ \)
 
-![](../.gitbook/assets/image%20%2845%29.png)
+![](../.gitbook/assets/image%20%2846%29.png)
 
 ![](../.gitbook/assets/image%20%2833%29.png)
 
@@ -62,7 +62,7 @@ Auxiliary space complexity: 输入输出除外，为了实现这个算法所带�
 
 但是它存在的问题是不管什么字符、使用频率多高多低，都耗一样多的空间；于是就有了新的解决方案，UTF-8 它现在是可变长度。只有在byte不够的时候才会用更多byte
 
-![](../.gitbook/assets/image%20%2855%29.png)
+![](../.gitbook/assets/image%20%2856%29.png)
 
 如果7位就够，就是1个byte，能用7bits
 

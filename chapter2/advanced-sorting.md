@@ -8,6 +8,8 @@ description: 'Merge-Sort,  Quick Sort'
 
 假如有一个sort好的array的前后半边，就可以用谁小移谁的方式sort完整个array
 
+![](../.gitbook/assets/image%20%2844%29.png)
+
 {% embed url="https://www.hackerearth.com/zh/practice/algorithms/sorting/merge-sort/visualize/" %}
 
 子问题：如何merge两个sorted array
@@ -30,31 +32,69 @@ def merge(array1, array2):
         results.append(array2[j])
         j+=1
     return results
+#Time: O(n)
+#对于这个function来说 Space: O(1)
 ```
 
-Time: O\(n\)
-
-Space: O\(1\)
-
 ```python
+# slicing
 def merge_sort(array):
     if len(array)==0 or len(array)==1:
         return array
     
     mid = len(array)/2
-    left = merge_sort(array[:middle])   #O(n)
-    right = merge_sort(array[middle:])  #O(n)
+    left = merge_sort(array[:middle])   #O(n) space due to slicing
+    right = merge_sort(array[middle:])  #O(n) space due to slicing
     
-    return merge(left, right)
+    return merge(left, right) #调用一次merge是O(n)Time,在这里调用了logn次
+
+# indexing
+def merge_sort(array, left, right):
+    if left==right:
+        return array[left]
+        
+    mid = (left+right)//2     
+    left = merge_sort(array, left, mid)    #O(logn)
+    right = merge_sort(array, mid+1, right)  #O(logn)
+    
+    return merge(left, right) #调用一次merge是O(n)Time,在这里调用了logn次
 ```
 
-每一层merge的时间复杂度是O\(n\) 一共有h=logn层，所以总的时间复杂度是nlogn
+#### 时间复杂度
 
-空间复杂度 call stack: logn 再加merge的空间消耗n 所以总的空间复杂度是O\(n\) 不过假如说我们传index但是不slicing，就是O\(logn\)
+Upper Half to split: Time O\(n\)=1+2+4+...n/2   
+Lower Half to merge: Time O\(nlogn\) 每一层merge的时间复杂度是O\(n\) 一共有h=logn层  
+Total Time Complexity O\(nlogn\)
+
+#### 空间复杂度 
+
+如果用indexing，传index, 那么只需要分析call stack上的额外空间。  
+在等待line7结果时，只有最左边的直上直下，这个时候的call stack上是一些mid，总共logn层，所以最左边的那一列的空间复杂都是O\(logn\) 但是这还不是最占空间的时刻；  
+当每一层的调用都在line7结束了，在等待line8的right result时，也就是上图中红色的部分已经return好了，在left等待着right有结果来merge，这个时候红色部分+粉色部分的空间复杂是：红色O\(n\)=1+2+4+...n/2，粉色O\(logn\), 总共O\(n\). 直到最后，被merge之前的最后一瞬，都有O\(n\) space。
+
+### Followup: Linked List
+
+#### 时间
+
+Upper Half to split: Time O\(logn\)=n+n+n+...n  
+Lower Half to merge: Time O\(nlogn\) 每一层merge的时间复杂度是O\(n\) 一共有h=logn层  
+Total Time Complexity O\(nlogn\)
+
+#### 空间
+
+每层 O\(1\) 空间改指针 所以O\(logn\)
+
+### Convert a String A1B2C3D4 to ABCD1234
+
+只需要调整merge的那一步，让字母排在数字前面
+
+### Convert a String ABCD1234 to A1B2C3D4，要求in place
+
+切一刀，交换一下位置；再切一刀，交换一下位置
 
 ## Quick Sort 快排
 
-
+选好一个pivot之后就可以把pivot左边的都放比pivot小的，pivot的右边都放比pivot大的；再分别对左右进行重复操作，就可以让整体sort好
 
 {% embed url="https://www.hackerearth.com/zh/practice/algorithms/sorting/quick-sort/visualize/" %}
 
@@ -99,7 +139,7 @@ $$
 \begin{array}{l}{\text { For any pivot position } i ; i \in\{0, \ldots, n-1\}} \\ {\cdot \text { Time for partitioning an array : } c n} \\ {\cdot \text { The head and tail subarrays contain } i \text { and } n-1-i \text { items, }} \\ {\text { respectively: } T(n)=c n+T(i)+T(n-1-i)} \\{\text { Average running time for sorting (a more complex recurrence): }} \\ {\qquad T(n)=\frac{1}{n} \sum_{i=0}^{n-1}(T(i)+T(n-1-i)+c n)} \end{array}
 $$
 
-最坏的情况是有序的，每次的pivot都选的特别差, worst case O\( $$n^{2}$$ \)    所以我们需要randrange
+最坏的情况不取决于input本身是否有序，而是取决于每次的pivot都选的特别差，比如每次都选到了最大的或者最小的，导致每一次都是n-1比它小，这就成了一个直上直下的一叉树，每一层都需要做n次交换，高度是n， worst case O\( $$n^{2}$$ \)   
 
 Space: O\(logn\) worst case  O\(n\)
 
@@ -120,7 +160,7 @@ class Solution(object):
 
   def helper(self, array, start, end):
     
-    from random import randrange
+    from random import randrange #保证稳定的，防止被hacker攻击
 
     if start>=end:
       return
@@ -148,12 +188,25 @@ class Solution(object):
 
 {% tab title="Java" %}
 ```java
-void quickSort(int[] array, ){
+from random import randrange
+
+void quickSort(int[] array){
+        int pivot = random(0, array.length-1);
+        int savedindex = pivot
+        swap(array[pivot], array[-1])
+                
+}
+
+void swap(){
 
 }
 ```
 {% endtab %}
 {% endtabs %}
+
+### Array Shuffling 
+
+2个挡板，3个区域，把非0放在左边，0放在右边
 
 ## Find the k-th largest element in an array
 
@@ -203,6 +256,24 @@ $$\begin{array}{l}{\text { Time complexity: }} \\ {\begin{aligned} T(n) &=T(n / 
 
 三种颜色，-1、0、1，两个挡板，left的左侧不包含left都是-1，right的右侧不包含right都是1，\[left, right\]是0.
 
+三个挡板，四个区域
+
+-1 -1 -1 -1 0 0 0 0 0 -1 0 1 1 1 1  
+                  i                j      k
+
+\[0, i\) -1  
+\[i, j\) 0  
+\[j, k\] unknown  
+\(k, n-1\] 1  
+array\[j\]==-1: swap with array\[i\], i++, j++ j可以加，因为可以保证i换过来的一定是0  
+array\[j\]==0: j++  
+array\[j\]==1: swap with array\[k\], k--  j不加，因为k的物理意义是unknown 后面的都还不知道呢 不能加  
+当j和k错开的时候停止，不是重叠，因为我们需要unknown里完全没有数字，所以只有在它俩交错才能保证里面没有东西。  
+  
+Time: O\(n\)
+
+{% tabs %}
+{% tab title="Python" %}
 ```python
 class Solution(object):
   def rainbowSort(self, array):
@@ -227,8 +298,18 @@ class Solution(object):
         index+=1
     return array
 ```
+{% endtab %}
 
-#### 不知道几种颜色，用quick sort
+{% tab title="Java" %}
+```
+
+```
+{% endtab %}
+{% endtabs %}
+
+#### 不知道几种颜色，用bucket sort
+
+只有在大量重复数字的sort才有意义
 
 ```python
 class Solution(object):
