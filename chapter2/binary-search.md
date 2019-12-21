@@ -402,11 +402,11 @@ class Solution(object):
     while left<right-1:
       mid=(left+right)//2
       if array[mid]==target:
-        left=mid
+        left=mid #+1 OK
       elif array[mid]>target:
-        right=mid
+        right=mid #cannot -1
       else:
-        left=mid
+        left=mid #+1 OK
     
     if array[left]>target:
       return left
@@ -445,23 +445,29 @@ if mid\*mid==n: return mid
 {% tabs %}
 {% tab title="post-processing" %}
 ```python
-def sqaure_root(n):
-    if n<=1:
-        return n
-    left, right = 1,n #其实可以写n/2 因为一定在1～n/2之间
-    while left < right-1:
-        mid = (left+right)/2
-        midsq = mid*mid
-        if midsq ==n:
-            return mid
-        elif midsq>n:      #其实应该是right=mid-1
-            right = mid
-        else:
-            left = mid
-    if right*right<=n:
-        return right
+class Solution(object):
+  def sqrt(self, x):
+    """
+    input: int x
+    return: int
+    """
+    # write your solution here
+    if x<=1:
+      return x
+
+    left, right = 1, x//2
+    while left<right-1:
+      mid = (left+right)//2
+      if mid*mid==x:
+        return mid
+      elif mid*mid>x:
+        right=mid-1
+      else:
+        left=mid
+    if right*right<=x:
+      return right
     else:
-        return left
+      return left
 ```
 {% endtab %}
 
@@ -490,6 +496,44 @@ class Solution(object):
 ```
 {% endtab %}
 {% endtabs %}
+
+### Search In Shifted Sorted Array I
+
+```java
+class Solution(object):
+  def search(self, array, target):
+    """
+    input: int[] array, int target
+    return: int
+    """
+    # write your solution here
+    if not array or len(array)==0:
+      return -1
+    
+    left, right = 0, len(array)-1
+
+    while left<right-1:
+      mid=(left+right)//2
+      if array[mid]==target:
+        return mid
+      if array[left]<=array[mid]:
+        if target<array[mid] and target>=array[left]:
+          right=mid-1
+        else:
+          left=mid+1
+      else:
+        if target<=array[right] and target>array[mid]:
+          left=mid+1
+        else:
+          right=mid-1
+    
+    if array[left]==target:
+      return left
+    elif array[right]==target:
+      return right
+
+    return -1
+```
 
 ## 新题: 虚拟数组
 
@@ -586,4 +630,31 @@ Time: O\(log 2\(first\_bug\_version\)\)
 ## 应用
 
 Pull Request有很多个版本，如果有一个version有bug，在version7发现了，快速找到这个有bug的version的第一个version
+
+{% hint style="info" %}
+这里需要注意：如果bad versio是第一个，那么在while除的时候有可能就直接让n=0了，这样left和right都是0，not valid.  所以要在while前面先判断n还没有到1
+{% endhint %}
+
+```java
+class Solution extends VersionControl {
+  public int findFirstBadVersion(int n) {
+    // write your solution here
+    while ((n!=1) & (isBadVersion(n))){
+      n/=2;
+    }
+    int left = n; 
+    int right = n*2;
+
+    while (left<right-1){
+      int mid = (right+left)/2;
+      if (isBadVersion(mid)){
+        right=mid;
+      }else{
+        left=mid+1;
+      }
+    }
+    return isBadVersion(left)? left:right;
+  }
+}
+```
 
