@@ -8,6 +8,8 @@ description: 普通版、2D版、万金油版、有重复元素版
 
 每次缩小一半的查找范围，和中间值比较。大于中间值往左，小于中间值往右。通过L=mid+1 or R=mid-1改变LR边界值。
 
+{% tabs %}
+{% tab title="Python" %}
 ```python
 def binary_search(nums, target):
  if not nums:
@@ -23,6 +25,37 @@ def binary_search(nums, target):
    return mid
  return None 
 ```
+{% endtab %}
+
+{% tab title="Java" %}
+```
+//package 一般是一个名词，而且全小写、用点
+//class 名词，首字母大写
+//interface 名词，upper ammelce
+class Solution(object):
+    static int binarySearch(int[] array, int target){
+        if (array==null){ //如果是0其实没关系 因为进不去循环，返回-1
+        return -1;
+        }
+        int l = 0;
+        int r = array.length-1;
+        while (l<=r){
+            int mid = l+(r-l)/2; //int越过32位的overflow 可能会变成负数，可能是一个奇怪的数，不会自动变成long
+            if (array[mid]==target){
+            return mid;
+            }
+            elif (array[mid]<target){
+            left = mid+1;
+            }
+            else{
+            right = mid-1;
+            }
+        }
+      return -1;
+    } 
+```
+{% endtab %}
+{% endtabs %}
 
 Time: O\(logn\)
 
@@ -699,4 +732,27 @@ class Solution(object):
 ```
 
 Time: O\(log 2\(first\_bug\_version\)\) 
+
+## 实际工作中的binary search
+
+任何object都可以被sorted，但是我们需要一个比较策略，比如口红可以用色号、RGB色度、16进制的数字、品牌的首字母、喜爱程度... 这些都是comparable
+
+Generics: 范形 就像是外形看不出来色号的口红 
+
+### 面试时：
+
+1. Clarification:  - sorted? ascending？descending? - how you define your colors
+2. Examples：过一个example
+3. Solutions： Assumptions - xx的时候返回xx （比如不存在的时候返回-1还是null） - 如果遇到multiple该return哪个？（都可以） Input、Output: - input：int array， int target - output：int index Corner Case: - null: 没有array - empty: 有array但没元素 Algorithm: - Binary Search, 时间空间复杂度 call stack+ new出来的
+4. Coding
+5. 回头验证space & time complexity 
+6. Test Case
+
+
+
+要讲清楚：
+
+
+
+退出循环的时候l和r在哪里（classic里是错开，提前一步时是）
 
