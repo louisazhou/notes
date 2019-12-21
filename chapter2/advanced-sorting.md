@@ -103,6 +103,8 @@ $$
 
 Space: O\(logn\) worst case  O\(n\)
 
+{% tabs %}
+{% tab title="Python" %}
 ```python
 class Solution(object):
   def quickSort(self, array):
@@ -142,6 +144,16 @@ class Solution(object):
 
     return store_index 
 ```
+{% endtab %}
+
+{% tab title="Java" %}
+```java
+void quickSort(int[] array, ){
+
+}
+```
+{% endtab %}
+{% endtabs %}
 
 ## Find the k-th largest element in an array
 

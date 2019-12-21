@@ -28,26 +28,29 @@ def binary_search(nums, target):
 {% endtab %}
 
 {% tab title="Java" %}
-```
+```java
 //package 一般是一个名词，而且全小写、用点
-//class 名词，首字母大写
-//interface 名词，upper ammelce
+//class 名词，首字母大写， upper CammelCase
+//interface 名词，upper CammelCase
+//method 动词, lower cammelCase
+//method里的变量名, lower cammelCase
+
 class Solution(object):
-    static int binarySearch(int[] array, int target){
-        if (array==null){ //如果是0其实没关系 因为进不去循环，返回-1
+    public int binarySearch(int[] array, int target) {
+        if (array==null) { //如果是0其实没关系 因为进不去循环，返回-1
         return -1;
         }
         int l = 0;
         int r = array.length-1;
-        while (l<=r){
+        while (l<=r) {
             int mid = l+(r-l)/2; //int越过32位的overflow 可能会变成负数，可能是一个奇怪的数，不会自动变成long
-            if (array[mid]==target){
+            if (array[mid]==target) {
             return mid;
             }
-            elif (array[mid]<target){
+            elif (array[mid]<target) {
             left = mid+1;
             }
-            else{
+            else {
             right = mid-1;
             }
         }
@@ -149,7 +152,7 @@ return None
 `正确做法`
 
 {% tabs %}
-{% tab title="正确做法" %}
+{% tab title="Python" %}
 ```python
 class Solution(object):
   def closest(self, array, target):
@@ -176,6 +179,37 @@ class Solution(object):
 
 #上面这种写法虽然没有+1-1 但是肯定不会有死循环，因为while循环条件不同了，循环内一定是三个元素，
 #所以不会在两个数之间来回传值
+```
+{% endtab %}
+
+{% tab title="Java" %}
+```java
+class Solution (object):
+    public int findClosest (int[] array, int target){
+    if (array==null||array.length==0){
+    return -1;
+    }
+    
+    int l = 0;
+    int r = array.length-1;
+    
+    while (l<r-1) {
+        int mid = l+(r-l)/2; //int越过32位的overflow 可能会变成负数，可能是一个奇怪的数，不会自动变成long
+        
+        if (array[mid]==target) {
+            return mid;
+        }
+        
+        elif (array[mid]<target) {
+            left = mid;
+        }
+        
+        else {
+            right = mid;
+        }
+    }
+  return (array[right]-target<target-array[left])? right : left; //ternary operator
+} 
 ```
 {% endtab %}
 {% endtabs %}
@@ -371,6 +405,8 @@ class Solution(object):
 
 还可以这么写 看起来简单点
 
+{% tabs %}
+{% tab title="Python" %}
 ```python
 class Solution(object):
   def kClosest(self, array, target, k):
@@ -408,6 +444,31 @@ class Solution(object):
     
     return left if (array[right]-target>target-array[left]) else right
 ```
+{% endtab %}
+
+{% tab title="Java" %}
+```
+int[] findKClosest(int[] array, int target, int K){
+    
+    int[] res = new int[K];
+    int closestIdx = findClosest(array, int target);
+    int l = closestIdx-1;
+    int r = closestIdx+1;
+    res[0] = array[closestIdx];
+    
+    for (i=0, i<K, i++){
+        if (r>array.length || l>=0 && Math.abs()<Math.abs() ){  //l有可能一上来就是-1 如果一上来k的range已经有了confinement，就不会两边同时出界
+        
+        } 
+        else{ // r < A.length && l < 0 || Math.abs()
+        
+        }
+    
+
+}
+```
+{% endtab %}
+{% endtabs %}
 
 ## Smallest Element that is Larger than Target
 
