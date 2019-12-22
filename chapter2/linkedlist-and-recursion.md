@@ -352,6 +352,26 @@ class SinglyLinkedList(object):
         return fakehead.next
 ```
 
+{% code title="Count number of nodes" %}
+```python
+class Solution(object):
+  def numberOfNodes(self, head):
+    """
+    input: ListNode head
+    return: int
+    """
+    # write your solution here
+    if not head:
+      return 0
+    counter=0
+    while head:
+      counter+=1
+      head=head.next
+    
+    return counter
+```
+{% endcode %}
+
 ## How to design a linked list class
 
 ```python
@@ -489,7 +509,7 @@ class Solution(object):
     return dummyHead.next
 ```
 
-### Reverse a singly linked list
+### Reverse a Singly Linked List
 
 #### 如果iterative way
 
@@ -583,6 +603,66 @@ class Solution(object):
     head.next.next=head
     head.next=None
 
+    return newhead
+```
+
+### Reverse Linked List in Pairs
+
+Reverse pairs of elements in a singly-linked list.
+
+**Examples**
+
+* L = null, after reverse is null
+* L = 1 -&gt; null, after reverse is 1 -&gt; null
+* L = 1 -&gt; 2 -&gt; null, after reverse is 2 -&gt; 1 -&gt; null
+* L = 1 -&gt; 2 -&gt; 3 -&gt; null, after reverse is 2 -&gt; 1 -&gt; 3 -&gt; null
+
+{% hint style="info" %}
+只需要遵循和reverse linked list一样的逻辑，知道：  
+1. 黑框框在了哪里：两个node之后的那些全部都是黑框  
+2. 红色那件事：让N1指向后面的黑框  
+3. 蓝色那件事：让N2指向N1  
+4. 当前层做点什么事: 红色和蓝色两件事
+{% endhint %}
+
+```python
+class Solution(object):
+  def reverseInPairs(self, head):
+    """
+    input: ListNode head
+    return: ListNode
+    """
+    # write your solution here
+    if not head or not head.next:
+      return head
+    
+    node1, node2 = head, head.next
+
+    rest=self.reverseInPairs(node2.next)
+    node1.next=rest
+    node2.next=node1
+    
+    return node2
+```
+
+```python
+class Solution(object):
+  def reverseInPairs(self, head):
+    """
+    input: ListNode head
+    return: ListNode
+    """
+    # write your solution here
+    return self.reverse(head)
+    
+  def reverse(self, head):  
+    if not head or not head.next:
+      return head
+    
+    secondhead=self.reverse(head.next.next)
+    newhead=head.next
+    newhead.next=head
+    head.next=secondhead
     return newhead
 ```
 
@@ -882,6 +962,101 @@ class Solution(object):
 **dummyTail:**  
 When we need to expand elements from the end of the Linked List. 
 {% endhint %}
+
+```python
+class Solution(object):
+  def merge(self, one, two):
+    """
+    input: ListNode one, ListNode two
+    return: ListNode
+    """
+    # write your solution here
+    dummyHead=ListNode('dummy')
+    tail = dummyHead
+    curr1, curr2 = one, two
+    
+    while curr1 and curr2:
+      if curr1.val<=curr2.val:
+        tail.next=curr1
+        curr1=curr1.next
+      else:
+        tail.next=curr2
+        curr2=curr2.next
+      tail = tail.next
+    
+    tail.next = curr1 if curr1 else curr2
+    
+    return dummyHead.next
+```
+
+### ReOrder Linked List
+
+Reorder the given singly-linked list N1 -&gt; N2 -&gt; N3 -&gt; N4 -&gt; … -&gt; Nn -&gt; null to be N1- &gt; Nn -&gt; N2 -&gt; Nn-1 -&gt; N3 -&gt; Nn-2 -&gt; … -&gt; null
+
+**Examples**
+
+* L = null, is reordered to null
+* L = 1 -&gt; null, is reordered to 1 -&gt; null
+* L = 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; null, is reordered to 1 -&gt; 4 -&gt; 2 -&gt; 3 -&gt; null
+* L = 1 -&gt; 2 -&gt; 3 -&gt; null, is reordred to 1 -&gt; 3 -&gt; 2 -&gt; null
+
+{% hint style="info" %}
+Step 1: Find Mid and Split to 2 Linked List  
+Step 2: Reverse the second Linked List  
+Step 3: Merge the two Linked List
+{% endhint %}
+
+```python
+class Solution(object):
+  def reorder(self, head):
+    """
+    input: ListNode head
+    return: ListNode
+    """
+    # write your solution here
+    if not head or not head.next:
+      return head
+    
+    mid = self.findmid(head)
+    head1 = head
+    head2 = mid.next
+    mid.next = None
+    head2 = self.reverse(head2)
+    newhead = self.merge(head1, head2)
+    return newhead
+
+  def findmid(self, head):
+    slow, fast = head, head.next
+    while fast and fast.next:
+      slow=slow.next
+      fast=fast.next.next
+    return slow
+
+  def reverse(self, head):
+    if not head or not head.next:
+      return head
+
+    newhead = self.reverse(head.next)
+    head.next.next=head
+    head.next=None
+    
+    return newhead
+
+  def merge(self, head1, head2):
+    dummyHead=ListNode('dummy')
+    tail=dummyHead
+    
+    while head1 and head2:
+      tail.next=head1
+      head1=head1.next
+      tail.next.next=head2
+      head2=head2.next
+      tail=tail.next.next
+
+    tail.next = head1 if head1 else head2
+
+    return dummyHead.next
+```
 
 
 
