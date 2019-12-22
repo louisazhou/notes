@@ -42,7 +42,7 @@ $$
 2. Recursive Function 的时间复杂度等于最后一层节点的个数？ ——如果是一个直上直下一叉树就错得离谱了
 3. Recursive Function 的时间复杂度等于最后一层节点的时间复杂度之和？ ——同上
 4. Recursive Function 的空间复杂度等于recursion tree的层数或者高度？ ——除非每一层的space是O\(1\)
-5. Recursive Function 的空间复杂度等于所有节点的空间复杂度之和？ ——只和直上直下的那条call stack有关，因为冯诺依曼原理，每一层调用结束之后原来的那个空间就被释放了
+5. Recursive Function 的空间复杂度等于所有节点的空间复杂度之和？ ——只和直上直下的粉红色那条call stack有关，因为冯诺依曼原理，每一层调用结束之后原来的那个空间就被释放了
 
 **Call stack:** can be regarded as a **globally accessible information** that tells you what happened before each _break point_ in each level. 
 
@@ -133,22 +133,6 @@ def search_by_value (head, value):
 
 ### Reverse a singly linked list
 
-#### 如果iterative way
-
-1. One sentence high-level description  Do a linear scan on each element, move next pointer to the previous element
-2. Data Structure \(物理意义 or semantic\) 不变的关系 curr: the node which I want to change its next to its previous node prev: curr's previous node in the input linkedlist next: curr's next node in the input linkedlist
-3. Algorithm - **initialize**  prev: null, curr=head, next=curr.next - **for each step:**   curr.next=prev, 先移previous，prev=curr 再移curr，curr=next （这一步也可以放在第一步）最后移next，next=curr.next - **termination condition: curr是要被反转的，所以一定是** curr==null
-
-时间O\(n\) 空间O\(1\)
-
-```python
-
-```
-
- 
-
-#### 如果recursively
-
 1. 翻转后面的那些
 2. 让后面的node2指向自己 node2.next=head
 3. 让head.next=null
@@ -170,4 +154,6 @@ def reverse (head): #reverse the linkedlist headed by head
     
     return node
 ```
+
+## Iterative vs Recursive Way
 

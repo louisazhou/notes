@@ -16,7 +16,7 @@ linkedlist虽然也是线性结构，但它对内存单元的要求没有list这
 
 ### OOP——object oriented programming 
 
-Python处理的基本单元是对象（object）。Anything can be an object. 
+Python处理的基本单元是对象（object）Anything can be an object. 
 
 #### Object:
 
@@ -276,37 +276,6 @@ def add_to_index(head, index, val):
 
 dummy node 在两种情况非常好用1）在构建一个新的链表不知道谁是头的时候（比如谁小移谁，合并了两个linkedlist）2）在需要对头进行操作的时候（增删改）
 
-### Insert in a Sorted Linkedlist
-
-1. Assumption  - 是不是一定有比target大的数 ： 不知道 - Duplication 的时候还要不要加 ： 可以有 插一个一样的在它之前 - Data Type 万一是字符串、double...： 都是整数 - Sorted是ascending还是descending 比如没有给例子 ： ascending
-2. Data Structure:  - dummyHead 因为新头旧头可能不是一个头 - curr 判断target是否是要插在curr的后面 也就是和curr.next比较
-3. Initialize - curr=dummyHead - targetNode= new ListNode\(target\)
-4. For each step: case 1: 先保证 case 2:
-5. Termination Condition: curr.next==null
-
-```python
-class Solution(object):
-  def insert(self, head, value):
-    """
-    input: ListNode head, int value
-    return: ListNode
-    """
-    # write your solution here
-    
-    dummy=ListNode('dummy')
-    dummy.next=head
-    prev=dummy
-    
-    while prev.next and prev.next.val<value:
-      prev=prev.next
-    
-    newnode=ListNode(value)
-    newnode.next=prev.next
-    prev.next=newnode
-  
-    return dummy.next
-```
-
 ### Remove 删除
 
 #### Remove from index
@@ -489,6 +458,136 @@ ll.addAtHead\(1\) 等价于MyLinkedList.addAtHead\(ll, 3\)
 
 ## 题
 
+### Insert in a Sorted Linkedlist
+
+1. Assumption  - 是不是一定有比target大的数 ： 不知道 - Duplication 的时候还要不要加 ： 可以有 插一个一样的在它之前 - Data Type 万一是字符串、double...： 都是整数 - Sorted是ascending还是descending 比如没有给例子 ： ascending
+2. Data Structure:  - dummyHead 因为新头旧头可能不是一个头 - curr 判断target是否是要插在curr的后面 也就是和curr.next比较
+3. Initialize - curr=dummyHead - targetNode= new ListNode\(target\)
+4. For each step: case 1: 先保证 case 2:
+5. Termination Condition: curr.next==null
+
+```python
+class Solution(object):
+  def insert(self, head, value):
+    """
+    input: ListNode head, int value
+    return: ListNode
+    """
+    # write your solution here
+    
+    dummyHead=ListNode('dummy')
+    dummyHead.next = head
+    prev=dummyHead
+
+    while prev.next and prev.next.val < value:
+      prev=prev.next
+
+    newnode = ListNode(value)  
+    newnode.next = prev.next
+    prev.next = newnode
+
+    return dummyHead.next
+```
+
+### Reverse a singly linked list
+
+#### 如果iterative way
+
+面试过程clarification, algorithm, result, test的顺序一步步来； 
+
+1. One sentence high-level description of the problem  Do a linear scan on each element, move next pointer to the previous element
+2. Clarification of the problem assumptions
+3. Data Structure \(物理意义 or semantic\) 不变的关系 curr: the node which I want to change its next to its previous node prev: curr's previous node in the input linkedlist next: curr's next node in the input linkedlist
+4. Algorithm - **initialize**  prev: null, curr=head, next=curr.next - **for each step:**   curr.next=prev, 先移previous，prev=curr 再移curr，curr=next （这一步也可以放在第一步）最后移next，next=curr.next - **termination condition: curr是要被反转的，所以一定是** curr==null 时间O\(n\) 空间O\(1\)
+
+{% hint style="info" %}
+注意Python这里的None不是新建一个listnode\(None\) 这个很奇怪 不然不通过
+{% endhint %}
+
+{% tabs %}
+{% tab title="Python" %}
+```python
+class Solution(object):
+  def reverse(self, head):
+    """
+    input: ListNode head
+    return: ListNode
+    """
+    # write your solution here
+    prev, curr = None, head
+
+    while curr:
+      next=curr.next
+      curr.next=prev
+      prev=curr
+      curr=next
+    
+    return prev
+```
+{% endtab %}
+
+{% tab title="Java" %}
+```java
+public class Solution {
+  public ListNode reverse(ListNode head) {
+    // Write your solution here
+    ListNode prev = null;
+    while (head!=null) {
+      ListNode next=head.next;
+      head.next=prev;
+      prev=head;
+      head=next;
+    }
+  return prev;
+  }
+}
+```
+{% endtab %}
+{% endtabs %}
+
+#### 如果recursively
+
+1. 翻转后面的那些
+2. 让后面的node2指向自己 node2.next=head
+3. 让head.next=null
+4. 新的linkedlist的头 也就是node n
+
+时间、时间都是O\(n\)
+
+```python
+def reverse (head): #reverse the linkedlist headed by head
+    if head is None or head.next is None:
+    # linked list is empty or contains only one node
+        return head
+    
+    node = reverse(head.next)
+    # 当前head的头节点就是所反转list的尾节点 在执行完head.next这一行之后，head.next的值还是原来的
+    tail = head.next
+    tal.next = head
+    head.next = None 
+    
+    return node
+
+
+class Solution(object):
+  def reverse(self, head):
+    """
+    input: ListNode head
+    return: ListNode
+    """
+    # write your solution here
+    if not head or not head.next:
+      return head
+    
+    newhead = self.reverse(head.next)
+    head.next.next=head
+    head.next=None
+
+    return newhead
+```
+
+ 
+
 ### Remove all vowels in a linked list
 
 curr:物理意义是什么？  
@@ -575,7 +674,7 @@ Given a linked list and a target value T, partition it such that all nodes less 
 
 1. Assumption: - &lt; 和 &gt;= - Duplication - Integer
 2. Data Structure - dummyHeadSmall smallTail - dummyHeadLarge LargeTail
-3. 最后一定记得把largetail的尾巴断了 
+3. 最后一定记得把largetail的尾巴断了
 
 ```python
 class Solution(object):
@@ -743,6 +842,27 @@ data structure: slow and fast, fast之前包含fast的节点个数=2\*slow之前
 
 initialization:slow=head, fast=head.next
 
+```python
+class Solution(object):
+  def middleNode(self, head):
+    """
+    input: ListNode head
+    return: ListNode
+    """
+    # write your solution here
+    # # of node on the left of fast = 2* # of node on the left of slow (including)
+    if not head or not head.next:
+      return head
+    
+    slow, fast = head, head.next
+
+    while fast and fast.next:
+      slow=slow.next
+      fast=fast.next.next
+    
+    return slow 
+```
+
 > online vs. offline: 
 >
 > offline algorithm: 必须读出所有的数据  
@@ -753,7 +873,17 @@ initialization:slow=head, fast=head.next
 ### Merge 2 linked list
 
 1. Clarification - ascending or descending - data type: integer - what to do when there is duplication: 
-2. Data Structure: DummyHead curr1 curr2 curr3
+2. Data Structure: DummyHead curr1 curr2 curr
+
+{% hint style="info" %}
+**dummyHead:**   
+\(1\) When we need to change the head / when the headNode might be changed  
+\(2\) When we need to build a new Linked List from scratch \(from 0 node\)  
+**dummyTail:**  
+When we need to expand elements from the end of the Linked List. 
+{% endhint %}
+
+
 
 ## 链表、环的问题
 
@@ -835,7 +965,7 @@ class Solution(object):
 
 记录下碰撞点meet，slow、fast从该点开始，再次碰撞所走过的操作数就是环的长度r
 
-### 向循环有序链表插入节点 · Insert into a Cyclic Sorted List
+### Insert into a Cyclic Sorted List
 
 ```python
 class Solution(object):
@@ -845,29 +975,28 @@ class Solution(object):
     return: ListNode
     """
     # write your solution here
-    if not head:
-      newnode=ListNode(newVal)
-      newnode.next=newnode
-      return newnode
+    newNode=ListNode(newVal)
 
-    prev, curr = None, head
+    if not head:
+      newNode.next=newNode
+      return newNode
+
+    prev, curr = head, head.next
     
     while True:
-        prev = curr
-        curr = curr.next
-        if newVal <=curr.val and newVal>=prev.val: #新节点需要插入到某2个节点之间，这两个节点是顺序的
-          break
-        
-        if (prev.val>curr.val) and (newVal<curr.val or newVal>prev.val): #新节点需要插入到某2个节点之间，这两个节点是有break的 5——>6——>1 插入0 或者插入7  
-          break
-        
-        if curr is head: #遍历链表找到尾结点
-          break
+      if prev.val<=newVal and curr.val>=newVal: #新节点需要插入到某2个节点之间，这两个节点是顺序的
+        break
+      if prev.val>curr.val and (curr.val>newVal or prev.val<newVal): #新节点需要插入到某2个节点之间，这两个节点是有break的 5——>6——>1 插入0 或者插入7
+        break
+      if curr is head: #遍历链表找到尾结点
+        break
+      
+      prev = prev.next
+      curr = curr.next
     
-    newNode=ListNode(newVal)
     newNode.next=curr
     prev.next=newNode
-
+    
     return head
 ```
 
