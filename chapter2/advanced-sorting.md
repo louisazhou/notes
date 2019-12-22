@@ -82,7 +82,7 @@ Total Time Complexity O\(nlogn\)
 
 #### 空间
 
-每层 O\(1\) 空间改指针 所以O\(logn\)
+每层 O\(1\) 直上直下粉色路径的空间复杂都之和     空间改指针 所以O\(logn\)
 
 ### Convert a String A1B2C3D4 to ABCD1234
 
@@ -236,11 +236,77 @@ class Solution(object):
     return leftbound
 ```
 
-
-
 ### Array Shuffling 
 
 2个挡板，3个区域，把非0放在左边，0放在右边
+
+```python
+class Solution(object):
+  def moveZero(self, array):
+    """
+    input: int[] array
+    return: int[]
+    """
+    # write your solution here
+    if len(array)<=1:
+      return array
+    end = len(array)-1
+    leftBound, rightBound = 0, end
+    while leftBound<=rightBound:
+      if array[leftBound]!=0:
+        leftBound+=1
+      elif array[rightBound]==0:
+        rightBound-=1
+      else:
+        array[rightBound], array[leftBound] = array[leftBound],array[rightBound]
+        leftBound+=1
+        rightBound-=1
+    return array
+```
+
+### Rainbow Sort I
+
+3个挡板，4个区域，三种颜色-1，0，1的顺序
+
+-1 -1 -1 -1 0 0 0 0 0 -1 0 1 1 1 1  
+                  i                j      k
+
+\[0, i\) -1  
+\[i, j\) 0  
+\[j, k\] unknown  
+\(k, n-1\] 1  
+array\[j\]==-1: swap with array\[i\], i++, j++ j可以加，因为可以保证i换过来的一定是0  
+array\[j\]==0: j++  
+array\[j\]==1: swap with array\[k\], k--  j不加，因为k的物理意义是unknown 后面的都还不知道呢 不能加  
+当j和k错开的时候停止，不是重叠，因为我们需要unknown里完全没有数字，所以只有在它俩交错才能保证里面没有东西。
+
+Time: O\(n\)
+
+```python
+class Solution(object):
+  def rainbowSort(self, array):
+    """
+    input: int[] array
+    return: int[]
+    """
+    # write your solution here
+    if not array or len(array)<=1:
+      return array
+    
+    ones, zeros, negs = len(array)-1, 0, 0
+    while zeros<=ones:
+      if array[zeros]==-1:
+        array[zeros],array[negs]=array[negs],array[zeros]
+        zeros+=1
+        negs+=1
+      elif array[zeros]==0:
+        zeros+=1
+      else: 
+        array[zeros],array[ones]=array[ones],array[zeros]
+        ones-=1
+
+    return array
+```
 
 ## Find the k-th largest element in an array
 
@@ -284,27 +350,11 @@ print(find_kth_largest(arr,1))
 
 $$\begin{array}{l}{\text { Time complexity: }} \\ {\begin{aligned} T(n) &=T(n / 2)+O(n) \\ &=T(n / 4)+O(n / 2+n) \\ &=\ldots \\ &\left.=T\left(n / 2^{n} k\right)+O\left(n+n / 2+\ldots+n / 2^{\wedge} k\right)\right] \\ &=T\left(n / 2^{n} k\right)+O\left(n+2^{*}\left(1-0.5^{\wedge} k\right)\right) \\ \text { Let } n &=2^{\wedge} k \\ T(n) &=T(1)+O(2 n-2) \Rightarrow T(n)=O(n) \\ \text { Space complexity: } O(1) \end{aligned}}\end{array}$$ 
 
-## Rainbow Sort 彩虹排
+## Rainbow Sort 系列
 
-#### 3种颜色，用pointer
+### I 3种颜色 -1，0，1
 
-三种颜色，-1、0、1，两个挡板，left的左侧不包含left都是-1，right的右侧不包含right都是1，\[left, right\]是0.
-
-三个挡板，四个区域
-
--1 -1 -1 -1 0 0 0 0 0 -1 0 1 1 1 1  
-                  i                j      k
-
-\[0, i\) -1  
-\[i, j\) 0  
-\[j, k\] unknown  
-\(k, n-1\] 1  
-array\[j\]==-1: swap with array\[i\], i++, j++ j可以加，因为可以保证i换过来的一定是0  
-array\[j\]==0: j++  
-array\[j\]==1: swap with array\[k\], k--  j不加，因为k的物理意义是unknown 后面的都还不知道呢 不能加  
-当j和k错开的时候停止，不是重叠，因为我们需要unknown里完全没有数字，所以只有在它俩交错才能保证里面没有东西。  
-  
-Time: O\(n\)
+下面这个赶紧忘掉 写的什么玩意
 
 {% tabs %}
 {% tab title="Python" %}
@@ -341,7 +391,7 @@ class Solution(object):
 {% endtab %}
 {% endtabs %}
 
-#### 不知道几种颜色，用bucket sort
+### II 4种颜色 0，1，2，3
 
 只有在大量重复数字的sort才有意义
 
@@ -383,7 +433,7 @@ class Solution(object):
       return A
 ```
 
-#### K种颜色，用quick sort的思想
+### III K种颜色，用quick sort的思想
 
 传入两个区间，一个是颜色区间 color\_from, color\_to。另外一个是待排序的数组区间 index\_from, index\_to.  
 找到颜色区间的中点，将数组范围内进行 partition，&lt;= color 的去左边，&gt;color 的去右边。  

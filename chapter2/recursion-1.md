@@ -133,8 +133,31 @@ def search_by_value (head, value):
 
 ### Reverse a singly linked list
 
+#### 如果iterative way
+
+1. One sentence high-level description  Do a linear scan on each element, move next pointer to the previous element
+2. Data Structure \(物理意义 or semantic\) 不变的关系 curr: the node which I want to change its next to its previous node prev: curr's previous node in the input linkedlist next: curr's next node in the input linkedlist
+3. Algorithm - **initialize**  prev: null, curr=head, next=curr.next - **for each step:**   curr.next=prev, 先移previous，prev=curr 再移curr，curr=next （这一步也可以放在第一步）最后移next，next=curr.next - **termination condition: curr是要被反转的，所以一定是** curr==null
+
+时间O\(n\) 空间O\(1\)
+
 ```python
-def reverse (head):
+
+```
+
+ 
+
+#### 如果recursively
+
+1. 翻转后面的那些
+2. 让后面的node2指向自己 node2.next=head
+3. 让head.next=null
+4. 新的linkedlist的头 也就是node n
+
+时间、时间都是O\(n\)
+
+```python
+def reverse (head): #reverse the linkedlist headed by head
     if head is None or head.next is None:
     # linked list is empty or contains only one node
         return head

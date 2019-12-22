@@ -30,6 +30,13 @@ Python处理的基本单元是对象（object）。Anything can be an object.
 无论马自达还是兰博基尼，有唯一的VIN-number.定义class就描述了一个对象应该具有的状态和行为是什么。class是对于对象的描述，一个class是一个**blueprint**，描述了一系列我们想要的object具备的特点是什么。  
 
 
+{% hint style="info" %}
+LinkedList的两个坑
+
+1. NPE
+2. 对头的控制（不一定是那个唯一的头 可能是中间的突然断掉了）
+{% endhint %}
+
 ### Singly Linked List
 
 一个单链表由0个或多个链节点\(a list node\)组成。从OOD的角度，如何构造一个list node？
@@ -271,6 +278,12 @@ dummy node 在两种情况非常好用1）在构建一个新的链表不知道�
 
 ### Insert in a Sorted Linkedlist
 
+1. Assumption  - 是不是一定有比target大的数 ： 不知道 - Duplication 的时候还要不要加 ： 可以有 插一个一样的在它之前 - Data Type 万一是字符串、double...： 都是整数 - Sorted是ascending还是descending 比如没有给例子 ： ascending
+2. Data Structure:  - dummyHead 因为新头旧头可能不是一个头 - curr 判断target是否是要插在curr的后面 也就是和curr.next比较
+3. Initialize - curr=dummyHead - targetNode= new ListNode\(target\)
+4. For each step: case 1: 先保证 case 2:
+5. Termination Condition: curr.next==null
+
 ```python
 class Solution(object):
   def insert(self, head, value):
@@ -478,6 +491,11 @@ ll.addAtHead\(1\) 等价于MyLinkedList.addAtHead\(ll, 3\)
 
 ### Remove all vowels in a linked list
 
+curr:物理意义是什么？  
+不是让curr和target比较，而是curr.next和target作比较，这样就不需要再来一个prev了 
+
+Termination Condition
+
 {% tabs %}
 {% tab title="双指针" %}
 ```python
@@ -554,6 +572,10 @@ Given a linked list and a target value T, partition it such that all nodes less 
 **Examples**
 
 * L = 2 -&gt; 4 -&gt; 3 -&gt; 5 -&gt; 1 -&gt; null, T = 3, is partitioned to 2 -&gt; 1 -&gt; 4 -&gt; 3 -&gt; 5 -&gt; null
+
+1. Assumption: - &lt; 和 &gt;= - Duplication - Integer
+2. Data Structure - dummyHeadSmall smallTail - dummyHeadLarge LargeTail
+3. 最后一定记得把largetail的尾巴断了 
 
 ```python
 class Solution(object):
@@ -713,9 +735,33 @@ head.next.next = ListNode(0)
 
 corner case：None、数量不同、奇偶
 
+### 找中点
+
+clarrification: 一上来要问clarification: 比如，偶数个的node的时候中点是左边的还是右边的？ 左边的，因为有左可以找到右，有右就找不到左了；以及左边的会更方便做题的分析，比如merge sort
+
+data structure: slow and fast, fast之前包含fast的节点个数=2\*slow之前包含slow的节点个数
+
+initialization:slow=head, fast=head.next
+
+> online vs. offline: 
+>
+> offline algorithm: 必须读出所有的数据  
+> online algorithm: 不需要读出所有数据
+>
+> 如果有一个linkedlist，不知道linkedlist有多长，那么可以先读完一遍然后再读半遍； 如果是slow&fast，物理意义永远不变，哪怕只做了一半断电了，这个时候slow停下的位置依然是中点；这对于“数据量大小未知”的问题非常方便。
+
+### Merge 2 linked list
+
+1. Clarification - ascending or descending - data type: integer - what to do when there is duplication: 
+2. Data Structure: DummyHead curr1 curr2 curr3
+
 ## 链表、环的问题
 
 ### Check if linkedlist has cycle
+
+{% hint style="info" %}
+这里可以不需要一开始的sanity check
+{% endhint %}
 
 ```python
 class Solution(object):
@@ -725,8 +771,8 @@ class Solution(object):
     return: boolean
     """
     # write your solution here
-    if not head:
-      return False
+ #   if not head:
+ #     return False
     slow, fast = head, head
 
     while fast and fast.next:
