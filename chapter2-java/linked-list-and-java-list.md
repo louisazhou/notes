@@ -72,7 +72,7 @@ current.next = current.next.next
 ### length
 
 ```java
-int (ListNode head){
+int length(ListNode head){
     int count=0
     while (head!=null){ //head==null时退出，此时一定是过了最后一个节点 因为这个代码的逻辑是要路过每一个node，每路过一个就+1
         head = head.next
@@ -85,25 +85,27 @@ int (ListNode head){
 ### get\(index\)
 
 ```java
-LiLisint (head, int index){
+ListNode get(head, int index){
+//asumption: index>=0
     ListNode prev = new ListNode(null)
     prev.next = head
-    while (index>0 and prev.next!=null){
+    while (index>0 and prev.next!=null){ //index<=0 or prev.next==null
         prev=prev.next
         index--
     }
-    return prev.next!=null? prev.next.val:null
+    return prev.next
 }
 ```
+
+这里return listnode object会更现实，因为这就不需要对val做assumption，以及在java里只有interger type才能有null
 
 ### appendHead\(\)
 
 ```java
-public ListNode (head, int val){
-    ListNode dummyHead = new ListNode(null)
-    dummyHead.next = head
-    
-    return dummyHead.next
+ListNode appendHead(head, int val){
+    ListNode newNode = new ListNode(val)
+    newNode.next = head
+    return newNode
 }
 ```
 
