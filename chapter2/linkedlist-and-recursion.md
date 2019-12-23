@@ -519,7 +519,7 @@ class Solution(object):
 4. Algorithm - **initialize**  prev: null, curr=head, next=curr.next - **for each step:**   curr.next=prev, 先移previous，prev=curr 再移curr，curr=next （这一步也可以放在第一步）最后移next，next=curr.next - **termination condition: curr是要被反转的，所以一定是** curr==null 时间O\(n\) 空间O\(1\)
 
 {% hint style="info" %}
-注意Python这里的None不是新建一个listnode\(None\) 这个很奇怪 不然不通过
+注意不管是Python的None还是Java的null，在这里都不是新建一个listnode\(None\) 或者listnode\(null\)，而是就是None/null，也就是没有ListNode，什么都没有。
 {% endhint %}
 
 {% tabs %}
