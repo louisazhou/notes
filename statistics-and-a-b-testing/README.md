@@ -85,5 +85,7 @@ Sample: random sampling, stratified sampling, systematic sampling, cluster sampl
 1. QQ Plot
 2. QR Test?
 
+{% embed url="http://www.math.pku.edu.cn/teachers/lidf/docs/statcomp/html/\_statcompbook/index.html" %}
+
 
 

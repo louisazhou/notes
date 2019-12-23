@@ -35,6 +35,7 @@
   * [Graph Search BFS](chapter2/graph-search.md)
   * [Graph Search DFS](chapter2/dfs.md)
   * [Problems from 'JianZhi Offer'](chapter2/problems-from-jianzhi-offer.md)
+  * [Problems Categorized](chapter2/problems-categorized.md)
 * [Chapter4 Model](chapter3-model/README.md)
   * [Linear Regression](chapter3-model/linear-regression.md)
   * [Logistic Regression](chapter3-model/logistic-regression-and-regularization.md)
