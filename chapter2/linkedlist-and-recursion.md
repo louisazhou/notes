@@ -73,7 +73,7 @@ line9，从物理含义上，让node1里的next存node2的地址。所以node1�
 
 在这里最容易犯的错误是dereference的时候在None上操作了 比如
 
-![](../.gitbook/assets/image%20%2837%29.png)
+![](../.gitbook/assets/image%20%2838%29.png)
 
 这里temp.next=temp.next.next没问题，但是current.next=current.next.next就会报错
 
@@ -361,14 +361,12 @@ class Solution(object):
     return: int
     """
     # write your solution here
-    if not head:
-      return 0
-    counter=0
+    steps = 0 
     while head:
-      counter+=1
+      steps+=1
       head=head.next
-    
-    return counter
+      
+    return steps
 ```
 {% endcode %}
 
@@ -675,6 +673,29 @@ curr:物理意义是什么？
 
 Termination Condition
 
+{% code title="remove a value from a linked list" %}
+```python
+class Solution(object):
+  def removeElements(self, head, val):
+    """
+    input: ListNode head, int val
+    return: ListNode
+    """
+    # write your solution here
+    dummyHead = ListNode('dummy')
+    dummyHead.next = head
+    prevNode = dummyHead
+
+    while prevNode.next:
+      if prevNode.next.val==val:
+        prevNode.next=prevNode.next.next #注意这里不要移动prevNode！
+      else:
+        prevNode=prevNode.next
+
+    return dummyHead.next
+```
+{% endcode %}
+
 {% tabs %}
 {% tab title="双指针" %}
 ```python
@@ -728,20 +749,23 @@ class Solution(object):
     return: ListNode
     """
     # write your solution here
-    dummy = ListNode(0)
-    dummy.next = head
-    fast, prev = dummy, dummy
-    for _ in range(n): 
-      if fast.next:
-        fast = fast.next
-      else:
-        return dummy.next
+    dummyHead=ListNode('dummy')
+    dummyHead.next=head
+    curr,fast=dummyHead,dummyHead
 
-    while fast.next:
-      fast, prev = fast.next, prev.next
+    while n>0 and fast:
+      fast=fast.next
+      n-=1
     
-    prev.next = prev.next.next
-    return dummy.next 
+    if not fast:
+      return dummyHead.next
+
+    while fast and fast.next:
+      fast=fast.next
+      curr=curr.next
+
+    curr.next=curr.next.next
+    return dummyHead.next
 ```
 
 ### Partition a Linked List
@@ -764,33 +788,25 @@ class Solution(object):
     return: ListNode
     """
     # write your solution here
-    # step 1: initiate 2 dummy heads, head1 connects all the T that are smaller and equal to target,
-    # and head2 connects all the T that are larger than target
-    # we also need tailsmall and tallarge 
-    # step 2: tailsmall.next=dummylarge.next
-    # step 3: remove the tail of the dummytaillarge, and make it pointing to None
-
-    dummys=ListNode('dummysmall')
-    c1=dummys
-    dummyl=ListNode('dummylarge')
-    c2=dummyl
+    dummyHeads=ListNode('Small')
+    tails = dummyHeads
+    dummyHeadl=ListNode('Large')
+    taill = dummyHeadl
     curr=head
 
-    while curr:
-      if curr.val<target:
-        c1.next=curr
-        c1=c1.next
-        curr=curr.next
-      elif curr.val>=target:
-        c2.next=curr
-        c2=c2.next
-        curr=curr.next
+    while head:
+      if head.val<target:
+        tails.next=head
+        tails=tails.next
+      else:
+        taill.next=head
+        taill=taill.next
+      head = head.next
     
-    c2.next=None
-    c1.next=dummyl.next
+    tails.next=dummyHeadl.next
+    taill.next=None #最后一定记得把largetail的尾巴断了 不然就是一个loop了
 
-
-    return dummys.next
+    return dummyHeads.next
 ```
 
 ### Add two linked list which represents large number 
@@ -804,6 +820,36 @@ class Solution(object):
 3. 两个linkedlist不等长 所以注意while循环的break，post-processing
 4. reverse最后的结果
 
+{% code title="这个题目是已经reverse过了的 所以不需要reverse function" %}
+```python
+class Solution(object):
+  def addTwoNumbers(self, l1, l2):
+    """
+    input: ListNode l1, ListNode l2
+    return: ListNode
+    """
+    # write your solution here
+    dummyHead = ListNode('dummy')
+    tail=dummyHead
+    curr = 0
+    
+    while l1 or l2 or curr!=0:
+      if l1:
+        curr += l1.val
+        l1=l1.next
+      if l2:
+        curr += l2.val
+        l2=l2.next
+  
+      tail.next=ListNode(curr%10)
+      tail=tail.next
+      curr = curr//10
+      
+    return dummyHead.next
+```
+{% endcode %}
+
+{% code title="这写的什么玩意 赶紧忘掉" %}
 ```python
 def reverse_list(node):
     previous_node = None
@@ -846,6 +892,7 @@ def add_list(head1, head2):
         cur_node.next = ListNode(carry)
     return reverse_list(fake_head.next)
 ```
+{% endcode %}
 
 ###  If a linked list is a palindrome
 
@@ -867,6 +914,7 @@ def add_list(head1, head2):
 
 关于快慢指针找中点
 
+{% code title="这写的什么乱七八糟的玩意 赶紧忘掉" %}
 ```python
 class Solution(object):
   def middleNode(self, head):
@@ -886,6 +934,7 @@ class Solution(object):
     
     return slow
 ```
+{% endcode %}
 
 注意while的条件，这其实是提前一点停止，保证slow在中间而不是中间右一个
 
@@ -913,6 +962,49 @@ head.next.next = ListNode(0)
 ```
 
 corner case：None、数量不同、奇偶
+
+{% code title="上面的都忘掉 以这个为准" %}
+```python
+class Solution(object):
+  def isPalindrome(self, head):
+    """
+    input: ListNode head
+    return: boolean
+    """
+    # write your solution here
+    if not head or not head.next:
+      return True
+    
+    mid = self.findmin(head)
+    head1, head2 = head, mid.next
+    mid.next = None
+    head2 = self.reverse(head2)
+    return self.compare(head1, head2)
+  
+  def findmin(self, head):
+    slow, fast = head, head.next
+    while fast and fast.next:
+      slow = slow.next
+      fast = fast.next.next
+    return slow
+  
+  def reverse(self, head):
+    if not head or not head.next:
+      return head
+    newhead = self.reverse(head.next)
+    head.next.next=head
+    head.next=None
+    return newhead
+  
+  def compare(self, head1, head2):
+    while head1 and head2:
+      if head1.val!=head2.val:
+        return False
+      head1=head1.next
+      head2=head2.next
+    return True 
+```
+{% endcode %}
 
 ### 找中点
 
@@ -1058,7 +1150,54 @@ class Solution(object):
     return dummyHead.next
 ```
 
+### Merge Sort Linked List
 
+```python
+class Solution(object):
+  def mergeSort(self, head):
+    """
+    input: ListNode head
+    return: ListNode
+    """
+    # write your solution here
+    if not head or not head.next:
+      return head
+    mid = self.findmid(head)
+    head1, head2 = head, mid.next
+    mid.next = None
+    left = self.mergeSort(head1)
+    right = self.mergeSort(head2)
+
+    return self.merge(left, right)
+    
+
+  def findmid(self, head):
+    if not head or not head.next:
+      return head
+    slow, fast = head, head.next
+    while fast and fast.next:
+      slow=slow.next
+      fast=fast.next.next
+    return slow
+  
+  def merge(self, head1, head2):
+    dummyHead = ListNode('dummy')
+    tail = dummyHead
+
+    while head1 and head2:
+      if head1.val<head2.val:
+        tail.next=head1
+        head1=head1.next
+      else:
+        tail.next=head2
+        head2=head2.next
+      tail=tail.next
+    
+    tail.next=head1 if head1 else head2
+
+    return dummyHead.next
+  
+```
 
 ## 链表、环的问题
 

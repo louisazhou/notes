@@ -2,7 +2,7 @@
 description: (unfinished) Numpy的ndarray、数学公式和矩阵使用、数据切片
 ---
 
-# Section1.3 Numpy
+# Numpy
 
 ## NDarray and Matrix
 
@@ -120,7 +120,7 @@ print(np.sum(a, axis = 1)) #[33 42]
 
 **秩（rank）**：维数，一维数组的秩为1，二维数组的秩为2，以此类推。即轴的个数。
 
-![](../.gitbook/assets/image%20%2829%29.png)
+![](../.gitbook/assets/image%20%2830%29.png)
 
 用True/False可以很容易的为np array 做masking 比如
 

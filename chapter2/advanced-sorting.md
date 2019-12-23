@@ -8,7 +8,7 @@ description: 'Merge-Sort,  Quick Sort'
 
 假如有一个sort好的array的前后半边，就可以用谁小移谁的方式sort完整个array
 
-![](../.gitbook/assets/image%20%2844%29.png)
+![](../.gitbook/assets/image%20%2845%29.png)
 
 {% embed url="https://www.hackerearth.com/zh/practice/algorithms/sorting/merge-sort/visualize/" %}
 
