@@ -34,6 +34,7 @@
   * [Complete Binary Tree, Segment Tree, Trie Tree](chapter2/complete-binary-tree-segment-tree-trie-tree.md)
   * [Graph Search BFS](chapter2/graph-search.md)
   * [Graph Search DFS](chapter2/dfs.md)
+  * [Problems from 'JianZhi Offer'](chapter2/problems-from-jianzhi-offer.md)
 * [Chapter4 Model](chapter3-model/README.md)
   * [Linear Regression](chapter3-model/linear-regression.md)
   * [Logistic Regression](chapter3-model/logistic-regression-and-regularization.md)
