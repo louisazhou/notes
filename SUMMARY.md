@@ -18,7 +18,7 @@
   * [Fundamental Knowledge](chapter2/time-complexity.md)
   * [Binary Search](chapter2/binary-search.md)
   * [Basic Sorting](chapter2/basic-sorting.md)
-  * [Linkedlist](chapter2/linkedlist-and-recursion.md)
+  * [Linked List](chapter2/linkedlist-and-recursion.md)
   * [Recursion 1](chapter2/recursion-1.md)
   * [HashTable](chapter2/hashtable.md)
   * [Advanced Sorting](chapter2/advanced-sorting.md)

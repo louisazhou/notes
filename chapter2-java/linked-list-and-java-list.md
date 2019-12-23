@@ -56,7 +56,7 @@ line 6是最特殊的，因为它有dereference，它的操作是在heap上做�
 如果在这个时候加了
 
 ```java
-temp.next = temp.next.next
+temp.next = temp.next.next;
 ```
 
 temp.next是object1，temp.next = null, 读一个null没有关系，不会NPE
@@ -64,21 +64,25 @@ temp.next是object1，temp.next = null, 读一个null没有关系，不会NPE
 但是下面的是NPE，因为相当于让current.next指向null.next
 
 ```java
-current.next = current.next.next
+current.next = current.next.next;
 ```
 
-## Linked List Operation
+另外，如果刚才的curr、next、temp是在field里定义的，那么这些reference就存在了heap里。没有method的area （field里 method外）不能多次赋值，所以3，4，6，7行就不行。
+
+## linked list Operation
+
+linked list和语言无关，是一个data structure，都是由listnode组成的链表；但是大写的LinkdList是一个class
 
 ### length
 
 ```java
 int length(ListNode head){
-    int count=0
+    int count=0;
     while (head!=null){ //head==null时退出，此时一定是过了最后一个节点 因为这个代码的逻辑是要路过每一个node，每路过一个就+1
-        head = head.next
-        count++
+        head = head.next;
+        count++;
     } 
-    return count
+    return count;
 }
 ```
 
@@ -87,13 +91,13 @@ int length(ListNode head){
 ```java
 ListNode get(head, int index){
 //asumption: index>=0
-    ListNode prev = new ListNode(null)
-    prev.next = head
+    ListNode prev = new ListNode(null);
+    prev.next = head;
     while (index>0 and prev.next!=null){ //index<=0 or prev.next==null
-        prev=prev.next
-        index--
+        prev=prev.next;
+        index--;
     }
-    return prev.next
+    return prev.next;
 }
 ```
 
@@ -103,11 +107,119 @@ ListNode get(head, int index){
 
 ```java
 ListNode appendHead(head, int val){
-    ListNode newNode = new ListNode(val)
-    newNode.next = head
-    return newNode
+    ListNode newNode = new ListNode(val);
+    newNode.next = head;
+    return newNode;
 }
 ```
 
 ### appendTail\(\)
+
+```java
+ListNode appendTail(head, int val){
+    ListNode tail = new ListNode(val);
+    if (head==null){
+        return tail;
+    }
+    ListNode prev = head;
+    while (prev.next!=null){
+        prev=prev.next;
+    }
+    prev.next=tail;
+    return head;
+}
+```
+
+以上所有操作，虽然head都有在变，但是我们从头到尾没有失去对head的控制权，所以其实不需要dummyHead
+
+### remove\(\)
+
+## LinkedList in Java
+
+{% embed url="https://docs.oracle.com/javase/7/docs/api/java/util/LinkedList.html" %}
+
+Java中的LinkedList是一个双链表，所以在数据结构里有tail, head, size；它的ListNode有prev还有next.
+
+```java
+class LinkedList<E>{
+    private ListNode<E> head;
+    private ListNode<E> tail;
+    private int size; //维护size这个field，使它up-to-date，这叫eager-computation
+    //每一次增删查改都马上更新
+    //与之相反的是Lazy computation，就像是在DDL前才会做作业
+
+}
+```
+
+eager computation 和 lazy computation：前者适用于 容易维护的操作； 后者适用于 难以维护或者使用不太频繁的
+
+Class LinkedList&lt;E&gt; 这个尖括号是Generic，指的是这个linkedlist里是装这个的类型的object，E就是它的类型。另外，这个E只能是object，不能是primitive type。比如，一个&lt;student&gt;里只能是student，不能teacher；同时，也不能放int，因为是primitive；如果想装，只能用wrapper class，Integer. 
+
+如果看上面的document，会发现这些method有很多可以给别的数据结构用。
+
+### List Interface in Java 
+
+接口：如果给某些数据结构说明“我需要这些功能”，比如set, get, add, remove. 它只提需求，不管实现。就像是PM和engineer，PM只提要求，不会在意实现。这在Java里就是Interface和具体的Class的关系。通过定义abstract method signature来提需求，implementation class干活。
+
+```java
+interface MyList{
+    public boolean set(int index, Integer e); //实现一个get, abstract method,因为没有{}
+    public Integer get(int index); //实现一个set, abstract method,因为没有{}
+}
+
+class MyArrayList implements MyList{ //相当于MyArrayList是MyList雇佣的一个engineer
+    @Override
+    public boolean set(int index, Integer e){
+    //
+        return false;
+    } 
+    
+    @Override
+    public Integer get(int index){
+    
+        return null;
+    }
+}
+
+class MyLinkedList implements MyList{ //这里的实现方法可以不一样，但共同特点是，保证了自己里面都有MyList里规定的方法
+//另外它们各自也可以有自己的方法 这就是优点
+
+}
+```
+
+注意在java里有一个list，所以如果想要自己写一个interface，就只能叫MyList，下面同理。
+
+使用interface, programming against interface 可以让代码更加flexible，提高复用性。
+
+比如这个`List<Node> myList = new LinkedList<Node>();`  
+另外上面不可以 `new List<Node>()` 因为java不可以new一个新的interface。
+
+左边声明的类型比右边的更general；左边可以是右边实现的interface，也可以是和右边一样的类型。此时可以使用的method是List里的method，LinkedList里用来实现queue等的要求不会出现在mylist里。所以能调用哪些API是由左边声明的类型决定的。如此下来，只要是List的子类，都可以拿来实现这个interface。
+
+interface和子类的关系 vs linkedlist实现了list的interface
+
+implementing interface:   
+implemented interface: linkedlist implements 一大堆, 包括queue, list之类的。linkedlist就实现了它implements的interface里的全部的method，少一个都不行。
+
+```java
+public Node getRandom(List<Node> input){ //可以被各种类型调用
+    int randIndex = ...
+    return input.get(randIndex); //可能每一个list的get是不一样的，在每个不同list实现对应的具体类中定义了
+}
+
+ArrayList<Node> arrayList; //以下每一个类型的list都能放心用上面的模板
+getRandom(arrayList);
+
+LinkedList<Node> linkedList;
+getRandom(linkedList);
+
+MyList<Node> myList;
+getRandom(myList);
+```
+
+interface也可以实现interface，比如可以有一个`MyList2 extends MyList{ }`但是interface没有constructor。
+
+## Abstract Class
+
+一个会写代码的PM
 
