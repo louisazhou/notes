@@ -1,5 +1,9 @@
 # Problems Categorized
 
+{% embed url="https://darktiantian.github.io/categories/算法/" %}
+
+{% embed url="https://github.com/intfloat/AlgoSolutions/blob/master/The-Road-to-Red.md" %}
+
 ## 数组和矩阵
 
 **把数组中的 0 移到末尾**

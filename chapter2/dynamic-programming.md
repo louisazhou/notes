@@ -1,5 +1,19 @@
 # Recursion II and Memoization
 
+{% embed url="https://cloud.tencent.com/developer/article/1086657" %}
+
+{% embed url="https://phoenixzhao.github.io/一些动态规划的题目整理/" %}
+
+{% embed url="https://segmentfault.com/a/1190000006672807" %}
+
+{% embed url="https://blog.csdn.net/Dr\_Unknown/article/details/51939833" %}
+
+{% embed url="https://blog.csdn.net/linhuanmars/article/details/38468361" %}
+
+{% embed url="https://juejin.im/post/5d9ede57518825358b221349" %}
+
+
+
 {% embed url="https://leetcode.com/problems/race-car/discuss/124326/summary-of-the-bfs-and-dp-solutions-with-intuitive-explanation" %}
 
 ### 从backtracking说起
