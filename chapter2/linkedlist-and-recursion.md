@@ -507,6 +507,10 @@ class Solution(object):
     return dummyHead.next
 ```
 
+在Java中，logical operator有short circuit 而&&和\|\|是这种逻辑运算符；相反，&和\|是bitwise operation，没有short circuit。在Python中，and和or是logical operation。位运算是为了数本身，是数学上的操作。
+
+在或操作上前一个是false或者且操作上前一个是true才会短路。
+
 ### Reverse a Singly Linked List
 
 #### 如果iterative way
