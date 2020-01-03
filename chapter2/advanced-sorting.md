@@ -72,8 +72,6 @@ Total Time Complexity O\(nlogn\)
 在等待line7结果时，只有最左边的直上直下，这个时候的call stack上是一些mid，总共logn层，所以最左边的那一列的空间复杂都是O\(logn\) 但是这还不是最占空间的时刻；  
 当每一层的调用都在line7结束了，在等待line8的right result时，也就是上图中红色的部分已经return好了，在left等待着right有结果来merge，这个时候红色部分+粉色部分的空间复杂是：红色O\(n\)=1+2+4+...n/2，粉色O\(logn\), 总共O\(n\). 直到最后，被merge之前的最后一瞬，都有O\(n\) space。
 
-如果是每一步都new一个新的array，那这其实是overhead，虽然同样是O\(n\) space，但是如果用helper array，可以减少每一次创建和GC的overhead.  
-
 ### Followup: Linked List
 
 #### 时间

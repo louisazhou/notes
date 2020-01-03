@@ -1140,7 +1140,7 @@ class Solution(object):
     
     while head1 and head2:
       tail.next=head1
-      head1=head1.next
+      head1=head1.next  #注意这一行和下一行不能换位置 要先让h1脱险
       tail.next.next=head2
       head2=head2.next
       tail=tail.next.next
