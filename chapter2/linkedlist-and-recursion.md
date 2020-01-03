@@ -535,7 +535,7 @@ class Solution(object):
     prev, curr = None, head
 
     while curr:
-      next=curr.next
+      next=curr.next ##preserve the next pointer since we are changing it afterwards
       curr.next=prev
       prev=curr
       curr=next
