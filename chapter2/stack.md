@@ -220,10 +220,6 @@ Enqueue: Time O\(1\)
 
 Dequeue: Time worst case O\(n\), amortized O\(1\)
 
-## Implement a stack using 2 queues
-
-## Implement a stack using 1 queue
-
 ## Implement a stack with Max API 
 
 Solution 1: Brute Force, O\(n\), iterate each element in the stack to find the max
@@ -301,25 +297,15 @@ if stack\[-1\]==getMin\(\)
 
 stack.pop\(\)
 
-## Implement a deque with multiple stacks
-
-### 2 stacks
-
-### 3 stacks
-
 ## Sort Numbers with 2/3 Stacks
 
-### sort with 3 stacks
-
-### 2 stack:
+2 stack:
 
 方法一：while stack2.size\(\)&gt;stack2.initial\_size\_before\_this\_iteration  
 方法二：while stack2.top\(\)&gt;=global\_min  
-keep popping back to s1 
-
-### Follow Up: duplicate element: add a counter 
-
-## 3 stacks 实现merge sort
+keep popping back to s1   
+  
+Follow Up: duplicate element: add a counter 
 
 ## Leetcode 1003 合法字符串
 
