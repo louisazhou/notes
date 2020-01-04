@@ -183,10 +183,19 @@ class Solution():
 
 ## Implement a queue using 2 stacks
 
-两个array，s1用来进元素，s2用来出元素，如果在s2是空的时候还要继续出元素，就把s1的倒进s2里再pop
+两个array，s1用来进元素，s2用来出元素，如果在s2是空的时候还要继续出元素，就把s1的倒进s2里再pop 可以把它想象成底端对底端，中间有一个隐形的墙  
+      --&gt; 6 5 \]\[4 3 2 1 --&gt;
+
+stack1: to store new elements coming in \(enqueue\)  
+- stack1.push\(\)  
+stack2: to help with dequeue  
+- case 1: if stack2 is NOT empty: stack2.pop\(\)  
+- case 2: if stack2 is empty:  
+     - move all elements from stack1 to stack2 one by one  
+     - stack2.pop\(\)
 
 ```python
-Class Queue:
+class Queue:
     
     def __init__(self):
         self.s1 = []
@@ -219,6 +228,33 @@ Class Queue:
 Enqueue: Time O\(1\)
 
 Dequeue: Time worst case O\(n\), amortized O\(1\)
+
+{% hint style="info" %}
+amortized time vs average time:
+
+amortized: amortize all operations within input （不管是什么样的input）  
+average: average over all possible inputs \(和输入输出有关系 不能保证某一种情况\)
+{% endhint %}
+
+## Implement a stack using 2 queues
+
+only 2 APIs available: enqueue, dequeue  
+enqueue\(\):  
+dequeue\(\):   
+- if the queue is not empty, return the first element  
+- if the queue is empty, return null  
+stack \[ 1 2 3 4  
+Q1 &lt;--    &lt;--  
+Q2 &lt;--    &lt;--  
+如果Q1没空，就把Q1塞到Q2，如果空了，返回最后的那个
+
+## Implement a stack using 1 queue
+
+如果此时多了一个size\(\)的API  
+stack \[ 1 2 3 4  
+Q &lt;--    &lt;--
+
+做size-1次：拿出来再从尾部塞回去
 
 ## Implement a stack with Max API 
 
@@ -269,6 +305,11 @@ Space: O\(n\)
 
 ## Min Stack
 
+### 两个stack
+
+stack1 \(input\) 3 1 4 0  
+stack2 \(min\)   3 1 1 0
+
 Push x: stack.append\(x\)
 
 Case 1: x&lt;getMin\(\): minStack.append\(x\)
@@ -276,6 +317,19 @@ Case 1: x&lt;getMin\(\): minStack.append\(x\)
 Case2: x&gt;=getMin\(\): minStack.append\(getMin\(\)\)
 
 Pop x: stack.pop\(\), minStack.pop\(\)
+
+Time O\(1\)  
+Space O\(n\)
+
+### 优化 如果有很多duplicate
+
+> CART 如果有size就可以用tuple
+
+#### 加counter &lt;1, 100&gt; 代表有100个1
+
+#### 第一次出现它时里面有几个元素 &lt;1,2&gt; 出现1的时候是第二个位置
+
+也可以用3个stack，不是存tuple而是又加一个stack来存位置
 
 
 
@@ -297,15 +351,86 @@ if stack\[-1\]==getMin\(\)
 
 stack.pop\(\)
 
+## Implement a deque with multiple stacks
+
+left XXXXXXXXXXXXXXXXXXXXXXXXX right  
+l.add\(\)                                                            r.add\(\)  
+l.remove\(\)                                                     r.remove\(\)
+
+### 2 stacks           
+
+  \]s1 s2\[  
+s1: simulate the left end of the deque  
+s2: simulate the right end of the deque  
+left.add\(\): s1.push\(\)                                                          O\(1\)  
+right.add\(\): s2.push\(\)                                                          O\(1\)  
+left.remove\(\):   
+- if s1 is not empty, just stack1.pop\(\)                                                          O\(1\)  
+- if s2 is empty,   
+       - move all elements from s2 to s1                                                          O\(n\) worst  
+       - stack1.pop\(\)  
+right.remove\(\): similar 
+
+$$
+\begin{array}{ll}{\text { L. remove }()} & {-2 n+1} \\ {\text { R.remove() }} & {-2(n-1)+1} \\ {\text { L. remove() }} & {-2(n-2)+1} \\ {\text { R.remove() }} & {-2(n-3)+1} \\ {\text { L. remove() }} & {-} \\ {\text { R.remove() }} & {-} \\ {\text { L. remove() }} & {-} \\ {\text { R.remove() }} & {-\cdots}\end{array}
+$$
+
+$$
+\text { Amortized time }=\frac{2^{*}(n+(n-1)+(n-2)+\ldots+1)+n}{n}=\frac{n^{*}(n-1)+n}{n}=(n-1)+1=n
+$$
+
+How to speed up the remove\(\) operation?
+
+### 3 stacks
+
+8 7 6 5 4 3 2 1 \]s1 s2\[        
+s3 buffer \[  
+  
+两个stack的时候腹背受敌，只要一边空了，这个操作就非常expensive。如果能只挪一半的元素，不管left.remove还是right.remove就都不怕了。借助s3这个buffer，让左右两边均等。
+
+8 7 6 5  \]s1 s2\[ 4 3 2 1  
+s3 buffer \[
+
+$$
+\begin{array}{l}{\text { 1st call Right. remove(): }} \\ {-\quad n / 2 \text { stack 1. pop }()} \\ {\quad- \text { n/2 stack 3. push()}} \\ {-\quad \text { n/2 stack 1. push()}} \\ {\text { - n/2 stack 1. push() }} \\ {\text { - n/2 stack 3. pop() }} \\ {\text { - n/2 stack 1. push() }} \\ {\text { - n/2 stack 1. push() }} \\ {\text { - stack 2. pop() }} \\ {\text { total 3 } n+1 \text { stack operations }}\end{array}
+$$
+
+$$
+\text { Amortized time }=\frac{(3 n+1)+1 *(n / 2-1)}{n / 2}=\frac{3.5^{*} n}{0.5 * n}=7=O(1)
+$$
+
 ## Sort Numbers with 2/3 Stacks
 
-2 stack:
+### 3 stacks:
+
+s1 input   \[ 1 3 2 4  
+s2 buffer \[                                   global\_min  
+s3 output \[
+
+> one sentence: use selection sort to sort  
+> data structure: record globalmin when buffering elements from s1 to s2; when s1 is empty, put the global\_min in s3, put all but s2 back to s1.  
+> algorithm \(high level--detail\):
+
+### 2 stacks:
+
+s1 input   \[ 1 3 2 4  
+s2 left, output\| right, buffer \[                                    global\_min
+
+> output: put global\_min back   
+> buffer:
+
+过去得到的 global\_min一定小于当前轮的 global\_min
 
 方法一：while stack2.size\(\)&gt;stack2.initial\_size\_before\_this\_iteration  
 方法二：while stack2.top\(\)&gt;=global\_min  
-keep popping back to s1   
-  
-Follow Up: duplicate element: add a counter 
+keep popping back to s1 
+
+### Follow Up: duplicate element: add a counter 
+
+s1 input   \[ 1 3 2 4  
+s2 left, output\| right, buffer \[                                    global\_min      counter
+
+## 3 stacks 实现merge sort
 
 ## Leetcode 1003 合法字符串
 
