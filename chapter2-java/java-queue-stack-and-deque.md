@@ -119,7 +119,7 @@ class ListNode{
     int value;           //如果允许存null value
     ListNode next;
     public ListNode(int value){
-    this.value=value;
+    this.value = value;
     }
 }
 
@@ -131,21 +131,21 @@ public class QueueStack{
     
     public void offer(int e){
     ListNode newtail = new ListNode(e);
-    if (head==null){
+    if (head == null){
         head = newtail;
         tail = head;
     }else{
-        tail.next=newtail;
-        tail=newtail;
+        tail.next = newtail;
+        tail = newtail;
     }
     
     public nteger poll(){
-    if (head==null){
+    if (head ==n ull){
         return null;                  
     }
-    ListNode node=head;
+    ListNode node = head;
     head = head.next;
-    if (head==null){         //重要 只剩一个元素的时候head和tail是一个
+    if (head == null){         //重要 只剩一个元素的时候head和tail是一个
         tail = null;
     }               
     node.next = null;    
@@ -153,7 +153,7 @@ public class QueueStack{
     }
     
     public nteger peek(){
-    if (head==null){
+    if (head == null){
         return null;                  
     }
     return head.value;
@@ -163,7 +163,11 @@ public class QueueStack{
 
 ```
 
-### Circular Array \(Ring Buffer\)
+### Implement a Deque with Linked List
+
+doubly linked list
+
+### Implement a Queue with Circular Array \(Ring Buffer\)
 
 两种写法：
 
@@ -174,16 +178,68 @@ public class QueueStack{
 `head++;  
 array[(head%array.length)]`
 
-当head==tail时，它要么是empty，要么满了，解决方法：
+head有数据，物理意义是next element in queue  
+tail没数据，物理意义是next available position  
+- poll: grab element at head, head++  
+- offer: put one element, tail++
 
-* 维护一个size head有数据，tail没数据，读的时候读的是head
-* 如果不支持加一个size，就改变head和tail的物理意义，使得head+1==tail时是空，而head==tail时是满，也就是head指的格子不存数据，tail的格子也不存数据
+当head==tail时，它要么是empty，要么满了，怎么知道是满了？解决方法：
+
+* 维护一个size 当size==0, empty; size==array.length, full
+
+```java
+public class BoundedQueue {
+    int head;
+    int tail;
+    int size;
+    Integer[] array;
+    
+    public BoundedQueue(int cap) {
+        array = new Integer[cap];
+        head = tail = 0;
+        size = 0
+    }
+    
+    public boolean offer(Integer ele) {
+    //1
+        if (size == array.length){
+            return false;
+        }
+    //2
+        array[tail] = ele;
+        tail = tail + 1 == array.length ? 0 : tail + 1;
+        size ++;
+        return true;
+    }
+    
+    public Integer peek() {
+        if (size == 0) {
+            return null;
+        }
+        return array[head];
+    }
+    
+    public int size() {
+        return size;
+    }
+    
+    public boolean isEmpty() {
+        return size == 0;
+    }
+    
+    public boolean isFull() {
+        return size == array.length;
+    }
+}
+```
+
+* 如果不支持加一个size，就改变head和tail的物理意义，使得head+1==tail时是空，而head==tail时是满，也就是head指的格子不存数据，tail的格子也不存数据。 - poll: grab element at head+1, head++ - offer：put one element, tail++
 
 ![](https://cdn.mathpix.com/snip/images/K7HNXqc0JaOKeTywSKh1rlnH8fsTZMAoRo-dQuHu-0o.original.fullsize.png)
 
-poll时: head+1的元素拿走，head++
+如果满了，可以1.5X extension的话可以把数据从head拷贝到tail. 这里不是用system.copyof的方法，而是一个一个copy这些格子 
 
-如果满了，可以1.5X extension的话可以把数据从head拷贝到tail
+### Implement a Resizeable Stack with Circular Array
 
-### Implement a Stack with Array
+### Implement a Resizeable Deque with Circular Array
 
