@@ -176,8 +176,8 @@ array[(head%array.length)]`
 
 当head==tail时，它要么是empty，要么满了，解决方法：
 
-* 维护一个size
-* 如果不支持加一个size，就改变head和tail的物理意义，使得head+1==tail时是空，而head==tail时是满，也就是head指的格子不存数据
+* 维护一个size head有数据，tail没数据，读的时候读的是head
+* 如果不支持加一个size，就改变head和tail的物理意义，使得head+1==tail时是空，而head==tail时是满，也就是head指的格子不存数据，tail的格子也不存数据
 
 ![](https://cdn.mathpix.com/snip/images/K7HNXqc0JaOKeTywSKh1rlnH8fsTZMAoRo-dQuHu-0o.original.fullsize.png)
 
