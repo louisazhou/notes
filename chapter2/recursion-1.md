@@ -93,8 +93,6 @@ class Solution(object):
     return midres*midres if b%2==0 else midres*midres*a
 ```
 
-如果不存下midres，直接return两次，那么就多了很多重复计算，此时的时间复杂度是O\(b\)，空间复杂度是O\(logb\).
-
 ## Linked List Recursion
 
 1. Induction Base Verification \(Base Case\) P\(0\) and P\(1\)
