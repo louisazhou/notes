@@ -14,7 +14,7 @@ description: 每个node，比左child最大的大，比右child最小的小
 
 右节点, lower bound 来自parent的值，upper bound来自parent的upper bound
 
-方法一：从上往下传值
+### 最好的方法：方法一 从上往下传值
 
 ```python
 def BST(root):
@@ -32,9 +32,11 @@ def isBST(root, min_val, max_val):
     return isBST(root.left, min_val, root.val) and isBST(root.right, root.val, max_val)
 ```
 
+Time=O\(n\)
 
+Space=O\(height\)
 
-方法二：从下往上返值
+### 方法二：从下往上返值
 
 左边的max，右边的min，以及一个boolean 分别是否是BST 只是需要注意，如果左max右min是None的话，就用root.val
 
@@ -61,9 +63,9 @@ def isValidBST(root):
     return isBSTHelper(root)[0]
 ```
 
+### 方法三：inorder打印，应该ascending order
 
-
-方法三：inorder打印，应该ascending order
+space consumption 很糟糕
 
 ```python
 def isValidBST(root):
@@ -224,19 +226,31 @@ class Solution (object):
 
 {% code title="利用BST的性质" %}
 ```python
-class Solution (object):
-    def rangeSumBST(self, root, L, R)
+class Solution(object):
+    def rangeSumBST(self, root, L, R):
+        """
+        :type root: TreeNode
+        :type L: int
+        :type R: int
+        :rtype: int
+        """
+        if root is None:
+            return 0
     
-    if root is None:
-        return 0
-    
-    if root.val < L:
-        return self.rangeSumBST(root.right, L, R)
-    elif left.val > R:
-        return self.rangeSumBST(root.left, L, R)
-    else:
-        return self.rangeSumBST(root.left, L, R) + root.val 
-        + self.rangeSumBST(root.right, L, R)
+        if root.val < L:
+            return self.rangeSumBST(root.right, L, R)
+        
+        elif root.val > R:
+            return self.rangeSumBST(root.left, L, R)
+       
+        else:
+            return self.rangeSumBST(root.left, L, R) + root.val + self.rangeSumBST(root.right, L, R)
 ```
 {% endcode %}
+
+### Print in a Given Range
+
+Time: worst case O\(n\)  
+更紧凑的Time complexity: O\(height+\# of nodes in the range of \[k1, k2\]\)  
+Space: O\(height\), worst case O\(n\)
 

@@ -51,7 +51,7 @@ current = current.next //current指向了一个新的object，原来的名片没
 以上操作后，current = 1, next = 1, temp = 0  
 line 6是最特殊的，因为它有dereference，它的操作是在heap上做的写，对heap上的链表结构有了改变。而其余的是stack上的，等函数调用结束后它们就随风而去了。
 
-![](../.gitbook/assets/image%20%2826%29.png)
+![](../.gitbook/assets/image%20%2827%29.png)
 
 如果在这个时候加了
 
@@ -133,6 +133,32 @@ ListNode appendTail(head, int val){
 以上所有操作，虽然head都有在变，但是我们从头到尾没有失去对head的控制权，所以其实不需要dummyHead
 
 ### remove\(\)
+
+## ArrayList vs LinkedList
+
+| Operation | ArrayList | LinkedList |
+| :--- | :--- | :--- |
+| get\(int index\) at head/tail | O\(1\) | O\(1\) maintain both head and tail |
+| get\(int index\) in middle | O\(1\) | O\(n\) |
+| set\(int index\) at head/tail | O\(1\) | O\(1\) |
+| set\(int index\) in middle | O\(1\) | O\(n\) |
+| add\(int index\) in middle | O\(n\) | O\(n\) |
+| add\(int index\) at head | O\(n\) | O\(1\) |
+| add at tail | _**amortized O\(1\)**_  | O\(1\) |
+| remove\(int index\) at head | O\(n\) | O\(1\) |
+| remove\(int index\) at tail | O\(1\) | O\(1\) |
+| remove\(int index\) at middle | O\(n\) | O\(n\) |
+| size\(\) | O\(1\) | O\(1\) |
+| isEmpty\(\) | O\(1\) | O\(1\) |
+
+.size\(\)是array实际占用的内存，比如1,3,4,5,null,null,null .size\(\)是4，而.length\(\)是7.
+
+在Java中一旦扩容了，就不会再自动缩回。除非用户call了trimtosize\(\)。这是因为扩容本身在实际生产中是一个为了稳定运行的很重要的信息，它代表了系统的稳定状态。另外，每次的缩小其实是浪费时间的。
+
+* 如果有大量的random access，用array list；
+* 如果总需要在头尾两段插入，用array list; 因为时间复杂度相似，用array list，避免overhead，更**高效**使用空间，避免不连续，也是为了locality；
+* linkedlist比较灵活，像是瑞士军刀，虽然都能做，但是不一定都能做的好，比如它可以stack可以queue可以deque，而arraylist比较专一。
+* 在Java中不要用stack和vector。需要用vector时用arraylist，需要用stack时用deque\(linkedlist, arraydeque\)
 
 ## LinkedList in Java
 

@@ -38,9 +38,9 @@ average time: the average of **all possible inputs** in the input space
 
 Fibonacci 数列的时间复杂度是O\( $$2^{n}$$ \)
 
-![](../.gitbook/assets/image%20%2847%29.png)
+![](../.gitbook/assets/image%20%2848%29.png)
 
-![](../.gitbook/assets/image%20%2834%29.png)
+![](../.gitbook/assets/image%20%2835%29.png)
 
 ### Space Complexity 
 
@@ -62,7 +62,7 @@ Auxiliary space complexity: 输入输出除外，为了实现这个算法所带�
 
 但是它存在的问题是不管什么字符、使用频率多高多低，都耗一样多的空间；于是就有了新的解决方案，UTF-8 它现在是可变长度。只有在byte不够的时候才会用更多byte
 
-![](../.gitbook/assets/image%20%2857%29.png)
+![](../.gitbook/assets/image%20%2859%29.png)
 
 如果7位就够，就是1个byte，能用7bits
 
@@ -102,12 +102,12 @@ TCP考点：握手、挥手
 
 客户的request，服务器的回复，双方都收到了
 
-![](../.gitbook/assets/image%20%2814%29.png)
+![](../.gitbook/assets/image%20%2815%29.png)
 
   
 挥手：
 
-![](../.gitbook/assets/image%20%2842%29.png)
+![](../.gitbook/assets/image%20%2843%29.png)
 
 UDP不会提前确认，直接传输它想要传输的数据。所以TCP更可靠，UDP不那么可靠。TCP是有序的，有一个sequence number，知道每个信息排在第几位。TCP可以传输大量数据，UDP只能传少量数据；TCP慢，UDP快。
 

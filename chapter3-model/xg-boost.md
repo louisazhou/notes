@@ -6,7 +6,7 @@ description: 对decision tree做boosting
 
 ## Recap supervised learning
 
-![](../.gitbook/assets/image%20%2823%29.png)
+![](../.gitbook/assets/image%20%2824%29.png)
 
 Kernels: kernel trick, 在svm、knn、linear regression中都可以用到。空间映射。
 

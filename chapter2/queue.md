@@ -105,6 +105,8 @@ print 1==d.popleft() #True
 print 3==d.pop() #True
 ```
 
+## 
+
 ## 经典问题 Sliding Window
 
 一般可以用1 array或者2pointers 特点是随着窗口的增加，窗口内元素使得窗口的某种性质单调变化，eg. 长度、非负数组的元素总和。
@@ -512,7 +514,7 @@ class Queue(object):
 
 1. 在工作中，data pipeline也会使用sliding window来存值，就像是在做down sampling，就可以存一个统计意义上更小的数据集。
 2. 
-![](../.gitbook/assets/image%20%2812%29.png)
+![](../.gitbook/assets/image%20%2813%29.png)
 
 3. System Design、OO Design
 

@@ -237,9 +237,82 @@ public class BoundedQueue {
 
 ![](https://cdn.mathpix.com/snip/images/K7HNXqc0JaOKeTywSKh1rlnH8fsTZMAoRo-dQuHu-0o.original.fullsize.png)
 
+```python
+class Solution(object):
+
+    def __init__(self, k):
+        """
+        Initialize your data structure here. Set the size of the queue to be k.
+        :type k: int
+        """
+        self.array = [None]*(k+1)
+        self.head = 0 #index of prev_to_the_next_available
+        self.tail = 1 #index of the first available spot
+
+    def enQueue(self, value):
+        """
+        Insert an element into the circular queue. Return true if the operation is successful.
+        :type value: int
+        :rtype: bool
+        """
+        if self.isFull():
+          return False
+        else:
+          self.array[self.tail]=value
+          self.tail=(self.tail+1)%len(self.array) 
+          return True
+        
+
+    def deQueue(self):
+        """
+        Delete an element from the circular queue. Return true if the operation is successful.
+        :rtype: bool
+        """
+        if self.isEmpty():
+          return False
+        else:
+          self.head=(self.head+1)%len(self.array) 
+          return True
+
+        
+
+    def Front(self):
+        """
+        Get the front item from the queue.
+        :rtype: int
+        """
+        return -1 if self.isEmpty() else self.array[self.head+1]
+        
+
+    def Rear(self):
+        """
+        Get the last item from the queue.
+        :rtype: int
+        """
+        return -1 if self.isEmpty() else self.array[(self.tail-1+len(self.array))%len(self.array)]
+        
+
+    def isEmpty(self):
+        """
+        Checks whether the circular queue is empty or not.
+        :rtype: bool
+        """
+        return self.tail-self.head==1
+        
+
+    def isFull(self):
+        """
+        Checks whether the circular queue is full or not.
+        :rtype: bool
+        """
+        return self.tail==self.head
+```
+
 如果满了，可以1.5X extension的话可以把数据从head拷贝到tail. 这里不是用system.copyof的方法，而是一个一个copy这些格子 
 
 ### Implement a Resizeable Stack with Circular Array
 
 ### Implement a Resizeable Deque with Circular Array
+
+
 

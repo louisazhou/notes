@@ -51,17 +51,23 @@ def pre_order(root):
 把结果存进list
 
 ```python
-def preorder_traversal(self, root):
-    res = []
-    self.helper(root,res)
-    return res
+class Solution(object):
+  def preOrder(self, root):
+    """
+    input: TreeNode root
+    return: Integer[]
+    """
+    # write your solution here
+    result = []
+    self.helper(root,result)
+    return result
 
-def helper(self, root, res):
+  def helper(self, root, result):
     if not root:
-        return
-    res.append(root.val)
-    pre_order(root.left, res)
-    pre_order(root.right, res)
+      return result
+    result.append(root.val)
+    self.helper(root.left, result)
+    self.helper(root.right, result)
 ```
 
 Time Complexity O\(c\*n\)=O\(n\)    c=3
@@ -73,23 +79,45 @@ Space Complexity O\(height\)  O\(logn\)=&lt;hight&lt;=O\(n\)
 先左节点，然后处理自己，最后右子树 所以调整上面code的位置，4、5换一下
 
 ```python
-def in_order(root):
+class Solution(object):
+  def inOrder(self, root):
+    """
+    input: TreeNode root
+    return: Integer[]
+    """
+    # write your solution here
+    result = []
+    self.helper(root, result)
+    return result
+
+  def helper(self, root, result):
     if not root:
-        return
-    in_order(root.left)
-    print(root.val)
-    in_order(root.right)
+      return result
+    self.helper(root.left, result)
+    result.append(root.val)
+    self.helper(root.right, result)
 ```
 
 #### Post-Order
 
 ```python
-def post_order(root):
+class Solution(object):
+  def postOrder(self, root):
+    """
+    input: TreeNode root
+    return: Integer[]
+    """
+    # write your solution here
+    result = []
+    self.helper(root,result)
+    return result
+  
+  def helper(self, root, result):
     if not root:
-        return
-    post_order(root.left)
-    post_order(root.right)
-    print(root.val)
+      return result
+    self.helper(root.left, result)
+    self.helper(root.right, result)
+    result.append(root.val)
 ```
 
 面试Trick: Base Case: 通常，空节点是base case （但也有些时候叶子是base case）
@@ -98,9 +126,18 @@ def post_order(root):
 
 ## 常见Binary Tree类型
 
+所有的问题都可以简化成一个问题, ask for boolean: 是否BST，是否BBT or ask for value: max, integer of sth. 因为：
+
+* 每层node具备的性质，传递的值和下一层的性质 往往一致，很容易定义recursive rule
+* Base case \(generally\): null pointer under the leaf node 
+
+同样的逻辑，比如 谁高取谁然后+1
+
 ### Balanced Binary Tree
 
-The depth difference between the left and the right subtrees of every node differ by 1 or less. 不满足的节点不一定是root
+The depth difference between the left and the right subtrees of **every node** differ by 1 or less. 不满足的节点不一定是root。反例：大雁似的左右两撇。
+
+所以要特别注意，如果一开始没有BBT，那么不能assume h=logn，因为此时应该是O\(n\)，糖葫芦状。
 
 ```python
 Class Solution (object):
@@ -121,11 +158,23 @@ Class Solution (object):
         return max(left, right)+1
 ```
 
-但因为调用get\_height太多次，这不是最优解  
+但因为调用get\_height太多次，这不是最优解。  
 
-Best Case是退化成单链表的tree，第一次算left和right时就return False, O\(n\)
+#### 时间复杂度的分析
 
-Worst Case是一个Balanced Tree          O\(nlogn\)
+recursion tree画出来后每一个node的时间复杂度之和。单独分析
+
+* Best Case：退化成单链表的tree，第一次算left和right时就return False, O\(n\) 下面的isBalanced就没有执行，只有root上的那一对getHeight
+* **Worst Case**: 刚好是个**Balanced Tree**，必须每个node都要算一遍isBalanced  **O\(nlogn\)**
+
+#### 空间复杂度的分析
+
+* Worst Case：退化成单链表的tree, O\(n\) 
+* **Best Case：**刚好是个**Balanced Tree  O\(logn\)**
+
+![](../.gitbook/assets/image%20%2858%29.png)
+
+![](../.gitbook/assets/image%20%2870%29.png)
 
 更好的，改一下get\_height 让找到不平衡时提前终止， Time Complexity O\(n\)
 
@@ -153,13 +202,20 @@ Class Solution (object):
 
 ### Complete Binary Tree
 
-最后一层以上的都满，最后一层没有泡泡 complete binary tree一定是balanced binary tree 
+最后一层以上的都满，最后一层没有泡泡 
+
+* complete binary tree一定是balanced binary tree 
+* 好处是有很好的locality，可以很简单的用array等物理连续的存储 做level order traversal时有紧凑的表示 Left Child Node Index = Parent Node Index 2 +1  __Right Child Node Index = Parent Node Index 2 +2
 
 ### Binary Search Tree
 
-每一个节点左子树的所有值比root小，右子树的所有值比root大
+**每一个**node的左子树的**所有node值**比node小，右子树的所有值比node大
 
+* 好处1是in-order print时是ascending order
+* 好处2是方便查找，binary search似的，知道search的时候该往左还是往右
+* 也可以存duplicated value 
 
+![](../.gitbook/assets/image%20%287%29.png)
 
 ## Bottom Up \(从下往上返值 灵魂三问\)
 
@@ -220,6 +276,38 @@ class TreeNode:
         right_total=get_value(node.right)
         node.total_left = left_total       # functionality 
         return left+right+1     # tell parent
+```
+
+### Symmetric Binary Tree
+
+```java
+boolean isSymmetric(TreeNode left, TreeNode right) {
+    if (left==null && right==null) {
+        return true;
+    } else if (left==null || right==null){
+        Return false;
+    } else if (left.value!=right.value) {
+        return false;
+    }
+        return isSymmetric(left.left, right.right) && isSymmetric(left.right, right.left);
+}
+```
+
+### Structural identical Binary Tree
+
+```java
+boolean isSymmetric(TreeNode left, TreeNode right) {
+    if (left==null && right==null) {
+        return true;
+    } else if (left==null || right==null){
+        Return false;
+    } else if (left.value!=right.value) {
+        return false;
+    }
+        return isSymmetric(left.left, right.left) && isSymmetric(left.right, right.right) //case 1
+        ||
+        isSymmetric(left.left, right.right) && isSymmetric(left.right, right.left);
+}
 ```
 
 ### Max difference in 左子树和右子树
@@ -350,7 +438,7 @@ Base Case不是None的例子
 
 Given a binary tree where all the right nodes are either leaf nodes with a sibling \(a left node that shares the same parent node\) or empty, flip it upside down and turn it into a tree where the original right nodes turned into left leaf nodes. Return the new root. 
 
-![](../.gitbook/assets/image%20%2843%29.png)
+![](../.gitbook/assets/image%20%2844%29.png)
 
 根变成了左孩子的右孩子（line8），根的左孩子变成了根，根的右孩子变成了左孩子的左孩子\(line 7\)
 

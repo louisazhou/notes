@@ -12,7 +12,7 @@ description: 递归和linkedlist
 
 Recursion解决问题的方式是做规约（reduction），把未知的规约到已知的。Recursion其实解决的更小号问题就是它本身。比如，实现一个从1加到n的function
 
-![](../.gitbook/assets/image%20%2829%29.png)
+![](../.gitbook/assets/image%20%2830%29.png)
 
 ```python
 class Solution(object):
@@ -92,6 +92,8 @@ class Solution(object):
 
     return midres*midres if b%2==0 else midres*midres*a
 ```
+
+如果不存下midres，直接return两次，那么就多了很多重复计算，此时的时间复杂度是O\(b\)，空间复杂度是O\(logb\).
 
 ## Linked List Recursion
 
