@@ -6,7 +6,116 @@ description: 每个node，比左child最大的大，比右child最小的小
 
 ## Implementation 
 
+```python
+class _Node(object):
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+        self.left = self.right = None
 
+class BinarySearchTree(object):
+    def __init__(self):
+        self.__root = None
+        
+    def __query(self, root, key):
+        if not root:
+            return None
+        if key<root.key:
+            return self.__query(root.left, key)
+        elif key>root.key:
+            return self.__query(root.right, key)
+        else:
+            return root.value
+    
+    def query(self, key):
+        return self.__query(self.__root, key)
+    
+    def FindMinimum(self, root):
+        if not root:
+            return None
+        return FindMinimum(self.left) or root
+    
+    def FindFirstLargerThanTarget(self, root, target):
+        if not root:
+            return None
+        if root.value == target:
+            return self.FindMinimum(root.right)
+        elif root.value < target:
+            return self.FindFirstLargerThanTarget(root.right, target)
+        else:
+            return self.FindFirstLargerThanTarget(root.left, target) or root
+    
+    def FindLastSmallerThanTarget(self, root, target):
+        pass
+    
+    def insert(self, key, value):
+        self.__root = self.__insert(self.__root, key, value)
+    
+    def __insert(self, root, key, value):
+        if not root:
+            return _Node(key, value)
+        if key < root.key:
+            root.left = self.__insert(root.left, key, value)
+        elif key > root.key:
+            root.right = self.__insert(root.right, key, value)
+        else:
+            root.value = value 
+        return root
+    
+    def __deleteMin(self, root):
+        if not root.left:
+            return root.right
+        root.left = self.__deleteMin(root.left)
+        return root
+    
+    def __delete(self, root, key):
+        if not root:
+            return None
+        if key < root.key:
+            root.left = self.__delete(root.left, key)
+        elif key > root.key:
+            root.right
+```
+
+也可以iteratively query和insert
+
+```python
+def query(self, key):
+    curr = self.__root
+    while curr:
+        if key < curr.key:
+            curr=curr.left
+        elif key > curr.key:
+            curr = curr.right
+        else:
+            return curr.value
+    return value
+
+def insert(self, key, value):
+    if not self.__root:
+        self.__root = _Node(key, value)
+        return
+    curr, prev, is_left = self.__root, None, None
+    
+    while curr:
+        prev = curr
+        if key < curr.key:
+            is_left = True
+            curr = curr.left
+        elif key > curr.key:
+            is_left = False
+            curr = curr.right
+        else:
+            curr.value = value 
+            break
+    
+    if not curr:
+        node = _Node(key, value)
+        if is_left:
+            prev.left = node
+        else:
+            prev.right = node 
+```
 
 ## 检查是否BST
 
