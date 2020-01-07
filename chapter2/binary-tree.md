@@ -332,6 +332,32 @@ def longest(curr, parent, currlen):
 longest(root, None, 0)
 ```
 
+### Lowest Common Ancestor 最小公共祖先
+
+假设两个数pq一定存在。那么只有2种情况，
+
+* 在某一个root的左右两边找到了p和q
+* 自己是root，另一个值在自己下，返回自己
+
+```python
+class Solution (object):
+    def lowestCommonAncestor(self, root, p, q):
+        if not root:
+            return root
+        if root==p or root==q:
+            return root
+        
+        ltree = self.lowestCommonAncestor(root.left, p, q)
+        rtree = self.lowestCommonAncestor(root.right, p, q)
+        
+        if ltree and rtree:
+            return root
+        elif not ltree:
+            return rtree
+        else:
+            return ltree
+```
+
 ## 一系列经典
 
 ### 是否Balanced Binary Tree
@@ -923,31 +949,5 @@ class Solution(object):
         sum-=root.val
         
         return self.hasPathSum(root.left, sum) or self.hasPathSum(root.right, sum)
-```
-
-### Lowest Common Ancestor 最小公共祖先
-
-假设两个数pq一定存在。那么只有2种情况，
-
-* 在某一个root的左右两边找到了p和q
-* 自己是root，另一个值在自己下，返回自己
-
-```python
-class Solution (object):
-    def lowestCommonAncestor(self, root, p, q):
-        if not root:
-            return root
-        if root==p or root==q:
-            return root
-        
-        ltree = self.lowestCommonAncestor(root.left, p, q)
-        rtree = self.lowestCommonAncestor(root.right, p, q)
-        
-        if ltree and rtree:
-            return root
-        elif not ltree:
-            return rtree
-        else:
-            return ltree
 ```
 

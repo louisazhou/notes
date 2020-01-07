@@ -55,17 +55,33 @@ def isBSTHelper(root):
     if not left_res[0] or not right_res[0]:
         return (False, None, None)
     
-    if left_res[2] and root.val <= left_res[2]: #=？
+    if left_res[2] and root.val < left_res[2]: #=？
         return (False, None, None)
     
-    if right_res[1] and right_res[1] <= root.val:
+    if right_res[1] and right_res[1] < root.val:
         return (False, None, None)
     
     #(True, root下的最小值，root下的最大值)    
     return (True, left_res[1] or root.val, right_res[2] or root.val)
     
-def isBST(root):
+def isValidBST(root):
     return isBSTHelper(root)[0]
+```
+
+```python
+def isValidBST(root):
+    return isBSTHelper(root)[0]
+
+def isBSTHelper(root):
+    if not root:
+        return True, None, None
+    
+    lr, lmin, lmax = isBSTHelper(root.left)
+    rr, rmin, rmax = isBSTHelper(root.right)
+    
+    return lr and rr and (not lmax or lmax<root.val) and (not rmin or root.val<rmin),\
+    lmin or root.val,\
+    rmax or root.val
 ```
 
 ### 方法三：inorder打印，应该ascending order
@@ -74,6 +90,23 @@ step 1: inorder traverse the tree and store all elements in an array
 step 2: iterate over the array to determine whether a\[i\] &lt;a\[i+1\]  
   
 space consumption 很糟糕  Space O\(n\) Time O\(n\)
+
+```python
+def validate(root):
+    results = []
+    inorder(root, results)
+    for i in xrange(len(results)-1):
+        if results[i]>=results[i+1]:
+            return False
+    return True
+
+def inorder(root):
+    if not root:
+        return
+    inorder(root.left, results)
+    results.append(root.value)
+    inorder(root.right, results)
+```
 
 或者不存array，边traverse边比较 Space O\(height\) Time O\(n\)
 
@@ -98,7 +131,21 @@ def inorder(root, prev, res):
     inorder(root.right, prev, res)
 ```
 
+```python
+def isValidBST(root):
+    prev = [None]
+    return inorder(root, prev)
 
+def inorder(root, prev):
+    if not root:
+        return True
+    if not inorder(root.left, prev):
+        return False
+    if prev[0]>=root.val:
+        return False
+    prev[0]=root.val
+    return inorder(root.right, prev) 
+```
 
 ## Create a BST from a sorted list of integers 
 
@@ -217,6 +264,7 @@ class Solution (object):
     
     elif left.val < val:
         return self.searchBST(root.right, val)
+    
     else:
         return self.searchBST(root.left, val)
 ```
