@@ -40,7 +40,7 @@ G = V + E
 
 Given V, Dense Graph的E是O\( $$V^2$$ \), Sparse Graph的E是O\(v\). 矩阵只适合node少的情况（sparse graph），而list适合node多的情况。
 
-![](../.gitbook/assets/image%20%2825%29.png)
+![](../.gitbook/assets/image%20%2826%29.png)
 
 如果简化adj list，用list of list，这个list可以是array list, 也可以是linked list. 把vertex的index存下来，那么就可以用graph.get\(i\)拿到第i个node的 neighbor index 做算法题的时候，都是下面这种简化的。在实际工作中其实还是哟搞得上面的general graph，因为需要有value在
 
@@ -98,9 +98,7 @@ public TreeNode searchInBST(TreeNode root, int value) {
         return root;
     }
     
-    if (root.key==value) {
-        return root;
-    }else if (root.key<value) {
+    if (root.key<value) {
         return searchInBST(root.right, value);
     }else {
         return searchInBST(root.left, value);
@@ -131,11 +129,42 @@ public TreeNode searchInBST(TreeNode root, Integer value) {
 
 #### Tail Recursion 
 
-最后一步调用自身 这种递归**很容易**写成iterative 这个写法的好处是先前存的所有stack都弹栈了
+最后一步_且仅在最后一步_调用自身 这种递归**很容易**写成iterative 这个写法的好处是先前存的所有stack都弹栈了。如果写成tail recursion的话 建议改写成iteration。
 
-相反 return isBST\(\)&&isBST\(\)不是tail recursion 因为最后一步是&&
+下面这个不是tail recursion，因为line 6这一行还在栈里。
+
+```java
+public static void preOrder(TreeNode root, List<Integer> result) {
+    if (root == null) {
+        return;
+    }
+    result.add(root.val);
+    preorder(root.left, result);
+    preorder(root.right, result);
+}
+```
+
+`return isBST()&&isBST()`也不是tail recursion 因为最后一步是&&
 
 另一个例子是求阶乘
+
+```java
+int factorial(int n) {
+    if (n == 1){
+        return 1;
+    }
+    return n*factorial(n-1);
+}
+```
+
+```java
+int tailFactorial(int n, int total) {
+    if (n==1) {
+        return total;
+    }
+    return tailFactorial(n-1,n*total);
+}
+```
 
 ### Insert in BST
 
@@ -143,27 +172,51 @@ public TreeNode searchInBST(TreeNode root, Integer value) {
 
 ```java
 //recursion
-TreeNode insertBST(TreeNode root, int key) {
+TreeNode insertBST(TreeNode root, int target) {
 	if (root==null) {
-	return new TreeNode(key);               //只需要在base case里new出来一个就行，不要放在if外，不然每层都有一个
+	return new TreeNode(target);               //只需要在base case里new出来一个就行，不要放在if外，不然每层都有一个
 }
-	if (key<root.key) {                            //1. 怎么往下走
-	root.left=insertBST(root.left, key);					//2. 当前层做什么：挂
-} else if (key>root.key) {                      //1. 怎么往下走
-	root.right=insertBST(root.right, key);          //2. 当前层做什么：挂
+	if (target<root.key) {                            //1. 怎么往下走 问左右孩子要什么： 以它为root的subtree
+	root.left=insertBST(root.left, target);					//2. 当前层做什么：挂
+} else if (target>root.key) {                      //1. 怎么往下走 问左右孩子要什么： 以它为root的subtree
+	root.right=insertBST(root.right, target);          //2. 当前层做什么：挂
 } 
 	return root;                                   //3. 给上层返回什么
+} //超级重点: root.left = , root.right=
+
+//iteration method 1 存下pre然后post-processing
+TreeNode insertBST(TreeNode root, int target) {
+	if (root==null) {       // root给的null，return这个新的node
+	return new TreeNode(target);
+	}
+	TreeNode returnRoot = root;
+	TreeNode pre = null;
+	
+	while (root!=null) {
+		pre=root;
+		if (root.key<target) {
+			root = root.right;
+		} else if (root.key>target){
+			root = root.left;
+		} else {
+			return returnRoot;
+		}
+	}//root==null
+	if (pre.key<target){
+		pre.right = new TreeNode(target);
+	} else if (pre.key>target){
+		pre.left = new TreeNode(target);
+	}
+	return returnRoot;
 }
 
-//iteration
-TreeNode insertBST(TreeNode root, int key) {
+//iteration method 2 往下看一眼
+TreeNode insertBST(TreeNode root, int target) {
 	if (root==null) {       // root给的null，return这个新的node
-	return new TreeNode(key);
+	return new TreeNode(target);
 	}
 	
-	
-}
 ```
 
-超级重点: root.left = , root.right=
+
 

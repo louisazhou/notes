@@ -189,7 +189,7 @@ K Nearest Neighbor的prediction stage是找距离，没有training的过程。
 
 
 
-![](../.gitbook/assets/image%20%283%29.png)
+![](../.gitbook/assets/image%20%284%29.png)
 
 [https://github.com/spotify/annoy](https://github.com/spotify/annoy) 
 
