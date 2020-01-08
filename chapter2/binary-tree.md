@@ -12,6 +12,7 @@ class TreeNode:
         self.val = x
         self.left = None
         self.right = None 
+        #self.parent = None
 ```
 
 创建二叉树
@@ -33,7 +34,7 @@ root.right = TreeNode(10)
 
 如果3个节点，不做任何限制，顺序可以有3！个。但如果对排列做一个规定，左子树一定要在右子树之前，那么就是3！/2！=3种可能。
 
-分别是 前序、中序、后序 这个“前中后“是针对root的。
+分别是 前序、中序、后序 这个“前中后“是针对current node \(or current root of the subtree\)的。
 
 #### Pre-Order 
 
@@ -248,9 +249,9 @@ def get_max_dif(root):
     return res
 ```
 
-![](../.gitbook/assets/image%20%2861%29.png)
+![](../.gitbook/assets/image%20%2863%29.png)
 
-其实更好的做法是把两个global封装到一个class里，用函数调用reference指向object的方式去维护这两个global值。
+其实更好的做法是把两个global封装到一个class里，用函数调用reference指向object的方式去维护这两个global值。这是一个工程上更好的做法
 
 ```python
 class TreeNode:
@@ -404,9 +405,9 @@ recursion tree画出来后每一个node的时间复杂度之和。单独分析
 * Worst Case：退化成单链表的tree, O\(n\) 
 * **Best Case：**刚好是个**Balanced Tree  O\(logn\)**
 
-![](../.gitbook/assets/image%20%2858%29.png)
+![](../.gitbook/assets/image%20%2860%29.png)
 
-![](../.gitbook/assets/image%20%2871%29.png)
+![](../.gitbook/assets/image%20%2873%29.png)
 
 更好的，改一下get\_height 让找到不平衡时提前终止， Time Complexity O\(n\)
 
@@ -558,7 +559,7 @@ Base Case不是None的例子
 
 Given a binary tree where all the right nodes are either leaf nodes with a sibling \(a left node that shares the same parent node\) or empty, flip it upside down and turn it into a tree where the original right nodes turned into left leaf nodes. Return the new root. 
 
-![](../.gitbook/assets/image%20%2844%29.png)
+![](../.gitbook/assets/image%20%2845%29.png)
 
 根变成了左孩子的右孩子（line8），根的左孩子变成了根，根的右孩子变成了左孩子的左孩子\(line 7\)
 

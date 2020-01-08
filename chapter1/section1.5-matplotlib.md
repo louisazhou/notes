@@ -222,7 +222,7 @@ ax1.grid(False)
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2853%29.png)
+![](../.gitbook/assets/image%20%2855%29.png)
 
 #### 双y轴
 
@@ -258,7 +258,7 @@ plt.title('Aris species sepal_length boxplox') # add title
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2851%29.png)
+![](../.gitbook/assets/image%20%2853%29.png)
 
 ```python
 # boxplot UK bank client balance by age group, using seaborn and matplotlib
@@ -270,7 +270,7 @@ ax2.set_title("Balance boxplot sliced by age_group")
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2852%29.png)
+![](../.gitbook/assets/image%20%2854%29.png)
 
 ```python
 # Balance distribution by difference groups
@@ -288,7 +288,7 @@ ax3.legend()
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2850%29.png)
+![](../.gitbook/assets/image%20%2852%29.png)
 
 ### unstack
 
@@ -329,7 +329,7 @@ sns.distplot(df['sepal_length'])
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2857%29.png)
+![](../.gitbook/assets/image%20%2859%29.png)
 
 ### factor plot 
 
@@ -354,7 +354,7 @@ g=sns.factorplot(x='time',
 g.set_xticklabels(rotation=-45)
 ```
 
-![](../.gitbook/assets/image%20%2833%29.png)
+![](../.gitbook/assets/image%20%2834%29.png)
 
 ### FacetGrid
 
@@ -374,7 +374,7 @@ grid.map(sns.countplot, 'Embarked', alpha=.8)
 grid.add_legend() 
 ```
 
-![](../.gitbook/assets/image%20%2867%29.png)
+![](../.gitbook/assets/image%20%2869%29.png)
 
 row='Sex', col='Pclass' 是什么效果。 
 
@@ -385,7 +385,7 @@ grid.map(sns.countplot, 'Embarked', alpha=0.8)
 grid.add_legend()
 ```
 
-![](../.gitbook/assets/image%20%2847%29.png)
+![](../.gitbook/assets/image%20%2849%29.png)
 
 ### Regression Plot
 
@@ -402,7 +402,7 @@ sns.regplot(x='x',y='y',data=dt_lin)
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2849%29.png)
+![](../.gitbook/assets/image%20%2851%29.png)
 
 ```python
 # 微调， 把图形做得更简洁, 把不喜欢的gridline去掉, 加上title
@@ -418,7 +418,7 @@ ax1.set_title('Clean linear regression')
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2836%29.png)
+![](../.gitbook/assets/image%20%2837%29.png)
 
 ```python
 # seaborn fit a polynomial model
@@ -428,7 +428,7 @@ sns.regplot(x='x', y='y',data=dt_poly,order=2, ci=None, scatter_kws={"s": 80});
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2854%29.png)
+![](../.gitbook/assets/image%20%2856%29.png)
 
 ### 更多例子
 

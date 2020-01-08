@@ -63,7 +63,7 @@ print(spark.catalog.listTables())
 
 比如上面这个代码，第一次tempview的listtable是\[\]，第二次是\[Table\(name='temp', database=None, description=None, tableType='TEMPORARY', isTemporary=True\)\]
 
-![](../.gitbook/assets/image%20%2863%29.png)
+![](../.gitbook/assets/image%20%2865%29.png)
 
 ### withColumn
 

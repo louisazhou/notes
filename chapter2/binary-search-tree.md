@@ -88,7 +88,6 @@ class BinarySearchTree(object):
     
     def delete(self, key):
         self.__root = self.__delete(self.__root, key)
-        
 ```
 
 也可以iteratively query和insert
