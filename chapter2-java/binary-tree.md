@@ -145,22 +145,25 @@ public TreeNode searchInBST(TreeNode root, Integer value) {
 //recursion
 TreeNode insertBST(TreeNode root, int key) {
 	if (root==null) {
-	return new TreeNode(key);
+	return new TreeNode(key);               //只需要在base case里new出来一个就行，不要放在if外，不然每层都有一个
 }
-	if (key<root.key) {
-	root.left=insertBST(root.left, key);
-} else if (key>root.key) {
-	root.left=insertBST(root.ight, key);
+	if (key<root.key) {                            //1. 怎么往下走
+	root.left=insertBST(root.left, key);					//2. 当前层做什么：挂
+} else if (key>root.key) {                      //1. 怎么往下走
+	root.right=insertBST(root.right, key);          //2. 当前层做什么：挂
 } 
-	return root;
+	return root;                                   //3. 给上层返回什么
 }
 
 //iteration
 TreeNode insertBST(TreeNode root, int key) {
-	if (root==null) {
+	if (root==null) {       // root给的null，return这个新的node
 	return new TreeNode(key);
 	}
 	
+	while
 }
 ```
+
+超级重点: root.left = , root.right=
 

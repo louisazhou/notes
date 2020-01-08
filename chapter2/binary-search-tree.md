@@ -53,14 +53,21 @@ class BinarySearchTree(object):
     
     def __insert(self, root, key, value):
         if not root:
-            return _Node(key, value) //这个时
+            return _Node(key, value) #这个时候就只是new了一个新的node
         if key < root.key:
-            root.left = self.__insert(root.left, key, value)
+            root.left = self.__insert(root.left, key, value) #在dereference这里才把那个new出来的node挂在对应的位置上
         elif key > root.key:
-            root.right = self.__insert(root.right, key, value)
+            root.right = self.__insert(root.right, key, value) #一个个往上挂回去 最后回去的时候就能回到正确的
         else:
             root.value = value 
         return root
+    
+    # 如果没有等号，那么null 如果if里面是return，那么回去的只是这个node而已
+    # heap上：new出来了node，dereference的写
+    # 刚才的子树，怎么来怎么挂，无差别的写
+    # 如果return null 那么就做了pruning，一半的枝都没了
+    
+    # 三部曲：所有判断往下走；下层返回的挂上去；操作完的结果通过return来report给上一层
     
     def __deleteMin(self, root):
         if not root.left:
