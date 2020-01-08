@@ -215,7 +215,53 @@ TreeNode insertBST(TreeNode root, int target) {
 	if (root==null) {       // root给的null，return这个新的node
 	return new TreeNode(target);
 	}
+	TreeNode returnRoot = root;
 	
+	while (root.key != target) {
+		if (root.key < target) {
+			if(root.right == null){
+				root.right = new TreeNode(target);
+				return returnRoot;
+			}
+			root = root.right;
+		}else{
+			if (root.left ==null) {
+				root.left = new TreeNode(target);
+				return returnRoot;
+			}
+			root = root.left;
+		}
+	}
+	return returnRoot;
+}
+
+//tail recursion, remove redundant operation
+public static TreeNode insert(TreeNode root, int target) {
+	if (root==null) {       // root给的null，return这个新的node
+	return new TreeNode(target);
+	}
+	helper(root, target);
+	return root;
+}	
+	
+public static void helper(TreeNode root, int target) {
+	if (target == root.key) {
+		return;
+	} else if (target < root.key) {
+			if (root.left == null) {
+				root.left = new TreeNode(target);
+			} else {
+				helper(root.left, target);
+			}
+		} else {
+				if (root.right == null) {
+					root.right = new TreeNode(target);
+				} else {
+					helper(root.right, target);
+					}
+			}
+}	
+			
 ```
 
 
