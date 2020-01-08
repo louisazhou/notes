@@ -53,7 +53,7 @@ class BinarySearchTree(object):
     
     def __insert(self, root, key, value):
         if not root:
-            return _Node(key, value)
+            return _Node(key, value) //这个时
         if key < root.key:
             root.left = self.__insert(root.left, key, value)
         elif key > root.key:

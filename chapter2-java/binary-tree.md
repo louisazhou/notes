@@ -101,9 +101,9 @@ public TreeNode searchInBST(TreeNode root, int value) {
     if (root.key==value) {
         return root;
     }else if (root.key<value) {
-        return searchInBST(root.left, value);
-    }else {
         return searchInBST(root.right, value);
+    }else {
+        return searchInBST(root.left, value);
     } 
 }
 
@@ -121,9 +121,9 @@ public TreeNode searchInBST(TreeNode root, Integer value) {
    
    while (root!=null && root.key!=target) { //root==null || root.key==target
        if (root.key<value) {
-        root=root.right;;
+            root=root.right;
         }else {
-        root = root.left;
+            root = root.left;
    }
    return root
 } 
@@ -133,5 +133,34 @@ public TreeNode searchInBST(TreeNode root, Integer value) {
 
 最后一步调用自身 这种递归**很容易**写成iterative 这个写法的好处是先前存的所有stack都弹栈了
 
+相反 return isBST\(\)&&isBST\(\)不是tail recursion 因为最后一步是&&
 
+另一个例子是求阶乘
+
+### Insert in BST
+
+应该return改了的tree的root node
+
+```java
+//recursion
+TreeNode insertBST(TreeNode root, int key) {
+	if (root==null) {
+	return new TreeNode(key);
+}
+	if (key<root.key) {
+	root.left=insertBST(root.left, key);
+} else if (key>root.key) {
+	root.left=insertBST(root.ight, key);
+} 
+	return root;
+}
+
+//iteration
+TreeNode insertBST(TreeNode root, int key) {
+	if (root==null) {
+	return new TreeNode(key);
+	}
+	
+}
+```
 
