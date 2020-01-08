@@ -121,9 +121,9 @@ public TreeNode searchInBST(TreeNode root, Integer value) {
    
    while (root!=null && root.key!=target) { //root==null || root.key==target
        if (root.key<value) {
-        root= searchInBST(root.left, value);
+        root=root.right;;
         }else {
-        return searchInBST(root.right, value);
+        root = root.left;
    }
    return root
 } 
