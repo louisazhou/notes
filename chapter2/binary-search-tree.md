@@ -111,6 +111,7 @@ def query(self, key):
             return curr.value
     return value
 
+# 保留prev，然后post-processing
 def insert(self, key, value):
     if not self.__root:
         self.__root = _Node(key, value)
@@ -135,6 +136,8 @@ def insert(self, key, value):
             prev.left = node
         else:
             prev.right = node 
+            
+# 或者也可以看它的prev
 ```
 
 ## 检查是否BST
