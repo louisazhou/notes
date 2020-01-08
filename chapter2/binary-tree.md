@@ -210,13 +210,14 @@ class TreeNode:
         self.left = None
         self.right = None
         self.total_left = 0
-    def total_left(self, node)
-        if not node:
-            return
-        left_total=get_value(node.left)
-        right_total=get_value(node.right)
-        node.total_left = left_total       # functionality 
-        return left+right+1     # tell parent
+
+def total_left(self, node)
+    if not node:
+        return
+    left_total=get_value(node.left)
+    right_total=get_value(node.right)
+    node.total_left = left_total       # functionality 
+    return left+right+1     # tell parent
 ```
 
 ### Max difference in 左子树和右子树

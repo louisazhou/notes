@@ -74,7 +74,21 @@ class BinarySearchTree(object):
         if key < root.key:
             root.left = self.__delete(root.left, key)
         elif key > root.key:
-            root.right
+            root.right = self.__delete(root.right, key)
+        else:
+            if not root.right:
+                return root.left
+            if not root.left:
+                return root.right
+            t = root
+            root = self.__min(t.right)
+            root.right = self.__deleteMin(t.right)
+            root.left = t.left
+        return root
+    
+    def delete(self, key):
+        self.__root = self.__delete(self.__root, key)
+        
 ```
 
 也可以iteratively query和insert
@@ -164,7 +178,7 @@ def isBSTHelper(root):
     if not left_res[0] or not right_res[0]:
         return (False, None, None)
     
-    if left_res[2] and root.val < left_res[2]: #=？
+    if left_res[2] and root.val < left_res[2]:
         return (False, None, None)
     
     if right_res[1] and right_res[1] < root.val:
