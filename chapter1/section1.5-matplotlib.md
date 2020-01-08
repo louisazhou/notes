@@ -374,7 +374,7 @@ grid.map(sns.countplot, 'Embarked', alpha=.8)
 grid.add_legend() 
 ```
 
-![](../.gitbook/assets/image%20%2866%29.png)
+![](../.gitbook/assets/image%20%2867%29.png)
 
 row='Sex', col='Pclass' 是什么效果。 
 
