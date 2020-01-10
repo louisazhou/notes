@@ -56,7 +56,57 @@ for (Integer i:graph.get(1)) {
 
 外层list的顺序重要，里面的list的数量无所谓
 
-## Traversal of Binary Tree
+## Iterative Traversal of Binary Tree
+
+why iterative?
+
+* from stack to heap
+* for iterators
+
+### Pre-Order
+
+root进，pop栈顶并打印，右进，左进，pop栈顶并打印... 直到栈空了  
+因为stack是先进后出，所以进stack时先进右后进左
+
+Time: O\(n\)  
+Space: heap上的那堆右节点 O\(height\)
+
+```python
+
+```
+
+### In-Order 
+
+关键是要知道什么时候左子树被打印完了 用一个helper，when helper is null, it means the left subtree of the root is finished, the root is the top element in the stack 当helper是null的时候，当前的左都打完了，这个时候可以放右边的node进helper；最后栈空了，但是helper不是null，这个时候就可以pop打印了。
+
+helper的意义：下一个要看的节点 如果不是null就入栈             如果是null就证明当前栈的top（左边）被打印完了，可以pop了，pop完helper里是刚才pop的节点的 right child 直到left和right都是空的时候停止
+
+```python
+
+```
+
+### Post-Order
+
+#### 奇技淫巧 反过来pre-order
+
+Time: O\(2n\)  
+Space: O\(n\)
+
+#### 正派做法 记录从哪里来的
+
+如果prev是current的parent，这是第一次看到它；如果prev是current的left child，这是第二次看到它；如果prev是curr的right child，可以打印了
+
+* root = stack.top
+* if previous is null --&gt; going down \(left subtree\)
+* if previous is current's parent --&gt; going down \(left subtree\)
+
+go down: 有左，优先左；没有左，打印右； 都没有，打印自己并弹栈  
+from left: 右或者打印自己并弹栈  
+from right: 打印自己并弹栈  
+  
+偷看栈顶 从上下来，有左压左，有右压右，左右都无，打印自己   
+从左上来，有右压右，无右打自己   
+从右上来，打印自己
 
 ## Binary Search Tree
 
@@ -140,7 +190,7 @@ public static void preOrder(TreeNode root, List<Integer> result) {
     }
     result.add(root.val);
     preorder(root.left, result);
-    preorder(root.right, result);
+    preorder(root.right, result); //其实是为了存储
 }
 ```
 
@@ -261,6 +311,46 @@ public static void helper(TreeNode root, int target) {
 					}
 			}
 }	
+```
+
+### Delete in BST
+
+* leaf： 3.right=null
+* only has child on one sight: 3.right = 3.right.right / 3.right = 3.right.left
+* has children on both sides: 调右子树的最小值
+* * 如果右节点没有children 它自己就是最小的   然后把该继承的（原来的left）都继承好
+  * 如果右节点还有左子树 一直往左走，直到没有left为止 把最小的替换了 把最小的右子树接到原来的最小值位置
+
+Time: O\(height\)  
+Space: O\(height\)
+
+```python
+def __deleteMin(self, root):
+        if not root.left:
+            return root.right
+        root.left = self.__deleteMin(root.left)
+        return root
+    
+def __delete(self, root, key):
+    if not root:
+        return None
+    if key < root.key:
+        root.left = self.__delete(root.left, key)
+    elif key > root.key:
+        root.right = self.__delete(root.right, key)
+    else: # root!=null and found it 
+        if not root.right:
+            return root.left  #report给了line 11或者line13，把return的value挂回去
+        if not root.left:
+            return root.right
+        t = root
+        root = self.__min(t.right)
+        root.right = self.__deleteMin(t.right)
+        root.left = t.left
+    return root
+
+def delete(self, key):
+    self.__root = self.__delete(self.__root, key)
 ```
 
 

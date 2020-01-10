@@ -62,7 +62,7 @@ class BinarySearchTree(object):
             root.value = value 
         return root
     
-    # 如果没有等号，那么null 如果if里面是return，那么回去的只是这个node而已
+    # 如果没有等号/if里面是return，那么回去的只是这个node而已
     # heap上：new出来了node，dereference的写
     # 刚才的子树，怎么来怎么挂，无差别的写
     # 如果return null 那么就做了pruning，一半的枝都没了
