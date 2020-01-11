@@ -1,5 +1,5 @@
 ---
-description: BFS解决的主要问题是如何systematically从一个点出发走完所有相关点
+description: search解决的主要问题是如何systematically从一个点出发走完所有相关点
 ---
 
 # Graph Search BFS
@@ -25,6 +25,10 @@ c:{a.b}
 b:{a,c}  
 换用dict存。如果想要让query的操作是O\(1\),那么就可以在dict里存set；如果想要做遍历操作，用list或者linkedlist。在dict里加节点和加边也更方便。
 
+4. Dense Graph O\(V^2\), Sparse Graph O\(V\) edges 
+
+5. Weighted Graph \(graph with cost\)
+
 ## Graph Exploration
 
 1. Given a source vertex s and a target vertex t, is there a path from s to t?  
@@ -45,14 +49,32 @@ MetaGraphSearchAlgorithm(graph, s):
                 
 
 # O(V+E*T)
-# T: the time complexity for putting a node n bag 如果是queue
+# T: the time complexity for putting a node in bag 如果是queue
 # 的结构，T=1
 ```
 {% endcode %}
 
-### Breadth First Search
+## Breadth First Search
 
 就像是近视的人找眼镜，剥洋葱似的先从最近的一圈开始找。For breadth first search algorithm, we will finish visiting all vertices that are reachable from source by k moves before visiting vertices that are reachable from source by k+1 moves. Thus we just need to replace the bag with a **queue**. 先放进bag的要先拿出来。
+
+* **Data Structure**: Maintain a FIFO queue, put all traversed nodes that haven't been expanded. 
+* **Expand** a node s, e.g. visit/print its value
+* **Generate** s's neighbor nodes" reach out to its neighboring nodes
+* **Termination** condition: do a loop until the queue is empty
+* Optionally deduplicate visited nodes \(typically for graph not for tree\) - e.g. each node is expanded only once - e.g. each node is generated only once
+
+### 分层打印Binary Tree
+
+```python
+# q.size会动态变化，所以要在进循环之前就要记录，不然循环永远出不来
+```
+
+### Cousins In Binary Tree
+
+期末考试    两个node是否cousin：同一层，但不是一个parent 思路：BFS [https://app.laicode.io/app/problem/295](https://app.laicode.io/app/problem/295)
+
+
 
 {% code title="伪代码" %}
 ```python
@@ -72,7 +94,8 @@ BFS(graph, s):
 
 ![](https://cdn.mathpix.com/snip/images/W9Nqthp7ZJilgYE1mDZGuBKXNrhMUX20lKl2OIrOVo8.original.fullsize.png)
 
-对于这样一幅图，如果从B出发，3步能走完所有节点。BFS有2个很好的性质，（1）每一步都是从距离起点最短的路径出发往外走，所以能保证每一步的**跳转次数**都是最少的。BFS找的不是最短路径而是花最短代价跳转的次数，因为有可能路径的权重不一样。如果想要让跳转次数与距离等价，那就让有权重的图变成距离之间有对应权重的边的图，比如AB之间的距离是10，那就等价于AB之间有10个边。但是缺点是这样操作后，图会非常大，有很多个边和很多个节点。
+对于这样一幅图，如果从B出发，3步能走完所有节点。BFS有2个很好的性质，  
+（1）每一步都是从距离起点最短的路径出发往外走，所以能保证每一步的**跳转次数**都是最少的。BFS找的不是最短路径而是花最短代价跳转的次数，因为有可能路径的权重不一样。如果想要让跳转次数与距离等价，那就让有权重的图变成距离之间有对应权重的边的图，比如AB之间的距离是10，那就等价于AB之间有10个边。但是缺点是这样操作后，图会非常大，有很多个边和很多个节点。
 
 （2）另外，连通、无cycle，也就是tree的结构, "BFS Spanning Tree"。每个节点之间有且只有一条路径，并且路径没有环。因为每一步都是从没有被探索的点走下一步的。而至于没有被探索的路径，可能会在tree的同一层，也可能会是跨一层，但是绝对不会跨两层。因为BFS需要保证从起点到终点走的路径是最短的。如果有跨两层的边，那就意味着存在更短的路径。
 
@@ -82,7 +105,6 @@ BFS(graph, s):
 
 1. Given a binary tree, return the zigzag level order traversal of its nodes' values.也就是每一层变换访问顺序，从左到右-从右到左-从左到右。
 
-{% code title="参考伪代码的结构" %}
 ```python
 BFS(root):
     if not root:
@@ -104,7 +126,6 @@ BFS(root):
         frontier = next
         reverse = not reverse
 ```
-{% endcode %}
 
 ### Check Islands
 

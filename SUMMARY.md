@@ -35,6 +35,7 @@
   * [Recursion II and Memoization](chapter2/dynamic-programming.md)
   * [Complete Binary Tree, Segment Tree, Trie Tree](chapter2/complete-binary-tree-segment-tree-trie-tree.md)
   * [Graph Search BFS](chapter2/graph-search.md)
+  * [Graph Search BFS 2](chapter2/graph-search-bfs-2.md)
   * [Graph Search DFS](chapter2/dfs.md)
   * [Problems from 'JianZhi Offer'](chapter2/problems-from-jianzhi-offer.md)
   * [Problems Categorized](chapter2/problems-categorized.md)

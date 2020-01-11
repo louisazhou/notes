@@ -4,17 +4,21 @@ description: 快速从一堆数据中找到极值
 
 # Heap
 
-用途：维护一个变化的数据集的最优质的。
+用途：维护一个变化的数据集的最优值。
 
-逻辑上，堆是一个complete binary tree，即除了最后一层外都是满的，最后一层尽可能往左排。物理上，可以把Heap存在array里，因为它具有complete binary tree的性质。
+1. 堆都是完全二叉树 逻辑上，堆是一个complete binary tree，即除了最后一层外都是满的，最后一层尽可能往左排。物理上，可以把Heap存在array里，因为它具有complete binary tree的性质。
 
 Left Child Node Index = Parent Node Index \*2 +1
 
 Right Child Node Index = Parent Node Index \*2 +2
 
-Min-Heap: 每个node的val都比自己孩子节点小
+Parent Index  = \(NodeIndex-1\)/2
 
-Max-Heap：每个node的val都比自己孩子节点大
+     2. 堆序性  
+
+Min-Heap: 每个node的val都比自己孩子节点小（或等于）
+
+Max-Heap：每个node的val都比自己孩子节点大（或等于）
 
 
 
@@ -26,6 +30,8 @@ Heap上也有两个基本操作，和stack一样，push和pop
 
 如果push到minheap的值是一个比root还要小的数，sift-up operation；
 
+第一优先级是去满足complete binary tree的性质，先往后面加。
+
 ```python
 class Heap (object):
     def __init__(self):
@@ -35,7 +41,7 @@ class Heap (object):
         parent_idx = (index-1)/2
         if parent_idx < 0 or array[index] > array[parent_idx]:
             return
-        array[index],array[parent_idx] = array[parent_idx], array[index]
+        array[index], array[parent_idx] = array[parent_idx], array[index]
     
         sift_up(array, parent_idx)
 
@@ -50,9 +56,15 @@ print(arr)
 
 Time Complexity: O \(log n\)
 
+## Update
+
+如果update value&gt;original, 和下面的min换，如果update value&lt;original,和上面换 
+
+Time Complexity: O \(log n\)
+
 ## Pop
 
-Pop后为了维护complete binary tree的性质，把最后一个最大的往上提，然后慢慢Sift-down
+Pop后为了维护complete binary tree的性质，把最后一个最大的往上提，它和堆顶的换了，然后慢慢Sift-down，接下来update； 不能直接update None，不然不能保证最后一层的None在最后还是中间
 
 ```python
 def sift_down(array, index):
@@ -93,11 +105,19 @@ Time Complexity: O\(n\) 等比数列求和、求极限推导
 
 ## Smallest K Elements
 
-**soln1:** sort   O\(nlogn\)
+### **soln1:** sort   
 
-**soln2:** quick select O\(kn\)
+O\(nlogn\)
 
-**Soln3:** 维护一个小根堆  Space O\(n\)
+### **soln2:** quick select/partition 
+
+Average Case: O\(n+n/2+n/4+n/8+...+1\) = O\(n\)
+
+Worst Case: O\(n+ \(n-1\) + \(n-2\) + ... \) = O\(n^2\)
+
+O\(kn\)
+
+### **Soln3:** 小根堆  Space O\(n\)
 
 Step 1: Heapify all elements    O\(n\)
 
@@ -118,7 +138,9 @@ def kSmallest(array, k):
     return res
 ```
 
-**Soln4:** 维护一个大根堆  Space O\(k\)
+### **Soln4:** 更适合online     大根堆  Space O\(k\)
+
+任何时候maxheap里的都是当前的smallest k   stream的数据进来，任何时候fixed window with size of k里的元素都是当前的k个最小，之后再有新的stream，都会update when appropriate      流数据找current min之类的也是类似的算法 
 
 Step 1: Heapify the first k elements to form a max-heap of size k     O\(k\)
 
@@ -150,7 +172,9 @@ def kSmallest2(array, k):
 |  | O\(n+klogn\) | O\(k+\(n-k\)logk\) |
 | :--- | :--- | :--- |
 | k&lt;&lt;n | O\(c\*n\) | O\(nlogk\) |
-| k~~n | O\(nlogn\) | O\(n\) |
+| k~~n | O\(nlogn\) | O\(nlogn\) |
+
+k~~n指的在一个数量级 
 
 ## Top K Frequent Elements Leetcode 347
 
