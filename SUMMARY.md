@@ -15,6 +15,7 @@
   * [Linked List and Java List](chapter2-java/linked-list-and-java-list.md)
   * [Java Queue, Stack and Deque](chapter2-java/java-queue-stack-and-deque.md)
   * [Binary Tree](chapter2-java/binary-tree.md)
+  * [Heap in Java](chapter2-java/heap-in-java.md)
   * [java.io](chapter2-java/java.io.md)
 * [Chapter3 Algorithm](chapter2/README.md)
   * [Fundamental Knowledge](chapter2/time-complexity.md)

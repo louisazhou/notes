@@ -6,7 +6,7 @@ description: (unfinished) 引用、浅拷贝和深拷贝
 
 ## Reference
 
-![Reference](../.gitbook/assets/image%20%2859%29.png)
+![Reference](../.gitbook/assets/image%20%2861%29.png)
 
 ```python
 b = [1 , 2]
@@ -25,7 +25,7 @@ c = a 表示 c 和 a 指向相同的地址空间，并没有创建新的对象�
 
 ## Shallow Copy
 
-![Shallow Copy](../.gitbook/assets/image%20%2868%29.png)
+![Shallow Copy](../.gitbook/assets/image%20%2871%29.png)
 
 ```python
 import copy
@@ -72,7 +72,7 @@ print(a)
 ```
 {% endcode %}
 
-![](../.gitbook/assets/image%20%2876%29.png)
+![](../.gitbook/assets/image%20%2879%29.png)
 
 对象复制\(y=x\)和浅复制\(z=np.copy\(x\)\)一个list，list元素其实都是那些，所以x和yID相同，都指的同一片空间\[1,2,3\]。
 
