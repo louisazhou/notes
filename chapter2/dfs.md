@@ -2,7 +2,7 @@
 description: 图上的DFS
 ---
 
-# Graph Search DFS
+# Graph Search DFS2
 
 如果说BFS是找眼镜，先从自己身边最近的地方摸一圈再往外找的话，那么DFS就是走迷宫，它的本质是一个backtracking的过程：从一个路口出发，走一个可以走的路口，走到底为止，再从里往外走之前所有没有走过的路口，直到回到最初的那个路口，找下一个没走过的路径... Recursively explore the graph, backtracking as necessary. 
 
@@ -74,7 +74,7 @@ class Solution(object):
 
 需要加一种状态，因为现在不是“非tree edge即backward edge”的两种状态了，还需要判断它是在哪一次被访问过，因为下面这张图并不是环。但是假如2能指向1，那就是环。   
 
-![](../.gitbook/assets/image%20%2841%29.png)
+![](../.gitbook/assets/image%20%2843%29.png)
 
 所以要在之前的基础上多加一个对backward edge的判断，因为只要不是backward edge，我们其实并不care它是forward还是cross。对于上图来说，如果我们从0开始做dfs，那么走到2的时候2没有可以往下走的下一个node，所以会返回到1、0；如果调整下面的箭头，让2指回1，那么走到2的时候在2这个node昨backtracking的时候它是可以走回0的。也就意味着这里是一个backward edge。从这里可以发现，如果每一个节点做完dfs之后还没有visit过自己的parent，那它就没有backward edge。
 

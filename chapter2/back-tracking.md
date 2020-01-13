@@ -1,8 +1,11 @@
 ---
-description: 另一种recursion
+description: >-
+  枚举所有可能 DFS从算法的层面说这是一个search algorithm, 在实现层面用recursion
+  （所以意味着也可以用iterative）DFS和Back
+  Tracking其实是一回事，DFS的search往下走，backtracking只是在触底后反弹的动作
 ---
 
-# Back Tracking
+# Graph Search DFS1 \(Back Tracking\)
 
 回溯法：多阶段决策问题（multistage decision problem），所解决的问题需要分成多阶段，每个阶段做一个具体的决策。可以采用递归的写法，更系统地一次性获取决策的组合。
 
@@ -35,9 +38,15 @@ current position做深度优先遍历
 
 容易漏的点：如果没有answer remove，那么在下一个阶段的选择时还会记住上一个阶段的所有选择，结果就错了。在Back Tracking的时候一模一样的路径不走两次，每次选择时不记得之前的世界线。
 
+## 步骤
+
+1. 白板/coding pad 画出recursion tree
+2. 这个树多少层          这是base case
+3. 每个node分出多少状态需要尝试（node有几个叉） 这意味着调用自己多少次
+
 ## Permutation
 
-### Generate all permutations from Distinct numbers 
+### Distinct numbers \(Generate all permutations from\) 
 
 $$n!$$ 
 
@@ -107,7 +116,11 @@ class Solution(object):
         return answers    
 ```
 
-### Generate all permutations \(with duplicates\)
+### 高阶 swap-swap，in place
+
+O\(n!\)\*n=O\(n!\*n\)
+
+### With Duplicates \(Generate all permutations\)
 
 > Input: \[1,2,2\]
 >
@@ -146,7 +159,7 @@ class Solution(object):
 
 ## Subset
 
-### Generate all subsets from a set of distinct integers
+### From a set of distinct integers \(Generate all subsets\)
 
 $$2^{n}$$ 
 
@@ -158,19 +171,21 @@ $$2^{n}$$
 
 Difference between subset and permutation is, for permutation, at each stage we must choose some value, but for subsetting, omitting is also a valid option. The decision made at each stage is thus no longer 'which number to pick', with a total stage of N input; but rather, 'to pick or not' is the decision at each stage. 
 
+![](../.gitbook/assets/image%20%2818%29.png)
+
 ```python
 def bt(subsets, subset, seq, curr_pos):
     if curr_pos==len(seq): #做完具体决策
         subsets.append(subset[:])
-        return
+        return #如果没有return就index out of bound error 因为到底了不知道得反弹了
     
-       # Case 1: pick the number seq[currr_pos]
+       # Case 1: pick the number seq[currr_pos] 左边的叉 当前的level这个决策，我加
      subset.append(seq[curr_pos])
      bt(subsets, subset, seq, curr_pos+1)
-     subset.pop()
+     subset.pop()#回到当前层，往上backtrack的时候，之前新做的都得撤销了 还原到下这个枝之前的状态
        
-       # Case 2: Not pick the number
-     bt(subsets, subset, seq, curr_pos+1)        
+       # Case 2: Not pick the number 右边的叉
+     bt(subsets, subset, seq, curr_pos+1)  #既然什么都不加，那回去的时候也不用再减      
 
 
 def subset(seq):
@@ -179,7 +194,23 @@ def subset(seq):
     return ss
 ```
 
-### Generate all subsets \(with duplicates\)
+input 是 input string, index是第几层，solutionprefix是当前node存了什么，Java里也不能加名片本身，因为要solutions.add\(solutionPrefix.toString\(\)\)
+
+如果case1和case2换顺序，case1里面的步骤一个都不能少，不然所有结果都会被影响。也就是说，无论先走哪一个case，吃和吐必须配对。
+
+#### 时间复杂度
+
+leaf node以上，所有node的时间复杂度分别O\(1\), 这些总共是2^n\*O\(1\). leaf node因为需要打印或append，所以这一层的每个node的时间复杂度都是O\(n\), 这一层的时间复杂度是O\(n\)\*2^n. 总的时间复杂度是O\(2^n\*n\)
+
+#### 空间复杂度
+
+最左边那条就是那个粉红色路径
+
+### 期末
+
+一样，即使base case有append，这里也要配对的pop；如果append两个，配对pop两个
+
+### With duplicates \(Generate all subsets\)
 
 If we decide not to pick a value for stage i, then for all the same values after stage i, we will make the same decision. 
 
@@ -212,6 +243,16 @@ class Solution(object):
         bt(answers, [], 0, len(nums), nums)
     return answers
 ```
+
+### 找零硬币99cents
+
+每一层是选几枚这个硬币，这个在第几层选哪个cent（比如倒过来）没关系
+
+提前一步停下来，这样在最后只剩下1cent的时候可以直接剩下的钱那么多个1cent。
+
+这里，solution是一个规定长度的array，每一步没有append新的值，直接覆盖掉了之前的值，所以其实这里就不要吐了
+
+Time O\(99^4\)
 
 ## Numeration
 
@@ -251,9 +292,11 @@ class Solution(object):
 
 Branching Factor, B, Height of the Tree, H; Time Complexity: $$O(B^{H})$$ 
 
+n对，2n层，每层代表一个位置，每个位置要么加左，要么加右；additional restrictions: 目前为止加了的左括号的数量**大于**目前加了的右括号的数量时才可以加。
 
+时间: \(2^2n\)\*n
 
-### Combinations
+### Combinations k from n
 
 Choose K from N. 
 

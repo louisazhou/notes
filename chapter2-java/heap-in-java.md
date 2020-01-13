@@ -127,7 +127,7 @@ Java里允许类里面嵌套类
 
 Anonymous Class 匿名类 在方法里只在这里用这个类，只用这一次，不会重用，不存在复用，所以名字都没起，类中路人甲。在priority queue中路人甲很常见，因为我们需要给与comparator，这个顺序可能只在这个priorityqueue中用一次，也不会再被使用了。
 
-![](../.gitbook/assets/image%20%2834%29.png)
+![](../.gitbook/assets/image%20%2835%29.png)
 
 ```java
 PriorityQueue<Cell> pQueue = new PriorityQueue<>

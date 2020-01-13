@@ -51,7 +51,7 @@ current = current.next //current指向了一个新的object，原来的名片没
 以上操作后，current = 1, next = 1, temp = 0  
 line 6是最特殊的，因为它有dereference，它的操作是在heap上做的写，对heap上的链表结构有了改变。而其余的是stack上的，等函数调用结束后它们就随风而去了。
 
-![](../.gitbook/assets/image%20%2829%29.png)
+![](../.gitbook/assets/image%20%2830%29.png)
 
 如果在这个时候加了
 
