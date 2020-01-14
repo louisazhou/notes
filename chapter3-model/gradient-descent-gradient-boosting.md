@@ -8,11 +8,20 @@ ML里的很多问题都可以简化为求解优化问题，让loss function最�
 
 简单的model中L可以直接求解得到，但是对于参数多的L，求解过程困难。因为实际的loss function多是连续、可导的，那就有了gradient descent求解的思路。
 
+Step 1: Take the derivative \(gradient\) of the loss function for each parameter in it.   
+Step 2: Pick random values for the parameters.  
+Step 3: Plug the parameter values into the derivatives\(gradient\)  
+Step 4: Calculate the step sizes, step size = slope\*learning\_rate  
+Step 5: Calculate the new parameter: new parameter = old parameter-step size  
+Back to Step 3 until Step\_Size=small, or reach the maximum number of steps
+
 $$
 \begin{array}{l}{\text { 1: } \theta \leftarrow \theta_{0}} \\ {\text { 2: while } \nabla L(\theta)>\epsilon \text { do }} \\ {\text { 3: } \quad \theta \leftarrow \theta-\alpha \cdot \nabla L(\theta)} \\ {\text { 4: return } \theta}\end{array}
 $$
 
 $$\epsilon$$ 是tolerance，很小的数值（1e-6）， $$\alpha$$ 是learning rate。
+
+use gradient to descent to the lowest point in the loss function \(sum of the squared residuals\); gradient descent can be very sensitive to the learning rate 
 
 {% hint style="info" %}
 基于导数的优化问题（不只是gradient descent）都要求提前做好standardization 
