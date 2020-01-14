@@ -239,7 +239,7 @@ def mergek(arrays):
 
 Time: O\(2K+nlogk\)
 
-k读入、k来heapify、nlogk
+k读入、k来heapify、nlogk来push和popk次
 
 ## Merge in Stream
 

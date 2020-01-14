@@ -284,9 +284,8 @@ binary变量： $$\left(Z_{\alpha / 2}+Z_{\beta}\right)^{2}*\left(p_{1}\left(1-p
 * False Discovery Rate （FDR）adjustment可以让Type 1 error rate控制在某一个比例之中，对individual p value做correction。
 * ANOVA的一个应用：likelihood ratio test
 * $$H_{0}$$ 在AB Testing都是=0，如果是一个范围，用composite test
-* Python或R中一行得到cdf或者p value的代码： from scipy.stats import norm       norm.cdf\(value\) pnorm\(value\)
-
-
+* Python或R中一行得到cdf或者p value的代码： `from scipy.stats import norm`       
+* `norm.cdf(value) pnorm(value)`
 
 
 

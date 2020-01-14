@@ -531,6 +531,8 @@ return best_model, best_predictions
 
 ### Binary Implicit Ratings
 
+implicit rating
+
 如果是Binary Ratings，比如只是预测1和0，那可以在weighting上做更多工作。
 
 Item Weighting: Movies with more user views = higher weight

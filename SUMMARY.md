@@ -88,6 +88,7 @@
 * [Project: The Winning Recipes to an Oscar Award](a-social-network-project-report-draft.md)
 * [Project: A Crime Analysis of the Last Decade NYC](project-a-crime-analysis-of-the-last-decade-nyc.md)
 * [Project: Predict User Type Based on Citibike Data](project-predict-user-type-based-on-citibike-data.md)
+* [GeoSpark/GeoSparkVis for Geospatial Big Data](geospark-geosparkvis-for-geospatial-big-data.md)
 * [Single Scattering Albedo](single-scattering-albedo.md)
 * [Sea Ice Albedo Retrievals](sea-ice-albedo-retrievals.md)
 
