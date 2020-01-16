@@ -4,6 +4,8 @@ description: Experiment Design + A/B Testing
 
 # A/B Testing
 
+{% embed url="http://onlinestatbook.com/2/index.html" %}
+
 ## A/B Testing 
 
 **经典考法：** 

@@ -32,9 +32,12 @@ generate broad-band albedo over sea ice
 
 > Development of surface characterization sea ice albedo
 
-* Evaluated broadband \(VIS, NIR, SW\) TOA sea ice albedos with radiance received by seven MODIS and SGLI channels.
-* Visible-band albedo derived from MODIS-channel and SGLI-channel radiance shows good resemblance. 
-* \(?\) haven't reached the phase of characterizing surface yet 
+* Fitted equations that link each of the sea ice physical parameters with sea ice thickness.
+* Trained a 3-layer Neural Network model to retrieve broadband sea ice albedo based on radiance data, achieving 0.3% RMSE.
+* Achieved reasonable retrieval results when applied on MODIS images.
+* Application of the trained model to SGLI images \(and testing/validation against MODIS results
+
+  \) -- work in progress.
 
 ## RT model for coupled atmosphere-sea ice/ocean system
 
@@ -93,7 +96,7 @@ Fit relations between ice thickness \(m\) with each of the other sea ice physica
   
 aerosol optical depths
 
-![Comparison of ISIOP ISBRDF derived sea ice spectral albedos for New Young \(NY\), First-Year \(FY\)  ice for several ice thicknesses with observed spectral albedos.](.gitbook/assets/image%20%2866%29.png)
+![Comparison of ISIOP ISBRDF derived sea ice spectral albedos for New Young \(NY\), First-Year \(FY\)  ice for several ice thicknesses with observed spectral albedos.](.gitbook/assets/image%20%2867%29.png)
 
 > Graph 9, Modeling of radiation transport in coupled atmosphere-snow-ice-ocean systems
 
@@ -137,6 +140,8 @@ comparison between same day MODIS and SGLI sea ice albedo results
 
 ## Future Work
 
-1. Characterize madeup  
-2. xx - work in progress
+1. Application to SGLI images \(and testing/validation against MODIS results\) is currently in progress.
+2. Improve the albedo retrieval for thin, New Young \(formed within 1 year\) sea ice.
+3. Surface classification during melting and snow-falling seasons based on albedo retrievals.
+4. Sea ice physical parameters retrieval based on TOA albedo.
 

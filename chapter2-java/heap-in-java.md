@@ -8,6 +8,8 @@
 
 **remove\(Object\) O\(n\)** - remove特定的node，要search，最坏情况每个都要看，不能看到某个node就马上剪枝，因为左右的大小关系不知道。和BST不同，BST中的删除是O\(height\)
 
+why array: 其实当然也可以用binary tree，但是这样做的存储效率非常低，locality和overhead的问题。更重要的原因是给一组数据来做heapify的时候，拿到的东西都是array，本身拿到的就是一个连续存放的array。此时，“树在我心中”。为什么是complete binary tree? 想想array里的数据也是连续存的。如此，array的每一个数都和binary tree有了一一映射。树长什么样是不会随内容的变化而变化的。
+
 ## Order
 
 如何定义优先级？
@@ -143,7 +145,130 @@ PriorityQueue<Cell> pQueue = new PriorityQueue<>
 
 最外面的\(\)是constructor的 以上相当于
 
+## 实现heap
 
+```java
+public class MinHeap {
+    private int[] array;
+    private int size;
+    
+    public MinHeap(int[] array) {
+        if (array==null||array.length==0) {
+            throw new illegalArgumentException("input array cannot e null or empty");
+        }
+        this.array = array;
+        size = array.length;
+        heapify();
+    }
+    
+    //see below
+}    
+```
+
+### PercolateUp -- offer/update
+
+> 老板家儿子公司体验生活
+
+* compare with the parent, swap until parent has higher priority than self
+
+```java
+private void percolateUp(int index) {
+    int parent_idx = (index-1)/2;
+    
+    if (parent_idx < 0 or array[index] > array[parent_idx]) {
+        return;
+    }
+     
+     swap(index, parent_idx);
+     array[index], array[parent_idx] = array[parent_idx], array[index];
+    
+     percolateUp(array, parent_idx)
+}
+
+private void percolateUp(int index) {
+    while(index>0) { //index<=0 exit
+        int parent_idx = (index-1)/2;
+        if (array[parent_idx])>array[index] {
+            swap(array, parent_idx, index);
+        } else {
+            break;
+        }
+        index = parent_idx
+    }
+}
+```
+
+### PercolateDown --poll/ update/ heapify
+
+> 皇帝驾崩 percolate down的条件是只有堆顶没了，左右children都是好的；此时做percolate down，就能很好的维护heap property
+
+* swap
+* percolate down, compare with both children, swap with the smaller one
+
+```java
+//parent要和children交换，children可能有null 技巧是swapcandidate 默认和左边比，因为可能没有右边
+//只有右边有子女且右边比左边小时才swap右边 而且要用长度判断，不能直接== 因为这个时候已经out of bound了
+
+private void percolateDown(int index) {
+
+
+}
+```
+
+### Heapify\(\)
+
+#### 正经的heapify  O\(n\)
+
+> 一个节点的时候就是一个heap，所以可以一个个做percolate down，让以新元素为parent的subtree变成一个更大的heap。
+
+从底到上，从右往左的顺序，对非叶节点做percolate down，一路往回走 两个视角，array的视角，保证代码简单；tree的视角维护heap的性质。
+
+如何找“最后一个非叶节点”？ \(最后一个元素index-1\)/2一定是parent = \(n-2\)/2=n/2-1 其中n是array length
+
+#### 时间复杂度O\(n\)
+
+总共k层，1个元素向下看k-1层，2个元素向下看k-2层... 
+
+![](../.gitbook/assets/image%20%2852%29.png)
+
+错位相减，k=logn
+
+```java
+private void heapify() {
+        for (int i=size/2-1;i>-1;i--) {
+            percolateDown(i);
+        }
+    }
+```
+
+#### 假heapify: 把n个元素插入进heap  O\(nlogn\)
+
+> offer and percolate up
+
+![](../.gitbook/assets/image%20%2879%29.png)
+
+### Update\(\)
+
+看变大还是变小，调整update的元素以保持heap property
+
+```java
+
+```
+
+### Poll\(\)
+
+> 把size当一个挡板，换完后挡板往前移 （size--）
+
+### Offer\(\)
+
+
+
+
+
+### Java的API vs 自己实现
+
+* Java的API无限，自己实现的有size，如果想要很长的，那array list扩容，\*1.5挪了
+* 如果想自己实现一个支持comparator的priority queue，改所有update比大小的地方换成compare\(a,b\)的方法
 
 ## Smallest K Elements in Unsorted Array
 
@@ -162,9 +287,43 @@ public static int[] smallestKElements(int[] array, int k) {
     }
     return result;
 }
-
-
 ```
 
 stream processing vs batch processing
+
+
+
+## Sorting Algorithms \(and heap\)
+
+Java的arrays.sort来sort int\[\] array, 会使用quicksort；如果使用的是Integer array, 会使用mergesort。
+
+### quicksort 对primitive type的排序
+
+time worst case O\(n^2\), average O\(nlogn\),   
+space worst case O\(n\), average O\(logn\)
+
+**unstable sort** 排完序之后的顺序可能会改变 但对于primitive type来说，但这无所谓
+
+### mergesort  对object的排序
+
+time worst case O\(nlogn\), average O\(nlogn\),   
+space worst/average case O\(n\)
+
+**stable sort** key一样时不会改变两个元素的先后顺序 对于有多个field的object非常重要
+
+比如，如果在Excel sheet里，先按照从高到低的分数排序，再按照性别排序，那么每个性别内部排序也是对的
+
+### heapsort space O\(1\), time O\(nlogn\)
+
+selection sort虽然可以 in place，但是每次往后看选出当前待排序的元素的最小的，都要完整的扫一遍；如果能把后面的都做成heap，那么这个时候拿出来一个元素再对heap做调整的空间复杂度是logn。
+
+用heap来加速的selection sort：heap sort
+
+把待排序的放在左边的max heap里，把堆顶元素往最后swap，堆越来越小，已排序的越来越大；每次拿出一个元素是logn，总共n个元素，所以时间复杂度是nlogn; 空间上 in place. 
+
+#### 工业界不常用 原因
+
+1. 虽然看起来复杂度低，但是操作的时间，heapify的时间长；
+2. 算法locality比较差，因为头部节点扔到尾部，long time overhead;
+3. heap sort无法distribute/parallelize 执行人唯一
 
