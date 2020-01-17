@@ -169,3 +169,7 @@ x/y, the type of the operator's return is the type of the operands with widest r
 implicit cast: long z = 5/3  double y=3 在这里都在右边的计算完成后把它转成了左边的这个type   
 forced cast: 可以高转低，要自己aware of loss
 
+
+
+java里的array.length, string.length\(\). string builder.size\(\)
+
