@@ -95,6 +95,15 @@ comparable只能最多定义出来一种顺序，与生俱来的顺序，叫natu
 
 `PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer> (16, collections.reverseOrder());`
 
+### Possible ways to provide 
+
+1. 顶格写  Top-level class
+2. 写到class里 Static Nested class 活在类里面的类
+3. 匿名类 Anonymous class
+4. Lambda Expressions 
+
+![](../.gitbook/assets/image%20%2857%29.png)
+
 ## PriorityQueue Constructor
 
 1.`PriorityQueue<Cell> heap = new PriorityQueue<Cell>();`
@@ -112,10 +121,10 @@ comparable只能最多定义出来一种顺序，与生俱来的顺序，叫natu
 * initialize the internal array with specified capacity \(16\)
 * class MyComparator implements Comparable&lt;Cell&gt;!    
 
-4. `PriorityQueue<Cell> heap = new PriorityQueue<Cell>(16, new MyComparator());`
+4. `PriorityQueue<Cell> heap = new PriorityQueue<Cell>(new MyComparator());`
 
 * class MyComparator implements Comparator &lt;Cell&gt;
-* Java 8+ only
+* **Java 8+ only**
 
 {% hint style="info" %}
 1. 16, 11是initial capacity； initial，说明这是初始，后面可以变；capacity意味着这是容量，能装多少，而不是size。 
@@ -229,7 +238,7 @@ private void percolateDown(int index) {
 
 总共k层，1个元素向下看k-1层，2个元素向下看k-2层... 
 
-![](../.gitbook/assets/image%20%2852%29.png)
+![](../.gitbook/assets/image%20%2853%29.png)
 
 错位相减，k=logn
 
@@ -245,7 +254,7 @@ private void heapify() {
 
 > offer and percolate up
 
-![](../.gitbook/assets/image%20%2879%29.png)
+![](../.gitbook/assets/image%20%2882%29.png)
 
 ### Update\(\)
 

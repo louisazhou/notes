@@ -10,7 +10,29 @@ description: Python 里的string是immutable的
 
 ### 删除student中的u和n
 
-常见错误：数组越界；如果有多个元素连续出现，删不干净。 更好的：2 pointers。
+常见错误：
+
+1. 如果有多个元素连续出现，index不注意维护就会删不干净。
+2. 调用API的时候要注意时间复杂度 deleteCharAt, subString, string1+string2都
+
+{% code title="错误做法" %}
+```python
+    for ()
+```
+{% endcode %}
+
+两个挡板，三个区域，**同向**而行。对于需要保留output相对顺序的题目，选择同向而行。
+
+左挡板左侧，不包含左侧，是要留的结果  
+左右之间，是不在乎的区域  
+右挡板右侧，不包含右侧，是正在探索的需求
+
+Case 1: a\[j\] should be kept: a\[i\]=a\[j\], i++, j++  
+Case 2: a\[j\] should not be kept: j++
+
+```python
+
+```
 
 j 快指针，右边是未访问的元素，左边是已经访问的元素；
 
@@ -61,6 +83,8 @@ def remove(str):
 
 Time O\(n\)
 
+
+
 Space O\(n\)
 
 相比之下第一种更好，因为第二种里的append不一定是一个O\(1\)的操作。在Python中可变长度的容器，增加元素时要开辟新的空间（一般是double size），只是amortized O\(1\)。
@@ -70,6 +94,17 @@ Space O\(n\)
 ### 删除句中的多余空格
 
 原始输入空格比较多，把开头多余的空格、结尾的空格去掉，中间的只留1个空格。
+
+Case 1: if a\[f\]==' ':  
+- case 1.1 s==0, don't copy  
+- case 1.2 s!=0,     if a\[s-1\]!=’ ‘，copy  
+                                if a\[s-1\]==' '. don't copy
+
+Case 2: if a\[f\]!=' ': copy
+
+Post-processing: **s&gt;0** and a\[s-1\] ==' ', then s-=1
+
+
 
 initialization：i=0, j=0
 

@@ -530,6 +530,64 @@ In python, hash\_set is set; hash\_table is dictionary
 
 ## 题目
 
+### find one missing from unsorted array
+
+1. use a set, iterate over the input array                                    Average O\(n\) Worst O\(n^2\)
+2. for each number from 1 to n: find if it's in the set               Average O\(n\) Worst O\(n^2\)
+
+[https://app.laicode.io/app/problem/68](https://app.laicode.io/app/problem/68)
+
+#### 优化 use a boolean\[\]
+
+因为连续，可以放进物理连续的boolean array里  
+Step 1: for each element in the input array \(value=i\), put it into the seen\[i\]=true       O\(n\)  
+Step 2: for each element from 1...n: check if seen\[i\]==true                                            O\(n\)
+
+#### 数学
+
+等差数列求和，减去sum of input array，剩下的就是output        Space O\(1\)  
+but it may overflow
+
+#### bit operation XOR
+
+* 交换律 a XOR b = b XOR a
+* 结合律 a XOR \(b XOR c\) = \(a XOR b\) XOR c
+* 0是单元 0 XOR a = a
+* a XOR a =0
+
+![](../.gitbook/assets/image%20%2858%29.png)
+
+### find common numbers between 2 sorted arrays a\[M\], b\[N\]
+
+> 需要确认 如果有重复元素怎么办
+
+Assume没有重复 或者 有重复元素只输出一次
+
+#### Hashset
+
+比较大小，把小的放进hashset
+
+Step 1: Insert all elements from smaller array a into the hash set
+
+Step 2: For each element in array b, check if it's in the HashSet or not
+
+Time = O\(M+N\) average, worst O\(M^2+N\*M\)  
+Space = O\(M\)
+
+#### 谁小移谁
+
+不相等就谁小移谁，相等就分别往前
+
+Time = O\(M+N\)  
+Space = O\(1\)
+
+#### 如果M&lt;&lt;&lt;N Binary Search
+
+For each element in b\[N\], run binary search M times. 
+
+Time = O\(MlogN\)  
+Space = O\(1\)
+
 ### 2 sum sorted
 
 因为是sorted，所以可以用2 pointers的方法，利用增加和减小的单调性：一个往前移一个往后移；如果现在的和比target小，移动i往后；如果比现在的target大，移动j往前。

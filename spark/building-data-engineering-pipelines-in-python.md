@@ -20,7 +20,7 @@ Singer is a specication
 * extract and load with taps and targets =&gt; language independent
 * communicate over streams:  schema \(metadata\) state \(process metadata\)  record \(data\)
 
-![](../.gitbook/assets/image%20%2869%29.png)
+![](../.gitbook/assets/image%20%2872%29.png)
 
 ```python
 columns = ("id", "name", "age", "has_children") 

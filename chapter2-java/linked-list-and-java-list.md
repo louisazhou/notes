@@ -247,5 +247,93 @@ interface也可以实现interface，比如可以有一个`MyList2 extends MyList
 
 ## Abstract Class
 
-一个会写代码的PM
+一个会写代码的PM A是一个interface
+
+## 总结
+
+下图中，越往下的method越多
+
+List:只有在头部插入需求时linkedlist, Queue: 只有在老版本时linkedlist
+
+![](../.gitbook/assets/image%20%2840%29.png)
+
+`Deque<E> stack = new ArrayDeque<>;`
+
+### List
+
+* add\(E e\);                              O\(1\) by LinkedList      Amortized O\(1\) by ArrayList
+* add\(int **index**, E e\);             O\(n\) by LinkedList      O\(n\) by ArrayList
+* E get\(int index\);                  O\(n\) by LinkedList      O\(1\) by ArrayList
+* remove\(int **index**\);              O\(n\) by LinkedList      O\(n\) by ArrayList
+* remove\(E e\);                        O\(n\) by LinkedList      O\(n\) by ArrayList
+* set\(int index, E e\);               O\(n\) by LinkedList      O\(1\) by ArrayList
+
+> 1. remove和remove互为overload，所以list.remove\(0\)，在没有发生autoboxing的条件下会优先match primitive type int. 如果不想match int index的remove，可以remove\(Integer.valueof\(0\)\)
+> 2. 如果是add\(1\) 一定是第一个，autoboxing，对primitive type做了隐性转化
+> 3. add的index范围是\[0, size\]; remove的index范围是\[0, size-1\]
+
+### Queue
+
+O\(\) by LinkedList; O\(\) by ArrayDeque
+
+* offer\(E e\);      Amortized O\(1\) by LinkedList; O\(1\) by ArrayDeque; O\(logn\) by PriorityQueue
+* E peek\(\);        O\(1\)
+* E poll\(\);          O\(1\) by LinkedList; O\(1\) by ArrayDeque; O\(logn\) by PriorityQueue
+* add\(E e\)
+* E element\(\)
+* E remove\(\)
+
+> 下面的三个是throw exception; bounded queue满的时候offer会return false，add会throw exception。
+
+### Deque
+
+* offerFirst\(E e\);                            O\(1\)
+* offerLast\(E e\) = Offer\(E e\)        O\(1\)
+* E peekFirst\(\) = peek\(\)                O\(1\)
+* E peekLast\(\)                                O\(1\)
+* E pollFirst\(\) = poll\(\)                    O\(1\)
+* E pollLast\(\)                                  O\(1\)
+
+
+
+* Deque&lt;String&gt; stack = new Stack&lt;&gt;\(\);         
+
+1. NO! Stack is deprecated
+2. Compile error, because deque and stack has no relation 
+
+* Deque&lt;string&gt; pq = new PriorityQueue&lt;&gt;\(\);
+
+1. Priority Queue不是deque的实现类 
+
+* Queue&lt;String&gt; stack = new ArrayDeque&lt;&gt;\(\);
+
+1. 起名，应该叫queue
+
+* List&lt;String&gt; list = new ArrayDeque&lt;&gt;\(\);
+
+1. ArrayDeque和List是两股势力
+
+> 能用什么类型取决于声明类型（等号左边）而不是实现类型 所以queue里没有offerlast的method
+
+
+
+#### if want to use queue
+
+`Queue<X> q = new ArrayDeque<>();`
+
+#### if want to use stack
+
+`Deque<X> stack = new ArrayDeque<>();`
+
+#### if want to use two-end queue
+
+`Queue<X> dq = new ArrayDeque<>();`
+
+#### if want to use a size-adjustable array
+
+`List<X> list = new ArrayList<>();`
+
+#### if want to use priority queue
+
+`PriorityQueue<X> pq = new PriorityQueue<>();`
 
