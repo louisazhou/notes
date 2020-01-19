@@ -17,7 +17,7 @@ description: Python 里的string是immutable的
 
 {% code title="错误做法" %}
 ```python
-    for ()
+    
 ```
 {% endcode %}
 
@@ -246,7 +246,25 @@ Return a\[0:s\] \(不包含s\)
 
 ## Reverse a string
 
-相当于reverse两次，call reverse这个helper，第一次 reverse整个list，第二次，j放在j-1，然后再call helper
+#### iterative 双指针，头尾，相向，互换
+
+```python
+def reverse_helper(lst, left, right):
+    while left<right:
+        lst[left], lst[right] = lst[right], lst[left]
+        left += 1
+        right -= 1
+```
+
+#### recursive 虚线框中间
+
+```python
+
+```
+
+#### reverse句子
+
+相当于reverse两次，call reverse这个helper，第一次 reverse整个list，第二次reverse单词，j放在j-1，然后再call helper
 
 ```python
 def reverse_helper(lst, left, right):
@@ -261,7 +279,7 @@ def reverse_string(string):
     i = 0
     left = i
     right = i
-    while i< len(lst):
+    while i < len(lst):
         if i==len(lst)-1 or lst[i+1]==' ';
             right = i
             reverse_helper(lst, left, right)
@@ -270,7 +288,13 @@ def reverse_string(string):
     return ''.join(lst)
 ```
 
+#### reverse right-hand side by two positions
 
+abcdef --&gt; efabcd
+
+step 1: reverse the whole word,
+
+step 2: fe \| dcba 分别反转
 
 ## Substring
 
@@ -375,4 +399,139 @@ class Solution(object):
         
         return -1
 ```
+
+## Char Replacement
+
+Example: student --&gt; stuXXt, studendendent --&gt;stuXXXXXXt 
+
+slow: all letters to the left of slow \(not including slow\) are the final results  
+fast: current index; s1: 'den', s2: 'XX'
+
+student  
+s  
+ f
+
+#### case 1: from s1.length &gt; = s2. length 替换后变短
+
+case 1: if f!='d', copy, f++, s++  
+case 2: if f points to 'den', copy s2, s+=s2.length fast+=s1.lenth
+
+#### case 2: s1.length &lt; s2. length 替换后变长
+
+这个时候替换成XXXX 
+
+step 1: 过一遍string，数一下s1字符串出现了多少次\(比如2次\)；  
+step 2: enlarge the string 2\*\(s2.length-s1.length\);
+
+s t u d e n t d e n t  _\_ \_  
+                                    s  
+                              f_
+
+step 3: 把slow放在最后，f放在真正的string最后，slow的右边，不含slow都是最后结果，该保留的；fast是现在的index。  
+出来的条件是f和s都离开了整个string。
+
+
+
+## Shuffling
+
+### ABCD1234--&gt;A1B2C3D4
+
+ABCD1234--&gt; AB12CD34--&gt;A1B2C3D4
+
+### A1B2C3D4--&gt;ABCD1234
+
+> merge sort, 左右两边都sort好了，所以谁小移谁
+
+          A1B2\|C3D4  
+      /                        \  
+AB12                     CD34  
+            ABCD1234
+
+12 CD 先换成 DC21，再内部交换一次CD12
+
+### ABCDEFG1234567--&gt;A1B2C3D4E5F6G7
+
+要让chunk1和chunk3同size：ABCD1234EFG567          
+要为每一个步骤求mid
+
+size = right-left-1  
+mid = left+size/2  
+lm = left+size/4  
+rm = left+size\*3/4
+
+### ABCDE1234567--&gt;A1B2C3D4E567
+
+当后面的67没有，接着做
+
+### ABCDEFG12345--&gt;A1B2C3D4E5FG
+
+ABCDE12345FG  
+54321GF --&gt;12345FG
+
+## Permutation with dups
+
+### if no dups, swap-swap
+
+### if with dups
+
+如果还是swap-swap的思路，那只要是换过来一样的，在hashset看到了，就不换了。这个判断需要加在进入for循环之前；另外里面加一个if判断 如果在里面，continue；把该加的加了
+
+Time: O\(n!\*n\)  
+Space: O\(n^2\)
+
+## Encoding/Decoding
+
+### aaaabcc--&gt;a4b1c2 run-length encoding, requires in-place
+
+{% hint style="info" %}
+注意2种case
+{% endhint %}
+
+slow: 左侧不包含都是结果  
+fast: 当前
+
+看f后面的已经不是f指向的时候了，总结之前的。但是注意这又有可能会overwrite到后面的一个index，如果string越变越长、越变越短... 
+
+Step 1: from left to right: we only deal with the cases where the letter repeats &gt;=2 times; the case that appeared only once are simply copied. In the meantime, we need to count how many times a letter only repeats once.  eg. count=1   
+Step 2: enlarge the string by 'count', and from right to left: do similar steps. 
+
+## Sliding window
+
+### longest substring that each char occurs at most k times
+
+\[L\(slow\), R\(fast\)\]: each char occurs at most k times within this window  
+HashMap: &lt;char, count&gt;
+
+BDEFGADE  
+\| \|  
+~~&lt;B,1&gt;, &lt;D, 1&gt;,~~ &lt;E, 1&gt;, &lt;F, 1&gt;, &lt;G, 1&gt;, &lt;A, 1&gt;, ~~&lt;D, 1&gt;~~   
+
+global max =6
+
+1. when to move fast index: at most k times within the table \(no value exceeds k times\) 
+2. when to move slow index: when there is a value &gt; k, keep slow++ until there is no value &gt; k
+3. when to update the final result: when we do fast ++, as long as \(fast-slow+1\)&gt;global\_max 
+
+### find all anagrams of a substring s2 in a long string s1 
+
+string s2 = aabc  
+            s1 = zzzzcdebcaabcyywwww
+
+Fixed-Size sliding window 一个指针都行  
+HashMap &lt;char, count&gt;
+
+Step 1: initialize the hashmap, put s2 in hashmap  
+Step 2: run sliding window on s1, 出现一个里面的count减一个，目标是都是0
+
+Time = O\(m\*n\)
+
+#### how to optimize to O\(m+n\)
+
+用type\_of\_char\_to\_match来替代 每当有一个字母后面的数字是零，意味着type\_of\_char\_to\_match可以减一了，不用每次都对着hashmap查，而是对着数字查了。
+
+### flip at most k times to convert from 0 to 1, find the longest subarray that contains all 1
+
+同上面的at most k times, 只需要0 at most k times 
+
+\_\_
 
