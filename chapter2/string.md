@@ -517,6 +517,10 @@ global max =6
 string s2 = aabc  
             s1 = zzzzcdebcaabcyywwww
 
+{% hint style="info" %}
+这里有重复字母，所以不能用XOR来做。因为a XOR a 的时候得到的是0，这个时候不知道是aa的0还是bb的零
+{% endhint %}
+
 Fixed-Size sliding window 一个指针都行  
 HashMap &lt;char, count&gt;
 
