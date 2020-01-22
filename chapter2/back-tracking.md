@@ -206,6 +206,11 @@ leaf node以上，所有node的时间复杂度分别O\(1\), 这些总共是2^n\*
 
 最左边那条就是那个粉红色路径
 
+#### 关于base case
+
+1. return 都得return，除非if外面的和if里的互斥，下面的不会执行；或者外面有个else，相当于外面有一个return
+2. 加结果集
+
 ### 期末
 
 一样，即使base case有append，这里也要配对的pop；如果append两个，配对pop两个
@@ -388,4 +393,32 @@ class Solution(object):
         bt(answers, [], 2, n)
         return answers
 ```
+
+## debug
+
+1. Three Things:
+
+* base case
+* branch是call了几次
+* backtracking的过程中的吐
+
+2. 数学归纳法，每层出来哪些不变可以用来check helper function对不对 （比如size不变等）
+
+![](../.gitbook/assets/image%20%2876%29.png)
+
+3. 
+
+empty list != null, empty list is \[\], a list with size 0
+
+list with empty string, \[''\], a list with size 1
+
+null, nothing 
+
+4. 
+
+array: length, 因为length是field，所以 `.length`  
+string/string builder: `.string()`  
+others: `size()`
+
+
 

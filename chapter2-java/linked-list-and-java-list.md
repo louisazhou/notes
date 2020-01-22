@@ -247,17 +247,39 @@ interface也可以实现interface，比如可以有一个`MyList2 extends MyList
 
 ## Abstract Class
 
-一个会写代码的PM A是一个interface
+一个会写代码的PM 
 
 ## 总结
 
 下图中，越往下的method越多
 
-List:只有在头部插入需求时linkedlist, Queue: 只有在老版本时linkedlist
+实现List的话，再讨论ArrayList和linkedlist，如果在头操作多，使用LinkedList；   
+实现Queue的话，除了兼容老版本，ArrayDeque全方位吊打LinkedLsit。
 
 ![](../.gitbook/assets/image%20%2840%29.png)
 
 `Deque<E> stack = new ArrayDeque<>;`
+
+只要可以，都用更加general的interface，比如能用queue的就用queue，不要用deque。programming against interface尽量用接口，而不要用class。
+
+we can use **interface** instead of **implementation** everywhere **except in the 'new' statement**. 
+
+* `List<Integer> a = null;` 写null没问题
+* `List<Integer> b = a;` interface reference指向了同一类型的reference，没问题
+* `public void sort(List<Integer> array){...}` 不但没问题，而且recommended, 因为所有list的子类都可以调用，它更加flexible
+* `class DataHolder {private List<Comparable> data};` 也可以，comparable后面没有括号，所以默认的是比object list of comparable也OK
+* List&lt;Integer&gt; list = new List&lt;Integer&gt;\(\); 不行，不能new interface
+* d
+* d
+* 也是new interface 不行
+* 同上
+* * List&lt;List&lt;Integer&gt;&gt; lists = new ArrayList&lt;ArrayList&lt;Integer&gt;&gt;\(\): 不可以 &lt;&gt; &lt;&gt;尖括号里的E，generator必须exactly the same 
+
+#### more flexible 
+
+as general as possible; list上面还有一个collection，但是collection里没有了list里的get method，所以用不了
+
+#### more extensible
 
 ### List
 
