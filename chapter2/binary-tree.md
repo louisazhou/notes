@@ -543,14 +543,19 @@ class Solution:
 ```
 
 ```python
-class Solution:
-    def invertTree(self, root):
-        if root is None:
-            return None
-        tmp_right = root.right
-        root.right = self.invertTree(root.left)
-        rootlleft = self.invertTree(tmp_right)
-        return root
+class Solution(object):
+  def invertTree(self, root):
+    """
+    input: TreeNode root
+    return: TreeNode
+    """
+    # write your solution here
+    if not root:
+      return root
+    leftres = root.left
+    root.left = self.invertTree(root.right)
+    root.right = self.invertTree(leftres)
+    return root
 ```
 
 ### Binary Tree Upside Down
@@ -590,6 +595,79 @@ def upside_tree(root):
 Time: O\(n\)
 
 Space: O\(h\)
+
+### Reverse Binary Tree Upside Down
+
+**Examples**
+
+        1
+
+      /    \
+
+    2        5
+
+  /   \
+
+3      4
+
+is reversed to
+
+        3
+
+      /    \
+
+    2        4
+
+  /   \
+
+1      5
+
+```python
+class Solution(object):
+  def reverse(self, root):
+    """
+    input: TreeNode root
+    return: TreeNode
+    """
+    # write your solution here
+    if not root:
+      return root
+
+    if not root.left and not root.right:
+      return root
+    
+    newroot=self.reverse(root.left)
+    root.left.right=root.right
+    root.left.left=root
+    root.left = None
+    root.right = None
+    
+    return newroot
+```
+
+### Binary Tree Diameter
+
+```python
+class Solution(object):
+  def diameter(self, root):
+    """
+    input: TreeNode root
+    return: int
+    """
+    # write your solution here
+    self.maxnumber = 0
+    self.helper(root)
+    return self.maxnumber
+
+  def helper(self, root):
+    if not root:
+      return 0
+    left = self.helper(root.left)
+    right = self.helper(root.right)
+    if left>0 and right>0:
+      self.maxnumber = max(self.maxnumber, left+right+1)
+    return max(left, right) +1
+```
 
 ## Queue/Stack + Tree
 
