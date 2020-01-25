@@ -73,7 +73,24 @@ boolean isEmpty\(\)
 
 load factor控制着rehashing，如果 number of &lt;k,v&gt;/number of buckets过大，比如大于0.75，就会rehashing。所有的元素都会参与rehashing。
 
+## 完整实现
 
+> Java中的%是取remainder而不是modulus，区别是-1%3如果是modules，答案是2；如果是remainder，答案是-1。所以在key.hashCode\(\)的时候要做个控制。&0X7FFFFFFF 把hashCode的最高位变0，后面每一位不变，这就相当于取了正。
+
+```java
+public class Node {
+    final String key;
+    int value;
+    Node next;
+    Node(String key, int value) {
+        this.key = key;
+        this.value = value;
+    }
+}
+
+public class HashMap implements Map {
+    
+```
 
 
 

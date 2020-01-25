@@ -150,20 +150,26 @@ def insert(self, key, value):
 
 为了维护BST的性质，每一个node都必须有自己的\(min max\)区间，只要保证每一个node都在自己的区间内，就是BST，但凡有一个跳出了这个range，就不是BST。
 
+line 14必须是闭，因为min max的物理意义都是exclusive
+
 ```python
-def isBST(root):
-  #  if root is None:
-  #      return True
-    min_val = float('-inf')
-    max_val = float('inf')
-    return isBSThelper(root, min_val, max_val)
+class Solution(object):
+  def isBST(self, root):
+    """
+    input: TreeNode root
+    return: boolean
+    """
+    # write your solution here
+    return self.isBSThelper(root, float('-inf'), float('inf'))
+  
+  def isBSThelper(self, root, minvalue, maxvalue):
+    if not root:
+      return True
     
-def isBSThelper(root, min_val, max_val):
-    if root is None:
-        return True
-    if root.val <= min_val or root.val >= max_val:
-        return False
-    return isBSThelper(root.left, min_val, root.val) and isBSThelper(root.right, root.val, max_val)
+    if root.val <= minvalue or root.val >=maxvalue:
+      return False
+    
+    return self.isBSThelper(root.left, minvalue, root.val) and self.isBSThelper(root.right, root.val, maxvalue)
 ```
 
 Time=O\(n\)
@@ -448,9 +454,183 @@ class Solution(object):
 ```
 {% endcode %}
 
-### Print in a Given Range
+### Get Keys In Binary Search Tree In Given Range
 
 Time: worst case O\(n\)  
 更紧凑的Time complexity: O\(height+\# of nodes in the range of \[k1, k2\]\)  
 Space: O\(height\), worst case O\(n\)
+
+```python
+class Solution(object):
+  def getRange(self, root, min, max):
+    """
+    input: TreeNode root, int min, int max
+    return: Integer[]
+    """
+    # write your solution here
+    result = []
+    self.getRangehelper(root,min,max,result)
+    return result
+  
+  def getRangehelper(self,root,min,max,result):
+    if not root:
+      return
+    
+    if root.val>min:
+      self.getRangehelper(root.left,min,max,result)
+    
+    if min<=root.val<=max:
+      result.append(root.val)
+    
+    if root.val<max:
+      self.getRangehelper(root.right,min,max,result)
+```
+
+```python
+class Solution(object):
+  def getRange(self, root, min, max):
+    """
+    input: TreeNode root, int min, int max
+    return: Integer[]
+    """
+    # write your solution here
+    result = []
+    self.getRangehelper(root,min,max,result)
+    return result
+  
+  def getRangehelper(self,root,min,max,result):
+    if not root:
+      return
+    
+    if root.val<min:
+      return self.getRangehelper(root.right,min,max,result)
+    
+    if min<=root.val<=max:
+      self.getRangehelper(root.left,min,max,result)
+      result.append(root.val)
+      self.getRangehelper(root.right,min,max,result)
+      
+    
+    if root.val>max:
+      return self.getRangehelper(root.left,min,max,result)
+```
+
+### Search in BST
+
+```python
+class Solution(object):
+  def search(self, root, key):
+    """
+    input: TreeNode root, int key
+    return: TreeNode
+    """
+    # write your solution here
+    if not root or root.val==key:
+      return root
+    return self.search(root.left if key<root.val else root.right, key)
+```
+
+```python
+class Solution(object):
+  def search(self, root, key):
+    """
+    input: TreeNode root, int key
+    return: TreeNode
+    """
+    # write your solution here
+    curr=root
+    while (curr is not None) and curr.val!=key:
+      curr = curr.left if key < curr.val else curr.right
+    return curr
+```
+
+### Insert in BST
+
+```python
+class Solution(object):
+  def insert(self, root, key):
+    """
+    input: TreeNode root, int key
+    return: TreeNode
+    """
+    # write your solution here
+    if not root:
+      newnode = TreeNode(key)
+      return newnode
+    
+    if key<root.val:
+      root.left=self.insert(root.left, key)
+    
+    elif key>root.val:
+      root.right=self.insert(root.right, key)
+    
+    return root
+```
+
+```python
+class Solution(object):
+  def insert(self, root, key):
+    """
+    input: TreeNode root, int key
+    return: TreeNode
+    """
+    # write your solution here
+    newnode = TreeNode(key)
+    if not root:
+      return newnode
+    curr = root
+
+    while curr.val!=key:
+      if curr.val<key:
+        if not curr.right:
+          curr.right = newnode
+        curr = curr.right
+      else:
+        if not curr.left:
+          curr.left = newnode
+        curr = curr.left
+    
+    return root
+```
+
+### Delete
+
+```python
+class Solution(object):
+  def deleteTree(self, root, key):
+    """
+    input: TreeNode root, int key
+    return: TreeNode
+    """
+    # write your solution here
+    if not root:
+      return root
+    
+    if root.val==key:
+      if not root.left:
+        return root.right
+      elif not root.right:
+        return root.left
+      elif not root.right.left:
+        root.right.left = root.left
+        return root.right
+      else:
+        newRoot = self.deleteSmallest(root.right)
+        newRoot.left = root.left
+        newRoot.right = root.right
+        return newRoot
+    
+    if root.val>key:
+      root.left = self.deleteTree(root.left,key)
+    elif root.val<key:
+      root.right = self.deleteTree(root.right,key)
+    return root
+
+  def deleteSmallest(self, root):
+    while root.left.left:
+      root = root.left
+    smallest = root.left
+    root.left = root.left.right
+    return smallest
+```
 

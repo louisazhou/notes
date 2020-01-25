@@ -485,7 +485,7 @@ Update O\(1\) O\(n\)
 x = {"a","b","c","d"}
 x.add("e") #one element
 
-x. update({"e", "f"}) #multiple elements
+x.update({"e", "f"}) #multiple elements
 ```
 
 ### remove 
@@ -535,8 +535,6 @@ In python, hash\_set is set; hash\_table is dictionary
 1. use a set, iterate over the input array                                    Average O\(n\) Worst O\(n^2\)
 2. for each number from 1 to n: find if it's in the set               Average O\(n\) Worst O\(n^2\)
 
-[https://app.laicode.io/app/problem/68](https://app.laicode.io/app/problem/68)
-
 #### 优化 use a boolean\[\]
 
 因为连续，可以放进物理连续的boolean array里  
@@ -556,6 +554,24 @@ but it may overflow
 * a XOR a =0
 
 ![](../.gitbook/assets/image%20%2858%29.png)
+
+```python
+class Solution(object):
+  def missing(self, array):
+    """
+    input: int[] array
+    return: int
+    """
+    # write your solution here
+    n = len(array)+1
+    xor = 0
+    for i in range(1, n+1):
+      xor ^= i
+    for num in array:
+      xor ^= num
+    
+    return xor
+```
 
 ### find common numbers between 2 sorted arrays a\[M\], b\[N\]
 
@@ -580,6 +596,28 @@ Space = O\(M\)
 
 Time = O\(M+N\)  
 Space = O\(1\)
+
+```python
+class Solution(object):
+  def common(self, A, B):
+    """
+    input: int[] A, int[] B
+    return: Integer[]
+    """
+    # write your solution here
+    i, j = 0, 0
+    result = []
+    while (i<len(A) and j<len(B)):
+      if (A[i]==B[j]):
+        result.append(A[i])
+        i+=1
+        j+=1
+      elif A[i]<B[j]:
+        i+=1
+      else:
+        j+=1
+    return result
+```
 
 #### 如果M&lt;&lt;&lt;N Binary Search
 

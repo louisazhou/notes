@@ -118,7 +118,33 @@ class Solution(object):
 
 ### 高阶 swap-swap，in place
 
-O\(n!\)\*n=O\(n!\*n\)
+Time: O\(n!\)\*n=O\(n!\*n\)  
+Space: O\(n^2\) on call stack, the maximum height is n, and at each level, we create a set with space cost of O\(n\), so O\(n\*n\)
+
+```python
+class Solution(object):
+  def permutations(self, input):
+    """
+    input: string input
+    return: string[]
+    """
+    # write your solution here
+    result = []
+    if not input or len(input)<=1:
+      return [input]
+    self.dfs(list(input),0,result)
+    return result
+
+  def dfs(self, array, index, result):
+    if index==len(array):
+      result.append(''.join(array))
+      return
+    
+    for i in range (index, len(array)):
+      array[index], array[i] = array[i], array[index]
+      self.dfs(array, index+1, result)
+      array[index], array[i] = array[i], array[index]
+```
 
 ### With Duplicates \(Generate all permutations\)
 
@@ -157,6 +183,33 @@ class Solution(object):
         return answers
 ```
 
+```python
+class Solution(object):
+  def permutations(self, input):
+    """
+    input: string input
+    return: string[]
+    """
+    # write your solution here
+    result = []
+    if not input or len(input)<=1:
+      return [input]
+    self.dfs(list(input),0,result)
+    return result
+
+  def dfs(self, array, index, result):
+    if index==len(array):
+      result.append(''.join(array))
+      return
+    seen = set()
+    for i in range (index, len(array)):
+      if array[i] not in seen:
+        seen.add(array[i])
+        array[index], array[i] = array[i], array[index]
+        self.dfs(array, index+1, result)
+        array[index], array[i] = array[i], array[index]
+```
+
 ## Subset
 
 ### From a set of distinct integers \(Generate all subsets\)
@@ -192,6 +245,32 @@ def subset(seq):
     ss, s = [], [] ##ss means all subset s means a single valid subset
     bt(ss, s, seq, 0)
     return ss
+```
+
+```python
+class Solution(object):
+  def subSets(self, set):
+    """
+    input : String set
+    return : String[]
+    """
+    # write your solution here
+    result, curr = [], []
+    if not set or len(set)<1:
+      return [set]
+    self.helper(set, curr, 0, result)
+    return result
+
+  def helper(self, set, curr, index, result):
+    if index==len(set):
+      result.append(curr[:])
+      return
+    
+    curr.append(set[index])
+    self.helper(set, curr, index+1, result)
+    curr.pop()
+
+    self.helper(set, curr, index+1, result)
 ```
 
 input 是 input string, index是第几层，solutionprefix是当前node存了什么，Java里也不能加名片本身，因为要solutions.add\(solutionPrefix.toString\(\)\)
@@ -274,25 +353,30 @@ During backtracking, we could record the number of remaining \( and the number o
 or number of used \( and the number of used \). used‘\(’==used‘\)’时不能放'\)', 只有在左括号的数量多于右括号时才能加右括号。
 
 ```python
-def bt(answers, sequence, l, r):
-    # l, r: the number of remaining parenthesis
-    if r == 0:
-        answers.append(''.join(sequence))
-    if l>0:
-        sequence.append('(')
-        bt(answers, sequence, l-1, r)
-        sequence.pop()
-    if r>l:
-        sequence.append(')')
-        bt(answers, sequence, l, r-1)
-        sequence.pop()
-    return
-
+# l, r: the number of remaining parenthesis
 class Solution(object):
-    def generateParenthesis(self, n):
-        answers, sequence = [], []
-        bt(answers, sequence, n, n)
-        return answers
+  def validParentheses(self, n):
+    """
+    input: int n
+    return: string[]
+    """
+    # write your solution here
+    result, curr = [],[]
+    self.dfs(result,curr,n,n)
+    return result
+  
+  def dfs(self, result, curr, l, r):
+    if r==0:
+      result.append(''.join(curr))
+    if l>0:
+      curr.append('(')
+      self.dfs(result, curr, l-1, r)
+      curr.pop()
+    if r>l:
+      curr.append(')')
+      self.dfs(result, curr, l, r-1)
+      curr.pop()
+    return
 ```
 
 Branching Factor, B, Height of the Tree, H; Time Complexity: $$O(B^{H})$$ 
@@ -341,7 +425,7 @@ def bt(answers, comb, n):
         answers.append(comb[:])
         return
     for f in range(2 if not comb else comb[-1], n+1):
-        if n%f--0:
+        if n%f==0:
             comb.append(f)
             bt(answers, comb, n/f)
             comb.pop()
@@ -417,7 +501,7 @@ null, nothing
 4. 
 
 array: length, 因为length是field，所以 `.length`  
-string/string builder: `.string()`  
+string/string builder: `.length()`  
 others: `size()`
 
 

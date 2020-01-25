@@ -126,16 +126,19 @@ Step 2: Call pop\(\) k times to get the k smallest elements. O\(klogn\)
 Time Complexity Total: O\(n+klogn\)
 
 ```python
-import heapq
-
-def kSmallest(array, k):
-    if not array:
-        return []
-    res = []
+class Solution(object):
+  def kSmallest(self, array, k):
+    """
+    input: int[] array, int k
+    return: int[]
+    """
+    # write your solution here
+    import heapq
+    result = []
     heapq.heapify(array)
     for i in range(min(k,len(array))):
-        res.append(heapq.heappop(array))
-    return res
+      result.append(heapq.heappop(array))
+    return result
 ```
 
 ### **Soln4:** 更适合online     大根堆  Space O\(k\)

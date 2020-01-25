@@ -31,7 +31,21 @@ Case 1: a\[j\] should be kept: a\[i\]=a\[j\], i++, j++
 Case 2: a\[j\] should not be kept: j++
 
 ```python
-
+class Solution(object):
+  def remove(self, input, t):
+    """
+    input: string input, string t
+    return: string
+    """
+    # write your solution here
+    slow, fast = 0, 0
+    toremove = set(t)
+    array = list(input)
+    for fast in range(len(array)):
+      if array[fast] not in toremove:
+        array[slow]=array[fast]
+        slow+=1
+    return ''.join(array[:slow])
 ```
 
 j 快指针，右边是未访问的元素，左边是已经访问的元素；
@@ -104,7 +118,27 @@ Case 2: if a\[f\]!=' ': copy
 
 Post-processing: **s&gt;0** and a\[s-1\] ==' ', then s-=1
 
-
+```python
+class Solution(object):
+  def removeSpaces(self, input):
+    """
+    input: string input
+    return: string
+    """
+    # write your solution here
+    if not input:
+      return input
+    array = list(input)
+    slow = 0
+    for fast in range (len(array)):
+      if array[fast]==' ' and (fast==0 or array[fast-1]==' '):
+        continue
+      array[slow]=array[fast]
+      slow+=1
+    if (slow>0 and array[slow-1]==' '):
+      slow-=1
+    return ''.join(array[:slow])
+```
 
 initialization：i=0, j=0
 
@@ -179,8 +213,6 @@ def remove_duplicate(str):
     return ''.join(lst[:slow])
 ```
 
-
-
 ```python
 def remove_duplicate(str):
     if not str or len(str)<2:
@@ -194,7 +226,24 @@ def remove_duplicate(str):
     return ''.join(lst[:slow])
 ```
 
-
+```python
+class Solution(object):
+  def deDup(self, input):
+    """
+    input: string input
+    return: string
+    """
+    # write your solution here
+    if not input:
+      return input
+    array = list(input)
+    slow = 0
+    for fast in range (len(array)):
+      if fast==0 or array[fast]!=array[slow-1]:
+        array[slow]=array[fast]
+        slow+=1
+    return ''.join(array[:slow])
+```
 
 变形题1 如果可以允许两个一样的，那需要修改的只有2行：line5的初始值2，2； 以及line7的slow-2
 
@@ -211,19 +260,25 @@ Case 2: a\[fast\]==stack.top\(\), keep moving fast until a\[fast\]!=stack.top\(\
 要非常清楚fast本身的物理含义，在case2里，如果我们最终是要保留一个重复元素，那么就不需要pop\(\) 
 
 ```python
-def remove_duplicate(str):
-    if not str or len(str)<1:
-        return str
+class Solution(object):
+  def deDup(self, input):
+    """
+    input: string input
+    return: string
+    """
+    # write your solution here
+    if not input or len(input)<1:
+        return input
     lst = []
     fast = 0
-    while fast < len(str):
-     #print fast, lst 
-        if len(lst)>0 and str[fast]==lst[-1] #易错点 lst[-1]但是忘了>0的前提
-            while fast<len(str) and lst[-1]==str[fast]: #易错点 fast++的过程中可能比input本身还大 
+    while fast < len(input):
+        if len(lst)>0 and input[fast]==lst[-1]: #易错点 lst[-1]但是忘了>0的前提
+            while fast<len(input) and lst[-1]==input[fast]: #易错点 fast++的过程中可能比input本身还大 
+                fast+=1
                 fast+=1
             lst.pop()
         else:
-            lst.append(str[fast])
+            lst.append(input[fast])
             fast+=1
     return ''.join(lst)
 ```

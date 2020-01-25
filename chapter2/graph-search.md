@@ -68,6 +68,30 @@ MetaGraphSearchAlgorithm(graph, s):
 
 ```python
 # q.size会动态变化，所以要在进循环之前就要记录，不然循环永远出不来
+class Solution(object):
+  def layerByLayer(self, root):
+    """
+    input: TreeNode root
+    return: int[][]
+    """
+    # write your solution here
+    result = []
+    if not root:
+      return result
+    line = [root]
+
+    while line:
+      nextline = []
+      size = len(line)
+      for i in range (0,size):
+        curr = line.pop(0)
+        nextline.append(curr.val)
+        if curr.left:
+          line.append(curr.left)
+        if curr.right:
+          line.append(curr.right)
+      result.append(nextline)
+    return result
 ```
 
 ### Cousins In Binary Tree
@@ -209,31 +233,97 @@ input是adjacency list.
 A graph is bipartite &lt;-&gt; this graph does not contain odd cycle. 对于BFS的spanning tree结构来说，就是有连接同一层的边, 因为跨层的环一定包含的是偶数条边，偶数条边一定是bipartite的。所以在算法的层面，实际上是在每一层检查一个node是否被探索过的同时还要检查它能不能和同一层的某一个node相连；如果相连，就不是二分图（bipartite）。直到把所有node都查看了位置。在修改模板伪代码的时候，（1）把has\_seen变成一个hashset（2）利用BFS的性质，邻居的距离+1就是现在到root的距离 （3）比较两个距离。
 
 ```python
-def bfs(graph, visited, u):
+class Solution(object):
+  def bipartite(self, graph):
+    """
+    input : List<GraphNode> graph
+    return : boolean
+    """
+    # write your solution here
+    visited = {}
+    for v in range(len(graph)):
+      if graph[v] not in visited and not self.bfs(graph, visited, graph[v]):
+        return False
+    return True
+  
+  def bfs(self, graph, visited, u):
     visited[u] = 0
     frontier = [u]
     while frontier:
-        next = []
-        for u in frontier:
-            for v in graph[u]:
-                if v not in visted:
-                    visited[v] = visited[u] + 1
-                    next.append(v)
-                elif visited[v] == visited[u]:
-                    return False
-        frontier = next
+      next = []
+      for u in frontier:
+        for v in u.neighbors:
+          if v not in visited:
+            visited[v] = visited[u] + 1
+            next.append(v)
+          elif visited[v] == visited[u]:
+            return False
+      frontier = next
     return True
-
-class Solution(object):
-    def isBipartite(self, graph)
-        visited = {}
-        for v in xrange(len(graph)):
-            if v not in visited and not bfs(graph, visited, v):
-                return False
-        return True
 ```
 
 > 在写graph的时候要注意，如果题目没有说明这个图是联通的，要想到孤岛的情况。这也是为什么这道题写了for循环
+
+### Check if Binary Tree is Completed 
+
+```python
+class Solution(object):
+  def isCompleted(self, root):
+    """
+    input: TreeNode root
+    return: boolean
+    """
+    # write your solution here
+    if not root:
+      return True
+    flag = False
+    line = [root]
+    while line:
+      curr = line.pop(0)
+      if not curr.left:
+        flag = True
+      elif flag:
+        return False
+      else:
+        line.append(curr.left)
+      
+      if not curr.right:
+        flag = True
+      elif flag:
+        return False
+      else:
+        line.append(curr.right)
+    
+    return True
+```
+
+### Kth Smallest Number in Sorted Matrix
+
+```python
+class Solution(object):
+  def kthSmallest(self, matrix, k):
+    """
+    input: int[][] matrix, int k
+    return: int
+    """
+    # write your solution here
+    import heapq
+    rows, columns = len(matrix), len(matrix[0])
+    visited = {(0,0)}
+    minheap = []
+    heapq.heappush(minheap, (matrix[0][0], 0, 0))
+    count, curr = 0, None
+    while minheap and count<k:
+      curr, x, y = heapq.heappop(minheap)
+      count+=1
+      if x+1<rows and (x+1,y) not in visited:
+        visited.add((x+1,y))
+        heapq.heappush(minheap, (matrix[x+1][y], x+1, y))
+      if y+1<columns and (x,y+1) not in visited:
+        visited.add((x,y+1))
+        heapq.heappush(minheap, (matrix[x][y+1], x, y+1))
+    return curr
+```
 
 ### Closest Door
 

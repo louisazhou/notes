@@ -700,6 +700,28 @@ def preorder_traversal(root):
 ```
 
 ```python
+class Solution(object):
+  def preOrder(self, root):
+    """
+    input: TreeNode root
+    return: Integer[]
+    """
+    # write your solution here
+    result = []
+    if not root:
+      return result
+    line = [root]
+    while line:
+      curr = line.pop()
+      if curr.right:
+        line.append(curr.right)
+      if curr.left:
+        line.append(curr.left)
+      result.append(curr.val)
+    return result
+```
+
+```python
 def inorder_traversal(root):
     output=[]
     if not root:
@@ -717,6 +739,28 @@ def inorder_traversal(root):
             if node.left:
                 stack.append((node.left,1))
         return output
+```
+
+```python
+class Solution(object):
+  def inOrder(self, root):
+    """
+    input: TreeNode root
+    return: Integer[]
+    """
+    # write your solution here
+    result = []
+    line = []
+    curr = root
+    while curr or line:
+      if curr:
+        line.append(curr)
+        curr = curr.left
+      else:
+        curr = line.pop()
+        result.append(curr.val)
+        curr = curr.right
+    return result
 ```
 
 ```python
@@ -739,6 +783,38 @@ def postorder_traversal(root):
             if node.right:
                 stack.append((node.right, 1))
         return output
+```
+
+```python
+class Solution(object):
+  def postOrder(self, root):
+    """
+    input: TreeNode root
+    return: Integer[]
+    """
+    # write your solution here
+    result = []
+    if not root:
+      return result
+    line = [root]
+    prev = None
+    while line:
+      curr = line[-1]
+      if not prev or curr==prev.left or curr==prev.right:
+        if curr.left:
+          line.append(curr.left)
+        elif curr.right:
+          line.append(curr.right)
+        else:
+          line.pop()
+          result.append(curr.val)
+      elif prev==curr.right or prev==curr.left and not curr.right:
+        line.pop()
+        result.append(curr.val)
+      else:
+        line.append(curr.right)
+      prev = curr
+    return result
 ```
 
 ### 按照Level打印二叉树（广度搜索）
