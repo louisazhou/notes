@@ -1,5 +1,9 @@
 # Deep Learning
 
+{% embed url="http://speech.ee.ntu.edu.tw/~tlkagk/courses.html" %}
+
+
+
 ## Basics
 
 ### Perceptron 感知机

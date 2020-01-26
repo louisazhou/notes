@@ -104,6 +104,8 @@ offline evaluation很好，但是online evaluation特别不好，为什么？ �
 
 {% embed url="https://bloomberg.github.io/foml/\#about" %}
 
+{% embed url="https://course.fast.ai/" %}
+
 
 
  
