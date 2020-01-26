@@ -100,6 +100,12 @@ Categorical Feature的处理，one-hot、DL的方法做embedding、聚类后one-
 
 offline evaluation很好，但是online evaluation特别不好，为什么？ 可以提出各种原因。比如时间的变化、long-term effect、experiment的randomization没做好... 
 
+
+
+{% embed url="https://bloomberg.github.io/foml/\#about" %}
+
+
+
  
 
 
