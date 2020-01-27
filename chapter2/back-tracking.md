@@ -224,7 +224,7 @@ $$2^{n}$$
 
 Difference between subset and permutation is, for permutation, at each stage we must choose some value, but for subsetting, omitting is also a valid option. The decision made at each stage is thus no longer 'which number to pick', with a total stage of N input; but rather, 'to pick or not' is the decision at each stage. 
 
-![](../.gitbook/assets/image%20%2818%29.png)
+![](../.gitbook/assets/image%20%2821%29.png)
 
 ```python
 def bt(subsets, subset, seq, curr_pos):
@@ -488,7 +488,7 @@ class Solution(object):
 
 2. 数学归纳法，每层出来哪些不变可以用来check helper function对不对 （比如size不变等）
 
-![](../.gitbook/assets/image%20%2876%29.png)
+![](../.gitbook/assets/image%20%2883%29.png)
 
 3. 
 

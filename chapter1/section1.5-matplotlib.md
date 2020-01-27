@@ -209,7 +209,7 @@ autolabel(rect1)
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2815%29.png)
+![](../.gitbook/assets/image%20%2818%29.png)
 
 ```python
 # use OOP + pandas plot
@@ -222,7 +222,7 @@ ax1.grid(False)
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2864%29.png)
+![](../.gitbook/assets/image%20%2870%29.png)
 
 #### 双y轴
 
@@ -236,7 +236,7 @@ df.plot(secondary_y=['A', 'B'], mark_right=False)
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2811%29.png)
+![](../.gitbook/assets/image%20%2814%29.png)
 
 ## Seaborn
 
@@ -258,7 +258,7 @@ plt.title('Aris species sepal_length boxplox') # add title
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2862%29.png)
+![](../.gitbook/assets/image%20%2868%29.png)
 
 ```python
 # boxplot UK bank client balance by age group, using seaborn and matplotlib
@@ -270,7 +270,7 @@ ax2.set_title("Balance boxplot sliced by age_group")
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2863%29.png)
+![](../.gitbook/assets/image%20%2869%29.png)
 
 ```python
 # Balance distribution by difference groups
@@ -288,7 +288,7 @@ ax3.legend()
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2861%29.png)
+![](../.gitbook/assets/image%20%2867%29.png)
 
 ### unstack
 
@@ -304,7 +304,7 @@ g.set_yticklabels(['{:3.2f}%'.format(x*100) for x in vals]) # if you want to sho
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2821%29.png)
+![](../.gitbook/assets/image%20%2824%29.png)
 
 ```python
 # Scatterplot
@@ -312,7 +312,7 @@ sns.pairplot(data=df_iris, hue="species")
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2813%29.png)
+![](../.gitbook/assets/image%20%2816%29.png)
 
 ```python
 # multiple charts and chart overlap
@@ -329,7 +329,7 @@ sns.distplot(df['sepal_length'])
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2868%29.png)
+![](../.gitbook/assets/image%20%2875%29.png)
 
 ### factor plot 
 
@@ -354,7 +354,7 @@ g=sns.factorplot(x='time',
 g.set_xticklabels(rotation=-45)
 ```
 
-![](../.gitbook/assets/image%20%2839%29.png)
+![](../.gitbook/assets/image%20%2842%29.png)
 
 ### FacetGrid
 
@@ -374,7 +374,7 @@ grid.map(sns.countplot, 'Embarked', alpha=.8)
 grid.add_legend() 
 ```
 
-![](../.gitbook/assets/image%20%2881%29.png)
+![](../.gitbook/assets/image%20%2889%29.png)
 
 row='Sex', col='Pclass' 是什么效果。 
 
@@ -385,7 +385,7 @@ grid.map(sns.countplot, 'Embarked', alpha=0.8)
 grid.add_legend()
 ```
 
-![](../.gitbook/assets/image%20%2856%29.png)
+![](../.gitbook/assets/image%20%2862%29.png)
 
 ### Regression Plot
 
@@ -402,7 +402,7 @@ sns.regplot(x='x',y='y',data=dt_lin)
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2860%29.png)
+![](../.gitbook/assets/image%20%2866%29.png)
 
 ```python
 # 微调， 把图形做得更简洁, 把不喜欢的gridline去掉, 加上title
@@ -418,7 +418,7 @@ ax1.set_title('Clean linear regression')
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2843%29.png)
+![](../.gitbook/assets/image%20%2846%29.png)
 
 ```python
 # seaborn fit a polynomial model
@@ -428,7 +428,7 @@ sns.regplot(x='x', y='y',data=dt_poly,order=2, ci=None, scatter_kws={"s": 80});
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2865%29.png)
+![](../.gitbook/assets/image%20%2871%29.png)
 
 ### 更多例子
 

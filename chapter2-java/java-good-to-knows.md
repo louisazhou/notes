@@ -36,7 +36,7 @@ Student firstStudent = new Student ("Tom")
 
 stack上的一张名片指向了一个heap上的object
 
-![](../.gitbook/assets/image%20%2854%29.png)
+![](../.gitbook/assets/image%20%2859%29.png)
 
 在一个方法调用结束之后，这两张名片就不在了，但是它们暂时还留在内存里，直到garbage collection回收。假如这时来一个`jack=rose`那么此时改的是stack里的jack的指向，执行后的效果是jack的这张名片不再指向Jack的这个object，而是指向了Rose的这个object。
 
@@ -169,7 +169,183 @@ x/y, the type of the operator's return is the type of the operands with widest r
 implicit cast: long z = 5/3  double y=3 在这里都在右边的计算完成后把它转成了左边的这个type   
 forced cast: 可以高转低，要自己aware of loss
 
+## Autoboxing and Unboxing 
 
+### Primitive type vs. Wrapper class
 
-java里的array.length, string.length\(\). string builder.size\(\)
+* int: Integer
+* long: Long
+* char: Character
+* double: Double
+* boolean: Boolean
+
+Wrapper Class objects, just like string, are **IMMUTABLE** 
+
+`Integer a = 1;  //a-->object1  
+a = 2;         //a-->object2` 
+
+reassign了一个heap
+
+### **Why Wrapper?**
+
+1. **Generic type can not be primitive type. List&lt;Integer&gt;, not List&lt;int&gt;**
+2. It can help provide useful functionalities and contracts \(equals\(\), hashCode, json serializer之类 注意comparable的子类才会有compareTo, object的子类不会有compareTo\)
+3. 可以有null
+
+> 但是能用primitive还是用primitive，因为wrapper class必然会有overhead
+
+### Autoboxing
+
+Java compiler makes automatic conversion from the primitive type to the wrapper class. 
+
+### Unboxing
+
+From wrapper class to primitive type 在做+, -, \*, /, &gt;&lt;这些操作时都是针对primitive type
+
+== 的操作，如果是一个int a == Integer b 的时候，其实是比value，因为只有两边都是object的时候才是比地址，其他时候都是比值；如果一边是object，另一边是primitive，尝试对object做unboxing，然后比值，如果无法unboxing会报错。
+
+如果Integer a &gt; Integer b，试着对两边做unboxing，如果可以unboxing成primitive，就比值，不能unboxing就报错。
+
+`Integer a = 4;  //autoboxing  
+a += 4;         //a = a+4 unboxing`
+
+`int temp = a.intValue();  
+temp += 4;  
+a = Integer.valueOf(temp);`
+
+### int\[\] vs. Integer\[\]
+
+autoboxing和unboxing只发生在int和integer之间，array是不能直接做的，会有compile error。所以如果想要cast，只能一个个取出来
+
+### 常量池
+
+-128~127，一个byte的range；编译器里会把-128-127都放在池子里，赋值的时候Integer都会指向同一个object。
+
+`Integer a = 127；  
+Integer b = 127;  
+System.out.println(a==b);  //依然是比地址  
+//这个时候return true`
+
+`Integer a = 127；  
+Integer b = new Integer 127;  
+System.out.println(a==b);  //依然是比地址  
+//这个时候return false`
+
+`Integer a = 128；  
+Integer b = 128;  
+System.out.println(a==b);  //依然是比地址  
+//这个时候return false`
+
+这件事情告诉我们 
+
+1. 不要用==比较两个object，要调用a.equals\(b\)绝对安全，因为这会给唯一的结果，永远都是true
+
+> 这个gc 5吗？
+
+#### Comparators Revisited
+
+如果在comparator里，写出了这样的：  
+`public MyComparator implements Comparator<Integer> {  
+    @Override  
+    public int compare(Integer i1, Integer i2) {  
+        if (i1==i2) {  
+             return 0  
+}  
+}  
+}` 
+
+错了！ 
+
+可以用以下四种方案：
+
+1. return i1.compareTo\(i2\); //调用了Integer.compare\(i1,i2\);
+2. i1.equals\(i2\)
+3. i1.intValue\(\)==i2.intValue\(\)
+4. 改function里面的，不比较 直接在if else外面 return 0
+
+但是不要i1-i2 因为会overflow
+
+## Strings
+
+* strings are objects
+* 在strings class里，有value, offset, 还有count
+* `char[] array = {'a','b','c','d'}; offset = 1; count = 2; //array(1,2), bc`
+
+### 又一次常量池
+
+`String s1 = "abc";       
+String s2 = "abc";  
+System.out.println(s1==s2);    
+//又是True`   
+
+所有hard code的string都在同一个常量池里，就认为是同一个；别的，比如string builder弄出来的，或者new出来的，就变成了False
+
+所以，一定要用equals\(\)，因为这是strings override的equals，它先看长度是否一样，然后一个个比值，这样得到的等不等是consistent的
+
+`String sa = "a";       
+String sb = "b";  
+String sab = "a" + "b";     //compile time concat "ab"`
+
+`sab == "a" + "b";   //true     
+sab == sa + "b";    //false run time concat  
+sab = sa + sb;     //false run time concat`
+
+### Constructor 
+
+* String\(\)
+* String\(String value\)
+* String\(char\[\] array\)
+* String\(char\[\] array, int offset, int length\)
+* String\(StringBuilder builder\)
+
+### 各种size或者length
+
+* int\[\].length
+* string.length\(\)
+* string builder.size\(\)
+
+### Concatenate Strings
+
+避免使用+或者concat，因为string是immutable的，所以每次的concatenate是很贵的，比如s每个都是m，那么s1+s2+s3+...sn 的时间复杂度 O\(n^2\*m\)，空间复杂度 如果GC不是立刻发生的就是O\(n^2\*m\) 所以要用string builder或者char array，这样即使算上扩容，amortized time complexity就是O\(m\*n\)。
+
+### Number String转化
+
+#### Primitive Type
+
+`int i = 0;`
+
+1. String si = i + ‘’  //'0'
+2. 
+#### Wrapper Class
+
+### Chars and Substrings
+
+* `String substring(int beginIndex, int endIndex)` '\[\)'
+* `String substring(int beginIndex)`
+
+#### 和offset count的关系
+
+在Java 7u6之前，用它，优点是省空间，缺点是费空间
+
+想象 假如这个时候s1没了，这个heap上的空间会一直在
+
+![](../.gitbook/assets/image%20%287%29.png)
+
+![](../.gitbook/assets/image%20%284%29.png)
+
+![](../.gitbook/assets/image%20%2873%29.png)
+
+### API
+
+![](../.gitbook/assets/image%20%2884%29.png)
+
+![](../.gitbook/assets/image%20%2848%29.png)
+
+### StringBuilder, StringBuffer
+
+> stringbuffer是老的，就像是hashtable和hashmap的区别
+
+* append\(\)
+
+![](../.gitbook/assets/image%20%286%29.png)
 

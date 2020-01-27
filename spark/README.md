@@ -95,9 +95,9 @@ Spark RDD caching
 
 
 
-![](../.gitbook/assets/image%20%2812%29.png)
+![](../.gitbook/assets/image%20%2815%29.png)
 
-![](../.gitbook/assets/image%20%2820%29.png)
+![](../.gitbook/assets/image%20%2823%29.png)
 
 reducebykey存了一个中间结果，中间有一个C2，这就减少了中间数据的shuffle。reducebykey相当于把aggregation的操作放在了前面来做。
 
@@ -115,7 +115,7 @@ Spark data lineage可以fault tolerance，track back to the data source
 
 至于SQL Query，其实可以和dataframe走一样的逻辑引擎；这就是为什么它们之间可以互相转化；dataframe的结果可以转换成query，反之亦然。
 
-![](../.gitbook/assets/image%20%2848%29.png)
+![](../.gitbook/assets/image%20%2852%29.png)
 
 ### ML-lib Spark ML
 
@@ -155,7 +155,7 @@ Hive Spark can execute Hive table
 * Concept Drift 是其中最重要的，需要关注是否有drifting
 * 和aggregate相比，单个data的重要性要大得多，因为这就是分析的对象
 
-![](../.gitbook/assets/image%20%286%29.png)
+![](../.gitbook/assets/image%20%289%29.png)
 
 
 

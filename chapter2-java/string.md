@@ -76,6 +76,8 @@ load factor控制着rehashing，如果 number of &lt;k,v&gt;/number of buckets�
 ## 完整实现
 
 > Java中的%是取remainder而不是modulus，区别是-1%3如果是modules，答案是2；如果是remainder，答案是-1。所以在key.hashCode\(\)的时候要做个控制。&0X7FFFFFFF 把hashCode的最高位变0，后面每一位不变，这就相当于取了正。
+>
+> 因为0x7FFFFFFF是 0111 1111 1111 ... 1111，这是32-bit signed integer max value
 
 ```java
 public class Node {
@@ -92,5 +94,5 @@ public class HashMap implements Map {
     
 ```
 
-
+> 0x100000000是32-bit integer min value
 
