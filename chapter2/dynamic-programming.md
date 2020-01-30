@@ -20,7 +20,7 @@
 
 1. 用aeiou生成string，但是有限制, 生成所有的permutation结果。
 
-![](../.gitbook/assets/image%20%2831%29.png)
+![](../.gitbook/assets/image%20%2833%29.png)
 
 这是一个经典的多阶段决策问题
 

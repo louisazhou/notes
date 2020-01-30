@@ -553,7 +553,7 @@ but it may overflow
 * 0是单元 0 XOR a = a
 * a XOR a =0
 
-![](../.gitbook/assets/image%20%2864%29.png)
+![](../.gitbook/assets/image%20%2867%29.png)
 
 ```python
 class Solution(object):

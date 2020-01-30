@@ -102,7 +102,7 @@ comparable只能最多定义出来一种顺序，与生俱来的顺序，叫natu
 3. 匿名类 Anonymous class
 4. Lambda Expressions 
 
-![](../.gitbook/assets/image%20%2863%29.png)
+![](../.gitbook/assets/image%20%2866%29.png)
 
 ## PriorityQueue Constructor
 
@@ -138,7 +138,7 @@ Java里允许类里面嵌套类
 
 Anonymous Class 匿名类 在方法里只在这里用这个类，只用这一次，不会重用，不存在复用，所以名字都没起，类中路人甲。在priority queue中路人甲很常见，因为我们需要给与comparator，这个顺序可能只在这个priorityqueue中用一次，也不会再被使用了。
 
-![](../.gitbook/assets/image%20%2838%29.png)
+![](../.gitbook/assets/image%20%2840%29.png)
 
 ```java
 PriorityQueue<Cell> pQueue = new PriorityQueue<>
@@ -238,7 +238,7 @@ private void percolateDown(int index) {
 
 总共k层，1个元素向下看k-1层，2个元素向下看k-2层... 
 
-![](../.gitbook/assets/image%20%2858%29.png)
+![](../.gitbook/assets/image%20%2860%29.png)
 
 错位相减，k=logn
 
@@ -254,7 +254,7 @@ private void heapify() {
 
 > offer and percolate up
 
-![](../.gitbook/assets/image%20%2891%29.png)
+![](../.gitbook/assets/image%20%2894%29.png)
 
 ### Update\(\)
 

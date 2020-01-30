@@ -592,5 +592,63 @@ Time = O\(m\*n\)
 
 同上面的at most k times, 只需要0 at most k times 
 
-\_\_
+## corner case
+
+### a to i \(convert string to integer\)
+
+Assumption: the string is a valid integral number
+
+1. null, empty string                                return 0
+2. leading space                                       '   123'  return 123
+3. invalid characters                               '123 1' return 123, '123a1' return 123  '+ 123' return 0
+4. sign \(+,-\)                                                '+123'  return 123 '-123' return -123 '+-123' return 0
+5. overflow an integer                              return Integer.MAX\_VALUE
+6. overflow a long                                     return Integer.MAX\_VALUE
+
+#### Backus-Naur form \(BNF\)
+
+SPC::=' '  
+NUM::='0'\|'1'\|'2'...\|'9'  
+INTEGER::=\(SPC\*\)\['+' \| '-'\]\(NUM+\)\(SPC\*\)
+
+::= 规则  
+\(\) 组合  
+\[\] 可有可无 0/1  
+\| 任选其一  
++ 至少1个  
+\* 至少0个
+
+```python
+
+```
+
+sum&gt;integer.maxvalue+1 或者-sum&lt;-integer.minvalue
+
+### Validate if a string is numeric 
+
+![](../.gitbook/assets/image%20%2821%29.png)
+
+![](../.gitbook/assets/image%20%2865%29.png)
+
+```python
+
+```
+
+### 科学技术法
+
+‘0~9’， ‘+、-’，‘E’, 'e', ' ',  ‘.’
+
++-： 要么是一开始的符号，要么是e之后紧接的符号 不然就false，最多2个  
+. : 只能出现一次，而且是e的前面  
+e: 只能出现最多1次，e的前后必须有数字
+
+![](../.gitbook/assets/image%20%2818%29.png)
+
+```python
+
+```
+
+### REGEX
+
+string pattern
 

@@ -14,7 +14,7 @@ is also an interface, &lt;key, value&gt;, 可以实现它的class：
 
 * HashMap
 * TreeMap
-* LinkedHashMap
+* LinkedHashMap- 有next指针，记录了map的先后顺序，这样就知道了LRU（prefer把新加的放在头上）
 
 ### class HashMap&lt;K,V&gt;
 

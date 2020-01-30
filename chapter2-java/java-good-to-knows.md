@@ -36,7 +36,7 @@ Student firstStudent = new Student ("Tom")
 
 stack上的一张名片指向了一个heap上的object
 
-![](../.gitbook/assets/image%20%2859%29.png)
+![](../.gitbook/assets/image%20%2861%29.png)
 
 在一个方法调用结束之后，这两张名片就不在了，但是它们暂时还留在内存里，直到garbage collection回收。假如这时来一个`jack=rose`那么此时改的是stack里的jack的指向，执行后的效果是jack的这张名片不再指向Jack的这个object，而是指向了Rose的这个object。
 
@@ -198,6 +198,8 @@ reassign了一个heap
 
 Java compiler makes automatic conversion from the primitive type to the wrapper class. 
 
+> equals\(1\)也是做了autoboxing，因为equals来自object
+
 ### Unboxing
 
 From wrapper class to primitive type 在做+, -, \*, /, &gt;&lt;这些操作时都是针对primitive type
@@ -212,6 +214,12 @@ a += 4;         //a = a+4 unboxing`
 `int temp = a.intValue();  
 temp += 4;  
 a = Integer.valueOf(temp);`
+
+> 如果对null也做了.valueOf会NPE
+>
+> 1）所以dict.get\(mid\)==target 而target是个int，那么NPE了，因为==的时候.valueof
+>
+> 2）integer type的i1,i2 然后i1&lt;i2的时候也是做了unboxing
 
 ### int\[\] vs. Integer\[\]
 
@@ -333,13 +341,13 @@ sab = sa + sb;     //false run time concat`
 
 ![](../.gitbook/assets/image%20%284%29.png)
 
-![](../.gitbook/assets/image%20%2873%29.png)
+![](../.gitbook/assets/image%20%2876%29.png)
 
 ### API
 
-![](../.gitbook/assets/image%20%2884%29.png)
+![](../.gitbook/assets/image%20%2887%29.png)
 
-![](../.gitbook/assets/image%20%2848%29.png)
+![](../.gitbook/assets/image%20%2850%29.png)
 
 ### StringBuilder, StringBuffer
 

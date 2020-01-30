@@ -40,7 +40,7 @@ G = V + E
 
 Given V, Dense Graph的E是O\( $$V^2$$ \), Sparse Graph的E是O\(v\). 矩阵只适合node少的情况（sparse graph），而list适合node多的情况。
 
-![](../.gitbook/assets/image%20%2830%29.png)
+![](../.gitbook/assets/image%20%2832%29.png)
 
 如果简化adj list，用list of list，这个list可以是array list, 也可以是linked list. 把vertex的index存下来，那么就可以用graph.get\(i\)拿到第i个node的 neighbor index 做算法题的时候，都是下面这种简化的。在实际工作中其实还是哟搞得上面的general graph，因为需要有value在
 

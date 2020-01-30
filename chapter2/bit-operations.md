@@ -18,7 +18,7 @@
 | 反码 | 1000\(-7\) | 0111\(7\) | 15 |
 | 补码 | 1000\(-8\) | 0111\(7\) | 16 |
 
-![](../.gitbook/assets/image%20%2861%29.png)
+![](../.gitbook/assets/image%20%2863%29.png)
 
 如果只有4位，-8没有原码，所以没办法从补码推回原码。
 
@@ -33,6 +33,21 @@
 ### 2转10进制
 
 正数:乘2的次幂加起来
+
+### ASCII
+
+用一个byte的7位，表示了2^7=128种状态
+
+* a map of small numbers to characters
+* 32~126 are printable; others are not printable
+* 0~9, 'A'-'Z', 'a'-'z'都是连续的，所以可以通过这种方式求出它们和0、A或者a的距离
+
+### Unicode
+
+超级版ASCII，在ASCII的基础上扩充字符集合，在Java中的char就是Unicode。表示范围是2^16-1  
+0~65535 前256位是ASCII 
+
+在本质上，不管是Unicode还是ASCII都是character set; 在之后再经历character encoding，UTF-8, UTF-16.
 
 ## Bit Operation
 
@@ -60,7 +75,7 @@
 * 0是单元 0 XOR a = a
 * a XOR a =0
 
-![](../.gitbook/assets/image%20%2864%29.png)
+![](../.gitbook/assets/image%20%2867%29.png)
 
 ### &lt;&lt; 左移     右侧补充零
 
@@ -140,7 +155,7 @@ int: 32, signed;
 long: 64, signed;  
 short: 16, signed;  
 char: 16, unsigned;  
-byte: 8, unsigned
+byte: 8, unsigned         -2^7, 2^7-1 256个
 
 所以下面的Java Code: 
 
@@ -163,12 +178,18 @@ xor每一个char不对，因为
 
 a-&gt; 65, aa--&gt;0, aaa-&gt;65 扎心了
 
+#### hashset size=26
+
+#### boolean array, size =26
+
+#### bitmap
+
 Assume: 只有a-z的字母，那就可以用一个int，32位的前26位来map它们和字母a-z的关系
 
 ```java
 int bitMap = 0;
 for (int i=0; i<a.length();i++) {
-    int k=a.charAt(i)-'a';
+    int k=a.charAt(i)-'a'; //减，因为算的是相对距离
     int bitPos = (1 << idx);
     if (bitMap & bitPos != 0) {
         return false;
@@ -184,7 +205,7 @@ return true;
 ```java
 int[] bitMap = new int[8];
 for (int i=0; i<a.length();i++) {
-    int idx=a.charAt(i);
+    int idx=a.charAt(i); //不需要减‘a’ 因为我们是针对整个ASCII表里本身的真实位置
     int row = idx/32;
     int col = idx%32;
     int bitPos = (1 << col); //x&(1<<k) or (x>>k)&1
@@ -221,5 +242,21 @@ public String toHex(int a) {
 }
 ```
 
-#### 
+### 实现Integer.parseint这个method
+
+‘1912’ --&gt; ‘1’ ‘9’ ‘1’ ‘2’ --&gt;1 9 1 2 --&gt;1912
+
+反过来 1912--&gt;--&gt;1 9 1 2 ‘1’ ‘9’ ‘1’ ‘2’--&gt;‘1912’ 这里有长到短的强制转化
+
+### Convert 'd'--&gt;'D'
+
+它-'a'+'A'
+
+### Char to Hex digit
+
+* 如果在0~9之间，-'0';
+* 如果在'a'~'f'之间，-‘a’+10
+* 如果在'A'~'F'之间，-‘A’+10
+
+
 

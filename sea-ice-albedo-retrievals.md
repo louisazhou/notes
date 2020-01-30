@@ -96,7 +96,7 @@ Fit relations between ice thickness \(m\) with each of the other sea ice physica
   
 aerosol optical depths
 
-![Comparison of ISIOP ISBRDF derived sea ice spectral albedos for New Young \(NY\), First-Year \(FY\)  ice for several ice thicknesses with observed spectral albedos.](.gitbook/assets/image%20%2877%29.png)
+![Comparison of ISIOP ISBRDF derived sea ice spectral albedos for New Young \(NY\), First-Year \(FY\)  ice for several ice thicknesses with observed spectral albedos.](.gitbook/assets/image%20%2880%29.png)
 
 > Graph 9, Modeling of radiation transport in coupled atmosphere-snow-ice-ocean systems
 
