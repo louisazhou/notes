@@ -647,27 +647,6 @@ class Solution(object):
     return node2
 ```
 
-```python
-class Solution(object):
-  def reverseInPairs(self, head):
-    """
-    input: ListNode head
-    return: ListNode
-    """
-    # write your solution here
-    return self.reverse(head)
-    
-  def reverse(self, head):  
-    if not head or not head.next:
-      return head
-    
-    secondhead=self.reverse(head.next.next)
-    newhead=head.next
-    newhead.next=head
-    head.next=secondhead
-    return newhead
-```
-
  
 
 ### Remove all vowels in a linked list

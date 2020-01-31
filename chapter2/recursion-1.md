@@ -75,6 +75,8 @@ def getsum(n):
 
 ## pow\(a, b\)
 
+assumption: b&gt;=0
+
 ```python
 class Solution(object):
   def power(self, a, b):
@@ -94,6 +96,12 @@ class Solution(object):
 ```
 
 如果不存下midres，直接return两次，那么就多了很多重复计算，此时的时间复杂度是O\(b\)，空间复杂度是O\(logb\).
+
+如果b&lt;0, 要用1.0/a^\(-b\)
+
+### corner case
+
+对于数值类型的题目，要想=0, &gt;0, &lt;0的情况
 
 ## Linked List Recursion
 

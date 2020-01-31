@@ -1,5 +1,176 @@
 # Recursion II and Memoization
 
+## Recursion + 二维数组的结合
+
+### N Queens
+
+* 每一行有且仅有一个皇后
+* 用一维数组 col\[8\], col\[i\]的意义：在第i行的皇后被放在了第几列
+* 八层，每层决定一个皇后的列号，8^8
+* 不需要吐，因为0~currentRol-1都是决定了的
+* 时间复杂度：O\(n!\*n\) 每个节点都要for循环一下，然后最底下一层还要print也是O\(n\)
+* 空间复杂度：O\(n\)
+
+### 2D Spiral Print
+
+* 子问题: 从N\*N到\(N-2\)\*\(N-2\)的螺旋打印 剥洋葱
+* 如果是奇数开始，5-3-1；如果是偶数开始，6-4-2-0
+* 记录start x、start y\(其实一样\)，因为第一次在\[0\]\[0\]第二次就在\[1\]\[1\]
+* recursion tree只有一个叉
+* 打印的时候左闭右开，第一行的最后一列的那个值留给列来填，这样就可以不重不漏
+* 时间复杂度：O\(n^2\)    4n，4\(n-2\), 4\(n-4\), 有n/2层 
+* 空间复杂度：O\(n/2\)
+
+## Recursion + LinkedList
+
+### Reverse Linked List in Pairs
+
+Reverse pairs of elements in a singly-linked list.
+
+**Examples**
+
+* L = null, after reverse is null
+* L = 1 -&gt; null, after reverse is 1 -&gt; null
+* L = 1 -&gt; 2 -&gt; null, after reverse is 2 -&gt; 1 -&gt; null
+* L = 1 -&gt; 2 -&gt; 3 -&gt; null, after reverse is 2 -&gt; 1 -&gt; 3 -&gt; null
+
+{% hint style="info" %}
+只需要遵循和reverse linked list一样的逻辑，知道：  
+1. 黑框框在了哪里：两个node之后的那些全部都是黑框  
+2. 红色那件事：让N1指向后面的黑框  
+3. 蓝色那件事：让N2指向N1  
+4. 当前层做点什么事: 红色和蓝色两件事
+{% endhint %}
+
+```python
+class Solution(object):
+  def reverseInPairs(self, head):
+    """
+    input: ListNode head
+    return: ListNode
+    """
+    # write your solution here
+    if not head or not head.next:
+      return head
+    
+    node1, node2 = head, head.next
+
+    rest=self.reverseInPairs(node2.next)
+    node1.next=rest
+    node2.next=node1
+    
+    return node2
+```
+
+## Recursion + string
+
+### reverse a string using recursion 
+
+### 缩写
+
+* text & pattern  从pattern第0个位置开始看这是啥 
+* 子问题：字母还是数字 如果是数字，一直到pattern的下一个不是一个数字位置，然后在text上从头开始匹配
+* 如果是字母，和text的下一个位置匹配
+* 根: 完整的text和pattern的匹配，分叉：每一个element分一茬，单叉树，直到空串和空串匹配 如果是\[\]\[\]，匹配上了，如果是\[\]和一个有值得，没有匹配上
+* base case: Both lengths are 0, match ; either one is 0, false
+* recursion rule: case 1: pattern\[0\] is a digit: then find all subsequent and adjacent digits after pattern\[0\], form a number \(num\), recursively call \(text.substring\(num\), pattern.substring\(?\)\)
+* case 2: pattern\[0\] is a letter; if text\[0\]!=pattern\[0\], return false; recursively call \(text.substring\(1\), pattern.substring\(1\)\)
+* text has length of m, pattern has length of n
+* 时间复杂度：O\(\(m+n\)\*n\), 一支recursion叉，高度是 length of the pattern, n. 每一层做一个substring，时间复杂度是O\(length of substring\), 因为这个API做的事情是新开一个长度是\(k-1\)的array，所以一层的时间复杂度是O\(m+n\)
+* 空间复杂度：O\(\(m+n\)\*n\), n个节点，substring
+
+#### 优化
+
+* pattern不去记string，而是记patternStart，表示现在看的pattern应该是pattern.substring\(patternStart\)
+
+## Recursion + Tree bottom up
+
+1. 从children要什么
+2. 当前层做些什么、算什么、或者保存什么
+3. 向parent返回什么\(和1一样\) 因为子问题逻辑一致
+
+1和3的物理意义一样，不过作用的对象不一样
+
+### Total in the left subtree
+
+1. 左右子树分别的节点总数 l=left's total; r=right's total
+2. 留下左子树的节点总数 self.left\_total = l
+3. 返回l+r+1
+
+关键在于第二步，1、3的信息需要足够解决第二问！和getHeight的区别是2和3，算的和返回的一样；但是在这道题里，2和3不一致；2存的left\_total，返回的是自己这棵子树上的所有节点的个数 所以2决定1，1然后物理意义决定3
+
+### node with max difference in the total number of left/right subtree
+
+2. global\_max\_difference between the current node's left and right  
+1.  size of left, size of right  
+3. left\_size+right\_size+1
+
+### LCA
+
+> 算法由物理意义决定 物理意义由我决定  所以物理意义变了，算法也要对应着变  在这道题自己也是自己的ancestor
+
+2. 
+
+return value的物理意义: 
+
+case1: 如果a和b都不在以p为root的子树里，return null  
+case2: 如果a和b有一个在以p为root的子树里，return那个在的节点  
+case3: 如果a和b都在，返回a和b的LCA
+
+Base Case:
+
+if p==null, 一定是返回null  
+if p==a, 无论case2还是3都是 return a  
+if p==b, return b  
+合并: if p==null\|\|p==a\|\|p==b: return p
+
+recursive rule
+
+Q2: case 2.1 if LCA\(p.left, a, b\)==null and LCA\(p.right, a, b\)==null: return null  
+case 2.2 if LCA\(p.left, a, b\)==a and LCA\(p.right, a, b\)==null, return a  
+case 2.3 if LCA\(p.left, a, b\)==b and LCA\(p.right, a, b\)==null, return b  
+case 2.4  
+case 2.5  
+case 2.6 if LCA\(p.left, a, b\)==c and LCA\(p.right, a, b\)==null; return c  
+case 2.7 if LCA\(p.left, a, b\)==null and LCA\(p.right, a, b\)==c return c  
+总结以上2.2~2.7: if LCA\(p.left, a, b\)!=null and LCA\(p.right, a, b\)==null  return LCA\(p.left, a, b\)  
+if LCA\(p.right, a, b\)!=null and LCA\(p.left, a, b\)!=null  return p
+
+Q1:   
+leftResult=LCA\(p.left, a, b\)  
+rightResult=LCA\(p.right, a, b\)  
+Q2+Q3:   
+if leftResult==null and rightResult==null: return null  
+if leftResult!=null and rightResult==null  return leftResult  
+if leftResult!=null and leftResult!=null  return p
+
+```python
+class Solution (object):
+    def lowestCommonAncestor(self, root, p, q):
+        if not root:
+            return root
+        if root==p or root==q:
+            return root
+        
+        ltree = self.lowestCommonAncestor(root.left, p, q)
+        rtree = self.lowestCommonAncestor(root.right, p, q)
+        
+        if ltree and rtree:
+            return root
+        elif not ltree:
+            return rtree
+        else:
+            return ltree
+```
+
+### LCA of k nodes
+
+### LCA in k-nary tree
+
+## top down
+
+isBST，从上往下传范围，从下往上传isBS的boolean
+
 {% embed url="https://cloud.tencent.com/developer/article/1086657" %}
 
 {% embed url="https://phoenixzhao.github.io/一些动态规划的题目整理/" %}
