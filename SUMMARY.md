@@ -12,6 +12,7 @@
   * [Python Good to knows](chapter1/python-good-to-knows.md)
 * [Chapter2 Java Cheatsheet](chapter2-java/README.md)
   * [Fundamentals to Java](chapter2-java/java-good-to-knows.md)
+  * [Interface, Abstract Class, Access Modifier, Exceptions](chapter2-java/interface-abstract-class-access-modifier-exceptions.md)
   * [Linked List and Java List](chapter2-java/linked-list-and-java-list.md)
   * [Java Queue, Stack and Deque](chapter2-java/java-queue-stack-and-deque.md)
   * [Binary Tree](chapter2-java/binary-tree.md)

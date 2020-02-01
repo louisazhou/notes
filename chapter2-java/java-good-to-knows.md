@@ -345,7 +345,7 @@ sab = sa + sb;     //false run time concat`
 
 ### API
 
-![](../.gitbook/assets/image%20%2887%29.png)
+![](../.gitbook/assets/image%20%2888%29.png)
 
 ![](../.gitbook/assets/image%20%2850%29.png)
 
