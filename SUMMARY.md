@@ -36,6 +36,7 @@
   * [String](chapter2/string.md)
   * [Graph Search DFS1 \(Back Tracking\)](chapter2/back-tracking.md)
   * [Recursion II and Memoization](chapter2/dynamic-programming.md)
+  * [Dynamic Programming](chapter2/dynamic-programming-1.md)
   * [Complete Binary Tree, Segment Tree, Trie Tree](chapter2/complete-binary-tree-segment-tree-trie-tree.md)
   * [Graph Search BFS](chapter2/graph-search.md)
   * [Graph Search BFS 2](chapter2/graph-search-bfs-2.md)
