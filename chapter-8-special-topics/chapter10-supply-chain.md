@@ -48,11 +48,11 @@ Transportation/fuel optimization, lead-time prediction, on time performance
 
 #### Manufactoring 
 
-![](../.gitbook/assets/image%20%2899%29.png)
+![](../.gitbook/assets/image%20%28100%29.png)
 
 #### Pharmaceutical 
 
-![](../.gitbook/assets/image%20%2897%29.png)
+![](../.gitbook/assets/image%20%2898%29.png)
 
 ## Demand Forecasting 
 

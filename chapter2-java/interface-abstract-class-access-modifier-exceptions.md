@@ -58,3 +58,25 @@ abstract class是能写代码的PM，因为里面可能会有实现了的method�
 
 应用：回收站 
 
+## Exception
+
+![](../.gitbook/assets/image%20%2885%29.png)
+
+图中红色的是checked exception，要求一定要handle；蓝色叫unchecked exception，不一定要handle。
+
+### 背锅 try catch 
+
+```text
+try {
+
+} catch () {
+
+} finally {
+
+}
+```
+
+### 甩锅 throws
+
+扔给caller，一直往上扔，直到main函数
+

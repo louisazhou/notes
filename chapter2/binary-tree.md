@@ -407,7 +407,7 @@ recursion tree画出来后每一个node的时间复杂度之和。单独分析
 
 ![](../.gitbook/assets/image%20%2879%29.png)
 
-![](../.gitbook/assets/image%20%2898%29.png)
+![](../.gitbook/assets/image%20%2899%29.png)
 
 更好的，改一下get\_height 让找到不平衡时提前终止， Time Complexity O\(n\)
 
