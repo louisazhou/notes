@@ -151,7 +151,14 @@ Induction Rule: M\[i\] 的物理意义: Whether I can jump from the current inde
 M\[i\] = true if 存在落脚点j，j在i的右侧，且不超过i&lt;j&lt;=min\(i+A\[i\], A.length-1\) 使得M\[j\]=True, or  I can jump directly from i-th index to the target  
 Return: M\[0\]
 
-M = O\(n^2\)
+Time = O\(n^2\)
 
-#### 从左到右linear scan
+#### 从左到右linear scan，从起点开始看
+
+Base Case: M\[i\]的物理意义: whether I can jump from the start to the i-th index  
+M\[0\] = true  
+Induction Rule: M\[i\]=True if there exists a j where j&lt;i and M\[j\]==true, and j+A\[j\]&gt;=i  
+Return: M\[length-1\]
+
+Time = O\(n^2\)
 
