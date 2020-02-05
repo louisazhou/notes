@@ -62,7 +62,7 @@ abstract class是能写代码的PM，因为里面可能会有实现了的method�
 
 ![](../.gitbook/assets/image%20%2885%29.png)
 
-图中红色的是checked exception，要求一定要handle；蓝色叫unchecked exception，不一定要handle。
+图中红色的是checked exception，要求一定要handle；蓝色叫unchecked exception，不一定要handle。如果想写一个不需要处理的exception，可以写一个`class myException extends runTimeException`
 
 ### 背锅 try catch 
 
@@ -79,4 +79,30 @@ try {
 ### 甩锅 throws
 
 扔给caller，一直往上扔，直到main函数
+
+### finally
+
+finally除了断电、中毒... 都要执行，然后再执行其他method。“释放资源”
+
+## Throw vs. Throws
+
+> throw 是 走你 是祈使句；throws 是 我随时有可能会扔锅哦 陈述句，是一种状态
+
+### Throw 
+
+主动扔，throw instance. instance是个throwable或者throwable子类的object。意思是“显性扔出异常”。
+
+`class myException extends Exception`
+
+如果throw到了main函数都无法handle，就会在command window报错了。
+
+### Throws
+
+> throws is used in the head of method to indicate that this method might throw one of the listed type exceptions.
+
+caller**必须**handle checked exception
+
+`type method_name(parameters) throws exception_list`
+
+
 
