@@ -96,3 +96,9 @@ public class HashMap implements Map {
 
 > 0x100000000是32-bit integer min value
 
+## Enum
+
+就像是一个双向的map
+
+
+
