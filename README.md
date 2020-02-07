@@ -1,6 +1,6 @@
 # Introduction
 
-This is a book powered by [GitBook](https://louisazhou.gitbook.io/notes/), documenting my study notes, project slides/reports and some thoughts studying ML/Statistics/Python/Java/R/Algorithms.  
+This is a book powered by [GitBook](https://louisazhou.gitbook.io/notes/), documenting my study notes, project slides/reports and some thoughts studying ML/Statistics/Python/R/Algorithms.  
   
 The following chapters are written in English because I was expecting such audience: 
 
