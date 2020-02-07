@@ -46,7 +46,7 @@ class relationships 区别 是否可以独立存在:
 
 1的好处是easy to evolve, 未来不但能扩展楼层数，还能specify每一层的功能 2的好处是方便prototyping  
 
-### Step 3: For complicated designs, firs focus on public methods 如何调用
+### Step 3: For complicated designs, first focus on public methods 如何调用
 
 1. Basic functionality: tell whether or not there is available spot in the parking lot
 2. Possible Extensions: provide available spot locations, assign spot to the vehicle
@@ -58,7 +58,25 @@ public class ParkingLot{
     Ticket park(Vehicle v); //开着车拿ticket走
     Vehicle leave(Ticket t); //拿ticket取车
     
-    public b
+    public boolean hasSpot(Vehicle v) {
+    //check 
+    }
+}
+
+class Level {
+    boolean hasSpot(Vehicle);
+}
+
+class ParkingSpot {
+    boolean fit(Vehicle); //check size and availability
+}
+
+public abstract class Vehicle {
+
 }
 ```
+
+### Step 4: Complete Implementation 
+
+如果想要enforce一个规定个数的spots, 不能 `private final <ParkingSpot> spots`因为这只防了一层，并不真的immutable。 Java中可以通过一个”防火墙“似的操作，把list的方法包起来，只通行一些方法。或者用`spot=Collections.unmodifiableList(list)`
 
