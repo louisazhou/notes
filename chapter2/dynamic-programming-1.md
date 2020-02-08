@@ -134,13 +134,15 @@ M\[5\] = case 1: max\(M\[4\],4\)\*1
 
 ### Dictionary Problem
 
-> 和绳子的题很像。但是只有左大段可以从表格读出来，右小段只能通过查dict，题目已知条件，获得  
+> 和绳子的题很像。但是只有左大段可以从表格读出来，右小段只能通过题目已知条件获得  
 >   
 > 大段：读表格，读M\[i\]的值获取solution；小段：manual操作   
 >   
 > 所以 左大段+右小段的思路更加general
 
-### Jump Game
+M\[i\]的物理意义 前i个字母是否能切成单词的concatenation: true or false
+
+### Jump Game 1
 
 Given an array of non-negative integers, you are initially positioned at the first index of the array. Each element in the array represents your maximum jump length at that position. Determine if you can reach the last index. 
 
@@ -161,4 +163,31 @@ Induction Rule: M\[i\]=True if there exists a j where j&lt;i and M\[j\]==true, a
 Return: M\[length-1\]
 
 Time = O\(n^2\)
+
+### Jump Game 2
+
+从a\[0\]到a\[n-1\]的最少步数
+
+### Largest Sum of Subarray 
+
+M\[i\] 物理意义 the sum of the largest sum subarray that ends at a\[i\] 
+
+空间可以优化到O\(1\)，因为只在用最近的一个
+
+#### followup：how to return the left-right border of the solution 
+
+left: 达到M\[i\]时subarray的左边界\(闭区间\)的位置  
+i: 达到M\[i\]时的右边界\(闭区间\)的位置
+
+Initialize:  
+M\[0\] = a\[0\]  
+left = 0
+
+## 二维
+
+### Edit Distance
+
+### Largest Square of 1's in a Binary Matrix 
+
+M\[i\]\[j\] 物理意义 以a\[i\]\[j\]为右下角的最大全1正方形的边长
 
