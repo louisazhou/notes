@@ -19,7 +19,6 @@
   * [Heap in Java](chapter2-java/heap-in-java.md)
   * [Map/Set/Hash](chapter2-java/string.md)
   * [OOD](chapter2-java/ood.md)
-  * [java.io](chapter2-java/java.io.md)
 * [Chapter3 Algorithm](chapter2/README.md)
   * [Fundamental Knowledge](chapter2/time-complexity.md)
   * [Binary Search](chapter2/binary-search.md)
