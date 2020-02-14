@@ -72,7 +72,7 @@ i=1
 while (True):
     i+=1
     r=random.randint(0,i-1)
-    if r==0:
+    if r==0: #0的概率是1/counter
         solu=s[i-1]
 ```
 {% endcode %}
@@ -202,4 +202,8 @@ for i in xrange(4101):  #i is the url's length
         print i
         break
 ```
+
+#### 优化
+
+维护一个prefix sum，物理意义是从0加到95%的percentile
 

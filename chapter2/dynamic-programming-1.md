@@ -176,66 +176,12 @@ M\[i\] 物理意义 the sum of the largest sum subarray that ends at a\[i\]
 
 #### followup：how to return the left-right border of the solution 
 
-![](../.gitbook/assets/image%20%28101%29.png)
-
 left: 达到M\[i\]时subarray的左边界\(闭区间\)的位置  
 i: 达到M\[i\]时的右边界\(闭区间\)的位置
 
 Initialize:  
 M\[0\] = a\[0\]  
 left = 0
-
-### Unsorted Array 最长连续1
-
-### 十字架
-
-> 如果是brute force 需要n^3
->
-> 这不是二维DP，而是四个方向的一维DP
-
-Step1: 从左到右，从右到左，从上到下，从下到上，分别做“最长连续1” O\(4n^2\)
-
-Step2: 四个方向的结果在当前取一个min O\(n^2\)
-
-return global max among all M\[i\]\[j\]
-
-### X
-
-变成斜着做
-
-### 空心1
-
-### 火柴
-
-每个顶点只考虑两个方向，右和下
-
-可以两种表示，要么就tuple，要么就2-bit
-
-### 任意subarray sum
-
-#### prefix sum+ 1D
-
-M\[i\] represents the sum from index 0 to index i 
-
-sum\[i...j\] = M\[j\] = M\[i-1\] 但是容易出界 更好的是M\[j\]-M\[i\]+input\[i\]
-
-Time = O\(n\)  
-Extra Space = O\(n\)  
-Query Time = O\(1\)
-
-### sum最大的长方形
-
-#### Prefix Sum 1D
-
-#### Prefix Sum 2D
-
-![](../.gitbook/assets/image%20%2873%29.png)
-
-蓝-绿-红+橙
-
-
-
-
 
 ## 二维
 
@@ -244,6 +190,4 @@ Query Time = O\(1\)
 ### Largest Square of 1's in a Binary Matrix 
 
 M\[i\]\[j\] 物理意义 以a\[i\]\[j\]为右下角的最大全1正方形的边长
-
-
 

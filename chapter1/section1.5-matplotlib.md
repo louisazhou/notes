@@ -222,7 +222,7 @@ ax1.grid(False)
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2874%29.png)
+![](../.gitbook/assets/image%20%2873%29.png)
 
 #### 双y轴
 
@@ -329,7 +329,7 @@ sns.distplot(df['sepal_length'])
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2879%29.png)
+![](../.gitbook/assets/image%20%2878%29.png)
 
 ### factor plot 
 
@@ -374,7 +374,7 @@ grid.map(sns.countplot, 'Embarked', alpha=.8)
 grid.add_legend() 
 ```
 
-![](../.gitbook/assets/image%20%2895%29.png)
+![](../.gitbook/assets/image%20%2894%29.png)
 
 row='Sex', col='Pclass' 是什么效果。 
 
@@ -428,7 +428,7 @@ sns.regplot(x='x', y='y',data=dt_poly,order=2, ci=None, scatter_kws={"s": 80});
 plt.show()
 ```
 
-![](../.gitbook/assets/image%20%2875%29.png)
+![](../.gitbook/assets/image%20%2874%29.png)
 
 ### 更多例子
 

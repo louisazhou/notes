@@ -254,7 +254,7 @@ private void heapify() {
 
 > offer and percolate up
 
-![](../.gitbook/assets/image%20%2897%29.png)
+![](../.gitbook/assets/image%20%2896%29.png)
 
 ### Update\(\)
 
