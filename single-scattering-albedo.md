@@ -7,7 +7,7 @@ description: >-
 
 # Single Scattering Albedo
 
-The single scattering albedo is $$a=1$$ , and the total optical depth $$\tau^{\star}=0.01$$ . The setting satisfies single-scattering approximation, $$a \times \tau^{\star}=0.01\ll1$$. The incident solar flux is a unpolarized light, $$F=[0.5, 0.5, 0, 0]$$. In the following case example, the angles are set as follows, $$\theta^{\prime}=0^{o}, \mu^{\prime}=1, \phi^{\prime}=0^{o} ; \theta=\left[0^{o}, 180^{\circ}\right], \mu=[-1,1], \phi=60^{o} $$, where  $$\theta^{\prime}, \phi^{\prime}$$ are the polar angle and azimuth angle of the incident light $$\Omega^{\prime}$$ , and the $$\theta , \phi$$ are for the corresponding observe angles $$\Omega$$ . 
+The single scattering albedo is $$a=1$$ , and the total optical depth $$\tau^{\star}=0.01$$ . The setting satisfies single-scattering approximation, $$a \times \tau^{\star}=0.01\ll1$$. The incident solar flux is an unpolarized light, $$F=[0.5, 0.5, 0, 0]$$. In the following case example, the angles are set as follows, $$\theta^{\prime}=0^{o}, \mu^{\prime}=1, \phi^{\prime}=0^{o} ; \theta=\left[0^{o}, 180^{\circ}\right], \mu=[-1,1], \phi=60^{o} $$, where  $$\theta^{\prime}, \phi^{\prime}$$ are the polar angle and azimuth angle of the incident light $$\Omega^{\prime}$$ , and the $$\theta , \phi$$ are for the corresponding observe angles $$\Omega$$ . 
 
 ```python
 a = 1;
@@ -38,7 +38,7 @@ $$
 
 ![Illustration of the relationship between Cartesian and spherical coordinates.](.gitbook/assets/cartesian.png)
 
-There are two representations for the phase matrix, $$\mathbf{P}_{S}$$ and $$\mathbf{P}_{C}$$, where $$\mathbf{P}_{S}$$ is used for the Stocks vector representation $$\mathbf{I}_{S}=[I, Q, U, V]^{T}$$, and  $$\mathbf{P}_{C}$$ is for $$\mathbf{I}=\left[I_{ \|}, I_{\perp}, U, V\right]^{T}$$ representation \(or Chandrasekhar's representation\). The connection between these two representations is simply $$\mathbf{I}_{S} = \mathbf{DI}_{C}$$ , where the matrix $$\mathbf{D}$$ is given by:
+There are two representations for the phase matrix, $$\mathbf{P}_{S}$$ and $$\mathbf{P}_{C}$$, where $$\mathbf{P}_{S}$$ is used for the Stocks vector representation $$\mathbf{I}_{S}=[I, Q, U, V]^{T}$$, and  $$\mathbf{P}_{C}$$ is for $$\mathbf{I}_{C}=\left[I_{ \|}, I_{\perp}, U, V\right]^{T}$$ representation \(or Chandrasekhar's representation\). The connection between these two representations is simply $$\mathbf{I}_{S} = \mathbf{DI}_{C}$$ , where the matrix $$\mathbf{D}$$ is given by:
 
 $$
 \mathbf{D} \equiv\left(\begin{array}{cccc}{1} & {1} & {0} & {0} \\ {1} & {-1} & {0} & {0} \\ {0} & {0} & {1} & {0} \\ {0} & {0} & {0} & {1}\end{array}\right)
@@ -105,11 +105,11 @@ $$
 \mathbf{P}_{\ell}^{m}(u)=\left(\begin{array}{cccc}{P_{\ell}^{m, 0}(u)} & {0} & {0} & {0} \\ {0} & {P_{\ell}^{m,+}(u)} & {P_{\ell}^{m,-}(u)} & {0} \\ {0} & {P_{\ell}^{m,-}(u) P_{\ell}^{m,+}(u)} & {0} \\ {0} & {0} & {0} & {P_{\ell}^{m, 0}(u)}\end{array}\right)
 $$
 
-with $$P_{\ell}^{m, \pm}(u)=\frac{1}{2}\left[P_{\ell}^{m,-2}(u) \pm P_{\ell}^{m, 2}(u)\right]$$ The functions $$P_{\ell}^{m, 0}(u) $$ and $$P_{\ell}^{m, \pm 2}(u)$$  __ are the generalized spherical functions. 
+with $$P_{\ell}^{m, \pm}(u)=\frac{1}{2}\left[P_{\ell}^{m,-2}(u) \pm P_{\ell}^{m, 2}(u)\right]$$. The functions $$P_{\ell}^{m, 0}(u) $$ and $$P_{\ell}^{m, \pm 2}(u)$$  __ are the generalized spherical functions. 
 
 We define $$P_{\ell}^{m,n}(u)=0 \quad \text { for } \ell<\max \{|m|,|n|\}$$.
 
-For  $$\ell>\max \{|m|,|n|\}$$ the functions are calculated as follows \( $$i$$ is the imaginary unit \).
+For  $$\ell>\max \{|m|,|n|\}$$ the functions are calculated as follow \($$i$$ is the imaginary unit\).
 
 $$
 \begin{aligned} P_{m}^{m, 0}(u)=(2 i)^{-m}\left[\frac{(2 m) !}{m ! m !}\right]^{1 / 2}\left(1-u^{2}\right)^{m / 2} \quad(m \geq 0) \end{aligned}
@@ -143,6 +143,22 @@ p02 = plm2(0,nterms-1,ctheta); %P subscript m=0, n=2
 ```
 
 Read in the phase moments from the `'mie_output_small2.dat'` file to alphas and betas \(`line 2~8`\). Suppressing the $$a = b$$ dependence, the following equations are for cases of non-spherical particles.
+
+$$
+\begin{aligned} 
+a_{1}(\Theta)=\sum_{\ell=0}^{2 N-1} \alpha_{1}^{\ell} P_{\ell}^{0,0}(\cos \Theta)
+\\
+a_{2}(\Theta)+a_{3}(\Theta)=\sum_{\ell=2}^{2 N-1}\left(\alpha_{2}^{\ell}+\alpha_{3}^{\ell}\right) P_{\ell}^{2,2}(\cos \Theta)
+\\
+a_{2}(\Theta)-a_{3}(\Theta)=\sum_{\ell=2}^{2 N-1}\left(\alpha_{2}^{\ell}-\alpha_{3}^{\ell}\right) P_{\ell}^{2,-2}(\cos \Theta)
+\\
+a_{4}(\Theta) &=\sum_{\ell=0}^{2 N-1} \alpha_{4}^{l} P_{\ell}^{0,0}(\cos \Theta) 
+\\ 
+b_{1}(\Theta) &=\sum_{\ell=2}^{2 N-1} \beta_{1}^{\ell} P_{\ell}^{0,2}(\cos \Theta) 
+\\ 
+b_{2}(\Theta) &=\sum_{\ell=2}^{2 N-1} \beta_{2}^{\ell} P_{\ell}^{0,2}(\cos \Theta) 
+\end{aligned}
+$$
 
 ![](.gitbook/assets/spherical.png)
 
