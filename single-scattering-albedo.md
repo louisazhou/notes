@@ -160,9 +160,6 @@ b_{2}(\Theta) &=\sum_{\ell=2}^{2 N-1} \beta_{2}^{\ell} P_{\ell}^{0,2}(\cos \Thet
 \end{aligned}
 $$
 
-![](.gitbook/assets/spherical.png)
-
-  
 The general form of Stokes scattering matrix Fs \(which is the ensemble-averaged Mueller matrix averaging over a small volume containing an ensemble of particles\) is of the form: 
 
 $$
