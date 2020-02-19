@@ -307,7 +307,7 @@ $$
 
 with $$\tau_{n-1}$$ replaced by $$\tau$$ for n=p. p is the layer at which level that we are trying to evaluate, $$\tau_{p}$$is the optical depth from the top of the slab to the p-th layer, and n is the total number of layer. 
 
-### Single, two-layer slab
+### Single, Two-layer slab
 
  $$\tau$$ is the depth measured from the top slab to any layer p. The subscript numbers get larger as more layers are accumulated downwards. 
 
@@ -331,4 +331,8 @@ Therefore, to achieve this functionality, just need to
 ![2 Layer, tau=0.0026](.gitbook/assets/iuv-multi.jpg)
 
 ![1 Layer, tau=0.0026](.gitbook/assets/iuv-single.jpg)
+
+The results are the same. 
+
+Similar results can be achieved 
 
