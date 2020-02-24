@@ -143,9 +143,45 @@ x>0 and (x&(x-1)==0)
 ```
 {% endcode %}
 
+```python
+class Solution(object):
+  def isPowerOfTwo(self, number):
+    """
+    input: int number
+    return: boolean
+    """
+    # write your solution here
+    if number<=0:
+      return False
+    while (number&1 ==0):
+      number = self.rshift(number,1)
+    return number == 1
+
+  def rshift(self, val, n): 
+    return (val & 0X7FFFFFFF) >> n
+```
+
 ### Determine the \# of bits are different between 2 positive integers
 
 xor 然后取多少个1
+
+```python
+class Solution(object):
+  def diffBits(self, a, b):
+    """
+    input: int a, int b
+    return: int
+    """
+    # write your solution here
+    a ^= b
+    count = 0
+    while a != 0:
+      count += a & 1
+      a = self.rshift(a, 1)
+    return count
+  def rshift(self, val, n): 
+    return (val & 0X7FFFFFFF) >> n
+```
 
 ### 如何数1: Hamming Weight
 
@@ -202,6 +238,27 @@ return true;
 
 如果是ASCII，256个，就一定是0~255的这个有序区间里。需要8个integer来表示，比如'b'=98，b%32=2，b/32=3，说明在3bucket里的第二个从右往左2位（都是从0开始）
 
+```python
+class Solution(object):
+  def allUnique(self, word):
+    """
+    input: string word
+    return: boolean
+    """
+    # write your solution here
+    bitmap = [0]*8
+    for char in word:
+      idx = ord(char)
+      row = idx//32
+      col = idx%32
+      bitpos = (1<<col)
+      if bitmap[row]&bitpos!=0:
+        return False
+      else:
+        bitmap[row]|=bitpos
+    return True
+```
+
 ```java
 int[] bitMap = new int[8];
 for (int i=0; i<a.length();i++) {
@@ -228,18 +285,54 @@ swap里的操作，交换，如果
 
 XOR 1就是取反
 
+```python
+class Solution(object):
+  def reverseBits(self, n):
+    """
+    input: long n
+    return: long
+    """
+    # write your solution here
+    for shift in range (16):
+      right = (n >> shift) &1
+      left = (n >> (31-shift)) &1
+      if left!=right:
+        n ^= (1 <<shift)
+        n ^= (1 <<(31-shift))
+    return n
+```
+
 ### 10进制Number to 16进制
 
 其实是0b到0X因为计算机里都是2进制，所以可以每四组一起，8421一个个抠出来；
 
 怎么扣？\(&gt;&gt;28\)&0xF \(&gt;&gt;24\)&0xF
 
-```java
-public String toHex(int a) {
-    char[] result = new char[8];
-    
-
-}
+```python
+#这个有点问题
+class Solution(object):
+  def hex(self, number):
+    """
+    input: int number
+    return: string
+    """
+    # write your solution here
+    result = []
+    if number==0:
+      return '0x0'
+    while number>0:
+      res = number%16
+      if res<10:
+        result.append(chr(res))
+      else:
+        result.append(chr(res-10+ord('A')))
+      number = self.rshift(number, 4)
+    result.append('x')
+    result.append('0')
+    return ''.join(result[::-1])
+  
+  def rshift(self, val, n): 
+    return (val & 0X7FFFFFFF) >> n
 ```
 
 ### 实现Integer.parseint这个method

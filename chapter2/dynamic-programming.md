@@ -21,6 +21,35 @@
 * 时间复杂度：O\(n^2\)    4n，4\(n-2\), 4\(n-4\), 有n/2层 
 * 空间复杂度：O\(n/2\)
 
+```python
+class Solution(object):
+  def spiral(self, matrix):
+    """
+    input: int[][] matrix
+    return: Integer[]
+    """
+    # write your solution here
+    result = []
+    self.helper(matrix, 0, len(matrix), result)
+    return result
+
+  def helper(self, matrix, offset, size, result):
+    if size==0:
+      return
+    if size==1:
+      result.append(matrix[offset][offset])
+      return
+    for i in range (0, size-1, 1):
+      result.append(matrix[offset][offset+i])
+    for i in range (0, size-1, 1):
+      result.append(matrix[offset+i][offset+size-1])
+    for i in range (size-1, 0, -1):
+      result.append(matrix[offset+size-1][offset+i])
+    for i in range (size-1, 0, -1):
+      result.append(matrix[offset+i][offset])
+    self.helper(matrix,offset+1,size-2,result)
+```
+
 ## Recursion + LinkedList
 
 ### Reverse Linked List in Pairs
@@ -83,6 +112,30 @@ class Solution(object):
 
 * pattern不去记string，而是记patternStart，表示现在看的pattern应该是pattern.substring\(patternStart\)
 
+```python
+class Solution(object):
+  def match(self, input, pattern):
+    """
+    input: string input, string pattern
+    return: boolean
+    """
+    # write your solution here
+    si, ti = 0, 0
+    while (si < len(input) and ti < len(pattern)):
+      if pattern[ti]<'0' or pattern[ti]>'9':
+        if input[si]!=pattern[ti]:
+          return False
+        si+=1
+        ti+=1
+      else:
+        count = 0
+        while (ti<len(pattern) and pattern[ti]>='0' and pattern[ti]<='9'):
+          count = count*10+(ord(pattern[ti])-ord('0'))
+          ti+=1
+        si+=count
+    return si==len(input) and ti==len(pattern)
+```
+
 ## Recursion + Tree bottom up
 
 1. 从children要什么
@@ -98,6 +151,30 @@ class Solution(object):
 3. 返回l+r+1
 
 关键在于第二步，1、3的信息需要足够解决第二问！和getHeight的区别是2和3，算的和返回的一样；但是在这道题里，2和3不一致；2存的left\_total，返回的是自己这棵子树上的所有节点的个数 所以2决定1，1然后物理意义决定3
+
+```python
+# Definition for a binary tree node with field to store # of nodes in its left child.
+# class TreeNodeLeft:
+#   def __init__(self, x):
+#     self.val = x
+#     self.left = None
+#     self.right = None
+#     self.numNodesLeft = 0
+
+class Solution(object):
+  def numNodesLeft(self, root):
+    """
+    :type root: TreeNode
+    """
+    if not root:
+      return 0
+    
+    left = self.numNodesLeft(root.left)
+    right = self.numNodesLeft(root.right)
+    root.numNodesLeft = left
+    
+    return left+right+1
+```
 
 ### node with max difference in the total number of left/right subtree
 
@@ -145,22 +222,28 @@ if leftResult!=null and rightResult==null  return leftResult
 if leftResult!=null and leftResult!=null  return p
 
 ```python
-class Solution (object):
+class Solution(object):
     def lowestCommonAncestor(self, root, p, q):
+        """
+        :type root: TreeNode
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: TreeNode
+        """
         if not root:
-            return root
+          return root
         if root==p or root==q:
-            return root
-        
+          return root
+      
         ltree = self.lowestCommonAncestor(root.left, p, q)
         rtree = self.lowestCommonAncestor(root.right, p, q)
-        
+      
         if ltree and rtree:
-            return root
+          return root
         elif not ltree:
-            return rtree
+          return rtree
         else:
-            return ltree
+          return ltree
 ```
 
 ### LCA of k nodes

@@ -57,11 +57,52 @@ public int fibN(int n) {
 * base case
 * induction rule
 
+```python
+class Solution(object):
+  def fibonacci(self, K):
+    """
+    input: int K
+    return: long
+    """
+    # write your solution here
+    if K<=0:
+      return 0
+    array = [0]*(K+1)
+    array[1] = 1
+    for i in range (2,K+1):
+      array[i] = array[i-2]+array[i-1]
+    return array[K]
+```
+
+### 
+
+
+
 ## 一维原始数据，求最大、最小
 
 > linear scan and look back to the previous elements
 
 ### Longest Ascending Subarray
+
+```python
+class Solution(object):
+  def longest(self, array):
+    """
+    input: int[] array
+    return: int
+    """
+    # write your solution here
+    if len(array)==0:
+      return 0
+    result, curr = 1, 1
+    for i in range(1, len(array)):
+      if array[i]>array[i-1]:
+        curr+=1
+        result = max(result, curr)
+      else:
+        curr=1
+    return result
+```
 
 Given an unsorted array, find the length of the longest subarray in which the numbers are in ascending order. 
 
@@ -132,6 +173,24 @@ M\[5\] = case 1: max\(M\[4\],4\)\*1
             case 3: max\(M\[2\],2\)\*3  
             case 4: max\(M\[1\],1\)\*4
 
+```python
+class Solution(object):
+  def maxProduct(self, length):
+    """
+    input: int length
+    return: int
+    """
+    # write your solution here
+    if length==2:
+      return 1
+    array = [0]*(length+1)
+    array[2] = 1
+    for i in range (3, len(array)):
+      for j in range(1, i//2+1):
+        array[i] = max(array[i], j*max(i-j, array[i-j]))
+    return array[length]
+```
+
 ### Dictionary Problem
 
 > 和绳子的题很像。但是只有左大段可以从表格读出来，右小段只能通过题目已知条件获得  
@@ -155,6 +214,30 @@ Return: M\[0\]
 
 Time = O\(n^2\)
 
+```python
+#有点问题
+class Solution(object):
+  def canJump(self, array):
+    """
+    input: int[] array
+    return: boolean
+    """
+    # write your solution here
+    if len(array)==1:
+      return True
+    canJump = [False]*len(array)
+    for i in range (len(array)-2, -1, -1):
+      if i+array[i]>=len(array)-1:
+        canJump[i] = True
+      else:
+        for j in range (array[i],0):
+          if (canJump[j+i]):
+            canJump[i] = True
+            break
+    return canJump[0]
+
+```
+
 #### 从左到右linear scan，从起点开始看
 
 Base Case: M\[i\]的物理意义: whether I can jump from the start to the i-th index  
@@ -176,12 +259,66 @@ M\[i\] 物理意义 the sum of the largest sum subarray that ends at a\[i\]
 
 #### followup：how to return the left-right border of the solution 
 
+![](../.gitbook/assets/image%20%28101%29.png)
+
 left: 达到M\[i\]时subarray的左边界\(闭区间\)的位置  
 i: 达到M\[i\]时的右边界\(闭区间\)的位置
 
 Initialize:  
 M\[0\] = a\[0\]  
 left = 0
+
+### Unsorted Array 最长连续1
+
+### 十字架
+
+> 如果是brute force 需要n^3
+>
+> 这不是二维DP，而是四个方向的一维DP
+
+Step1: 从左到右，从右到左，从上到下，从下到上，分别做“最长连续1” O\(4n^2\)
+
+Step2: 四个方向的结果在当前取一个min O\(n^2\)
+
+return global max among all M\[i\]\[j\]
+
+### X
+
+变成斜着做
+
+### 空心1
+
+### 火柴
+
+每个顶点只考虑两个方向，右和下
+
+可以两种表示，要么就tuple，要么就2-bit
+
+### 任意subarray sum
+
+#### prefix sum+ 1D
+
+M\[i\] represents the sum from index 0 to index i 
+
+sum\[i...j\] = M\[j\] = M\[i-1\] 但是容易出界 更好的是M\[j\]-M\[i\]+input\[i\]
+
+Time = O\(n\)  
+Extra Space = O\(n\)  
+Query Time = O\(1\)
+
+### sum最大的长方形
+
+#### Prefix Sum 1D
+
+#### Prefix Sum 2D
+
+![](../.gitbook/assets/image%20%2873%29.png)
+
+蓝-绿-红+橙
+
+
+
+
 
 ## 二维
 
@@ -190,4 +327,6 @@ left = 0
 ### Largest Square of 1's in a Binary Matrix 
 
 M\[i\]\[j\] 物理意义 以a\[i\]\[j\]为右下角的最大全1正方形的边长
+
+
 
