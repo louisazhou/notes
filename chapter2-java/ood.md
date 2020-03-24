@@ -80,3 +80,15 @@ public abstract class Vehicle {
 
 如果想要enforce一个规定个数的spots, 不能 `private final <ParkingSpot> spots`因为这只防了一层，并不真的immutable。 Java中可以通过一个”防火墙“似的操作，把list的方法包起来，只通行一些方法。或者用`spot=Collections.unmodifiableList(list)`
 
+## Design a Web Crawler 
+
+### BFS
+
+* Get web page content by URL
+* Parse the page and get hyperlinks
+* Deduplicate the links \(do not download the same URL twice\)
+* Put new target links to a Queue
+* Get next urls to be downloaded and parsed from the Queue
+
+在领任务时它是consumer，在给出新urls时它是producer。应该用的是blocking queue，因为它是一个multi-threaded process，在queue为空时... 
+

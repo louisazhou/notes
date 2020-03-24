@@ -323,7 +323,7 @@ def bt(answers, subset, current_position, N, nums):
 class Solution(object):
     def subsetWithDup(self, nums):
         nums.sort()
-        answer = []
+        answers = []
         bt(answers, [], 0, len(nums), nums)
     return answers
 ```
@@ -488,7 +488,7 @@ class Solution(object):
 
 2. 数学归纳法，每层出来哪些不变可以用来check helper function对不对 （比如size不变等）
 
-![](../.gitbook/assets/image%20%2888%29.png)
+![](../.gitbook/assets/image%20%2889%29.png)
 
 3. 
 
