@@ -78,7 +78,7 @@ Total Time Complexity O\(nlogn\)
 
 #### 时间
 
-Upper Half to split: Time O\(logn\)=n+n+n+...n  
+Upper Half to split: Time O\(nlogn\)=n+n+n+...n  
 Lower Half to merge: Time O\(nlogn\) 每一层merge的时间复杂度是O\(n\) 一共有h=logn层  
 Total Time Complexity O\(nlogn\)
 
@@ -93,6 +93,8 @@ Total Time Complexity O\(nlogn\)
 ### Convert a String ABCD1234 to A1B2C3D4，要求in place
 
 切一刀，交换一下位置；再切一刀，交换一下位置
+
+找m, lm, rm 
 
 ## Quick Sort 快排
 
@@ -191,7 +193,7 @@ class Solution(object):
     return store_index 
 ```
 
-### 两个挡板三个区域
+### [两个挡板三个区域](https://app.laicode.io/app/problem/10)
 
 ```python
 class Solution(object):
@@ -238,7 +240,7 @@ class Solution(object):
     return leftbound
 ```
 
-### Array Shuffling 
+### [Array Shuffling ](https://app.laicode.io/app/problem/258)
 
 2个挡板，3个区域，把非0放在左边，0放在右边
 
