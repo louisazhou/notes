@@ -350,7 +350,76 @@ class Solution {
 }
 ```
 
+{% hint style="info" %}
+关于转圈的问题：
 
+可以分成（1）中间 （2）连续 来表示 注意这道题和LeetCode\#197 House Robber不同。197只需要考虑首位两个值，所以做题时特殊处理这两个就行，但这里的转圈不一定是2个值，没有办法只挖去首尾。
+{% endhint %}
+
+### Max subarray sum with at least size k
+
+#### 问题描述
+
+```text
+马甲：
+Given an array of daily price changes of a stock, what's the maximum profit 
+you can make if you buy once and sell once, and you have to hold the stock 
+for at least k days?
+
+Example
+input = {-3, +1, -2, -4}, k = 2
+output = -1
+
+input = {+1, +1, +1, +1}, k = 2
+output = 4
+```
+
+#### 解题思路
+
+当没有"size k"这个条件时，求max subarray sum，对于index i，只需要看dp array中的前一个值，如果是正数，就加上来，否则就另起炉灶。
+
+现在要求至少size k，对于index i来说:   
+1. 从i-k+1 到i这个sliding window之内的值，必须要加进来。   
+2. 那i-k以及之前的值呢？就取决于以i-k为终点的max subarray sum是否为正数，是正数就加进来，否则就不要。   
+3. 所以要先做一次max subarray sum，存在一个dp array里，这样做\#2的时候才能查看。
+
+#### 复杂度分析
+
+* 时间 `O(n)`
+* 空间 `O(n)`
+
+#### Proposed Code
+
+```java
+public int MaxSubarraySumSizeK(int[] array, int k) {
+        if (array == null || array.length == 0 || k <= 0)
+            return Integer.MIN_VALUE;
+
+        int[] tmp = maxSubarraySum(array);
+        int windowSum = 0;
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < array.length; i++) {
+            windowSum += array[i];
+            if (i == k - 1) {
+                max = Math.max(max, windowSum);
+            } else if (i >= k) {
+                windowSum -= array[i - k];
+                int curSum = Math.max(windowSum, windowSum + tmp[i - k]);
+                max = Math.max(max, curSum);
+            }
+        }
+        return max;
+    }
+
+    private int[] maxSubarraySum(int[] array) {
+        int[] tmp = new int[array.length];
+        tmp[0] = array[0];
+        for (int i = 1; i < array.length; i++)
+            tmp[i] = Math.max(array[i], array[i] + tmp[i - 1]);
+
+        return tmp;
+    }
+```
 
 ### Unsorted Array 最长连续1
 
