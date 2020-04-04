@@ -268,6 +268,90 @@ Initialize:
 M\[0\] = a\[0\]  
 left = 0
 
+
+
+### Maximum subarray sum in a circular array.
+
+#### 问题描述
+
+```text
+Example 1:
+Input: [1,-2,3,-2]
+Output: 3
+Explanation: Subarray [3] has maximum sum 3
+
+Example 2:
+Input: [5,-3,5]
+Output: 10
+Explanation: Subarray [5,5] has maximum sum 5 + 5 = 10
+
+Example 3:
+Input: [3,-1,2,-1]
+Output: 4
+Explanation: Subarray [2,-1,3] has maximum sum 2 + (-1) + 3 = 4
+
+Example 4:
+Input: [3,-2,2,-3]
+Output: 3
+Explanation: Subarray [3] and [3,-2,2] both have maximum sum 3
+
+Example 5:
+Input: [-2,-3,-1]
+Output: -1
+Explanation: Subarray [-1] has maximum sum -1
+```
+
+#### 解题思路
+
+Case1: max subarray只出现在array中间的一段，没有从最末连接到开头：直接求max subarray sum。 Case2: max subarray需要从最末连接到开头： 1. 求array中间出现的一段min subarray sum. 2. 用array所有元素的总的sum来减去中间出现的这一段min subarray sum，就是结果。 Return max\(case1, case2\)
+
+此外要额外考虑的情况：如果所有array内的所有元素都是负数，则不需要考虑case2，直接返回case1的结果。
+
+#### 复杂度分析
+
+* 时间 `O(n)`
+* 空间 `O(1)`
+
+#### Proposed Code
+
+```java
+class Solution {
+    public int maxSubarraySumCircular(int[] A) {
+        if (A == null || A.length == 0)
+            return Integer.MIN_VALUE;
+
+        if (A.length == 1)
+            return A[0];
+
+        boolean allNegative = true;
+        int total = 0;
+        // check whether all numbers are negative and calculate total sum
+        for (int num : A) {
+            if (num >= 0)
+                allNegative = false;
+
+            total += num;
+        }
+        // case 1
+        int sum1 = getMaxOrMinSubarraySum(A, true);
+        // case 2 - skip if all numbers are negative
+        int sum2 = allNegative ? Integer.MIN_VALUE : total - getMaxOrMinSubarraySum(A, false);
+        return Math.max(sum1, sum2);
+    }
+    private int getMaxOrMinSubarraySum(int[] A, boolean isMax) {
+        int result = isMax ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        int cur = A[0];
+        for (int i = 1; i < A.length; i++) {
+            cur = isMax ? Math.max(A[i], A[i] + cur) : Math.min(A[i], A[i] + cur);
+            result = isMax ? Math.max(result, cur) : Math.min(result, cur);
+        }
+        return result;
+    }
+}
+```
+
+
+
 ### Unsorted Array 最长连续1
 
 ### 十字架
