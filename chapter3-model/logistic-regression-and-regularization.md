@@ -220,7 +220,7 @@ Logistic Regression: y 服从 $$P(Y=y|X=x)=\frac{1}{1+e^{-(a x+b)}}$$ 的伯努�
 
 ## 经验之谈
 
-\(1\) Logistic Regression 适用于很多feature的dataset， feature少的更适合random forest。
+\(1\) Logistic Regression 适用于很多feature的dataset， feature少的更适合random forest。因为有效的信息在sparse tree里不怎么会用得到。
 
 \(2\) Logistic Regression can handle cases where features have strong correlation.
 
