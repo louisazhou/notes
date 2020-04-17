@@ -1,7 +1,7 @@
 ---
 description: >-
-  Based on the video tutorial of GeoSpark written by the original team members
-  of GeoSpark from Arizona State University; written for the big data seminar
+  Based on the video tutorial of GeoSpark by the original team members of
+  GeoSpark from Arizona State University; I wrote it for the big data seminar
   course
 ---
 
