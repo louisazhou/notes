@@ -271,4 +271,5 @@ awk 'BEGIN {srand()} !/^$/ { if (rand() <= .01 || FNR==1) print $0}'
 | screen -r sessionname  | 进入某一对话 |
 | Ctrl+A+D | 暂时断开对话 |
 | killall screen | 杀了所有对话 |
+| screen -S sessionname | 新建一个对话 |
 

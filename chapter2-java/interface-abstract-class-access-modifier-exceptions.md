@@ -47,7 +47,7 @@ abstract class是能写代码的PM，因为里面可能会有实现了的method�
 
 ## Access Modifier
 
-![](../.gitbook/assets/image%20%2883%29.png)
+![](../.gitbook/assets/image%20%2882%29.png)
 
 ### Singleton
 
@@ -60,7 +60,7 @@ abstract class是能写代码的PM，因为里面可能会有实现了的method�
 
 ## Exception
 
-![](../.gitbook/assets/image%20%2886%29.png)
+![](../.gitbook/assets/image%20%2885%29.png)
 
 图中红色的是checked exception，要求一定要handle；蓝色叫unchecked exception，不一定要handle。如果想写一个不需要处理的exception，可以写一个`class myException extends runTimeException`
 

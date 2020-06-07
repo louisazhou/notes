@@ -51,7 +51,7 @@ current = current.next //current指向了一个新的object，原来的名片没
 以上操作后，current = 1, next = 1, temp = 0  
 line 6是最特殊的，因为它有dereference，它的操作是在heap上做的写，对heap上的链表结构有了改变。而其余的是stack上的，等函数调用结束后它们就随风而去了。
 
-![](../.gitbook/assets/image%20%2835%29.png)
+![](../.gitbook/assets/image%20%2826%29.png)
 
 如果在这个时候加了
 
@@ -256,7 +256,7 @@ interface也可以实现interface，比如可以有一个`MyList2 extends MyList
 实现List的话，再讨论ArrayList和linkedlist，如果在头操作多，使用LinkedList；   
 实现Queue的话，除了兼容老版本，ArrayDeque全方位吊打LinkedLsit。
 
-![](../.gitbook/assets/image%20%2845%29.png)
+![](../.gitbook/assets/image%20%2840%29.png)
 
 `Deque<E> stack = new ArrayDeque<>;`
 

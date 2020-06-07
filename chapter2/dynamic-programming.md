@@ -274,7 +274,7 @@ isBST，从上往下传范围，从下往上传isBS的boolean
 
 1. 用aeiou生成string，但是有限制, 生成所有的permutation结果。
 
-![](../.gitbook/assets/image%20%2833%29.png)
+![](../.gitbook/assets/image%20%2824%29.png)
 
 这是一个经典的多阶段决策问题
 
