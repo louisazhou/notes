@@ -1,13 +1,5 @@
 # Chapter7 Big Data and Spark
 
-{% embed url="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/" %}
-
-
-
-{% embed url="https://academy.databricks.com/user/consume/learning\_pathway/c5212fa8-c3ca-3642-bfc2-c180e50a2731" %}
-
-
-
 Data Warehousing--OLAP
 
 ACID \(Atomicity, Consistency, Isolation, Durability\)

@@ -72,6 +72,7 @@
   * [Spark SQL](sql/spark-sql.md)
 * [Chapter7 Big Data and Spark](spark/README.md)
   * [Introduction to Pyspark](spark/introduction-to-pyspark.md)
+  * [Koalas](spark/koalas.md)
   * [Data Cleaning with Apache Spark](spark/data-cleaning-with-apache-spark.md)
   * [Feature Engineering with Pyspark](spark/feature-engineering-with-pyspark.md)
   * [Building Recommendation Engines with Pyspark](spark/building-recommendation-engines-with-pyspark.md)
