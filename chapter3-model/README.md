@@ -102,6 +102,10 @@ offline evaluation很好，但是online evaluation特别不好，为什么？ �
 
 
 
+### Resources
+
+* 这个是我见过的最好的ML课程 不过需要有一点基础之后再来上，不然可能听不懂 它讲的非常提纲挈领！！
+
 {% embed url="https://bloomberg.github.io/foml/\#about" %}
 
 {% embed url="https://course.fast.ai/" %}
