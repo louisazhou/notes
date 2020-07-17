@@ -265,3 +265,25 @@ print np.asarray((unique, counts)).T
 
 ## 需要看的书
 
+## 时间序列中的异常
+
+### 自编码器的时间序列异常检测算法
+
+深度学习做异常检测
+
+{% embed url="https://zhuanlan.zhihu.com/p/51053142" %}
+
+### Feedforward Neural Network实现端到端的异常检测
+
+用前馈神经网络的激活函数模拟时间序列里的统计量
+
+{% embed url="https://zhuanlan.zhihu.com/p/54471673" %}
+
+{% embed url="https://arxiv.org/pdf/1812.08389.pdf" %}
+
+### 联动分析做预警
+
+{% embed url="https://zhuanlan.zhihu.com/p/71178532" %}
+
+
+

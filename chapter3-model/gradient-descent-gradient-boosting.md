@@ -102,7 +102,7 @@ An additive model： 将多个弱学习器累加起来组成强学习器，进�
 
 之所以称为 Gradient，是因为在添加新模型时使用了梯度下降算法来最小化的损失
 
-### Adaboost 
+## Adaboost 
 
 用exponential loss的gradient boosting
 
@@ -111,6 +111,10 @@ An additive model： 将多个弱学习器累加起来组成强学习器，进�
 3. 增加错误部分的weights
 
 {% embed url="http://www.robots.ox.ac.uk/~az/lectures/cv/adaboost\_matas.pdf" %}
+
+## 其它
+
+{% embed url="https://zhuanlan.zhihu.com/p/43506482" %}
 
 
 

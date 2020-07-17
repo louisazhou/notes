@@ -2,10 +2,6 @@
 
 {% embed url="https://zhuanlan.zhihu.com/p/35093835" %}
 
-
-
-### 
-
 ### 考法
 
 concept, procedure, **logic**, data challenge
@@ -365,6 +361,42 @@ Moving Average
 {% embed url="https://www.datacamp.com/community/tutorials/moving-averages-in-pandas" %}
 
 {% embed url="https://www.learndatasci.com/tutorials/python-finance-part-3-moving-average-trading-strategy/" %}
+
+## 其他
+
+这个系列文，从头看到尾
+
+{% embed url="https://zhuanlan.zhihu.com/p/38320827" %}
+
+{% embed url="https://zhuanlan.zhihu.com/p/38321845" %}
+
+{% embed url="https://zhuanlan.zhihu.com/p/38322333" %}
+
+{% embed url="https://zhuanlan.zhihu.com/p/38322638" %}
+
+{% embed url="https://zhuanlan.zhihu.com/p/77307871" %}
+
+时间序列中距离的计算方法
+
+{% embed url="https://zhuanlan.zhihu.com/p/38130622" %}
+
+时间序列统计特征，时间序列的熵特征，时间序列的分段特征
+
+{% embed url="https://zhuanlan.zhihu.com/p/39105270" %}
+
+时间序列聚类的，《**Robust and Rapid Clustering of KPIs for Large-Scale Anomaly Detection**》；另外一篇文章是关于时间序列异常检测的，重点检测时间序列上下平移的，《**Robust and Rapid Adaption for Concept Drift in Software System Anomaly Detection**》。
+
+{% embed url="https://zhuanlan.zhihu.com/p/50698719" %}
+
+时间序列聚类
+
+{% embed url="https://zhuanlan.zhihu.com/p/55903495" %}
+
+
+
+趋势分析
+
+{% embed url="https://zhuanlan.zhihu.com/p/55129654" %}
 
 
 
