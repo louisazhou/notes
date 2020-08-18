@@ -84,7 +84,7 @@ rawdata1(1, :) = textscan(fid1, '%f %f %f %f %f %f', nmom, 'headerLines', 3);
 
 fclose(fid1);
 rawdata2 = cell2mat(rawdata1);
-data2 = zeros(nmom, 6, numwl);
+µdata2 = zeros(nmom, 6, numwl);µ
 ```
 
 The expression for the Fourier coefficients can be written as
