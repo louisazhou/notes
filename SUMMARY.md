@@ -96,4 +96,5 @@
 * [GeoSpark/GeoSparkVis for Geospatial Big Data](geospark-geosparkvis-for-geospatial-big-data.md)
 * [Single Scattering Albedo](single-scattering-albedo.md)
 * [Sea Ice Albedo Retrievals](sea-ice-albedo-retrievals.md)
+* [Lidar Project](lidar-project.md)
 

@@ -333,7 +333,7 @@ Pyro can help to combine Bayesian + Neural Network. This way, when the model see
 
 {% embed url="https://github.com/dyq0811/EEG-Transformer-seq2seq" %}
 
-### No.4 Transformer
+### No.3 Transformer
 
 #### Code/Jupyter Notebook Tutorial Links 
 
@@ -381,7 +381,7 @@ Pyro can help to combine Bayesian + Neural Network. This way, when the model see
 
 {% embed url="https://github.com/rajatsen91/deepglo" %}
 
-### No.4 Transfer Learning 
+### No.6 Transfer Learning 
 
 > Maybe, just an idea, we can pre-train separate networks by category, think of them as source domain and then transfer the trained weights to serve as initialization for the model to be trained on the target time series \(the more granular specified segment-level\)
 
