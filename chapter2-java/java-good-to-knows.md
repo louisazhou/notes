@@ -7,9 +7,11 @@ Implementation: 拿着菜谱做菜，照着攻略打游戏
 
 ## Object Oriented Paradigm
 
-除了primitive type之外，其它都可以是object. primitive type: int, short, long, float, double, boolean 注意是int不是Integer.
+除了primitive type之外，其它都可以是object. 
 
-有了一个class，有了一堆object，每个object都有自己的state\(**field**\)和behavior\(**method**\)，这个时候如果想要找到某个class定义的object，就可以拿着名片去找object，此时的过程叫做dereference，而这张写了object地址的名片叫做reference。一个对象该有什么状态和行为？**type**定义。
+**primitive type:** int, short, long, float, double, boolean _注意是int不是Integer._
+
+有了一个class，有了一堆object，每个object都有自己的state\(**field**\)和behavior\(**method**\)，这个时候如果想要找到某个class定义的object，就可以拿着名片去找object，此时的过程叫做dereference，而这张写了object地址的名片叫做reference。一个对象该有什么状态和行为? 由**type**定义。
 
 **object\(对象\)** 
 
@@ -17,49 +19,69 @@ Implementation: 拿着菜谱做菜，照着攻略打游戏
 
 **instance\(实例\)** 其实和object一回事 ****每一个instance都有它对应的具体状态和行为
 
-**reference\(引用\)** 写了object地址的名片
+**reference\(引用\)** 写了object地址的名片 通过名片找到object的过程叫做derefrencing。
+
+举个例子，`int[] array;` array就是一个reference，它的类型就是int\[\]，是一个class。
 
 ### Work with Objects
 
-```java
-Student firstStudent = new Student ("Tom")
-//Declaration声明： firstStudent是一个reference 一张名片 指向一个Student类型的object
-//Instantiation实例化: new 修出来一个、造出来一个 
-// = : 把new出来的 Student赋值给了firstStudent 
-//Initialization初始化: 精装修一个符合要求的object 调用constructor, 根据用户的输入给某些field赋初始值
-```
+`Student firstStudent = new Student ("Tom")`
+
+**Declaration声明：** `student firstStudent`firststudent是一个reference 一张名片 指向一个Student类型的object
+
+**nstantiation实例化:** n`ew` 辟开一个地址
+
+**`=`** 把new出来的 `Student`赋值给了`firstStudent`
+
+**Initialization初始化:** 精装修一个符合要求的object 调用constructor, 根据用户的输入给某些field赋初始值
 
 ### Object Memory Layout
 
-**Stack\(栈\)：**stack的每一层叫stack frame，每一个function call的stack frame都存了当前层变量，存的是系统调用的状况；这占了系统一部分内存。  
-**Heap\(堆\)：**存的是new出来的object
+#### Memory Spaces in Java: Stack and Heap
 
-stack上的一张名片指向了一个heap上的object
+**Stack\(栈\)：**stack的每一层叫stack frame，每一个function call的stack frame都存了**当前层变量**，存的是系统调用的状况；这占了系统一部分内存。  
+**Heap\(堆\)：**存的是new出来的**object**
+
+**stack上的一张名片指向了一个heap上的object**
 
 ![](../.gitbook/assets/image%20%2843%29.png)
 
-在一个方法调用结束之后，这两张名片就不在了，但是它们暂时还留在内存里，直到garbage collection回收。假如这时来一个`jack=rose`那么此时改的是stack里的jack的指向，执行后的效果是jack的这张名片不再指向Jack的这个object，而是指向了Rose的这个object。
+在一个方法调用结束之后，这两张名片就不在了，但是它们暂时还留在内存里，直到garbage collection回收。
 
-method里的local variable: stack
+假如这时来一个`jack=rose;`那么此时改的是stack里的jack的指向，把rose这张名片上的内容复印到jack这张名片上。执行后的效果是jack的这张名片不再指向Jack的这个object，而是指向了Rose的这个object，**并没有复制出一个新的object**。
 
-只在class里但不在任何一个method里的field: heap
+#### where are the local variables stored: 
 
-> “在class但不在method里是field，在method里是local variable”技术问题的描述要非常准确，不能只说“在class里define的”，因为method也是在class里的。
+* **primitive** type: stack
+* **object**: the **reference** stores in stack, the **object** **self** stores in heap
+
+**where are the fields stored:**
+
+* **primitive** type: heap
+* **object**: heap \(its **reference** stores in heap as well\)
+
+只在class里, 但不在任何一个method里的field: 存在heap
+
+> “在class但不在method里定义的是field，在method里定义的是local variable”技术问题的描述要非常准确，不能只说“在class里define的是field”，因为method也是在class里的。
 >
 > 小技巧：看到赋值时，想：等号左边的内容是stack还是heap，以此思考这个reference到底是什么
 
-### constructor: 
+### Constructor: 
 
 1. 没有返回值类型
 2. 名字和类名一模一样（包括大小写）
-3. 只有在field的名字和local variable相同时用this.指代当前instance自己
+3. 只有在field的名字和local variable相同时用为了避免歧义而用`this.`指代当前instance自己 
+
+### Default Values
+
+可以在initialization时不传入数值，默认值是zero, false, null
 
 ### Coding Style
 
 {% embed url="https://google.github.io/styleguide/javaguide.html" %}
 
-class：HelloWorld,   
-method/field name: main\(\), myName 如果有两个单词，使用camelCase，命名规范不用\_
+**class：UpperCamelCase**, e.g. `HelloWorld`  
+**method/field name: lowerCamelCase**, e.g. `myName` 
 
 ## Static 属于class，不属于instance
 
