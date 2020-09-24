@@ -1,19 +1,14 @@
 # Fundamentals to Java
 
-## Semantics vs Implementations
-
-Semantics: 菜谱， 攻略  
-Implementation: 拿着菜谱做菜，照着攻略打游戏
-
 ## Object Oriented Paradigm
 
-除了primitive type之外，其它都可以是object. 
+**object\(对象\)**  除了primitive type之外，其它都可以是object. 
 
 **primitive type:** int, short, long, float, double, boolean _注意是int不是Integer._
 
-有了一个class，有了一堆object，每个object都有自己的state\(**field**\)和behavior\(**method**\)，这个时候如果想要找到某个class定义的object，就可以拿着名片去找object，此时的过程叫做dereference，而这张写了object地址的名片叫做reference。一个对象该有什么状态和行为? 由**type**定义。
+有了一个class，有了一堆object，每个object都有自己的state\(**field**\)和behavior\(**method**\)，这个时候如果想要找到某个class定义的object，就可以拿着名片去找object，此时的过程叫做dereference，而这张写了object地址的名片叫做reference。
 
-**object\(对象\)** 
+**type:** 定义了一个对象该有什么状态和行为. 比如student type的行为可以包括take class, take exam.
 
 **class\(类\)** 定义每一个这个类的object有哪些状态，但不定义某一特定的对象的field是什么，它相当于只是蓝图，只是一个抽象的约束。
 
@@ -29,7 +24,7 @@ Implementation: 拿着菜谱做菜，照着攻略打游戏
 
 **Declaration声明：** `student firstStudent`firststudent是一个reference 一张名片 指向一个Student类型的object
 
-**nstantiation实例化:** n`ew` 辟开一个地址
+**Instantiation实例化:** n`ew` 辟开一个地址
 
 **`=`** 把new出来的 `Student`赋值给了`firstStudent`
 
@@ -83,21 +78,29 @@ Implementation: 拿着菜谱做菜，照着攻略打游戏
 **class：UpperCamelCase**, e.g. `HelloWorld`  
 **method/field name: lowerCamelCase**, e.g. `myName` 
 
-## Static 属于class，不属于instance
+## Static 
 
-> Members \(fields, methods, classes\) belong to class, not object. 
+### **属于class，不属于instance**
+
+> **Members** \(fields, methods, classes\) **belong** to **class**, **not object**. 
 >
 > members意味着它可以修饰fields/methods/class
 
 ### Static fields
 
-属于类的状态；  
-不同的instance有属于自己的一个field，比如特斯拉车的电池容量；这些field的状态是属于每一个instance的。  
-但是如果是同一个class new出来的instance，它们可能有一些共有的特性，比如能源类型（电车）、价位逼格（都很贵）...这些field是属于这个类“特斯拉”的状态。这种就是加了static，因为static是修饰这一个class的，所有的instance都用这一份，唯一一份，这就叫“belong to class, not object”。
+Static Fields是属于类的状态；
+
+#### 什么叫属于类的状态？
+
+不同的instance有属于自己的一个field，比如特斯拉不同model的车有不同的电池容量；这些field的状态是属于每一个instance的特性。
+
+但是如果是同一个class new出来的instance，它们可能有一些共性，比如能源类型（电车）、价位逼格（都很贵）、轮子的数量\(都是4\)...这些field是属于这个类“特斯拉”的状态。这种就是加了static，因为static是修饰这一个class的，所有的instance都用这一份，唯一一份，这就叫“belong to class, not object”。
+
+对class做dereference就可以获得static fields。而这个static field不属于instance，所以无法通过对instance做dereference而使用。比如 `Model3.howmanywheels` 就无法调用 得要用`Tesla.howmanywheels`
 
 ### Static methods
 
-属于类的行为；  
+Static Methods是属于类的行为；  
 在这里不能访问属于instance的field （只有在instance里才可以）
 
 |  | Class | instance |
@@ -105,24 +108,32 @@ Implementation: 拿着菜谱做菜，照着攻略打游戏
 | Class | Yes | Yes |
 | instance | NO | Yes |
 
-有class,不一定有instance，但是又instance一定有class
+有class,不一定有instance； 就像是特斯拉可以先出一个概念，但是不交车，不new instance，所以在static method内不能调用instance fields
+
+但是有instance一定有class；所以在instance内可以调用static field和static method。
 
 Class variable \(static\)  
 instance variable \(non-static\)  
 Class method \(static\)  
 instance method \(non-static\)
 
+### 纠错
+
+
+
 ## Final 一旦确定，不能修改
 
 > "Once assigned, can never be changed"  
 > final **class**: 不能被继承，没有子类可以以此为基础 \(inheritance\) 只要是这个类型的，就是这个类型的；  
-> final **method**: 不能被overridden   
-> final **variable**：once assigned, cannot be assigned again
+> final **method**: 不能被overridden （子类重写父类的方法）  
+> final **variable**：once assigned, cannot be assigned again \*
 
 如果违背了final的要求，那么编译器会标红，无法编译。  
-指向关系不能变，但是指向的内容可以变  
+指向关系不能变，但是指向的内容可以变
+
+如果final一个field却没有赋值会出现compile error，因为final默认指向null还不能改了  
 constant的默认值是 0 False Null  
-static final=constant value 常量，全局独此一份且不会变
+**static final**=constant value 常量，全局独此一份且不会变
 
 ## Java Parameter Passing
 
@@ -138,23 +149,24 @@ static final=constant value 常量，全局独此一份且不会变
 
 ## Array vs. Objects
 
-* arrays are **objects \(heap中\)**
-* 因为array是new出来的
+* arrays are **objects \(heap中\)**  因为array是new出来的
 
 在Java的文档里，没有array这个class，只能用Java中设定好的方式来 syntax sugar  
-Arrays可以用来操作array，比如Arrays.sort\(\), Arrays.toString
+**Arrays**可以用来操作array，有很多utility functions. 比如Arrays.binarysearch\(\)返回index或者-1, Arrays.sort\(\) 没有返回值，inplace地sort好, Arrays.toString...
 
-* 在Java中有一个array的length field 所以没有`arr.length()`,只有`arr.length`访问field没有括号
-* array length field cannot be changed after created **\(final\)**  看下面的 `int[] arr=new int[5]; arr= new int[100]` 这个本质是new了一个新的array，原来的是5还是5 
-* 所以array只适合确定长的情况，如果做题的时候不确定需要创建的这个array的长度，需要的是List，比如ArrayList和LinkedList
+**Array**是一个可能一辈子都用不到的，忘了它
+
+* 在Java中有一个array的length field 所以没有`arr.length()`,只有`arr.length` 访问field没有括号
+* array length field cannot be changed after created **\(final\)**  而像这句话 `int[] arr=new int[5]; arr= new int[100]` 的操作，本质是new了一个新的array，原来的array，length是5还是5 
+* 所以array**只适合确定长的情况**，如果做题的时候不确定需要创建的这个array的长度，需要的是List，比如ArrayList和LinkedList
 
 ### 高维数组
 
-Java中的高维数组是指向低维数组的reference的array，是array of references；虽然reference之间两两连续，但是这几维之间可以存得不连续 要在高维数组的定义时给出最高维
+Java中的高维数组是指向低维数组的reference的array，是array of references；虽然reference之间两两连续，但是这几维之间可以存的却不连续。在高维数组的定义时，给出最高维就足以。
 
 ### 访问
 
-O\(1\)做random access
+O\(1\)做random access 因为连续存储，只要知道a\[0\]的地址，就可以直接加difference，跳到对应的地方。
 
 ### 常见错误
 
@@ -163,6 +175,14 @@ O\(1\)做random access
 #### NullPointerException 空指针  沿着空名片找对象 也叫Dereference Null
 
 ```java
+int[] array = new int[0]; //空钱包，里面没钱
+int i = array.length; //i=0
+int a = array[0] //ArrayIndexOutofBoundException
+
+int[] array = null;
+int i = array.length; //NPE
+int a = array[0]; //NPE
+
 //NPE
 int[] array=null; //没有钱包
 int value=array[1]; //想从钱包拿出钱
@@ -170,15 +190,23 @@ int value=array[1]; //想从钱包拿出钱
 //ArrayIndexOutofBoundException
 int[][] array=new int[5][]; //{null, null, null, null, null}
 int[] v1 = array[5]; //钱包里钱不够
+int v2 = array[3][2]; //NPE 因为array[3]是null
+```
 
-int v2
+```java
+//另一个classic NPE issue
+//在Binary search in unknown space的问题里
+dict.get(i) == null
+if (dict.get(i) > target) { //这里> < = 默认符号两遍需要是object
+                                //所以面对左边不是object，是Integer 它会自己默默unboxing
+                                //所以它默认调用了 .intValues()
+                                //这里便有了dereference null； NPE
+}
 ```
 
 reference
 
 每一个operator都有一个return value,包括赋值语句。赋值的return value是所赋成功的值。
-
-
 
 ```java
 int x = 11;
