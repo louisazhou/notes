@@ -115,5 +115,20 @@ UDP不会提前确认，直接传输它想要传输的数据。所以TCP更可�
 
 ## Data Structure
 
-Wikipedia: a particular way of organizing data in a computer so that it can be used efficiently. 其实就是存放数据的方式，就像是生活中用五斗柜和抽屉柜来存放衣服；Data structure就是
+Wikipedia: a particular way of organizing data in a computer so that it can be used efficiently. 其实就是存放数据的方式，就像是生活中用五斗柜和抽屉柜来存放衣服；Data structure就是存放数据的方式
+
+
+
+## 面试做题时
+
+1. Document your assumptions
+2. Explain your approach and how you intend to solve the problem
+3. Provide code comments where applicable 
+4. Explain the Big-O run time complexity of your solution. Justify your answer.
+5. Identify any additional data structures you used and justify why you used them.
+6. Only provide your best answer to each part of the question.
+7. When explaining your code, start from the function signature \(line 00\) and explain what the inputs and outputs are
+8. The best way is to explain the code in chunks- --- from the big picture.
+
+
 

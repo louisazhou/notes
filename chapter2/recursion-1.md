@@ -87,7 +87,7 @@ class Solution(object):
     # write your solution here
     if b==0:
       return 1
-    elif b==1:
+    elif b==1: #可以comment out 因为最后会到1
       return a
 
     midres = self.power(a, b//2)
@@ -95,7 +95,9 @@ class Solution(object):
     return midres*midres if b%2==0 else midres*midres*a
 ```
 
-如果不存下midres，直接return两次，那么就多了很多重复计算，此时的时间复杂度是O\(b\)，空间复杂度是O\(logb\).
+如果不存下midres，直接return两次，那么就多了很多重复计算。
+
+现在的方法时间复杂度是O\(logb\)，空间复杂度是O\(logb\).
 
 如果b&lt;0, 要用1.0/a^\(-b\)
 
