@@ -22,6 +22,7 @@
 * [Chapter3 Algorithm](chapter2/README.md)
   * [Fundamental Knowledge](chapter2/time-complexity.md)
   * [Binary Search](chapter2/binary-search.md)
+  * [Advanced Sorting](chapter2/advanced-sorting.md)
   * [Basic Sorting](chapter2/basic-sorting.md)
   * [Linked List](chapter2/linkedlist-and-recursion/README.md)
     * [Advanced Sorting](chapter2/linkedlist-and-recursion/advanced-sorting.md)
