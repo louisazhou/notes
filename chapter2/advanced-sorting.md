@@ -4,8 +4,6 @@
 
 假如有一个sort好的array的前后半边，就可以用谁小移谁的方式sort完整个array
 
-
-
 {% embed url="https://www.hackerearth.com/zh/practice/algorithms/sorting/merge-sort/visualize/" caption="" %}
 
 子问题：如何merge两个sorted array
