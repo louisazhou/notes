@@ -265,3 +265,21 @@ binary变量： $$\left(Z_{\alpha / 2}+Z_{\beta}\right)^{2}*\left(p_{1}\left(1-p
 * Python或R中一行得到cdf或者p value的代码： `from scipy.stats import norm`       
 * `norm.cdf(value) pnorm(value)`
 
+### About Sampling 
+
+{% embed url="https://www150.statcan.gc.ca/n1/edu/power-pouvoir/ch13/prob/5214899-eng.htm" %}
+
+#### Simple Random Sampling
+
+#### Systematic Sampling 
+
+#### Sampling with probability proportional to size 
+
+#### Stratified sampling
+
+#### Cluster Sampling 
+
+#### Multi-stage sampling
+
+#### Multi-phase sampling
+
